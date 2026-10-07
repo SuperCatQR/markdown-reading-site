@@ -82,10 +82,13 @@ function filteredArticles() {
 }
 
 function header() {
+  const themeIcon = state.theme === "dark"
+    ? `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 2.5v2M12 19.5v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2.5 12h2M19.5 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>`
+    : `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"></path></svg>`;
   return `<header class="site-header">
     <a class="wordmark" href="${siteRoot}" aria-label="档案室首页"><span class="wordmark-mark">读</span><span>档案室</span></a>
     <nav class="top-nav" aria-label="主导航"><a class="active" href="${siteRoot}">阅读稿</a></nav>
-    <button class="theme-toggle" type="button" aria-label="切换深浅主题">${state.theme === "dark" ? "浅色模式" : "深色模式"}</button>
+    <button class="theme-toggle" type="button" aria-label="切换深浅主题" aria-pressed="${state.theme === "dark"}"><span class="theme-icon">${themeIcon}</span><span>${state.theme === "dark" ? "浅色模式" : "深色模式"}</span></button>
   </header>`;
 }
 
@@ -99,11 +102,18 @@ function renderDirectory() {
         <p class="intro">待审核稿件与正式发布的阅读稿。</p>
       </div>
       <section class="directory-tools" aria-label="稿件筛选">
-        <label class="search-box"><span class="search-label">搜索阅读稿</span><input id="search" type="search" placeholder="搜索标题、正文或标签" value="${escapeHtml(state.query)}" autocomplete="off" /><kbd>/</kbd></label>
-        <label class="filter-select"><span>主题</span><select id="tag-filter" aria-label="按主题筛选">${tags.map((tag) => `<option value="${escapeHtml(tag)}"${state.tag === tag ? " selected" : ""}>${escapeHtml(tag)}</option>`).join("")}</select></label>
-        <p class="result-count">${entries.length} 篇阅读稿</p>
+        <label class="search-box"><span class="search-label">搜索阅读稿</span><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索标题、正文或标签" value="${escapeHtml(state.query)}" autocomplete="off" />${state.query ? `<button id="clear-search" class="clear-search" type="button" aria-label="清空搜索">×</button>` : ""}<kbd>/</kbd></label>
+        <details class="filter-menu" id="tag-filter-menu">
+          <summary aria-label="按主题筛选" aria-controls="tag-filter-popover" aria-expanded="false"><span class="filter-label">主题</span><span class="filter-current">${escapeHtml(state.tag)}</span><span class="filter-chevron" aria-hidden="true">⌄</span></summary>
+          <div class="filter-popover" id="tag-filter-popover">
+            <label class="filter-search"><span class="search-label">搜索主题</span><span aria-hidden="true">⌕</span><input id="tag-search" type="search" placeholder="筛选主题" autocomplete="off" /></label>
+            <div class="filter-options" role="listbox" aria-label="主题选项">${tags.map((tag) => `<button class="tag-option${state.tag === tag ? " selected" : ""}" type="button" role="option" aria-selected="${state.tag === tag}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}${state.tag === tag ? `<span aria-hidden="true">✓</span>` : ""}</button>`).join("")}</div>
+            <p class="filter-hint">${tags.length - 1} 个主题</p>
+          </div>
+        </details>
+        <p class="result-count"><strong>${entries.length}</strong> / ${catalog.length} 篇阅读稿</p>
       </section>
-      ${entries.length ? `<section class="article-list" aria-label="阅读稿列表">${entries.map((entry, index) => `<article class="article-row"><span class="row-number">${String(index + 1).padStart(2, "0")}</span><div class="article-main"><div class="article-title-line"><a class="article-title" href="?read=${encodeURIComponent(entry.slug)}">${escapeHtml(entry.title)}</a>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><p class="article-summary">${escapeHtml(entry.summary)}</p><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div></div><time class="article-date" datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time></article>`).join("")}</section>` : `<section class="empty-state"><div class="empty-index">01 <span>—</span> 00</div><h2>${catalog.length ? "没有找到匹配的稿件" : "还没有导入阅读稿"}</h2><p>${catalog.length ? "试试其他关键词，或清除主题筛选。" : "从主项目导入数据库中的阅读稿后，会显示在这里。"}</p>${catalog.length ? `<button class="reset-button" type="button" id="reset-filters">清除筛选</button>` : ""}</section>`}
+      ${entries.length ? `<section class="article-list" aria-label="阅读稿列表">${entries.map((entry, index) => `<article class="article-row"><span class="row-number">${String(index + 1).padStart(2, "0")}</span><div class="article-main"><div class="article-title-line"><a class="article-title" href="?read=${encodeURIComponent(entry.slug)}">${escapeHtml(entry.title)}</a>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><p class="article-summary">${escapeHtml(entry.summary)}</p><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div></div><time class="article-date" datetime="${escapeHtml(entry.date)}"><span>更新</span>${escapeHtml(entry.date.replaceAll("-", "."))}</time><span class="article-open" aria-hidden="true">↗</span></article>`).join("")}</section>` : `<section class="empty-state"><div class="empty-index">01 <span>—</span> 00</div><h2>${catalog.length ? "没有找到匹配的稿件" : "还没有导入阅读稿"}</h2><p>${catalog.length ? "试试其他关键词，或清除主题筛选。" : "从主项目导入数据库中的阅读稿后，会显示在这里。"}</p>${catalog.length ? `<button class="reset-button" type="button" id="reset-filters">清除筛选</button>` : ""}</section>`}
       <footer class="site-footer"><span>档案室 · 阅读稿</span><span>只读发布 · ${new Date().getFullYear()}</span></footer>
     </main>`;
 
@@ -115,9 +125,23 @@ function renderDirectory() {
     input.focus();
     input.setSelectionRange(cursor, cursor);
   });
-  app.querySelector("#tag-filter").addEventListener("change", (event) => {
-    state.tag = event.target.value;
+  app.querySelector("#clear-search")?.addEventListener("click", () => {
+    state.query = "";
     renderDirectory();
+    app.querySelector("#search")?.focus();
+  });
+  app.querySelector("#tag-search").addEventListener("input", (event) => {
+    const query = event.target.value.trim().toLocaleLowerCase("zh-Hans");
+    app.querySelectorAll(".tag-option").forEach((option) => {
+      option.hidden = query && !option.dataset.tag.toLocaleLowerCase("zh-Hans").includes(query);
+    });
+  });
+  app.querySelectorAll(".tag-option").forEach((option) => option.addEventListener("click", () => {
+    state.tag = option.dataset.tag;
+    renderDirectory();
+  }));
+  app.querySelector("#tag-filter-menu").addEventListener("toggle", (event) => {
+    event.target.querySelector("summary")?.setAttribute("aria-expanded", String(event.target.open));
   });
   app.querySelector("#reset-filters")?.addEventListener("click", () => {
     state.query = "";
@@ -150,14 +174,16 @@ function renderArticle(entry, mode = "reading") {
   const viewSwitch = `<nav class="view-switch" aria-label="稿件视图"><a class="${isReview ? "" : "active"}" href="?read=${encodeURIComponent(entry.slug)}">阅读稿</a>${entry.reviewFile ? `<a class="${isReview ? "active" : ""}" href="?review=${encodeURIComponent(entry.slug)}">审核稿</a>` : ""}</nav>`;
   const reviewNotice = isReview ? `<aside class="review-notice"><strong>公开审核稿</strong><span>这里包含审核上下文与待核对内容，发现问题可直接提交 Issue。</span></aside>` : "";
   const issueUrl = getIssueUrl(entry);
-  app.innerHTML = `${header()}<main class="reading-shell">
+  const sourceLink = entry.sourceUrl ? `<a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">打开原视频 <span aria-hidden="true">↗</span></a>` : "";
+  app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell">
     <a class="back-link" href="${siteRoot}">返回全部阅读稿</a>
-    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${Math.max(1, Math.ceil(source.trim().split(/\s+/).length / 400))} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl || "#")}" target="_blank" rel="noopener noreferrer">打开原视频</a></div><a class="issue-link" href="${escapeHtml(issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl?.includes("/issues/new") || !entry.issueUrl ? "提交 Issue 建议修改" : "查看关联 Issue"}</a></header>
+    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${Math.max(1, Math.ceil(source.trim().split(/\s+/).length / 400))} 分钟阅读</span>${sourceLink}</div><a class="issue-link" href="${escapeHtml(issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl?.includes("/issues/new") || !entry.issueUrl ? "提交 Issue 建议修改" : "查看关联 Issue"} <span aria-hidden="true">→</span></a></header>
       ${headings.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${headings.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
       <div class="prose">${body}</div>
     </article><footer class="site-footer"><span>档案室 · 阅读稿</span><a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">回到顶部</a></footer>
   </main>`;
   app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
+  updateReadingProgress();
 }
 
 function renderNotFound() {
@@ -184,7 +210,15 @@ function renderCurrentRoute() {
 
 function applyTheme() {
   document.documentElement.dataset.theme = state.theme;
-  document.querySelector('meta[name="theme-color"]').content = state.theme === "dark" ? "#171816" : "#f7f7f4";
+  document.querySelector('meta[name="theme-color"]').content = state.theme === "dark" ? "#191817" : "#faf9f7";
+}
+
+function updateReadingProgress() {
+  const progress = document.querySelector(".reading-progress span");
+  if (!progress) return;
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const ratio = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+  progress.style.transform = `scaleX(${ratio})`;
 }
 
 function focusSearchShortcut(event) {
@@ -196,6 +230,7 @@ function focusSearchShortcut(event) {
 
 applyTheme();
 document.addEventListener("keydown", focusSearchShortcut);
+document.addEventListener("scroll", updateReadingProgress, { passive: true });
 themeMedia.addEventListener("change", (event) => {
   if (!state.followsSystemTheme) return;
   state.theme = event.matches ? "dark" : "light";

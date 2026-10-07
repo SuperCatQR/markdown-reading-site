@@ -1,5 +1,7 @@
 node_modules/
 dist/
 .playwright-cli/
+.tmp/
+artifacts/
 reading-desktop.png
 reading-mobile.png
