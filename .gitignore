@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.playwright-cli/
+reading-desktop.png
+reading-mobile.png

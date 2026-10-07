@@ -1,0 +1,21 @@
+{
+  "name": "markdown-reading-site",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "validate": "node scripts/validate-catalog.mjs",
+    "build": "pnpm validate && vite build",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
