@@ -14,6 +14,7 @@ const reviewFiles = import.meta.glob("../content/reviews/*.md", {
 });
 const app = document.querySelector("#app");
 const siteRoot = import.meta.env.BASE_URL;
+const ISSUE_URL = "https://github.com/SuperCatQR/markdown-reading-site/issues/new";
 const state = {
   query: "",
   tag: "全部",
@@ -41,6 +42,27 @@ function getArticleSource(entry) {
 
 function getReviewSource(entry) {
   return entry.reviewFile ? reviewFiles[`../content/reviews/${entry.reviewFile}`] : undefined;
+}
+
+function getIssueUrl(entry) {
+  if (entry.issueUrl) return entry.issueUrl;
+  const body = [
+    "## 阅读稿",
+    "",
+    `- 稿件: \`${entry.slug}\``,
+    `- 修订 ID: \`${entry.revisionId || "未登记"}\``,
+    `- 原视频: ${entry.sourceUrl || "未登记"}`,
+    "",
+    "## 建议修改",
+    "",
+    "请指出段落或原句，写明建议内容与理由。",
+    "",
+  ].join("\n");
+  return `${ISSUE_URL}?${new URLSearchParams({
+    template: "review.md",
+    title: `[阅读稿审核] ${entry.title}`,
+    body,
+  }).toString()}`;
 }
 
 function articleText(entry) {
@@ -124,9 +146,10 @@ function renderArticle(entry, mode = "reading") {
   const body = markdown.renderer.render(tokens, markdown.options, {});
   const viewSwitch = `<nav class="view-switch" aria-label="稿件视图"><a class="${isReview ? "" : "active"}" href="?read=${encodeURIComponent(entry.slug)}">阅读稿</a>${entry.reviewFile ? `<a class="${isReview ? "active" : ""}" href="?review=${encodeURIComponent(entry.slug)}">审核稿</a>` : ""}</nav>`;
   const reviewNotice = isReview ? `<aside class="review-notice"><strong>公开审核稿</strong><span>这里包含审核上下文与待核对内容，发现问题可直接提交 Issue。</span></aside>` : "";
+  const issueUrl = getIssueUrl(entry);
   app.innerHTML = `${header()}<main class="reading-shell">
     <a class="back-link" href="${siteRoot}">返回全部阅读稿</a>
-    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${Math.max(1, Math.ceil(source.trim().split(/\s+/).length / 400))} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl || "#")}" target="_blank" rel="noopener noreferrer">打开原视频</a></div>${entry.issueUrl ? `<a class="issue-link" href="${escapeHtml(entry.issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl.includes("/issues/new") ? "提交 Issue 建议修改" : "查看关联 Issue"}</a>` : ""}</header>
+    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${Math.max(1, Math.ceil(source.trim().split(/\s+/).length / 400))} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl || "#")}" target="_blank" rel="noopener noreferrer">打开原视频</a></div><a class="issue-link" href="${escapeHtml(issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl?.includes("/issues/new") || !entry.issueUrl ? "提交 Issue 建议修改" : "查看关联 Issue"}</a></header>
       ${headings.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${headings.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
       <div class="prose">${body}</div>
     </article><footer class="site-footer"><span>档案室 · 阅读稿</span><a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">回到顶部</a></footer>
