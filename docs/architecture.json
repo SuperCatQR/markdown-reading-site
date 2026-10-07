@@ -1,0 +1,383 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Markdown 阅读稿站架构",
+    "locale": "zh-CN",
+    "output": "docs/markdown-reading-site-architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/SuperCatQR/markdown-reading-site.git",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "cbf5a8706955a3301523abf36bc34d5250b2d620"
+    },
+    "legend": {
+      "mode": "auto"
+    },
+    "views": [
+      {
+        "id": "publication-pipeline",
+        "label": "发布链路",
+        "focus": ["source-db", "importer", "content", "validator", "vite", "pages"] ,
+        "note": "从主项目数据库到 GitHub Pages 的只读发布链路"
+      },
+      {
+        "id": "reader-runtime",
+        "label": "阅读运行时",
+        "focus": ["pages", "browser", "reader-app", "markdown-renderer"],
+        "note": "浏览器加载静态产物并渲染阅读稿"
+      },
+      {
+        "id": "review-loop",
+        "label": "审核闭环",
+        "focus": ["reader-app", "github-issue", "maintainer", "source-db", "importer"],
+        "note": "读者反馈经 Issue 进入维护者审核与重新导入"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "source-db",
+      "type": "database",
+      "label": "主项目 SQLite",
+      "sublabel": "archive/archive.db · reading.md / review.md",
+      "tag": "只读源",
+      "icon": "database",
+      "pos": [40, 140],
+      "size": [200, 74],
+      "sources": [
+        { "path": "README.md", "line": 45, "end_line": 55, "label": "数据库导入契约" },
+        { "path": "README.md", "line": 61, "end_line": 76, "label": "审核与人工修订" }
+      ]
+    },
+    {
+      "id": "importer",
+      "type": "backend",
+      "label": "bili-asr reading-export",
+      "sublabel": "本地只读导入命令",
+      "tag": "生成快照",
+      "icon": "backend",
+      "pos": [380, 140],
+      "size": [210, 74],
+      "sources": [
+        { "path": "README.md", "line": 45, "end_line": 55, "label": "导入命令与哈希校验" },
+        { "path": "README.md", "line": 67, "end_line": 76, "label": "人工修订后重新导入" }
+      ]
+    },
+    {
+      "id": "content",
+      "type": "database",
+      "label": "content/ 发布快照",
+      "sublabel": "catalog.json + articles/*.md + reviews/*.md",
+      "tag": "提交到仓库",
+      "icon": "database",
+      "pos": [730, 140],
+      "size": [220, 74],
+      "sources": [
+        { "path": "README.md", "line": 45, "end_line": 55, "label": "生成文件与公开快照" },
+        { "path": "content/catalog.json", "line": 1, "label": "目录元数据样例" },
+        { "path": "src/main.js", "line": 1, "end_line": 14, "label": "构建时导入快照" }
+      ]
+    },
+    {
+      "id": "sourcecode",
+      "type": "frontend",
+      "label": "前端源码",
+      "sublabel": "src/main.js · src/site.css · index.html",
+      "tag": "浏览器代码",
+      "icon": "frontend",
+      "pos": [1110, 420],
+      "size": [220, 74],
+      "sources": [
+        { "path": "index.html", "line": 1, "end_line": 15, "label": "入口 HTML" },
+        { "path": "src/main.js", "line": 1, "end_line": 34, "label": "运行时入口" },
+        { "path": "src/site.css", "line": 1, "end_line": 35, "label": "站点样式与主题" }
+      ]
+    },
+    {
+      "id": "validator",
+      "type": "backend",
+      "label": "发布清单校验",
+      "sublabel": "pnpm validate · 路径 / 元数据 / 文件闭合",
+      "tag": "构建门禁",
+      "icon": "security",
+      "pos": [730, 300],
+      "size": [205, 74],
+      "sources": [
+        { "path": "scripts/validate-catalog.mjs", "line": 1, "end_line": 28, "label": "校验入口" },
+        { "path": "scripts/catalog.js", "line": 1, "end_line": 89, "label": "校验规则" },
+        { "path": "package.json", "line": 5, "end_line": 10, "label": "build 前置校验" }
+      ]
+    },
+    {
+      "id": "vite",
+      "type": "backend",
+      "label": "Vite 静态构建",
+      "sublabel": "pnpm build · 输出 dist/",
+      "tag": "打包",
+      "icon": "backend",
+      "pos": [1115, 300],
+      "size": [190, 74],
+      "sources": [
+        { "path": "package.json", "line": 5, "end_line": 10, "label": "构建脚本" },
+        { "path": "vite.config.js", "line": 1, "end_line": 5, "label": "部署 base path" },
+        { "path": "src/main.js", "line": 1, "end_line": 14, "label": "入口与资源图" }
+      ]
+    },
+    {
+      "id": "pages",
+      "type": "cloud",
+      "label": "GitHub Pages",
+      "sublabel": "静态托管 · /markdown-reading-site/",
+      "tag": "公开发布",
+      "icon": "cloud",
+      "pos": [1390, 300],
+      "size": [200, 74],
+      "sources": [
+        { "path": ".github/workflows/deploy-pages.yml", "line": 17, "end_line": 61, "label": "构建与部署工作流" },
+        { "path": "README.md", "line": 35, "end_line": 43, "label": "公开地址与发布说明" }
+      ]
+    },
+    {
+      "id": "browser",
+      "type": "external",
+      "label": "读者浏览器",
+      "sublabel": "加载 HTML / JS / CSS / Markdown 快照",
+      "tag": "无后端会话",
+      "icon": "external",
+      "pos": [1390, 500],
+      "size": [200, 74],
+      "sources": [
+        { "path": "README.md", "line": 78, "end_line": 85, "label": "静态边界与公开内容" },
+        { "path": "index.html", "line": 12, "end_line": 14, "label": "浏览器入口" }
+      ]
+    },
+    {
+      "id": "reader-app",
+      "type": "frontend",
+      "label": "阅读站客户端",
+      "sublabel": "目录筛选 · 阅读页 · 主题切换 · Issue 链接",
+      "tag": "SPA 运行时",
+      "icon": "frontend",
+      "pos": [820, 500],
+      "size": [220, 74],
+      "sources": [
+        { "path": "src/main.js", "line": 15, "end_line": 34, "label": "客户端状态" },
+        { "path": "src/main.js", "line": 95, "end_line": 151, "label": "目录与筛选" },
+        { "path": "src/main.js", "line": 158, "end_line": 185, "label": "阅读页与审核视图" }
+      ]
+    },
+    {
+      "id": "markdown-renderer",
+      "type": "frontend",
+      "label": "Markdown 渲染器",
+      "sublabel": "markdown-it · 禁用原始 HTML · 外链加固",
+      "tag": "浏览器内渲染",
+      "icon": "frontend",
+      "pos": [460, 500],
+      "size": [220, 74],
+      "sources": [
+        { "path": "src/markdown.js", "line": 1, "end_line": 13, "label": "渲染安全策略" },
+        { "path": "src/main.js", "line": 161, "end_line": 173, "label": "解析并渲染正文" }
+      ]
+    },
+    {
+      "id": "github-issue",
+      "type": "external",
+      "label": "GitHub Issue",
+      "sublabel": "预填模板 · 意见与状态链接",
+      "tag": "无站点凭据",
+      "icon": "external",
+      "pos": [820, 700],
+      "size": [220, 74],
+      "sources": [
+        { "path": "src/main.js", "line": 50, "end_line": 68, "label": "生成预填 Issue" },
+        { "path": "README.md", "line": 61, "end_line": 65, "label": "审核 Issue 登记" }
+      ]
+    },
+    {
+      "id": "maintainer",
+      "type": "external",
+      "label": "维护者与审核 CLI",
+      "sublabel": "reading-review · reading-edit",
+      "tag": "人工决策",
+      "icon": "person",
+      "pos": [40, 700],
+      "size": [220, 74],
+      "sources": [
+        { "path": "README.md", "line": 61, "end_line": 76, "label": "Issue 采纳与审核状态" }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "外部编辑源与审核闭环",
+      "wraps": ["source-db", "importer", "maintainer"],
+      "pad": 30
+    },
+    {
+      "kind": "region",
+      "label": "markdown-reading-site 仓库",
+      "wraps": ["content", "sourcecode", "validator", "vite"],
+      "pad": 30
+    },
+    {
+      "kind": "region",
+      "label": "GitHub 反馈平台",
+      "wraps": ["github-issue"],
+      "pad": 24
+    },
+    {
+      "kind": "security-group",
+      "label": "浏览器运行时",
+      "wraps": ["browser", "reader-app", "markdown-renderer"],
+      "pad": 30
+    }
+  ],
+  "connections": [
+    {
+      "id": "db-to-importer",
+      "from": "source-db",
+      "to": "importer",
+      "label": "只读读取并校验 SHA-256",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "importer-to-content",
+      "from": "importer",
+      "to": "content",
+      "label": "生成 catalog / Markdown",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "content-to-validator",
+      "from": "content",
+      "to": "validator",
+      "label": "文件与元数据输入"
+    },
+    {
+      "id": "validator-to-vite",
+      "from": "validator",
+      "to": "vite",
+      "label": "通过后才构建",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "source-to-vite",
+      "from": "sourcecode",
+      "to": "vite",
+      "label": "入口与样式"
+    },
+    {
+      "id": "content-to-vite",
+      "from": "content",
+      "to": "vite",
+      "label": "打包快照",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "top",
+      "route": "orthogonal-v",
+      "via": [[1000, 177], [1000, 260], [1210, 260]],
+      "labelAt": [1000, 220]
+    },
+    {
+      "id": "vite-to-pages",
+      "from": "vite",
+      "to": "pages",
+      "label": "上传 dist/",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "pages-to-browser",
+      "from": "pages",
+      "to": "browser",
+      "label": "HTTPS 静态资源",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "orthogonal-v",
+      "labelDy": 34
+    },
+    {
+      "id": "browser-to-app",
+      "from": "browser",
+      "to": "reader-app",
+      "label": "执行客户端入口",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "app-to-renderer",
+      "from": "reader-app",
+      "to": "markdown-renderer",
+      "label": "解析并生成安全 HTML",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "app-to-issue",
+      "from": "reader-app",
+      "to": "github-issue",
+      "label": "提交预填审核意见",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "orthogonal-v",
+      "labelDy": 34
+    },
+    {
+      "id": "issue-to-maintainer",
+      "from": "github-issue",
+      "to": "maintainer",
+      "label": "讨论与采纳",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "right",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "maintainer-to-db",
+      "from": "maintainer",
+      "to": "source-db",
+      "label": "reading-edit / reading-review",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "发布契约",
+      "items": [
+        "content/ 是数据库导入器生成的只读站点快照",
+        "pnpm build 先执行 pnpm validate，再调用 Vite",
+        "GitHub Actions 只部署 dist/ 静态文件"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "浏览器行为",
+      "items": [
+        "目录支持标题、摘要、正文和标签搜索",
+        "阅读页可切换阅读稿与公开审核稿",
+        "Markdown 原始 HTML 禁用，外链新标签页打开"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "审核边界",
+      "items": [
+        "Issue 只收集意见，不保存站点凭据",
+        "状态由维护者通过 CLI 登记",
+        "待审正文与审核稿会随公开静态站点发布"
+      ]
+    }
+  ]
+}

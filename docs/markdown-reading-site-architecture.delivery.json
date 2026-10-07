@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "c53c82f4-24e0-47eb-9dac-db65fd34086a",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\WorkSpace\\markdown-reading-site\\docs\\architecture.json",
+  "output": "C:\\WorkSpace\\markdown-reading-site\\docs\\markdown-reading-site-architecture.html",
+  "specification": {
+    "sha256": "8f36db4cbb787e149dc55d184a74fcdf100d399a053f2cfe34b5b7dea78c93a6",
+    "bytes": 11651
+  },
+  "artifact": {
+    "sha256": "ee6c1801449b7c508815ef5c8fb590d581e377157c163ab5a3da1e0f5cc03793",
+    "bytes": 781002
+  }
+}
