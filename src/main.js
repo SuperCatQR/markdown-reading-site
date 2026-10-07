@@ -100,7 +100,7 @@ function renderDirectory() {
       </div>
       <section class="directory-tools" aria-label="稿件筛选">
         <label class="search-box"><span class="search-label">搜索阅读稿</span><input id="search" type="search" placeholder="搜索标题、正文或标签" value="${escapeHtml(state.query)}" autocomplete="off" /><kbd>/</kbd></label>
-        <div class="filter-row" aria-label="按主题筛选">${tags.map((tag) => `<button class="filter-chip${state.tag === tag ? " selected" : ""}" type="button" data-tag="${escapeHtml(tag)}" aria-pressed="${state.tag === tag}">${escapeHtml(tag)}</button>`).join("")}</div>
+        <label class="filter-select"><span>主题</span><select id="tag-filter" aria-label="按主题筛选">${tags.map((tag) => `<option value="${escapeHtml(tag)}"${state.tag === tag ? " selected" : ""}>${escapeHtml(tag)}</option>`).join("")}</select></label>
         <p class="result-count">${entries.length} 篇阅读稿</p>
       </section>
       ${entries.length ? `<section class="article-list" aria-label="阅读稿列表">${entries.map((entry, index) => `<article class="article-row"><span class="row-number">${String(index + 1).padStart(2, "0")}</span><div class="article-main"><div class="article-title-line"><a class="article-title" href="?read=${encodeURIComponent(entry.slug)}">${escapeHtml(entry.title)}</a>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><p class="article-summary">${escapeHtml(entry.summary)}</p><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div></div><time class="article-date" datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time></article>`).join("")}</section>` : `<section class="empty-state"><div class="empty-index">01 <span>—</span> 00</div><h2>${catalog.length ? "没有找到匹配的稿件" : "还没有导入阅读稿"}</h2><p>${catalog.length ? "试试其他关键词，或清除主题筛选。" : "从主项目导入数据库中的阅读稿后，会显示在这里。"}</p>${catalog.length ? `<button class="reset-button" type="button" id="reset-filters">清除筛选</button>` : ""}</section>`}
@@ -115,10 +115,10 @@ function renderDirectory() {
     input.focus();
     input.setSelectionRange(cursor, cursor);
   });
-  app.querySelectorAll("[data-tag]").forEach((button) => button.addEventListener("click", () => {
-    state.tag = button.dataset.tag;
+  app.querySelector("#tag-filter").addEventListener("change", (event) => {
+    state.tag = event.target.value;
     renderDirectory();
-  }));
+  });
   app.querySelector("#reset-filters")?.addEventListener("click", () => {
     state.query = "";
     state.tag = "全部";

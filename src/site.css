@@ -66,6 +66,10 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .search-box input::placeholder { color: var(--faint); }
 .search-box kbd { flex: 0 0 auto; display: grid; place-items: center; width: 20px; height: 21px; border: 1px solid var(--line); color: var(--muted); font: 11px "DM Mono", monospace; }
 .filter-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-select { display: flex; align-items: center; gap: 9px; min-width: 0; height: 42px; color: var(--muted); font-size: 12px; }
+.filter-select span { flex: 0 0 auto; }
+.filter-select select { min-width: 0; width: 100%; height: 42px; padding: 0 32px 0 11px; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: var(--surface); font: inherit; cursor: pointer; }
+.filter-select select:hover { border-color: var(--accent); }
 .filter-chip { min-height: 30px; padding: 0 10px; border: 1px solid transparent; border-radius: 3px; color: var(--muted); background: transparent; cursor: pointer; font-size: 11px; transition: color 160ms ease, background 160ms ease, border-color 160ms ease; }
 .filter-chip:hover { color: var(--ink); background: var(--soft); }
 .filter-chip.selected { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
@@ -146,7 +150,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
   .intro { max-width: 380px; margin: 0; }
   .directory-tools { grid-template-columns: 1fr auto; gap: 12px; padding: 17px 0 13px; }
   .search-box { grid-column: 1 / -1; grid-row: 1; }
-  .filter-row { grid-column: 1; grid-row: 2; }
+  .filter-select { grid-column: 1; grid-row: 2; }
   .result-count { grid-column: 2; grid-row: 2; }
   .article-row { min-height: 130px; grid-template-columns: 32px minmax(0,1fr); column-gap: 12px; padding: 16px; }
   .article-date { display: none; }
@@ -166,8 +170,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
   .page-shell { padding-top: 38px; }
   .page-heading h1 { font-size: 33px; }
   .directory-tools { grid-template-columns: minmax(0,1fr) auto; column-gap: 8px; }
-  .filter-row { gap: 2px; }
-  .filter-chip { padding: 0 7px; }
+  .filter-select { gap: 6px; }
   .article-row { grid-template-columns: 25px minmax(0,1fr); column-gap: 9px; }
   .row-number { font-size: 10px; }
   .site-footer { font-size: 9px; }
