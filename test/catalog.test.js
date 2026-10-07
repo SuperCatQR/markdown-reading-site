@@ -58,3 +58,10 @@ test("validates review status and HTTPS Issue links", () => {
   assert.ok(errors.some((error) => error.includes("reviewStatus 无效")));
   assert.ok(errors.some((error) => error.includes("HTTPS 地址")));
 });
+
+test("requires and tracks an exported review file when listed", () => {
+  const entry = { ...validEntry, reviewFile: "quiet-morning.md" };
+  assert.deepEqual(validateCatalog([entry], [entry.file], [entry.reviewFile]), []);
+  assert.ok(validateCatalog([entry], [entry.file], []).some((error) => error.includes("缺少审核稿文件")));
+  assert.ok(validateCatalog([], [], ["orphan.md"]).some((error) => error.includes("未登记的审核稿")));
+});

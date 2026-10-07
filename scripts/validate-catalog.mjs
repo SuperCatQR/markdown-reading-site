@@ -6,6 +6,7 @@ import { validateCatalog } from "./catalog.js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const catalogPath = path.join(root, "content", "catalog.json");
 const articlesPath = path.join(root, "content", "articles");
+const reviewsPath = path.join(root, "content", "reviews");
 
 let catalog;
 try {
@@ -18,7 +19,10 @@ try {
 const files = (await readdir(articlesPath, { withFileTypes: true }))
   .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
   .map((entry) => entry.name);
-const errors = validateCatalog(catalog, files);
+const reviewFiles = (await readdir(reviewsPath, { withFileTypes: true }))
+  .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
+  .map((entry) => entry.name);
+const errors = validateCatalog(catalog, files, reviewFiles);
 
 if (errors.length) {
   console.error("阅读稿发布清单校验失败:");

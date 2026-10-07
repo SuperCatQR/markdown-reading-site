@@ -4,7 +4,7 @@ export const REVIEW_STATUSES = [
 ];
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-export function validateCatalog(catalog, markdownFiles) {
+export function validateCatalog(catalog, markdownFiles, reviewMarkdownFiles = []) {
   const errors = [];
   if (!Array.isArray(catalog)) {
     return ["catalog.json 必须是数组"];
@@ -12,6 +12,7 @@ export function validateCatalog(catalog, markdownFiles) {
 
   const seenSlugs = new Set();
   const listedFiles = new Set();
+  const listedReviewFiles = new Set();
 
   for (const [index, entry] of catalog.entries()) {
     const label = `catalog.json[${index}]`;
@@ -59,6 +60,13 @@ export function validateCatalog(catalog, markdownFiles) {
     } else {
       listedFiles.add(expectedFile);
     }
+    if (entry.reviewFile !== undefined) {
+      if (entry.reviewFile !== expectedFile) {
+        errors.push(`${label}.reviewFile 必须是与 slug 对应的 Markdown 文件名`);
+      } else {
+        listedReviewFiles.add(expectedFile);
+      }
+    }
   }
 
   const availableFiles = new Set(markdownFiles);
@@ -67,6 +75,14 @@ export function validateCatalog(catalog, markdownFiles) {
   }
   for (const file of availableFiles) {
     if (!listedFiles.has(file)) errors.push(`未登记的 Markdown 文件不能进入发布目录: ${file}`);
+  }
+
+  const availableReviewFiles = new Set(reviewMarkdownFiles);
+  for (const file of listedReviewFiles) {
+    if (!availableReviewFiles.has(file)) errors.push(`缺少审核稿文件: ${file}`);
+  }
+  for (const file of availableReviewFiles) {
+    if (!listedReviewFiles.has(file)) errors.push(`未登记的审核稿 Markdown 文件不能进入发布目录: ${file}`);
   }
 
   return errors;

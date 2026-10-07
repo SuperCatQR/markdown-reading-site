@@ -7,7 +7,13 @@ const markdownFiles = import.meta.glob("../content/articles/*.md", {
   query: "?raw",
   import: "default",
 });
+const reviewFiles = import.meta.glob("../content/reviews/*.md", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
 const app = document.querySelector("#app");
+const siteRoot = import.meta.env.BASE_URL;
 const state = {
   query: "",
   tag: "全部",
@@ -33,9 +39,14 @@ function getArticleSource(entry) {
   return markdownFiles[`../content/articles/${entry.file}`];
 }
 
+function getReviewSource(entry) {
+  return entry.reviewFile ? reviewFiles[`../content/reviews/${entry.reviewFile}`] : undefined;
+}
+
 function articleText(entry) {
   const source = getArticleSource(entry) || "";
-  return `${entry.title} ${entry.summary} ${entry.tags.join(" ")} ${source}`.toLocaleLowerCase("zh-Hans");
+  const review = getReviewSource(entry) || "";
+  return `${entry.title} ${entry.summary} ${entry.tags.join(" ")} ${source} ${review}`.toLocaleLowerCase("zh-Hans");
 }
 
 function filteredArticles() {
@@ -47,8 +58,8 @@ function filteredArticles() {
 
 function header() {
   return `<header class="site-header">
-    <a class="wordmark" href="/" aria-label="档案室首页"><span class="wordmark-mark">读</span><span>档案室</span></a>
-    <nav class="top-nav" aria-label="主导航"><a class="active" href="/">阅读稿</a></nav>
+    <a class="wordmark" href="${siteRoot}" aria-label="档案室首页"><span class="wordmark-mark">读</span><span>档案室</span></a>
+    <nav class="top-nav" aria-label="主导航"><a class="active" href="${siteRoot}">阅读稿</a></nav>
     <button class="theme-toggle" type="button" aria-label="切换深浅主题">${state.theme === "dark" ? "浅色模式" : "深色模式"}</button>
   </header>`;
 }
@@ -95,8 +106,10 @@ function slugHeading(text) {
   return text.toLocaleLowerCase("zh-Hans").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || "section";
 }
 
-function renderArticle(entry) {
-  const source = getArticleSource(entry);
+function renderArticle(entry, mode = "reading") {
+  if (!entry) return renderNotFound();
+  const isReview = mode === "review";
+  const source = isReview ? getReviewSource(entry) : getArticleSource(entry);
   if (typeof source !== "string") return renderNotFound();
   const headings = [];
   const tokens = markdown.parse(source, {});
@@ -109,9 +122,11 @@ function renderArticle(entry) {
     headings.push({ slug, heading, level: Number(tokens[index].tag.slice(1)) });
   }
   const body = markdown.renderer.render(tokens, markdown.options, {});
+  const viewSwitch = `<nav class="view-switch" aria-label="稿件视图"><a class="${isReview ? "" : "active"}" href="?read=${encodeURIComponent(entry.slug)}">阅读稿</a>${entry.reviewFile ? `<a class="${isReview ? "active" : ""}" href="?review=${encodeURIComponent(entry.slug)}">审核稿</a>` : ""}</nav>`;
+  const reviewNotice = isReview ? `<aside class="review-notice"><strong>公开审核稿</strong><span>这里包含审核上下文与待核对内容，发现问题可直接提交 Issue。</span></aside>` : "";
   app.innerHTML = `${header()}<main class="reading-shell">
-    <a class="back-link" href="/">返回全部阅读稿</a>
-    <article class="reading-article"><header class="reading-heading"><div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${Math.max(1, Math.ceil(source.trim().split(/\s+/).length / 400))} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl || "#")}" target="_blank" rel="noopener noreferrer">打开原视频</a></div>${entry.issueUrl ? `<a class="issue-link" href="${escapeHtml(entry.issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl.includes("/issues/new") ? "提交 Issue 建议修改" : "查看关联 Issue"}</a>` : ""}</header>
+    <a class="back-link" href="${siteRoot}">返回全部阅读稿</a>
+    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${Math.max(1, Math.ceil(source.trim().split(/\s+/).length / 400))} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl || "#")}" target="_blank" rel="noopener noreferrer">打开原视频</a></div>${entry.issueUrl ? `<a class="issue-link" href="${escapeHtml(entry.issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl.includes("/issues/new") ? "提交 Issue 建议修改" : "查看关联 Issue"}</a>` : ""}</header>
       ${headings.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${headings.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
       <div class="prose">${body}</div>
     </article><footer class="site-footer"><span>档案室 · 阅读稿</span><a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">回到顶部</a></footer>
@@ -120,7 +135,7 @@ function renderArticle(entry) {
 }
 
 function renderNotFound() {
-  app.innerHTML = `${header()}<main class="page-shell"><section class="empty-state"><div class="empty-index">404 <span>—</span> ?</div><h1>没有找到这篇阅读稿</h1><p>它可能尚未发布，或地址已经更新。</p><a class="reset-button" href="/">返回稿件目录</a></section></main>`;
+  app.innerHTML = `${header()}<main class="page-shell"><section class="empty-state"><div class="empty-index">404 <span>—</span> ?</div><h1>没有找到这篇阅读稿</h1><p>它可能尚未发布，或地址已经更新。</p><a class="reset-button" href="${siteRoot}">返回稿件目录</a></section></main>`;
   app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
 }
 
@@ -128,9 +143,11 @@ function toggleTheme() {
   state.theme = state.theme === "dark" ? "light" : "dark";
   localStorage.setItem("reading-theme", state.theme);
   applyTheme();
-  const article = new URLSearchParams(location.search).get("read");
-  const entry = catalog.find((item) => item.slug === article);
-  article ? renderArticle(entry) : renderDirectory();
+  const params = new URLSearchParams(location.search);
+  const article = params.get("read");
+  const review = params.get("review");
+  const entry = catalog.find((item) => item.slug === (review || article));
+  review || article ? renderArticle(entry, review ? "review" : "reading") : renderDirectory();
 }
 
 function applyTheme() {
@@ -147,6 +164,8 @@ function focusSearchShortcut(event) {
 
 applyTheme();
 document.addEventListener("keydown", focusSearchShortcut);
-const selectedSlug = new URLSearchParams(location.search).get("read");
+const params = new URLSearchParams(location.search);
+const selectedMode = params.has("review") ? "review" : "reading";
+const selectedSlug = params.get(selectedMode);
 const selectedEntry = catalog.find((entry) => entry.slug === selectedSlug);
-selectedSlug ? (selectedEntry ? renderArticle(selectedEntry) : renderNotFound()) : renderDirectory();
+selectedSlug ? (selectedEntry ? renderArticle(selectedEntry, selectedMode) : renderNotFound()) : renderDirectory();
