@@ -15,10 +15,13 @@ const reviewFiles = import.meta.glob("../content/reviews/*.md", {
 const app = document.querySelector("#app");
 const siteRoot = import.meta.env.BASE_URL;
 const ISSUE_URL = "https://github.com/SuperCatQR/markdown-reading-site/issues/new";
+const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+const savedTheme = localStorage.getItem("reading-theme");
 const state = {
   query: "",
   tag: "全部",
-  theme: localStorage.getItem("reading-theme") || "light",
+  theme: savedTheme || (themeMedia.matches ? "dark" : "light"),
+  followsSystemTheme: !savedTheme,
 };
 const REVIEW_LABELS = {
   "pending-review": "待审核",
@@ -164,13 +167,19 @@ function renderNotFound() {
 
 function toggleTheme() {
   state.theme = state.theme === "dark" ? "light" : "dark";
+  state.followsSystemTheme = false;
   localStorage.setItem("reading-theme", state.theme);
   applyTheme();
+  renderCurrentRoute();
+}
+
+function renderCurrentRoute() {
   const params = new URLSearchParams(location.search);
-  const article = params.get("read");
-  const review = params.get("review");
-  const entry = catalog.find((item) => item.slug === (review || article));
-  review || article ? renderArticle(entry, review ? "review" : "reading") : renderDirectory();
+  const reviewSlug = params.get("review");
+  const articleSlug = params.get("read");
+  const selectedSlug = reviewSlug || articleSlug;
+  const selectedEntry = catalog.find((entry) => entry.slug === selectedSlug);
+  selectedSlug ? (selectedEntry ? renderArticle(selectedEntry, reviewSlug ? "review" : "reading") : renderNotFound()) : renderDirectory();
 }
 
 function applyTheme() {
@@ -187,8 +196,10 @@ function focusSearchShortcut(event) {
 
 applyTheme();
 document.addEventListener("keydown", focusSearchShortcut);
-const params = new URLSearchParams(location.search);
-const selectedMode = params.has("review") ? "review" : "reading";
-const selectedSlug = params.get(selectedMode);
-const selectedEntry = catalog.find((entry) => entry.slug === selectedSlug);
-selectedSlug ? (selectedEntry ? renderArticle(selectedEntry, selectedMode) : renderNotFound()) : renderDirectory();
+themeMedia.addEventListener("change", (event) => {
+  if (!state.followsSystemTheme) return;
+  state.theme = event.matches ? "dark" : "light";
+  applyTheme();
+  renderCurrentRoute();
+});
+renderCurrentRoute();
