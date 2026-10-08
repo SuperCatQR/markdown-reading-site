@@ -42,6 +42,7 @@ bili-asr publication export --archive-root C:\Archive\new-contract --out C:\Site
 `publish.md`；创建 B 草稿或批准未发布的 B 时，公开目录继续呈现 A。明确发布 B 后切换 B，
 撤回当前版本后该分 P 从新快照中移除。审核与编辑命令详见主项目
 [publication.md](https://github.com/SuperCatQR/bilibili-asr-archive/blob/main/docs/publication.md)。
+后端契约实现与审核流程见 [主项目 PR #264](https://github.com/SuperCatQR/bilibili-asr-archive/pull/264)。
 
 本仓库只接受新契约：
 
