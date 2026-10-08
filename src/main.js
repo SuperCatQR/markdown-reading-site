@@ -1,6 +1,6 @@
 import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
-import { isDraft, entryRoute, entryDate, REVIEW_LABELS, createReaderIndex, resolveReaderRoute, buildIssueUrl } from "./manuscripts.js";
+import { isDraft, entryRoute, reviewRoute, entryDate, REVIEW_LABELS, createReaderIndex, resolveReaderRoute, buildIssueUrl } from "./manuscripts.js";
 import { markdown } from "./markdown.js";
 import { estimateReadingMinutes } from "./reading-time.js";
 import "./site.css";
@@ -9,6 +9,12 @@ const markdownFiles = import.meta.glob("../content/articles/part-*/publish.md", 
   eager: true, query: "?raw", import: "default",
 });
 const draftFiles = import.meta.glob("../draft-content/drafts/edition-*/preview.md", {
+  eager: true, query: "?raw", import: "default",
+});
+const publicationReviews = import.meta.glob("../content/articles/part-*/review.md", {
+  eager: true, query: "?raw", import: "default",
+});
+const draftReviews = import.meta.glob("../draft-content/drafts/edition-*/review.md", {
   eager: true, query: "?raw", import: "default",
 });
 const app = document.querySelector("#app");
@@ -41,8 +47,20 @@ function getArticleSource(entry) {
   return isDraft(entry) ? draftFiles[`../draft-content/${entry.file}`] : markdownFiles[`../content/${entry.file}`];
 }
 
-function getIssueUrl(entry) {
-  return buildIssueUrl(entry, location.href, ISSUE_URL);
+function getReviewSource(entry) {
+  return isDraft(entry) ? draftReviews[`../draft-content/${entry.reviewFile}`] : publicationReviews[`../content/${entry.reviewFile}`];
+}
+
+function getIssueUrl(entry, mode = "body") {
+  return buildIssueUrl(entry, location.href, ISSUE_URL, mode);
+}
+
+function documentTabs(entry, mode) {
+  return `<nav class="document-tabs" aria-label="稿件视图"><a href="${entryRoute(entry)}"${mode === "body" ? ' aria-current="page"' : ""}>正文</a><a href="${reviewRoute(entry)}"${mode === "review" ? ' aria-current="page"' : ""}>校验参照稿件</a></nav>`;
+}
+
+function reviewNotice() {
+  return `<aside class="review-reference-notice" aria-label="校验参照说明"><strong>AI 初稿的固定校验参照</strong><p>这份稿件对应下方 AI 修订，保留原文、整理稿、疑点、候选、依据和回看链接。当前编辑版本可能已作后续修改。原文中“未经人工复核”描述 AI 基线生成时的情况，不代表关联稿件的当前审核状态；人工审核记录单独维护。</p></aside>`;
 }
 
 function filteredArticles() { return indices[state.view].filter(state); }
@@ -190,8 +208,9 @@ async function copyMarkdown(source, button) {
   }
 }
 
-function renderArticle(entry) {
-  const source = entry && getArticleSource(entry);
+function renderArticle(entry, mode = "body") {
+  const review = mode === "review";
+  const source = entry && (review ? getReviewSource(entry) : getArticleSource(entry));
   if (typeof source !== "string") return renderNotFound();
   const tokens = markdown.parse(source, {});
   const headings = [];
@@ -211,10 +230,10 @@ function renderArticle(entry) {
   const draft = isDraft(entry);
   app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell"><a class="back-link" href="${draft ? "?view=drafts" : siteRoot}">返回全部${draft ? "未发布稿件" : "发布稿"}</a>
     ${manuscriptTabs()}
-    <article class="reading-article"><header class="reading-heading">${draft ? draftNotice() : ""}<div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${draft ? `<p class="draft-status">${REVIEW_LABELS[entry.reviewStatus]}</p>` : ""}${title}
-      <div class="reading-meta"><time datetime="${date}">${draft ? "创建于" : "发布于"} ${date.replaceAll("-", ".")}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.bvid)} · P${entry.pageIndex + 1} <span aria-hidden="true">↗</span></a><button class="copy-markdown" type="button">复制 Markdown</button></div>
-      <details class="release-details"><summary>${draft ? "编辑版本" : "发布版本"}</summary><dl>${draft ? "" : `<dt>Release</dt><dd>${entry.releaseId}</dd>`}<dt>Edition</dt><dd>${entry.editionId}</dd><dt>AI Revision</dt><dd>${entry.aiRevisionId}</dd><dt>内容 SHA-256</dt><dd>${entry.contentSha256}</dd></dl></details>
-      <a class="issue-link" href="${escapeHtml(getIssueUrl(entry))}" target="_blank" rel="noopener noreferrer">建议修改 <span aria-hidden="true">→</span></a></header>
+    <article class="reading-article"><header class="reading-heading">${documentTabs(entry, mode)}${review ? reviewNotice() : ""}${draft ? draftNotice() : ""}<div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${draft ? `<p class="draft-status">${REVIEW_LABELS[entry.reviewStatus]}</p>` : ""}${title}
+      <div class="reading-meta"><time datetime="${date}">${review ? "关联稿件" : draft ? "创建于" : "发布于"} ${date.replaceAll("-", ".")}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.bvid)} · P${entry.pageIndex + 1} <span aria-hidden="true">↗</span></a><button class="copy-markdown" type="button">复制 Markdown</button></div>
+      <details class="release-details"><summary>${review ? "校验参照版本" : draft ? "编辑版本" : "发布版本"}</summary><dl>${draft ? "" : `<dt>Release</dt><dd>${entry.releaseId}</dd>`}<dt>Edition</dt><dd>${entry.editionId}</dd><dt>AI Revision</dt><dd>${entry.aiRevisionId}</dd><dt>关联编辑内容 SHA-256</dt><dd>${entry.contentSha256}</dd>${review ? `<dt>校验参照文件 SHA-256</dt><dd>${entry.reviewArtifactSha256}</dd>` : ""}</dl></details>
+      <a class="issue-link" href="${escapeHtml(getIssueUrl(entry, mode))}" target="_blank" rel="noopener noreferrer">建议修改 <span aria-hidden="true">→</span></a></header>
       ${toc.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${toc.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
       <div class="prose">${body}</div>
     </article><footer class="site-footer"><span>档案室 · ${viewLabel()}</span><a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">回到顶部</a></footer></main>`;
@@ -249,7 +268,7 @@ function renderCurrentRoute() {
   if (route.kind === "missing") return renderNotFound();
   if (state.view !== route.view) { state.query = ""; state.tag = "全部"; state.composingSearch = false; }
   state.view = route.view;
-  route.kind === "article" ? renderArticle(route.entry) : renderDirectory();
+  route.kind === "article" ? renderArticle(route.entry, route.mode) : renderDirectory();
 }
 
 function applyTheme() {

@@ -127,6 +127,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .reading-heading .draft-notice { margin: 0 0 24px; }
 .draft-state { padding: 4px 8px; color: var(--muted); background: var(--soft); font-size: 11px; line-height: 1.5; }
 .draft-status { margin: 14px 0 0; color: var(--muted); font-size: 12px; }
+.document-tabs { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+.document-tabs a { display: flex; align-items: center; min-height: 44px; padding: 0 0 10px; border-bottom: 2px solid transparent; color: var(--muted); text-decoration: none; font-size: 13px; }
+.document-tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.review-reference-notice { margin: 0 0 24px; padding: 15px 18px; border-left: 2px solid var(--accent); background: var(--soft); color: var(--muted); font-size: 12px; line-height: 1.8; }
+.review-reference-notice strong { color: var(--ink); font-weight: 600; }
+.review-reference-notice p { margin: 5px 0 0; }
 .article-date { align-self: start; display: grid; gap: 6px; padding-top: 30px; color: var(--faint); text-align: right; font: 11px "Public Sans", sans-serif; font-variant-numeric: tabular-nums; }
 .article-date span { color: var(--faint); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
 .article-open { align-self: start; padding-top: 28px; color: var(--faint); font-size: 18px; line-height: 1; transition: color 160ms ease, transform 160ms ease; }

@@ -8,6 +8,7 @@ import { validateContentDirectory, validateSiteSnapshots } from "../scripts/vali
 import { createReaderIndex, resolveReaderRoute, buildIssueUrl, entryDate, REVIEW_LABELS } from "../src/manuscripts.js";
 
 const document = "# 未发布版本 B\n\n红杉星辰只在草稿中。\n";
+const review = "# 合成数据校验参照\n\nAI 初稿基线，未经人工复核。\n";
 const draft = {
   manuscriptType: "publication-draft", slug: "edition-" + "b".repeat(32),
   title: "未发布版本 B", summary: "尚未发布", tags: ["合成测试"], attribution: "合成数据", editorNote: "",
@@ -15,6 +16,7 @@ const draft = {
   sourceUrl: "https://www.bilibili.com/video/BVtest/?p=1", contentSha256: "d".repeat(64),
   artifactSha256: sha256(document), reviewStatus: "pending-review", createdAt: 1791417600,
   file: "drafts/edition-" + "b".repeat(32) + "/preview.md",
+  reviewFile: "drafts/edition-" + "b".repeat(32) + "/review.md", reviewArtifactSha256: sha256(review),
 };
 const publication = {
   manuscriptType: "publication", slug: "part-1", title: "已发布版本 A", summary: "", tags: [],
@@ -22,11 +24,13 @@ const publication = {
   videoPartId: 1, bvid: "BVtest", pageIndex: 0, sourceUrl: draft.sourceUrl, contentSha256: "e".repeat(64),
   artifactSha256: sha256("# 已发布版本 A\n\n青竹溪流。\n"), releaseId: "f".repeat(64), templateVersion: "publish-v1",
   publishedAt: 1791417600, file: "articles/part-1/publish.md",
+  reviewFile: "articles/part-1/review.md", reviewArtifactSha256: sha256(review),
 };
-const envelope = (entries = [draft], kind = "publication-draft") => ({ schemaVersion: 1, manuscriptType: kind, articles: entries });
+const envelope = (entries = [draft], kind = "publication-draft") => ({ schemaVersion: 2, manuscriptType: kind, articles: entries });
 
 function snapshot(entries = [draft], kind = "publication-draft") {
   const files = new Map(entries.map((entry) => [entry.file, Buffer.from(entry.manuscriptType === "publication-draft" ? document : "# 已发布版本 A\n\n青竹溪流。\n")]));
+  for (const entry of entries) files.set(entry.reviewFile, Buffer.from(review));
   files.set("catalog.json", Buffer.from(JSON.stringify(envelope(entries, kind)) + "\n"));
   const managed = [...files].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
     .map(([name, bytes]) => ({ path: name, sha256: sha256(bytes) }));
