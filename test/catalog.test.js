@@ -59,6 +59,11 @@ test("validates review status and HTTPS Issue links", () => {
   assert.ok(errors.some((error) => error.includes("HTTPS 地址")));
 });
 
+test("requires HTTPS source URLs", () => {
+  const errors = validateCatalog([{ ...validEntry, sourceUrl: "javascript:alert(1)" }], [validEntry.file]);
+  assert.ok(errors.some((error) => error.includes("sourceUrl 必须是 HTTPS 地址")));
+});
+
 test("requires and tracks an exported review file when listed", () => {
   const entry = { ...validEntry, reviewFile: "quiet-morning.md" };
   assert.deepEqual(validateCatalog([entry], [entry.file], [entry.reviewFile]), []);
