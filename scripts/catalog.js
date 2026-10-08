@@ -50,8 +50,10 @@ export function validateCatalog(catalog, markdownFiles, reviewMarkdownFiles = []
     if (entry.reviewStatus !== undefined && !REVIEW_STATUSES.includes(entry.reviewStatus)) {
       errors.push(`${label}.reviewStatus 无效`);
     }
-    if (entry.issueUrl && (typeof entry.issueUrl !== "string" || !entry.issueUrl.startsWith("https://"))) {
-      errors.push(`${label}.issueUrl 必须是 HTTPS 地址`);
+    for (const urlField of ["issueUrl", "sourceUrl"]) {
+      if (entry[urlField] && (typeof entry[urlField] !== "string" || !entry[urlField].startsWith("https://"))) {
+        errors.push(`${label}.${urlField} 必须是 HTTPS 地址`);
+      }
     }
 
     const expectedFile = typeof entry.slug === "string" ? `${entry.slug}.md` : "";
