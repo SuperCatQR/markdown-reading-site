@@ -1,95 +1,87 @@
-# Markdown 阅读稿
+# Markdown 发布稿阅读站
 
-独立的静态阅读站，展示数据库中的待审稿与已发布稿。数据库由主项目的只读导入命令读取；浏览器只接收经过筛选的 Markdown 与元数据，不接触 SQLite、原始转录、凭据或本地媒体目录。
+独立静态站点，只展示主项目中经过精确版本审核并显式发布的有效 release。浏览器读取冻结的
+公开 Markdown 和元数据；SQLite、AI 合成稿、校验参照稿、待审版本与内部事件留在主项目。
 
-> **当前内容说明：** 目前目录中的稿件均为测试用，内容和状态尚不稳定，后续会删除。
+仓库当前保留合法的空公开快照；本地联调使用的合成发布稿不会作为正式内容提交。
 
 ## 架构
 
 ```mermaid
 flowchart LR
-  db[(SQLite editorial revisions)] -->|只读读取 reading.md、review.md 与状态| exporter[bili-asr reading-export]
-  exporter --> articles[content/articles]
-  exporter --> reviews[content/reviews]
-  exporter --> catalog[content/catalog.json]
-  articles --> validate[pnpm build 清单校验]
-  reviews --> validate
-  catalog --> validate
+  db[(SQLite publication heads)] -->|验证有效 release、edition、approval| exporter[bili-asr publication export]
+  exporter --> content[公开 catalog + publish.md + manifest]
+  content --> validate[结构、文件集合、SHA-256 和 snapshotId 校验]
   validate --> vite[Vite 静态构建]
   vite --> dist[dist 静态文件]
-  dist --> host[静态托管]
-  host --> browser[浏览器目录与阅读页]
-  browser -->|提交预填 Issue| issue[GitHub Issue]
-  issue -->|采纳后由维护者存为人工修订| db
+  dist --> browser[目录、搜索与发布稿]
+  browser -->|修改建议关联精确 release| issue[GitHub Issue]
 ```
 
 ## 本地运行
 
-需要 Node.js 20 或更新版本，并启用 pnpm：
+需要 Node.js 20 或更新版本及 pnpm：
 
 ```powershell
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-默认开发地址为 `http://127.0.0.1:5173`。
+默认地址为 `http://127.0.0.1:5173`。开发服务器启动及生产构建均校验公开快照。
+仓库初始快照是合法空目录，不把原有待审稿自动批准为发布稿。
 
-## 公开部署
+## 导入已发布稿
 
-该项目包含 GitHub Pages 工作流。将仓库的 Pages 来源设为 **GitHub Actions** 后，推送到 `main` 会自动构建和部署：
+先在 `bilibili-asr-archive` 中按新稿件契约创建 edition、审核准确内容哈希并显式发布，然后导出：
+
+```powershell
+bili-asr publication export --archive-root C:\Archive\new-contract --out C:\Sites\markdown-reading-site\content
+```
+
+输出目录必须与源归档及产物根互不重叠。命令读取有效发布指针，只导出当前 release 的
+`publish.md`；创建 B 草稿或批准未发布的 B 时，公开目录继续呈现 A。明确发布 B 后切换 B，
+撤回当前版本后该分 P 从新快照中移除。审核与编辑命令详见主项目
+[publication.md](https://github.com/SuperCatQR/bilibili-asr-archive/blob/main/docs/publication.md)。
+
+本仓库只接受新契约：
 
 ```text
-https://supercatqr.github.io/markdown-reading-site/
+content/
+  catalog.json
+  publication-export-manifest.json
+  articles/part-<videoPartId>/publish.md
 ```
 
-站点是公开静态文件；导入的待审核正文、`review.md` 审核上下文、来源链接和质量状态都会公开显示。数据库导入仍然在本地执行，导入后的 `content/` 需要作为提交内容推送到仓库。
+catalog 为 `{ "schemaVersion": 1, "manuscriptType": "publication", "articles": [...] }`。
+每条记录冻结读者可见标题、摘要、标签、整理属性、编辑说明和来源，携带 edition/release/revision
+标识、完整内容哈希、发布文件哈希、模板 `publish-v1` 与 Unix 秒发布时间。manifest 包含准确
+受管文件集合、每个文件的 SHA-256 及快照身份；构建会核验 catalog 与 manifest 指向同一文章。
+32 位十六进制 edition ID 与 64 位 SHA-256/release/revision ID 区分校验。
 
-## 导入数据库稿件
+旧数组 catalog、旧 manifest、旧正文命名、任何 `reviews/` 内部目录、未登记或残留文件、
+缺失文章、错误哈希、符号链接及路径逃逸都会拒绝。没有兼容转换或迁移路径。
+原有旧快照保留在 Git 历史中，重新导出必须来自已明确获批和发布的新归档。
 
-在主项目根目录运行只读导入（`--issues-url` 可覆盖默认的 GitHub Issue 地址，也可通过 `BILI_READING_ISSUES_URL` 配置）：
+## 阅读与修改建议
 
-```powershell
-uv run bili-asr reading-export --archive-root archive --out reading-site/content
-cd reading-site
-pnpm build
-```
+目录搜索范围是有效 release 的标题、摘要、正文和标签，支持主题筛选与深浅主题。
+文章读取完整的 `publish.md`，展示冻结视频来源、发布时间以及可展开的 release/edition/hash。
+原始 HTML 被禁用，外链采用 `noopener noreferrer`。公开页没有审核稿视图或草稿审核状态；
+旧 `?review=` 路由返回未找到。
 
-命令读取 `archive/archive.db` 和登记的 `reading.md`、`review.md`，校验文档 SHA-256 后生成 `content/catalog.json`、`content/articles/*.md` 与 `content/reviews/*.md`。默认导入尚未被拒绝或撤回的修订；没有审核记录时标记为待审核。模型请求和原始转录不会导出。校验会拒绝未登记文件、越界路径、手工文件与内容哈希不一致。
+读者可以提交预填 GitHub Issue，描述修改建议并关联准确 release、edition 和内容哈希。
+Issue 讨论不会自动改写文章或审核事实；维护者需在主项目中创建新 edition、审核及发布。
+内部审阅包使用 `bili-asr editorial export` 单独导出，不能放入此站点内容目录。
 
-## Issue 审核与修改
-
-以下 `bili-asr` 命令均从主项目根目录运行：
-
-每篇稿件的详情页可以切换阅读稿和公开审核稿，并提供预填的 Issue 链接。读者提交 Issue 后，将实际 Issue URL 和状态登记到数据库：
-
-```powershell
-uv run bili-asr reading-review <REVISION_ID> --status in-review --issue-url https://github.com/SuperCatQR/markdown-reading-site/issues/123
-```
-
-采纳 Issue 建议后，把修改完成的 Markdown 保存到文件并提交为不可变人工修订；这会让稿件重新进入待审核状态：
-
-```powershell
-uv run bili-asr reading-edit <REVISION_ID> --markdown-file .\accepted-reading.md --note "issue #123"
-uv run bili-asr reading-review <REVISION_ID> --status approved --note "复核通过"
-uv run bili-asr reading-review <REVISION_ID> --status published --note "发布"
-uv run bili-asr reading-export --archive-root archive --out reading-site/content
-```
-
-`reading-edit` 不改写 AI 修订，而是保存新的人工作品版本、父版本 ID、内容哈希和时间；状态变更写入审核事件表。Issue 用于提出和讨论修改，采纳的正文通过 `reading-edit` 写回数据库。站点的 Issue 模板只负责收集意见，审核状态仍由维护者登记，重新导入后才会更新公开快照。
-
-## 边界与功能
-
-- 浏览器内渲染 Markdown，原始 HTML 被禁用；外链在新标签页打开。
-- 目录支持标题、摘要、正文和标签搜索，按主题筛选，并提供深浅主题切换。
-- `catalog.json` 与稿件 Markdown 是数据库导入器生成的站点快照；不要手工修改生成目录。
-- 文章页会展示待审核、审核中、待修改、已通过或已发布状态，并链接到 Issue；有审核稿时提供独立审核稿视图。
-- Issue 提交使用 GitHub 预填表单，不需要站点保存 GitHub 凭据；Issue 状态目前由维护者运行 CLI 登记，没有后台 webhook。
-- 静态站点不提供访问控制。导入的待审正文和审核稿会随站点静态文件公开；部署前应确认稿件允许公开。
-
-## 校验
+## 构建与部署
 
 ```powershell
 pnpm test
 pnpm validate
 pnpm build
 ```
+
+本仓库包含 GitHub Pages 工作流；Pages 来源设为 GitHub Actions 后，推送 `main` 会构建并部署。
+公开地址为 `https://supercatqr.github.io/markdown-reading-site/`。
+导出的 `content/` 作为快照提交；撤回或替换后重新导出、构建和部署，确认托管端旧文件和 CDN
+缓存清理。后端的本地快照更新不能撤销已部署副本。
