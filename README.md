@@ -46,6 +46,7 @@ bili-asr publication export --archive-root C:\Archive\new-contract --out C:\Site
 撤回当前版本后该分 P 从新快照中移除。审核与编辑命令详见主项目
 [publication.md](https://github.com/SuperCatQR/bilibili-asr-archive/blob/main/docs/publication.md)。
 后端契约实现与审核流程见 [主项目 PR #264](https://github.com/SuperCatQR/bilibili-asr-archive/pull/264)。
+公开未发布预览的后端导出实现见 [主项目 PR #265](https://github.com/SuperCatQR/bilibili-asr-archive/pull/265)。
 
 本仓库只接受新契约：
 
@@ -78,6 +79,8 @@ bili-asr publication export-drafts --archive-root C:\Archive\new-contract --out 
 曾经发布的版本、已替换或撤回的 release 不会通过未发布入口重新公开。
 已发布 A 与当前草稿 B 可以并存；审核 B 不会改变正式发布目录中的 A。
 审核状态分别显示为“待审核”“审核中”“待修改”“未采用”“已审核 · 未发布”。
+预览公开需要显式执行导出并提交快照；后端工作流生成或编辑稿件不会自动把它放到网站。
+Pages 的生产构建读取 `draft-content/`，因此明确导入的 `pending-review` 稿件也可以在公开网站阅读。
 
 ```text
 draft-content/
