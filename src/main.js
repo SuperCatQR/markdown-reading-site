@@ -69,10 +69,6 @@ function draftNotice(mode = "body") {
   return `<aside class="draft-notice" aria-label="未发布说明"><strong>未经正式发布，信息待核验</strong><p>${mode === "review" ? "关联稿件尚未正式发布；此页展示对应 AI 修订的固定校验参照，当前审核状态另行显示。" : "这里展示当前编辑版本，内容可能继续修改。审核状态与正式发布分别记录。"}</p></aside>`;
 }
 
-function manuscriptTabs() {
-  return `<nav class="manuscript-tabs" aria-label="稿件分类"><a href="${siteRoot}"${state.view === "published" ? ' aria-current="page"' : ""}>已发布 <span>${catalog.articles.length}</span></a><a href="?view=drafts"${state.view === "drafts" ? ' aria-current="page"' : ""}>未发布 <span>${draftCatalog.articles.length}</span></a></nav>`;
-}
-
 function directoryResults(entries) {
   return entries.length ? `<section class="article-list" aria-label="${viewLabel()}列表">${entries.map((entry, index) => {
     const date = entryDate(entry);
@@ -96,11 +92,15 @@ function syncDirectoryResults() {
   });
 }
 
-function header() {
+function header({ directory = false, unknown = false } = {}) {
   const themeIcon = themeIconMarkup();
+  const categoryLink = (view, href, label, count) => {
+    const current = !unknown && state.view === view;
+    return `<a href="${href}"${current ? ` aria-current="${directory ? "page" : "location"}"` : ""}>${label}<span class="nav-count">${count}</span></a>`;
+  };
   return `<header class="site-header">
     <a class="wordmark" href="${siteRoot}" aria-label="档案室首页"><span class="wordmark-mark">读</span><span>档案室</span></a>
-    <nav class="top-nav" aria-label="主导航"><a class="active" href="${siteRoot}">稿件</a></nav>
+    <nav class="top-nav" aria-label="稿件分类">${categoryLink("published", siteRoot, "已发布", catalog.articles.length)}${categoryLink("drafts", "?view=drafts", "未发布", draftCatalog.articles.length)}</nav>
     <button class="theme-toggle" type="button" aria-label="切换深浅主题" aria-pressed="${state.theme === "dark"}"><span class="theme-icon">${themeIcon}</span><span>${state.theme === "dark" ? "浅色模式" : "深色模式"}</span></button>
   </header>`;
 }
@@ -114,13 +114,12 @@ function themeIconMarkup() {
 function renderDirectory() {
   const tags = ["全部", ...new Set(currentEntries().flatMap((entry) => entry.tags))];
   const entries = filteredArticles();
-  app.innerHTML = `${header()}
+  app.innerHTML = `${header({ directory: true })}
     <main class="page-shell">
       <div class="page-heading">
         <div><p class="eyebrow">${state.view === "drafts" ? "DRAFT EDITIONS" : "PUBLISHED EDITIONS"} <span> / </span> ${viewLabel()}</p><h1>${viewLabel()}</h1></div>
         <p class="intro">${state.view === "drafts" ? "当前编辑版本，供阅读与提出修改建议。" : "经过准确版本审核并正式发布的稿件。"}</p>
       </div>
-      ${manuscriptTabs()}
       ${state.view === "drafts" ? draftNotice() : ""}
       <section class="directory-tools" aria-label="稿件筛选">
         <label class="search-box"><span class="search-label">搜索${viewLabel()}</span><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索标题、正文或标签" value="${escapeHtml(state.query)}" autocomplete="off" /><button id="clear-search" class="clear-search" type="button" aria-label="清空搜索"${state.query ? "" : " hidden"}>×</button><kbd>/</kbd></label>
@@ -228,9 +227,9 @@ function renderArticle(entry, mode = "body") {
   const toc = headings.filter(({ level }) => level > 1);
   const date = entryDate(entry);
   const draft = isDraft(entry);
-  app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell"><a class="back-link" href="${draft ? "?view=drafts" : siteRoot}">返回全部${draft ? "未发布稿件" : "发布稿"}</a>
-    ${manuscriptTabs()}
-    <article class="reading-article"><header class="reading-heading">${documentTabs(entry, mode)}${review ? reviewNotice() : ""}${draft ? draftNotice(mode) : ""}<div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${draft ? `<p class="draft-status">${REVIEW_LABELS[entry.reviewStatus]}</p>` : ""}${title}
+  app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell">
+    <div class="reading-navigation"><a class="back-link" href="${draft ? "?view=drafts" : siteRoot}">返回${draft ? "未发布" : "已发布"}目录</a>${documentTabs(entry, mode)}</div>
+    <article class="reading-article"><header class="reading-heading">${review ? reviewNotice() : ""}${draft ? draftNotice(mode) : ""}<div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${draft ? `<p class="draft-status">${REVIEW_LABELS[entry.reviewStatus]}</p>` : ""}${title}
       <div class="reading-meta"><time datetime="${date}">${review ? "关联稿件" : draft ? "创建于" : "发布于"} ${date.replaceAll("-", ".")}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.bvid)} · P${entry.pageIndex + 1} <span aria-hidden="true">↗</span></a><button class="copy-markdown" type="button">复制 Markdown</button></div>
       <details class="release-details"><summary>${review ? "校验参照版本" : draft ? "编辑版本" : "发布版本"}</summary><dl>${draft ? "" : `<dt>Release</dt><dd>${entry.releaseId}</dd>`}<dt>Edition</dt><dd>${entry.editionId}</dd><dt>AI Revision</dt><dd>${entry.aiRevisionId}</dd><dt>关联编辑内容 SHA-256</dt><dd>${entry.contentSha256}</dd>${review ? `<dt>校验参照文件 SHA-256</dt><dd>${entry.reviewArtifactSha256}</dd>` : ""}</dl></details>
       <a class="issue-link" href="${escapeHtml(getIssueUrl(entry, mode))}" target="_blank" rel="noopener noreferrer">建议修改 <span aria-hidden="true">→</span></a></header>
@@ -243,7 +242,7 @@ function renderArticle(entry, mode = "body") {
 }
 
 function renderNotFound() {
-  app.innerHTML = `${header()}<main class="page-shell"><section class="empty-state"><div class="empty-index">404 <span>—</span> ?</div><h1>没有找到这篇稿件</h1><p>它可能尚未导入，或已更新、撤回。</p><a class="reset-button" href="${siteRoot}">返回稿件目录</a></section></main>`;
+  app.innerHTML = `${header({ unknown: true })}<main class="page-shell"><section class="empty-state"><div class="empty-index">404 <span>—</span> ?</div><h1>没有找到这篇稿件</h1><p>它可能尚未导入，或已更新、撤回。</p><a class="reset-button" href="${siteRoot}">返回稿件目录</a></section></main>`;
   app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
 }
 
