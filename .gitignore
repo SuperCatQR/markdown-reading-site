@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .content.export.lock
+.draft-content.export.lock
 .playwright-cli/
 .tmp/
 artifacts/
