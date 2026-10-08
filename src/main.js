@@ -203,6 +203,33 @@ function slugHeading(text) {
   return text.toLocaleLowerCase("zh-Hans").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || "section";
 }
 
+async function copyMarkdown(source, button) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(source);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = source;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.append(textarea);
+      textarea.select();
+      if (!document.execCommand("copy")) throw new Error("copy failed");
+      textarea.remove();
+    }
+    button.textContent = "已复制 Markdown";
+    button.classList.add("copied");
+    window.setTimeout(() => {
+      button.textContent = "复制 Markdown";
+      button.classList.remove("copied");
+    }, 1800);
+  } catch {
+    button.textContent = "复制失败，请手动复制";
+    window.setTimeout(() => { button.textContent = "复制 Markdown"; }, 2200);
+  }
+}
+
 function renderArticle(entry, mode = "reading") {
   if (!entry) return renderNotFound();
   const isReview = mode === "review";
@@ -225,12 +252,13 @@ function renderArticle(entry, mode = "reading") {
   const sourceLink = isSafeExternalUrl(entry.sourceUrl) ? `<a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">打开原视频 <span aria-hidden="true">↗</span></a>` : "";
   app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell">
     <a class="back-link" href="${siteRoot}">返回全部阅读稿</a>
-    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span>${sourceLink}</div><a class="issue-link" href="${escapeHtml(issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl?.includes("/issues/new") || !entry.issueUrl ? "提交 Issue 建议修改" : "查看关联 Issue"} <span aria-hidden="true">→</span></a></header>
+    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span>${sourceLink}<button class="copy-markdown" type="button">复制 Markdown</button></div><a class="issue-link" href="${escapeHtml(issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl?.includes("/issues/new") || !entry.issueUrl ? "提交 Issue 建议修改" : "查看关联 Issue"} <span aria-hidden="true">→</span></a></header>
       ${headings.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${headings.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
       <div class="prose">${body}</div>
     </article><footer class="site-footer"><span>档案室 · 阅读稿</span><a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">回到顶部</a></footer>
   </main>`;
   app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
+  app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
   updateReadingProgress();
 }
 
