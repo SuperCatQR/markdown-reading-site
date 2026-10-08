@@ -144,6 +144,7 @@ function renderDirectory() {
         <div><p class="eyebrow">READING EDITIONS <span> / </span> 阅读稿</p><h1>阅读稿</h1></div>
         <p class="intro">待审核稿件与正式发布的阅读稿。</p>
       </div>
+      <aside class="content-notice" aria-label="稿件说明"><strong>测试内容</strong><span>当前目录中的稿件均为测试用，内容和状态尚不稳定，后续会删除。</span></aside>
       <section class="directory-tools" aria-label="稿件筛选">
         <label class="search-box"><span class="search-label">搜索阅读稿</span><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索标题、正文或标签" value="${escapeHtml(state.query)}" autocomplete="off" /><button id="clear-search" class="clear-search" type="button" aria-label="清空搜索"${state.query ? "" : " hidden"}>×</button><kbd>/</kbd></label>
         <details class="filter-menu" id="tag-filter-menu">
@@ -247,12 +248,13 @@ function renderArticle(entry, mode = "reading") {
   }
   const body = markdown.renderer.render(tokens, markdown.options, {});
   const viewSwitch = `<nav class="view-switch" aria-label="稿件视图"><a class="${isReview ? "" : "active"}" href="?read=${encodeURIComponent(entry.slug)}">阅读稿</a>${entry.reviewFile ? `<a class="${isReview ? "active" : ""}" href="?review=${encodeURIComponent(entry.slug)}">审核稿</a>` : ""}</nav>`;
+  const contentNotice = `<aside class="content-notice" aria-label="稿件说明"><strong>测试内容</strong><span>当前稿件仅供测试，内容和状态尚不稳定，后续会删除。</span></aside>`;
   const reviewNotice = isReview ? `<aside class="review-notice"><strong>公开审核稿</strong><span>这里包含审核上下文与待核对内容，发现问题可直接提交 Issue。</span></aside>` : "";
   const issueUrl = getIssueUrl(entry);
   const sourceLink = isSafeExternalUrl(entry.sourceUrl) ? `<a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">打开原视频 <span aria-hidden="true">↗</span></a>` : "";
   app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell">
     <a class="back-link" href="${siteRoot}">返回全部阅读稿</a>
-    <article class="reading-article"><header class="reading-heading">${viewSwitch}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span>${sourceLink}<button class="copy-markdown" type="button">复制 Markdown</button></div><a class="issue-link" href="${escapeHtml(issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl?.includes("/issues/new") || !entry.issueUrl ? "提交 Issue 建议修改" : "查看关联 Issue"} <span aria-hidden="true">→</span></a></header>
+    <article class="reading-article"><header class="reading-heading">${viewSwitch}${contentNotice}${reviewNotice}<div class="review-heading-row"><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${entry.reviewStatus ? `<span class="review-state state-${escapeHtml(entry.reviewStatus)}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><h1>${escapeHtml(entry.title)}${isReview ? " · 审核稿" : ""}</h1><p class="reading-summary">${escapeHtml(entry.summary)}</p><div class="reading-meta"><time datetime="${escapeHtml(entry.date)}">${escapeHtml(entry.date.replaceAll("-", "."))}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span>${sourceLink}<button class="copy-markdown" type="button">复制 Markdown</button></div><a class="issue-link" href="${escapeHtml(issueUrl)}" target="_blank" rel="noopener noreferrer">${entry.issueUrl?.includes("/issues/new") || !entry.issueUrl ? "提交 Issue 建议修改" : "查看关联 Issue"} <span aria-hidden="true">→</span></a></header>
       ${headings.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${headings.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
       <div class="prose">${body}</div>
     </article><footer class="site-footer"><span>档案室 · 阅读稿</span><a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">回到顶部</a></footer>

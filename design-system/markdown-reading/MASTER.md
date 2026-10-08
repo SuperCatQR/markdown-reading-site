@@ -1,228 +1,58 @@
-# Design System Master File
+# 档案室设计维护说明
 
-> **LOGIC:** When building a specific page, first check `design-system/pages/[page-name].md`.
-> If that file exists, its rules **override** this Master file.
-> If not, strictly follow the rules below.
+本文记录当前站点的设计实现，替代原有生成器建议。运行时样式以 `src/site.css` 为准，页面结构以 `src/main.js` 为准；修改视觉规则时同步更新本文。未实现的通用组件、间距 token 和动画建议不构成本项目规范。
 
----
+## 页面与组件
 
-**Project:** Markdown Reading
-**Generated:** 2026-10-07 22:22:52
-**Category:** Notes & Writing App
-**Design Dials:** Variance 4/10 (Balanced / Modern) | Motion 2/10 (Subtle) | Density 4/10 (Standard)
+- 目录页：`.page-shell`、`.page-heading`、`.directory-tools`、`.article-row`；支持正文搜索与主题筛选。
+- 阅读及审核页：`.reading-shell`、`.reading-heading`、`.view-switch`、`.table-of-contents`、`.prose`。
+- 公共元素：`.site-header`、`.theme-toggle`、`.site-footer`。
+- 内容说明：`.content-notice` 标记当前测试稿件，`.review-notice` 说明公开审核上下文。
+- 状态标签：`.review-state` 及 `.state-*`；审核状态与测试内容标记分别显示。
 
----
+## 颜色
 
-## Global Rules
+暖色纸面、深色文字与玫红强调色构成编辑部风格。变量名沿用实际 CSS，不使用生成器的 `--color-*` 命名。
 
-### Color Palette
+| Token | 浅色 | 深色 | 用途 |
+|---|---|---|---|
+| `--paper` | `#faf9f7` | `#191817` | 页面背景 |
+| `--surface` | `#ffffff` | `#242220` | 行项目与控件背景 |
+| `--ink` | `#24211f` | `#f4eee8` | 正文与标题 |
+| `--muted` | `#6d6761` | `#b7ada4` | 摘要与次要说明 |
+| `--faint` | `#726a63` | `#9e948b` | 日期、行号、页脚、占位文本 |
+| `--line` | `#e7e1dc` | `#3a3531` | 边框与分隔线 |
+| `--soft` | `#f3efec` | `#2c2926` | 控件与代码背景 |
+| `--accent` | `#c64668` | `#f08aa4` | 强调色与交互反馈 |
+| `--accent-strong` | `#a93253` | `#ffabc0` | 强调文字 |
+| `--accent-soft` | `#f7e5ea` | `#4a2934` | 强调背景 |
+| `--green` | `#2e775e` | `#87c3a7` | 主题与通过状态 |
+| `--gold` | `#9b6a20` | `#e2b868` | 主题与审核说明 |
+| `--focus` | `#a93253` | `#ffabc0` | 键盘焦点 |
 
-| Role | Hex | CSS Variable |
-|------|-----|--------------|
-| Primary | `#18181B` | `--color-primary` |
-| On Primary | `#FFFFFF` | `--color-on-primary` |
-| Secondary | `#3F3F46` | `--color-secondary` |
-| Accent/CTA | `#EC4899` | `--color-accent` |
-| Background | `#FAFAFA` | `--color-background` |
-| Foreground | `#09090B` | `--color-foreground` |
-| Muted | `#E8ECF0` | `--color-muted` |
-| Border | `#E4E4E7` | `--color-border` |
-| Destructive | `#DC2626` | `--color-destructive` |
-| Ring | `#18181B` | `--color-ring` |
+辅助文字在纸面、表面、柔和背景及行悬停背景上的对比度必须至少为 4.5:1。`test/contrast.test.js` 直接读取 CSS，作为 `pnpm test` 和 Pages CI 的回归门禁。
 
-**Color Notes:** Editorial black + accent pink
+## 字体与加载
 
-### Typography
+`src/site.css` 顶部使用 Google Fonts CSS `@import` 加载 Libre Bodoni（400–700）与 Public Sans（300–700），设置 `display=swap`。
 
-- **Heading Font:** Libre Bodoni
-- **Body Font:** Public Sans
-- **Mood:** magazine, editorial, publishing, refined, journalism, print
-- **Google Fonts:** [Libre Bodoni + Public Sans](https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;500;600;700&family=Public+Sans:wght@300;400;500;600;700&display=swap)
+- 界面文字：Public Sans、Noto Sans SC、system-ui、sans-serif。
+- 页面与阅读标题：Libre Bodoni、Georgia、serif。
+- 阅读正文：Georgia、Noto Serif SC、Songti SC、serif；正文内标题使用界面字体。
+- 代码文字：Public Sans、monospace，沿用当前实现。
 
-**CSS Import:**
-```css
-@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;500;600;700&family=Public+Sans:wght@300;400;500;600;700&display=swap');
-```
+Noto Sans SC、Noto Serif SC 与 Songti SC 是本地字体候选，本站未下载它们；无法使用时依次回退。Google Fonts 请求失败时也允许系统字体正常展示。旧版 DM Mono 与 Manrope 声明已移除。
 
-### Spacing Variables
+## 布局、间距与阴影
 
-*Density: 4/10 — Standard*
+目录容器最大宽度 1180px，阅读容器最大宽度 1040px，正文宽度最多 760px。响应式断点为 780px 与 430px。间距直接定义在各组件规则中，当前没有 `--space-*` token。
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-xs` | `4px` / `0.25rem` | Tight gaps |
-| `--space-sm` | `8px` / `0.5rem` | Icon gaps, inline spacing |
-| `--space-md` | `16px` / `1rem` | Standard padding |
-| `--space-lg` | `24px` / `1.5rem` | Section padding |
-| `--space-xl` | `32px` / `2rem` | Large gaps |
-| `--space-2xl` | `48px` / `3rem` | Section margins |
-| `--space-3xl` | `64px` / `4rem` | Hero padding |
+仅实现 `--shadow-sm` 与 `--shadow-md`，随主题调整；不额外要求通用 `.card`、`.modal` 或 `.btn-primary` 等未存在的组件。
 
-### Shadow Depths
+## 交互与验证
 
-| Level | Value | Usage |
-|-------|-------|-------|
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | Subtle lift |
-| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.1)` | Cards, buttons |
-| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.1)` | Modals, dropdowns |
-| `--shadow-xl` | `0 20px 25px rgba(0,0,0,0.15)` | Hero images, featured cards |
-
----
-
-## Component Specs
-
-### Buttons
-
-```css
-/* Primary Button */
-.btn-primary {
-  background: #EC4899;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 200ms ease;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* Secondary Button */
-.btn-secondary {
-  background: transparent;
-  color: #18181B;
-  border: 2px solid #18181B;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 200ms ease;
-  cursor: pointer;
-}
-```
-
-### Cards
-
-```css
-.card {
-  background: #FAFAFA;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: var(--shadow-md);
-  transition: all 200ms ease;
-  cursor: pointer;
-}
-
-.card:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
-}
-```
-
-### Inputs
-
-```css
-.input {
-  padding: 12px 16px;
-  border: 1px solid #E2E8F0;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: border-color 200ms ease;
-}
-
-.input:focus {
-  border-color: #18181B;
-  outline: none;
-  box-shadow: 0 0 0 3px #18181B20;
-}
-```
-
-### Modals
-
-```css
-.modal-overlay {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-}
-
-.modal {
-  background: white;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: var(--shadow-xl);
-  max-width: 500px;
-  width: 90%;
-}
-```
-
----
-
-## Style Guidelines
-
-**Style:** Editorial Grid / Magazine
-
-**Keywords:** Magazine layout, asymmetric grid, editorial typography, pull quotes, drop caps, column layout, print-inspired
-
-**Best For:** News sites, blogs, magazines, editorial content, long-form articles, journalism, publishing
-
-**Key Effects:** Smooth scroll, reveal on scroll, parallax images, text animations, page-flip transitions
-
-### Page Pattern
-
-**Pattern Name:** Minimal Single Column
-
-- **Conversion Strategy:** Single CTA focus. Large typography. Lots of whitespace. No nav clutter. Mobile-first.
-- **CTA Placement:** Center, large CTA button
-- **Section Order:** 1. Hero headline, 2. Short description, 3. Benefit bullets (3 max), 4. CTA, 5. Footer
-
----
-
-## Motion
-
-**Scroll Reveal** (Subtle) — Trigger: scroll (viewport enter) | Duration: 300-400ms | Easing: `power1.out`
-
-```js
-gsap.from(el, { opacity: 0, y: 12, duration: 0.35, ease: 'power1.out', scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none reverse' } });
-```
-
-**Framework notes:** Requires the ScrollTrigger plugin registered once via gsap.registerPlugin(ScrollTrigger)
-
-- ✅ Keep the y offset small (8-16px) so it reads as a fade, not a slide
-- ❌ Don't reveal below-the-fold content needed for SEO/crawlers as invisible-by-default without a no-JS fallback
-- ⚡ toggleActions 'play none none reverse' avoids re-triggering on every scroll direction change
-
----
-
-## Anti-Patterns (Do NOT Use)
-
-- ❌ Excessive decoration
-- ❌ Complex shadows
-- ❌ 3D effects
-
-### Additional Forbidden Patterns
-
-- ❌ **Emojis as icons** — Use SVG icons (Heroicons, Lucide, Simple Icons)
-- ❌ **Missing cursor:pointer** — All clickable elements must have cursor:pointer
-- ❌ **Layout-shifting hovers** — Avoid scale transforms that shift layout
-- ❌ **Low contrast text** — Maintain 4.5:1 minimum contrast ratio
-- ❌ **Instant state changes** — Always use transitions (150-300ms)
-- ❌ **Invisible focus states** — Focus states must be visible for a11y
-
----
-
-## Pre-Delivery Checklist
-
-Before delivering any UI code, verify:
-
-- [ ] No emojis used as icons (use SVG instead)
-- [ ] All icons from consistent icon set (Heroicons/Lucide)
-- [ ] `cursor-pointer` on all clickable elements
-- [ ] Hover states with smooth transitions (150-300ms)
-- [ ] Light mode: text contrast 4.5:1 minimum
-- [ ] Focus states visible for keyboard navigation
-- [ ] `prefers-reduced-motion` respected
-- [ ] Responsive: 375px, 768px, 1024px, 1440px
-- [ ] No content hidden behind fixed navbars
-- [ ] No horizontal scroll on mobile
+- 控件保留键盘焦点、可读标签及主题切换状态。
+- 搜索输入期间只刷新结果，中文组合期间保持输入框；主题筛选使用原生 details。
+- 悬停反馈主要采用颜色、阴影与小幅位移，具体时间以 CSS 为准。
+- `prefers-reduced-motion` 下关闭平滑滚动并缩短过渡与动画。
+- 修改后运行 `pnpm test` 和 `pnpm build`；布局变化另需检查目录、阅读与审核视图在深浅主题及移动宽度下的表现。
