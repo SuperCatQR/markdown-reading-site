@@ -1,0 +1,2 @@
+# Export manifests identify the exact UTF-8 bytes; do not normalize snapshots.
+content/** -text
