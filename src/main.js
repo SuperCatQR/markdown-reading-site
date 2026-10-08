@@ -65,8 +65,8 @@ function reviewNotice() {
 
 function filteredArticles() { return indices[state.view].filter(state); }
 
-function draftNotice() {
-  return `<aside class="draft-notice" aria-label="未发布说明"><strong>未经正式发布，信息待核验</strong><p>这里展示当前编辑版本，内容可能继续修改。审核状态与正式发布分别记录。</p></aside>`;
+function draftNotice(mode = "body") {
+  return `<aside class="draft-notice" aria-label="未发布说明"><strong>未经正式发布，信息待核验</strong><p>${mode === "review" ? "关联稿件尚未正式发布；此页展示对应 AI 修订的固定校验参照，当前审核状态另行显示。" : "这里展示当前编辑版本，内容可能继续修改。审核状态与正式发布分别记录。"}</p></aside>`;
 }
 
 function manuscriptTabs() {
@@ -230,7 +230,7 @@ function renderArticle(entry, mode = "body") {
   const draft = isDraft(entry);
   app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell"><a class="back-link" href="${draft ? "?view=drafts" : siteRoot}">返回全部${draft ? "未发布稿件" : "发布稿"}</a>
     ${manuscriptTabs()}
-    <article class="reading-article"><header class="reading-heading">${documentTabs(entry, mode)}${review ? reviewNotice() : ""}${draft ? draftNotice() : ""}<div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${draft ? `<p class="draft-status">${REVIEW_LABELS[entry.reviewStatus]}</p>` : ""}${title}
+    <article class="reading-article"><header class="reading-heading">${documentTabs(entry, mode)}${review ? reviewNotice() : ""}${draft ? draftNotice(mode) : ""}<div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${draft ? `<p class="draft-status">${REVIEW_LABELS[entry.reviewStatus]}</p>` : ""}${title}
       <div class="reading-meta"><time datetime="${date}">${review ? "关联稿件" : draft ? "创建于" : "发布于"} ${date.replaceAll("-", ".")}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.bvid)} · P${entry.pageIndex + 1} <span aria-hidden="true">↗</span></a><button class="copy-markdown" type="button">复制 Markdown</button></div>
       <details class="release-details"><summary>${review ? "校验参照版本" : draft ? "编辑版本" : "发布版本"}</summary><dl>${draft ? "" : `<dt>Release</dt><dd>${entry.releaseId}</dd>`}<dt>Edition</dt><dd>${entry.editionId}</dd><dt>AI Revision</dt><dd>${entry.aiRevisionId}</dd><dt>关联编辑内容 SHA-256</dt><dd>${entry.contentSha256}</dd>${review ? `<dt>校验参照文件 SHA-256</dt><dd>${entry.reviewArtifactSha256}</dd>` : ""}</dl></details>
       <a class="issue-link" href="${escapeHtml(getIssueUrl(entry, mode))}" target="_blank" rel="noopener noreferrer">建议修改 <span aria-hidden="true">→</span></a></header>
