@@ -1,9 +1,10 @@
 import { lstat, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { validateSnapshot } from "./catalog.js";
+import { validateSnapshot, snapshotContract, validateCatalogPair } from "./catalog.js";
 
-export async function validateContentDirectory(contentRoot) {
+export async function validateContentDirectory(contentRoot, kind = "publication") {
+  const contract = snapshotContract(kind);
   const root = path.resolve(contentRoot);
   for (let current = root; ; current = path.dirname(current)) {
     const info = await lstat(current);
@@ -18,7 +19,7 @@ export async function validateContentDirectory(contentRoot) {
       const target = path.join(folder, entry.name);
       if (entry.isSymbolicLink()) throw new Error(`公开快照不允许链接: ${relative}`);
       if (entry.isDirectory()) {
-        if (relative !== "articles" && !/^articles\/part-[1-9][0-9]*$/.test(relative)) {
+        if (!contract.directory.test(relative)) {
           throw new Error(`公开快照不允许内部或未知目录: ${relative}`);
         }
         directories.add(relative);
@@ -31,7 +32,7 @@ export async function validateContentDirectory(contentRoot) {
     }
   }
   await scan(root);
-  const { errors, catalog } = validateSnapshot(files);
+  const { errors, catalog } = validateSnapshot(files, kind);
   const expectedDirectories = new Set();
   for (const relative of files.keys()) {
     const segments = relative.split("/");
@@ -46,11 +47,19 @@ export async function validateContentDirectory(contentRoot) {
   return catalog;
 }
 
+export async function validateSiteSnapshots(siteRoot) {
+  const publication = await validateContentDirectory(path.join(siteRoot, "content"));
+  const drafts = await validateContentDirectory(path.join(siteRoot, "draft-content"), "publication-draft");
+  const errors = validateCatalogPair(publication, drafts);
+  if (errors.length) throw new Error(errors.join("\n"));
+  return { publication, drafts };
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../content");
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
   try {
-    const catalog = await validateContentDirectory(root);
-    console.log(`发布稿快照有效，共 ${catalog.articles.length} 篇。`);
+    const { publication, drafts } = await validateSiteSnapshots(root);
+    console.log(`稿件快照有效，已发布 ${publication.articles.length} 篇，未发布 ${drafts.articles.length} 篇。`);
   } catch (error) {
     console.error(`发布稿快照校验失败:\n${error.message}`);
     process.exitCode = 1;
