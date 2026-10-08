@@ -1,1 +1,11 @@
-{"files":[{"path":"catalog.json","sha256":"103c35faeb078bdf892286c304f777c3b85491b020b386c0f30659e3418239c6"}],"manuscriptType":"publication-export","schemaVersion":1,"snapshotId":"e098c2e18671f0afd931b32811f48097a3a9265ee873d9041689484c3b87fa67"}
+{
+  "files": [
+    {
+      "path": "catalog.json",
+      "sha256": "436933cab853268cd89f9088da6d092e3836e31207fdc3f368809f6cc0801e81"
+    }
+  ],
+  "manuscriptType": "publication-export",
+  "schemaVersion": 1,
+  "snapshotId": "ad5541d892adf41b890748b1cd17409e3fa4e7aaf9562bcd2351a0cb3e29fe86"
+}

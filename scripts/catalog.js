@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 export const ARTICLE_FIELDS = [
   "manuscriptType", "slug", "title", "summary", "tags", "attribution", "editorNote",
   "releaseId", "editionId", "aiRevisionId", "videoPartId", "bvid", "pageIndex",
-  "sourceUrl", "contentSha256", "artifactSha256", "templateVersion", "publishedAt", "file",
+  "sourceUrl", "contentSha256", "artifactSha256", "templateVersion", "publishedAt", "file", "reviewFile", "reviewArtifactSha256",
 ];
 export const DRAFT_FIELDS = ARTICLE_FIELDS.filter((field) =>
   !["releaseId", "publishedAt", "templateVersion"].includes(field)).concat(["reviewStatus", "createdAt"]);
@@ -13,11 +13,13 @@ export function snapshotContract(kind = "publication") {
   if (kind === "publication") return {
     kind, fields: ARTICLE_FIELDS, manifest: "publication-export-manifest.json",
     manifestKind: "publication-export", file: /^articles\/part-[1-9][0-9]*\/publish\.md$/,
+    reviewFile: /^articles\/part-[1-9][0-9]*\/review\.md$/,
     directory: /^(articles|articles\/part-[1-9][0-9]*)$/,
   };
   if (kind === "publication-draft") return {
     kind, fields: DRAFT_FIELDS, manifest: "publication-draft-export-manifest.json",
     manifestKind: "publication-draft-export", file: /^drafts\/edition-[0-9a-f]{32}\/preview\.md$/,
+    reviewFile: /^drafts\/edition-[0-9a-f]{32}\/review\.md$/,
     directory: /^(drafts|drafts\/edition-[0-9a-f]{32})$/,
   };
   throw new Error("不支持的稿件快照类型");
@@ -89,9 +91,9 @@ export function validateCatalog(catalog, markdownFiles, kind = "publication") {
   const draft = kind === "publication-draft";
   const errors = [];
   if (!exactFields(catalog, ["schemaVersion", "manuscriptType", "articles"])
-      || catalog.schemaVersion !== 1 || catalog.manuscriptType !== kind
+      || catalog.schemaVersion !== 2 || catalog.manuscriptType !== kind
       || !Array.isArray(catalog.articles)) {
-    return [`catalog.json 必须使用 schemaVersion=1、manuscriptType=${kind} 的准确 envelope`];
+    return [`catalog.json 必须使用 schemaVersion=2、manuscriptType=${kind} 的准确 envelope`];
   }
   const seen = { slug: new Set(), videoPartId: new Set(), editionId: new Set(), ...(draft ? {} : { releaseId: new Set() }) };
   const listedFiles = new Set();
@@ -111,6 +113,12 @@ export function validateCatalog(catalog, markdownFiles, kind = "publication") {
     }
     const expectedSlug = draft ? `edition-${entry.editionId}` : `part-${entry.videoPartId}`;
     const expectedFile = draft ? `drafts/${expectedSlug}/preview.md` : `articles/${expectedSlug}/publish.md`;
+    const expectedReview = draft ? `drafts/${expectedSlug}/review.md` : `articles/${expectedSlug}/review.md`;
+    if (typeof entry.reviewFile !== "string" || !contract.reviewFile.test(entry.reviewFile) || entry.reviewFile !== expectedReview) {
+      errors.push(`${label}.reviewFile 必须绑定当前稿件的校验参照路径`);
+    } else {
+      listedFiles.add(entry.reviewFile);
+    }
     if (!Number.isSafeInteger(entry.videoPartId) || entry.videoPartId < 1
         || entry.slug !== expectedSlug || entry.file !== expectedFile) {
       errors.push(`${label} 的分 P、slug 和文件身份不一致`);
@@ -137,7 +145,7 @@ export function validateCatalog(catalog, markdownFiles, kind = "publication") {
         || new Set(entry.tags).size !== entry.tags.length) {
       errors.push(`${label}.tags 必须是不重复的字符串数组`);
     }
-    for (const field of ["aiRevisionId", "contentSha256", "artifactSha256", ...(draft ? [] : ["releaseId"])]) {
+    for (const field of ["aiRevisionId", "contentSha256", "artifactSha256", "reviewArtifactSha256", ...(draft ? [] : ["releaseId"])]) {
       if (typeof entry[field] !== "string" || !SHA256.test(entry[field])) {
         errors.push(`${label}.${field} 必须是 SHA-256 标识`);
       }
@@ -184,7 +192,7 @@ export function validateSnapshot(files, kind = "publication") {
   const managed = new Map();
   for (const entry of manifest.files) {
     if (!exactFields(entry, ["path", "sha256"]) || typeof entry.path !== "string"
-        || (entry.path !== "catalog.json" && !contract.file.test(entry.path)) || !SHA256.test(entry.sha256)) {
+        || (entry.path !== "catalog.json" && !contract.file.test(entry.path) && !contract.reviewFile.test(entry.path)) || !SHA256.test(entry.sha256)) {
       errors.push("manifest 包含无效受管文件");
       continue;
     }
@@ -207,8 +215,9 @@ export function validateSnapshot(files, kind = "publication") {
   }
   if (Array.isArray(catalog?.articles)) {
     for (const entry of catalog.articles) {
-      if (isObject(entry) && managed.get(entry.file) !== entry.artifactSha256) {
-        errors.push(`发布稿与 manifest 的 artifactSha256 不一致: ${entry.file}`);
+      if (!isObject(entry)) continue;
+      for (const [file, hash] of [[entry.file, entry.artifactSha256], [entry.reviewFile, entry.reviewArtifactSha256]]) {
+        if (managed.get(file) !== hash) errors.push(`稿件与 manifest 的 artifactSha256 不一致: ${file}`);
       }
     }
   }
