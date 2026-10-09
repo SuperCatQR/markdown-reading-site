@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { entryKey, entryRoute, groupVideos, adjacentParts, resolveReaderRoute, statusLabel } from "../src/manuscripts.js";
+import { entryKey, entryRoute, groupVideos, adjacentParts, resolveReaderRoute, statusLabel, sourceTagsByFrequency } from "../src/manuscripts.js";
 import { prepareDocument } from "../src/document.js";
 import { searchEntries, contextSnippet, textSegments, matchHash, parseMatchHash } from "../src/search.js";
 import { createDirectoryStore } from "../src/directory-state.js";
@@ -18,6 +18,15 @@ function entry(part, kind = "publication-draft", patch = {}) {
     reviewStatus: "pending-review", ...patch,
   };
 }
+
+test("source tag options rank frequent tags first and preserve first appearance for ties", () => {
+  const entries = [{ tags: ["低频", "并列甲", "常见"] }, { tags: ["常见", "并列乙"] }, { tags: ["并列乙", "常见", "并列甲"] }];
+  const before = structuredClone(entries);
+  assert.deepEqual(sourceTagsByFrequency(entries), ["常见", "并列甲", "并列乙", "低频"]);
+  assert.deepEqual(sourceTagsByFrequency(entries.slice(0, 1)), entries[0].tags);
+  assert.deepEqual(sourceTagsByFrequency([]), []);
+  assert.deepEqual(entries, before);
+});
 
 test("home exposes previews without treating them as releases and explicit published routes remain available", () => {
   assert.deepEqual(resolveReaderRoute("", [], []), { kind: "directory", view: "all" });

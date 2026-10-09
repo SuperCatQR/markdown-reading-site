@@ -48,6 +48,14 @@ export function sortReaderEntries(entries) {
     - (isDraft(a) ? a.createdAt : a.publishedAt) || a.videoPartId - b.videoPartId);
 }
 
+export function sourceTagsByFrequency(entries) {
+  const counts = new Map();
+  for (const entry of entries) for (const tag of entry.tags) {
+    counts.set(tag, (counts.get(tag) || 0) + 1);
+  }
+  return [...counts.keys()].sort((a, b) => counts.get(b) - counts.get(a));
+}
+
 export function resolveReaderRoute(search, publication, drafts) {
   const params = new URLSearchParams(search);
   const allowed = ["view", "read", "draft", "review", "video", "q", "mode", "tag", "flow", "part"];
