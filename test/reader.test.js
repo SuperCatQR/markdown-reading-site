@@ -81,18 +81,22 @@ test("search finds readable Markdown text, displays context and links to the exa
   assert.equal(parseMatchHash("#hit=passage-1&q=test&q=again"), null);
 });
 
-test("search highlights literal punctuation safely and generated excerpts are labelled as excerpts", () => {
+test("directory omits automatic excerpts, links video sources and preserves safe search evidence", () => {
   assert.deepEqual(textSegments("a [x.*] b [x.*]", "[x.*]").filter((part) => part.match).map((part) => part.text), ["[x.*]", "[x.*]"]);
   const draft = entry(1, "publication-draft", { title: '<img src=x onerror="alert(1)">' });
   const summaries = { [entryKey(draft)]: { excerpt: "正文摘录内容", minutes: 2 } };
   const result = directoryResults([{ entry: draft, match: null }], { view: "all", query: "", visibleCount: 24, expanded: [], counts: { all: 1 } }, summaries);
-  assert.match(result.html, /正文摘录/);
+  assert.doesNotMatch(result.html, /正文摘录|正文摘录内容|class="part-excerpt"/);
+  assert.match(result.html, /href="https:\/\/www.bilibili.com\/video\/BVexample\/\?p=1" target="_blank" rel="noopener noreferrer"/);
   assert.doesNotMatch(result.html, /<img/);
   assert.match(result.html, /&lt;img/);
   const match = { label: "正文命中", id: "passage-1", text: '<script>危险</script>' };
   const search = directoryResults([{ entry: draft, match }], { view: "all", query: "危险", visibleCount: 24, expanded: [], counts: { all: 1 } }, summaries);
   assert.match(search.html, /<mark>危险<\/mark>/);
   assert.doesNotMatch(search.html, /<script>/);
+  const withSummary = { ...draft, summary: "人工编辑摘要" };
+  const summaryResult = directoryResults([{ entry: withSummary, match: null }], { view: "all", query: "", visibleCount: 24, expanded: [], counts: { all: 1 } }, summaries);
+  assert.match(summaryResult.html, /编辑摘要<\/span>人工编辑摘要/);
 });
 
 test("directory state survives return and session restoration, rejects corrupt values and tolerates blocked storage", () => {

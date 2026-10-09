@@ -55,6 +55,7 @@ test("video overview exposes numeric parts, missing ranges and both manuscript v
   assert.ok(html.indexOf(`?draft=${entries[1].editionId}`) < html.indexOf(`?draft=${entries[0].editionId}`));
   assert.match(html, /已审核 · 已发布/);
   assert.match(html, /待审核 · 未发布/);
+  assert.doesNotMatch(html, /原文摘录|正文摘录|class="part-excerpt"/);
   assert.match(videoResults([], { query: "" }, summaries), /此类别暂无收录稿件/);
 });
 

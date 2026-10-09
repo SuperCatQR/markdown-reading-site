@@ -11,6 +11,11 @@ async (page) => {
   target.on("request", (request) => requests.push(request.url()));
   await target.goto(base);
   await ready();
+  assert(await target.locator(".part-excerpt").count() === 0, "Directory still shows automatic excerpts");
+  const sourceLink = target.locator(".video-meta a").first();
+  const bvid = await sourceLink.textContent();
+  assert((await sourceLink.getAttribute("href")).includes(`/video/${bvid}/`), "BV link has wrong source");
+  assert(await sourceLink.getAttribute("target") === "_blank" && (await sourceLink.getAttribute("rel")).includes("noopener"), "Source link lacks safe new-tab attributes");
   while (!await target.locator('.video-heading h2 a[href*="BV1dA411T7xD"]').count()) {
     const before = await target.locator(".video-group").count();
     await target.getByRole("button", { name: /再显示/ }).click();
@@ -19,6 +24,7 @@ async (page) => {
   await target.locator('.video-heading h2 a[href*="BV1dA411T7xD"]').click();
   await ready();
   assert(await target.locator(".video-part").count() === 13, "Video overview did not collect all parts");
+  assert(await target.locator(".part-excerpt").count() === 0, "Overview still shows automatic excerpts");
   assert(await target.locator(".part-number").allTextContents().then((parts) => parts.join(",")) === Array.from({ length: 13 }, (_, i) => `P${i + 1}`).join(","), "Numeric part order wrong");
   assert(await target.locator(".part-link").first().boundingBox().then((box) => box.y < 900), "Overview puts first part below desktop viewport");
   assert(!requests.some((url) => /\.md$|search-.*\.json/.test(url)), "Overview eagerly loaded content");
