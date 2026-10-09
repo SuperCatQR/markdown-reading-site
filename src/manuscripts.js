@@ -8,17 +8,34 @@ export const entryKey = (entry) => `${entry.manuscriptType}:${entry.editionId}`;
 export const entryRoute = (entry) => isDraft(entry) ? `?draft=${entry.editionId}` : `?read=${encodeURIComponent(entry.slug)}`;
 export const reviewRoute = (entry) => `?review=${entry.editionId}`;
 export const entryDate = (entry) => new Date((isDraft(entry) ? entry.createdAt : entry.publishedAt) * 1000).toISOString().slice(0, 10);
+export const directoryRoute = (view) => view === "all" ? "?view=all" : `?view=${view}`;
+export const statusLabel = (entry) => isDraft(entry)
+  ? entry.reviewStatus === "approved" ? REVIEW_LABELS.approved : `${REVIEW_LABELS[entry.reviewStatus]} · 未发布`
+  : "已审核 · 已发布";
 
-export function createReaderIndex(entries, sourceForEntry) {
-  const sorted = [...entries].sort((a, b) => (isDraft(b) ? b.createdAt : b.publishedAt)
+export function groupVideos(matches) {
+  const groups = new Map();
+  for (const match of matches) {
+    const { entry } = match;
+    if (!groups.has(entry.bvid)) groups.set(entry.bvid, { bvid: entry.bvid, title: entry.title, parts: [] });
+    groups.get(entry.bvid).parts.push(match);
+  }
+  for (const group of groups.values()) {
+    group.parts.sort((a, b) => a.entry.pageIndex - b.entry.pageIndex || Number(isDraft(a.entry)) - Number(isDraft(b.entry)));
+  }
+  return [...groups.values()];
+}
+
+export function adjacentParts(entry, entries) {
+  const parts = entries.filter((candidate) => candidate.bvid === entry.bvid && candidate.manuscriptType === entry.manuscriptType)
+    .sort((a, b) => a.pageIndex - b.pageIndex);
+  const index = parts.findIndex((candidate) => entryKey(candidate) === entryKey(entry));
+  return { parts, previous: parts[index - 1], next: parts[index + 1] };
+}
+
+export function sortReaderEntries(entries) {
+  return [...entries].sort((a, b) => (isDraft(b) ? b.createdAt : b.publishedAt)
     - (isDraft(a) ? a.createdAt : a.publishedAt) || a.videoPartId - b.videoPartId);
-  const search = new Map(sorted.map((entry) => [entryKey(entry),
-    `${entry.title} ${entry.summary} ${entry.tags.join(" ")} ${sourceForEntry(entry) || ""}`.toLocaleLowerCase("zh-Hans")]));
-  return { entries: sorted, filter({ query, tag }) {
-    const text = query.trim().toLocaleLowerCase("zh-Hans");
-    return sorted.filter((entry) => (tag === "全部" || entry.tags.includes(tag))
-      && search.get(entryKey(entry)).includes(text));
-  } };
 }
 
 export function resolveReaderRoute(search, publication, drafts) {
@@ -27,7 +44,7 @@ export function resolveReaderRoute(search, publication, drafts) {
   if ([...params.keys()].some((key) => !allowed.includes(key) || params.getAll(key).length !== 1)) return { kind: "missing" };
   const selectors = ["read", "draft", "review"].filter((key) => params.has(key));
   if (selectors.length > 1 || (selectors.length && params.has("view"))
-      || (params.has("view") && !["published", "drafts"].includes(params.get("view")))) return { kind: "missing" };
+      || (params.has("view") && !["all", "published", "drafts"].includes(params.get("view")))) return { kind: "missing" };
   if (params.has("review")) {
     const id = params.get("review");
     if (!/^[0-9a-f]{32}$/.test(id)) return { kind: "missing" };
@@ -41,7 +58,7 @@ export function resolveReaderRoute(search, publication, drafts) {
     return /^[0-9a-f]{32}$/.test(id) ? { kind: "article", view: "drafts", mode: "body", entry: drafts.find((entry) => entry.editionId === id) } : { kind: "missing" };
   }
   if (params.has("read")) return { kind: "article", view: "published", mode: "body", entry: publication.find((entry) => entry.slug === params.get("read")) };
-  return { kind: "directory", view: params.get("view") === "drafts" ? "drafts" : "published" };
+  return { kind: "directory", view: params.get("view") || "all" };
 }
 
 export function buildIssueUrl(entry, pageUrl, issueUrl, mode = "body") {

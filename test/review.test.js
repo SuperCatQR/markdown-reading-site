@@ -1,8 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { sha256, validateCatalog, validateSnapshot } from "../scripts/catalog.js";
-import { reviewRoute, resolveReaderRoute, createReaderIndex, buildIssueUrl } from "../src/manuscripts.js";
+import { reviewRoute, resolveReaderRoute, entryKey, buildIssueUrl } from "../src/manuscripts.js";
 import { markdown } from "../src/markdown.js";
+import { prepareDocument } from "../src/document.js";
+import { searchEntries } from "../src/search.js";
 
 const reference = `# 合成稿件：校验参照稿件
 
@@ -150,8 +152,8 @@ test("complete reference text stays safe while directory search indexes edited b
   for (const label of ["原文：", "整理稿：", "疑点：", "候选：", "依据：", "回看", "未经人工复核"]) assert.ok(html.includes(label));
   assert.doesNotMatch(html, /<script>|href="javascript:/);
   assert.match(html, /target="_blank" rel="noopener noreferrer"/);
-  const index = createReaderIndex(entries, () => body);
-  assert.equal(index.filter({ query: "参照独有星河", tag: "全部" }).length, 0);
-  assert.equal(index.filter({ query: "正文独有青竹", tag: "全部" }).length, 2);
+  const index = Object.fromEntries(entries.map((entry) => [entryKey(entry), prepareDocument(body).blocks]));
+  assert.equal(searchEntries(entries, { query: "参照独有星河", tag: "全部" }, index).length, 0);
+  assert.equal(searchEntries(entries, { query: "正文独有青竹", tag: "全部" }, index).length, 2);
   assert.equal(sha256(Buffer.from(reference)), published.reviewArtifactSha256);
 });

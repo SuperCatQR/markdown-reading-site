@@ -1,295 +1,275 @@
 import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
-import { isDraft, entryRoute, reviewRoute, entryDate, REVIEW_LABELS, createReaderIndex, resolveReaderRoute, buildIssueUrl } from "./manuscripts.js";
-import { markdown } from "./markdown.js";
-import { estimateReadingMinutes } from "./reading-time.js";
+import summaries from "virtual:reader-summaries";
+import searchUrls from "virtual:reader-search-urls";
+import { isDraft, sortReaderEntries, resolveReaderRoute, directoryRoute } from "./manuscripts.js";
+import { searchEntries } from "./search.js";
+import { browserStorage, createDirectoryStore, sanitizeDirectoryState } from "./directory-state.js";
+import { header, footer, themeIconMarkup, viewLabels } from "./ui.js";
+import { directoryMarkup, directoryResults } from "./directory-view.js";
+import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
 import "./site.css";
 
-const markdownFiles = import.meta.glob("../content/articles/part-*/publish.md", {
-  eager: true, query: "?raw", import: "default",
-});
-const draftFiles = import.meta.glob("../draft-content/drafts/edition-*/preview.md", {
-  eager: true, query: "?raw", import: "default",
-});
-const publicationReviews = import.meta.glob("../content/articles/part-*/review.md", {
-  eager: true, query: "?raw", import: "default",
-});
-const draftReviews = import.meta.glob("../draft-content/drafts/edition-*/review.md", {
-  eager: true, query: "?raw", import: "default",
-});
+const bodyFiles = {
+  ...import.meta.glob("../content/articles/part-*/publish.md", { eager: true, query: "?url", import: "default" }),
+  ...import.meta.glob("../draft-content/drafts/edition-*/preview.md", { eager: true, query: "?url", import: "default" }),
+};
+const reviewFiles = {
+  ...import.meta.glob("../content/articles/part-*/review.md", { eager: true, query: "?url", import: "default" }),
+  ...import.meta.glob("../draft-content/drafts/edition-*/review.md", { eager: true, query: "?url", import: "default" }),
+};
+const searchCache = new Map();
+const documentCache = new Map();
+const entriesByView = {
+  all: sortReaderEntries([...catalog.articles, ...draftCatalog.articles]),
+  published: sortReaderEntries(catalog.articles),
+  drafts: sortReaderEntries(draftCatalog.articles),
+};
+const counts = Object.fromEntries(Object.entries(entriesByView).map(([view, entries]) => [view, entries.length]));
 const app = document.querySelector("#app");
 const siteRoot = import.meta.env.BASE_URL;
-const ISSUE_URL = "https://github.com/SuperCatQR/markdown-reading-site/issues/new";
+const issueUrl = "https://github.com/SuperCatQR/markdown-reading-site/issues/new";
 const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
-const savedTheme = localStorage.getItem("reading-theme");
+const preferences = browserStorage("localStorage");
+const savedTheme = preferences.getItem("reading-theme");
+const directories = createDirectoryStore(browserStorage("sessionStorage"));
 const state = {
-  view: "published",
-  query: "",
-  tag: "全部",
-  theme: savedTheme || (themeMedia.matches ? "dark" : "light"),
-  followsSystemTheme: !savedTheme,
+  theme: ["light", "dark"].includes(savedTheme) ? savedTheme : themeMedia.matches ? "dark" : "light",
+  followsSystemTheme: !["light", "dark"].includes(savedTheme),
+  route: null,
+  directory: null,
   composingSearch: false,
 };
-const indices = {
-  published: createReaderIndex(catalog.articles, getArticleSource),
-  drafts: createReaderIndex(draftCatalog.articles, getArticleSource),
-};
-const currentEntries = () => indices[state.view].entries;
-const viewLabel = () => state.view === "drafts" ? "未发布稿件" : "发布稿";
+let renderVersion = 0;
+let resultsVersion = 0;
+let searchTimer;
 
-function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  })[character]);
+function pageHeader(options = {}) {
+  return header({ view: state.route?.view, theme: state.theme, counts, siteRoot, ...options });
 }
 
-function getArticleSource(entry) {
-  return isDraft(entry) ? draftFiles[`../draft-content/${entry.file}`] : markdownFiles[`../content/${entry.file}`];
+function tagsForView(view) {
+  return ["全部", ...new Set(entriesByView[view].flatMap((entry) => entry.tags))];
 }
 
-function getReviewSource(entry) {
-  return isDraft(entry) ? draftReviews[`../draft-content/${entry.reviewFile}`] : publicationReviews[`../content/${entry.reviewFile}`];
+function saveDirectory() {
+  if (state.route?.kind !== "directory" || !state.directory) return;
+  state.directory.scroll = window.scrollY;
+  directories.write(state.route.view, state.directory);
+  history.replaceState({ ...history.state, directory: { ...state.directory, view: state.route.view } }, "");
 }
 
-function getIssueUrl(entry, mode = "body") {
-  return buildIssueUrl(entry, location.href, ISSUE_URL, mode);
+function saveLocation() {
+  if (state.route?.kind === "directory") saveDirectory();
+  else if (state.route?.kind === "article") history.replaceState({ ...history.state, articleScroll: window.scrollY }, "");
 }
 
-function documentTabs(entry, mode) {
-  return `<nav class="document-tabs" aria-label="稿件视图"><a href="${entryRoute(entry)}"${mode === "body" ? ' aria-current="page"' : ""}>正文</a><a href="${reviewRoute(entry)}"${mode === "review" ? ' aria-current="page"' : ""}>校验参照稿件</a></nav>`;
+async function loadSearchData(view) {
+  if (view === "all") {
+    const indices = await Promise.all([loadSearchData("published"), loadSearchData("drafts")]);
+    return Object.assign({}, ...indices);
+  }
+  if (!searchCache.has(view)) {
+    const promise = fetch(searchUrls[view]).then((response) => {
+      if (!response.ok) throw new Error("Search index unavailable");
+      return response.json();
+    }).catch((error) => {
+      searchCache.delete(view);
+      throw error;
+    });
+    searchCache.set(view, promise);
+  }
+  return searchCache.get(view);
 }
 
-function reviewNotice() {
-  return `<aside class="review-reference-notice" aria-label="校验参照说明"><strong>AI 初稿的固定校验参照</strong><p>这份稿件对应下方 AI 修订，保留原文、整理稿、疑点、候选、依据和回看链接。当前编辑版本可能已作后续修改。原文中“未经人工复核”描述 AI 基线生成时的情况，不代表关联稿件的当前审核状态；人工审核记录单独维护。</p></aside>`;
+function loadDocument(url) {
+  if (!documentCache.has(url)) {
+    documentCache.set(url, fetch(url).then((response) => {
+      if (!response.ok) throw new Error("Document unavailable");
+      return response.text();
+    }).catch((error) => { documentCache.delete(url); throw error; }));
+  }
+  return documentCache.get(url);
 }
 
-function filteredArticles() { return indices[state.view].filter(state); }
-
-function draftNotice(mode = "body") {
-  return `<aside class="draft-notice" aria-label="未发布说明"><strong>未经正式发布，信息待核验</strong><p>${mode === "review" ? "关联稿件尚未正式发布；此页展示对应 AI 修订的固定校验参照，当前审核状态另行显示。" : "这里展示当前编辑版本，内容可能继续修改。审核状态与正式发布分别记录。"}</p></aside>`;
-}
-
-function directoryResults(entries) {
-  return entries.length ? `<section class="article-list" aria-label="${viewLabel()}列表">${entries.map((entry, index) => {
-    const date = entryDate(entry);
-    return `<article class="article-row"><span class="row-number">${String(index + 1).padStart(2, "0")}</span><div class="article-main"><div class="article-title-line"><a class="article-title" href="${entryRoute(entry)}">${escapeHtml(entry.title)}</a>${isDraft(entry) ? `<span class="draft-state" data-status="${entry.reviewStatus}">${REVIEW_LABELS[entry.reviewStatus]}</span>` : ""}</div><p class="article-summary">${escapeHtml(entry.summary)}</p><div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div></div><time class="article-date" datetime="${date}"><span>${isDraft(entry) ? "创建" : "发布"}</span>${date.replaceAll("-", ".")}</time><span class="article-open" aria-hidden="true">↗</span></article>`;
-  }).join("")}</section>` : `<section class="empty-state"><div class="empty-index">01 <span>—</span> 00</div><h2>${currentEntries().length ? "没有找到匹配的稿件" : state.view === "drafts" ? "暂无未发布稿件" : "暂无已发布稿件"}</h2><p>${currentEntries().length ? "试试其他关键词，或清除主题筛选。" : state.view === "drafts" ? "当前编辑版本导入后，会显示在这里。" : "正式发布的稿件导入后，会显示在这里。"}</p>${currentEntries().length ? `<button class="reset-button" type="button" id="reset-filters">清除筛选</button>` : ""}</section>`;
-}
-
-function syncDirectoryResults() {
-  const entries = filteredArticles();
+async function syncDirectoryResults(restoreScroll = null) {
+  const version = ++resultsVersion;
+  const routeVersion = renderVersion;
+  const view = state.route.view;
   const results = app.querySelector("#directory-results");
   const resultCount = app.querySelector("#result-count");
   if (!results || !resultCount) return;
-  results.innerHTML = directoryResults(entries);
-  resultCount.innerHTML = `<strong>${entries.length}</strong> / ${currentEntries().length} 篇${viewLabel()}`;
-  const clearButton = app.querySelector("#clear-search");
-  if (clearButton) clearButton.hidden = !state.query;
-  app.querySelector("#reset-filters")?.addEventListener("click", () => {
-    state.query = "";
-    state.tag = "全部";
-    renderDirectory();
-  });
+  const current = { ...state.directory };
+  const isCurrent = () => version === resultsVersion && routeVersion === renderVersion;
+  results.setAttribute("aria-busy", "true");
+  app.querySelector("#clear-search").hidden = !current.query;
+  try {
+    let index = {};
+    if (current.query.trim()) {
+      resultCount.textContent = "正在搜索正文…";
+      if (!results.children.length) results.innerHTML = '<p class="search-feedback" role="status">正在加载正文搜索索引…</p>';
+      index = await loadSearchData(view);
+    }
+    if (!isCurrent()) return;
+    const matches = searchEntries(entriesByView[view], current, index);
+    const result = directoryResults(matches, { ...current, counts, view }, summaries);
+    results.innerHTML = result.html;
+    resultCount.innerHTML = `<strong>${result.count}</strong> 个视频 · <strong>${matches.length}</strong> / ${counts[view]} 篇`;
+    results.setAttribute("aria-busy", "false");
+    if (restoreScroll !== null) window.scrollTo({ top: restoreScroll, behavior: "instant" });
+    saveDirectory();
+  } catch {
+    if (!isCurrent()) return;
+    results.setAttribute("aria-busy", "false");
+    resultCount.textContent = "搜索未完成";
+    results.innerHTML = '<section class="search-feedback" role="alert"><p>正文搜索索引加载失败，请检查网络后重试。</p><button class="reset-button" type="button" id="retry-search">重新搜索</button></section>';
+  }
 }
 
-function header({ directory = false, unknown = false } = {}) {
-  const themeIcon = themeIconMarkup();
-  const categoryLink = (view, href, label, count) => {
-    const current = !unknown && state.view === view;
-    return `<a href="${href}"${current ? ` aria-current="${directory ? "page" : "location"}"` : ""}>${label}<span class="nav-count">${count}</span></a>`;
-  };
-  return `<header class="site-header">
-    <a class="wordmark" href="${siteRoot}" aria-label="档案室首页"><span class="wordmark-mark">读</span><span>档案室</span></a>
-    <nav class="top-nav" aria-label="稿件分类">${categoryLink("published", siteRoot, "已发布", catalog.articles.length)}${categoryLink("drafts", "?view=drafts", "未发布", draftCatalog.articles.length)}</nav>
-    <button class="theme-toggle" type="button" aria-label="切换深浅主题" aria-pressed="${state.theme === "dark"}"><span class="theme-icon">${themeIcon}</span><span>${state.theme === "dark" ? "浅色模式" : "深色模式"}</span></button>
-  </header>`;
-}
-
-function themeIconMarkup() {
-  return state.theme === "dark"
-    ? `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 2.5v2M12 19.5v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2.5 12h2M19.5 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>`
-    : `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"></path></svg>`;
+function updateSearch(value) {
+  ++resultsVersion;
+  state.directory.query = value;
+  state.directory.visibleCount = 24;
+  clearTimeout(searchTimer);
+  if (!state.composingSearch) searchTimer = setTimeout(() => syncDirectoryResults(), 120);
 }
 
 function renderDirectory() {
-  const tags = ["全部", ...new Set(currentEntries().flatMap((entry) => entry.tags))];
-  const entries = filteredArticles();
-  app.innerHTML = `${header({ directory: true })}
-    <main class="page-shell">
-      <div class="page-heading">
-        <div><p class="eyebrow">${state.view === "drafts" ? "DRAFT EDITIONS" : "PUBLISHED EDITIONS"} <span> / </span> ${viewLabel()}</p><h1>${viewLabel()}</h1></div>
-        <p class="intro">${state.view === "drafts" ? "当前编辑版本，供阅读与提出修改建议。" : "经过准确版本审核并正式发布的稿件。"}</p>
-      </div>
-      ${state.view === "drafts" ? draftNotice() : ""}
-      <section class="directory-tools" aria-label="稿件筛选">
-        <label class="search-box"><span class="search-label">搜索${viewLabel()}</span><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索标题、正文或标签" value="${escapeHtml(state.query)}" autocomplete="off" /><button id="clear-search" class="clear-search" type="button" aria-label="清空搜索"${state.query ? "" : " hidden"}>×</button><kbd>/</kbd></label>
-        <details class="filter-menu" id="tag-filter-menu">
-          <summary aria-label="按主题筛选" aria-controls="tag-filter-popover" aria-expanded="false"><span class="filter-label">主题</span><span class="filter-current">${escapeHtml(state.tag)}</span><span class="filter-chevron" aria-hidden="true">⌄</span></summary>
-          <div class="filter-popover" id="tag-filter-popover">
-            <label class="filter-search"><span class="search-label">搜索主题</span><span aria-hidden="true">⌕</span><input id="tag-search" type="search" placeholder="筛选主题" autocomplete="off" /></label>
-            <div class="filter-options" role="listbox" aria-label="主题选项">${tags.map((tag) => `<button class="tag-option${state.tag === tag ? " selected" : ""}" type="button" role="option" aria-selected="${state.tag === tag}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}${state.tag === tag ? `<span aria-hidden="true">✓</span>` : ""}</button>`).join("")}</div>
-            <p class="filter-hint">${tags.length - 1} 个主题</p>
-          </div>
-        </details>
-        <p class="result-count" id="result-count"><strong>${entries.length}</strong> / ${currentEntries().length} 篇${viewLabel()}</p>
-      </section>
-      <div id="directory-results" aria-live="polite">${directoryResults(entries)}</div>
-      <footer class="site-footer"><span>档案室 · ${viewLabel()}</span><span>只读发布 · ${new Date().getFullYear()}</span></footer>
-    </main>`;
-
-  app.querySelector("#search").addEventListener("input", (event) => {
-    state.query = event.target.value;
-    if (state.composingSearch) return;
-    syncDirectoryResults();
+  const view = state.route.view;
+  const tags = tagsForView(view);
+  const saved = history.state?.directory;
+  state.directory = saved?.view === view ? sanitizeDirectoryState(saved, tags) : directories.read(view, tags);
+  state.composingSearch = false;
+  const scroll = state.directory.scroll;
+  app.innerHTML = pageHeader({ directory: true }) + directoryMarkup({
+    ...state.directory, view, tags, counts, videoCount: new Set(entriesByView[view].map((entry) => entry.bvid)).size,
   });
-  app.querySelector("#search").addEventListener("compositionstart", () => { state.composingSearch = true; });
-  app.querySelector("#search").addEventListener("compositionend", (event) => {
-    state.composingSearch = false;
-    state.query = event.target.value;
-    syncDirectoryResults();
-  });
-  app.querySelector("#clear-search").addEventListener("click", () => {
-    state.query = "";
-    const input = app.querySelector("#search");
-    input.value = "";
-    syncDirectoryResults();
-    input.focus();
-  });
+  document.title = `${viewLabels[view]} · 视频文字资料库 · 档案室`;
+  document.querySelector('meta[name="description"]').content = "搜索视频讲解的文字整理稿，按分 P 阅读、复习并回看来源。公开预览逐篇标注审核状态。";
+  const input = app.querySelector("#search");
+  input.addEventListener("input", () => updateSearch(input.value));
+  input.addEventListener("compositionstart", () => { state.composingSearch = true; ++resultsVersion; clearTimeout(searchTimer); });
+  input.addEventListener("compositionend", () => { state.composingSearch = false; updateSearch(input.value); });
   app.querySelector("#tag-search").addEventListener("input", (event) => {
     const query = event.target.value.trim().toLocaleLowerCase("zh-Hans");
-    app.querySelectorAll(".tag-option").forEach((option) => {
-      option.hidden = query && !option.dataset.tag.toLocaleLowerCase("zh-Hans").includes(query);
-    });
+    app.querySelectorAll(".tag-option").forEach((option) => { option.hidden = !!query && !option.dataset.tag.toLocaleLowerCase("zh-Hans").includes(query); });
   });
-  app.querySelectorAll(".tag-option").forEach((option) => option.addEventListener("click", () => {
-    state.tag = option.dataset.tag;
-    renderDirectory();
-  }));
   app.querySelector("#tag-filter-menu").addEventListener("toggle", (event) => {
-    event.target.querySelector("summary")?.setAttribute("aria-expanded", String(event.target.open));
+    event.target.querySelector("summary").setAttribute("aria-expanded", String(event.target.open));
   });
-  app.querySelector("#reset-filters")?.addEventListener("click", () => {
-    state.query = "";
-    state.tag = "全部";
+  syncDirectoryResults(scroll);
+}
+
+function messagePage(title, message, { missing = false, retry = false } = {}) {
+  app.innerHTML = pageHeader({ unknown: missing }) + `<main id="main-content" class="page-shell" tabindex="-1"><section class="empty-state" ${retry ? 'role="alert"' : 'role="status"'}><h1>${title}</h1><p>${message}</p>${retry ? '<button class="reset-button" type="button" id="retry-document">重新加载</button>' : `<a class="reset-button" href="${directoryRoute("all")}">返回内容目录</a>`}</section>${footer("文字资料库")}</main>`;
+  document.title = `${title} · 档案室`;
+}
+
+async function renderCurrentRoute({ focus = false } = {}) {
+  const version = ++renderVersion;
+  ++resultsVersion;
+  clearTimeout(searchTimer);
+  state.route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
+  const route = state.route;
+  if (route.kind === "missing" || (route.kind === "article" && !route.entry)) {
+    messagePage("没有找到这篇稿件", "它可能尚未导入，或已更新、撤回。", { missing: true });
+    window.scrollTo({ top: 0, behavior: "instant" });
+    return;
+  }
+  if (route.kind === "directory") {
     renderDirectory();
-  });
-  app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
-}
-
-function slugHeading(text) {
-  return text.toLocaleLowerCase("zh-Hans").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || "section";
-}
-
-async function copyMarkdown(source, button) {
+    if (focus) app.querySelector("main").focus({ preventScroll: true });
+    return;
+  }
+  state.directory = null;
+  const entry = route.entry;
+  const folder = isDraft(entry) ? "draft-content" : "content";
+  const files = route.mode === "review" ? reviewFiles : bodyFiles;
+  const file = route.mode === "review" ? entry.reviewFile : entry.file;
+  const url = files[`../${folder}/${file}`];
+  if (!url) {
+    messagePage("没有找到这篇稿件", "对应文件未包含在当前快照中。", { missing: true });
+    return;
+  }
+  app.innerHTML = pageHeader() + `<main id="main-content" class="reading-shell" tabindex="-1"><div class="document-loading" role="status" aria-busy="true"><p>正在加载 P${entry.pageIndex + 1}${route.mode === "review" ? "校验参照" : "正文"}…</p><div class="loading-line"></div><div class="loading-line"></div><div class="loading-line"></div></div></main>`;
+  window.scrollTo({ top: 0, behavior: "instant" });
   try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(source);
-    } else {
-      const textarea = document.createElement("textarea");
-      textarea.value = source;
-      textarea.setAttribute("readonly", "");
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.append(textarea);
-      textarea.select();
-      if (!document.execCommand("copy")) throw new Error("copy failed");
-      textarea.remove();
-    }
-    button.textContent = "已复制 Markdown";
-    button.classList.add("copied");
-    window.setTimeout(() => {
-      button.textContent = "复制 Markdown";
-      button.classList.remove("copied");
-    }, 1800);
+    const [source, { readerMarkup }] = await Promise.all([loadDocument(url), import("./reader-view.js")]);
+    if (version !== renderVersion) return;
+    const returnView = Object.hasOwn(viewLabels, history.state?.directory?.view) ? history.state.directory.view : route.view;
+    app.innerHTML = pageHeader() + readerMarkup(entry, route.mode, source, {
+      entries: entriesByView[route.view], returnView, pageUrl: location.href, issueUrl,
+    });
+    document.title = `${entry.title} · P${entry.pageIndex + 1}${route.mode === "review" ? " · 校验参照" : ""} · 档案室`;
+    document.querySelector('meta[name="description"]').content = entry.summary || `${entry.title}，P${entry.pageIndex + 1}。${entry.attribution}`;
+    app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
+    if (focus) app.querySelector("main").focus({ preventScroll: true });
+    if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
+    else if (location.hash) focusDocumentHash(location.hash);
+    updateReadingProgress();
   } catch {
-    button.textContent = "复制失败，请手动复制";
-    window.setTimeout(() => { button.textContent = "复制 Markdown"; }, 2200);
+    if (version === renderVersion) messagePage("稿件加载失败", "请检查网络后重试，或返回目录阅读其他内容。", { retry: true });
   }
-}
-
-function renderArticle(entry, mode = "body") {
-  const review = mode === "review";
-  const source = entry && (review ? getReviewSource(entry) : getArticleSource(entry));
-  if (typeof source !== "string") return renderNotFound();
-  const tokens = markdown.parse(source, {});
-  const headings = [];
-  for (let index = 0; index < tokens.length; index += 1) {
-    if (tokens[index].type !== "heading_open") continue;
-    const heading = tokens[index + 1]?.content || "";
-    const slug = `${slugHeading(heading)}-${headings.length + 1}`;
-    tokens[index].attrSet("id", slug);
-    headings.push({ slug, heading, level: Number(tokens[index].tag.slice(1)) });
-  }
-  // Render the complete frozen document, with its opening title displayed once.
-  const hasOpeningTitle = tokens[0]?.type === "heading_open" && tokens[0].tag === "h1";
-  const title = hasOpeningTitle ? markdown.renderer.render(tokens.slice(0, 3), markdown.options, {}) : "";
-  const body = markdown.renderer.render(hasOpeningTitle ? tokens.slice(3) : tokens, markdown.options, {});
-  const toc = headings.filter(({ level }) => level > 1);
-  const date = entryDate(entry);
-  const draft = isDraft(entry);
-  app.innerHTML = `${header()}<div class="reading-progress" aria-hidden="true"><span></span></div><main class="reading-shell">
-    <div class="reading-navigation"><a class="back-link" href="${draft ? "?view=drafts" : siteRoot}">返回${draft ? "未发布" : "已发布"}目录</a>${documentTabs(entry, mode)}</div>
-    <article class="reading-article"><header class="reading-heading">${review ? reviewNotice() : ""}${draft ? draftNotice(mode) : ""}<div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${draft ? `<p class="draft-status">${REVIEW_LABELS[entry.reviewStatus]}</p>` : ""}${title}
-      <div class="reading-meta"><time datetime="${date}">${review ? "关联稿件" : draft ? "创建于" : "发布于"} ${date.replaceAll("-", ".")}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.bvid)} · P${entry.pageIndex + 1} <span aria-hidden="true">↗</span></a><button class="copy-markdown" type="button">复制 Markdown</button></div>
-      <details class="release-details"><summary>${review ? "校验参照版本" : draft ? "编辑版本" : "发布版本"}</summary><dl>${draft ? "" : `<dt>Release</dt><dd>${entry.releaseId}</dd>`}<dt>Edition</dt><dd>${entry.editionId}</dd><dt>AI Revision</dt><dd>${entry.aiRevisionId}</dd><dt>关联编辑内容 SHA-256</dt><dd>${entry.contentSha256}</dd>${review ? `<dt>校验参照文件 SHA-256</dt><dd>${entry.reviewArtifactSha256}</dd>` : ""}</dl></details>
-      <a class="issue-link" href="${escapeHtml(getIssueUrl(entry, mode))}" target="_blank" rel="noopener noreferrer">建议修改 <span aria-hidden="true">→</span></a></header>
-      ${toc.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${toc.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
-      <div class="prose">${body}</div>
-    </article><footer class="site-footer"><span>档案室 · ${viewLabel()}</span><a href="#top">回到顶部</a></footer></main>`;
-  app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
-  app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
-  updateReadingProgress();
-}
-
-function renderNotFound() {
-  app.innerHTML = `${header({ unknown: true })}<main class="page-shell"><section class="empty-state"><div class="empty-index">404 <span>—</span> ?</div><h1>没有找到这篇稿件</h1><p>它可能尚未导入，或已更新、撤回。</p><a class="reset-button" href="${siteRoot}">返回稿件目录</a></section></main>`;
-  app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
-}
-
-function toggleTheme() {
-  state.theme = state.theme === "dark" ? "light" : "dark";
-  state.followsSystemTheme = false;
-  localStorage.setItem("reading-theme", state.theme);
-  applyTheme();
-  updateThemeToggle();
-}
-
-function updateThemeToggle() {
-  app.querySelectorAll(".theme-toggle").forEach((button) => {
-    button.setAttribute("aria-pressed", String(state.theme === "dark"));
-    button.querySelector(".theme-icon").innerHTML = themeIconMarkup();
-    button.querySelector("span:last-child").textContent = state.theme === "dark" ? "浅色模式" : "深色模式";
-  });
-}
-
-function renderCurrentRoute() {
-  const route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
-  if (route.kind === "missing") return renderNotFound();
-  if (state.view !== route.view) { state.query = ""; state.tag = "全部"; state.composingSearch = false; }
-  state.view = route.view;
-  route.kind === "article" ? renderArticle(route.entry, route.mode) : renderDirectory();
 }
 
 function applyTheme() {
   document.documentElement.dataset.theme = state.theme;
   document.querySelector('meta[name="theme-color"]').content = state.theme === "dark" ? "#191817" : "#faf9f7";
+  app.querySelectorAll(".theme-toggle").forEach((button) => {
+    button.setAttribute("aria-pressed", String(state.theme === "dark"));
+    button.querySelector(".theme-icon").innerHTML = themeIconMarkup(state.theme);
+    button.querySelector("span:last-child").textContent = state.theme === "dark" ? "浅色模式" : "深色模式";
+  });
 }
 
 function updateReadingProgress() {
-  const progress = document.querySelector(".reading-progress span");
+  const progress = app.querySelector(".reading-progress span");
   if (!progress) return;
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-  const ratio = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-  progress.style.transform = `scaleX(${ratio})`;
+  progress.style.transform = `scaleX(${scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0})`;
 }
 
-function focusSearchShortcut(event) {
-  const activeElement = document.activeElement;
-  const isEditable = activeElement?.isContentEditable
-    || ["INPUT", "TEXTAREA", "SELECT", "SUMMARY", "BUTTON"].includes(activeElement?.tagName);
-  if (event.key === "/" && !isEditable) {
-    event.preventDefault();
-    app.querySelector("#search")?.focus();
+function directoryAction(target) {
+  if (state.route?.kind !== "directory") return;
+  if (target.closest("#retry-search")) return syncDirectoryResults();
+  const tag = target.closest(".tag-option");
+  if (tag) {
+    state.directory.tag = tag.dataset.tag;
+    state.directory.visibleCount = 24;
+    app.querySelector(".filter-current").textContent = state.directory.tag;
+    app.querySelectorAll(".tag-option").forEach((option) => {
+      const selected = option === tag;
+      option.classList.toggle("selected", selected);
+      option.setAttribute("aria-pressed", String(selected));
+    });
+    app.querySelector("#tag-filter-menu").open = false;
+    app.querySelector("#tag-filter-menu summary").focus();
+    return syncDirectoryResults();
+  }
+  if (target.closest("#clear-search, #reset-filters")) {
+    if (target.closest("#reset-filters")) {
+      state.directory.tag = "全部";
+      app.querySelector(".filter-current").textContent = "全部";
+      app.querySelectorAll(".tag-option").forEach((option) => {
+        const selected = option.dataset.tag === "全部";
+        option.classList.toggle("selected", selected);
+        option.setAttribute("aria-pressed", String(selected));
+      });
+    }
+    state.directory.query = "";
+    state.directory.visibleCount = 24;
+    const input = app.querySelector("#search");
+    input.value = "";
+    input.focus();
+    clearTimeout(searchTimer);
+    return syncDirectoryResults();
+  }
+  if (target.closest("#load-more")) {
+    const scroll = window.scrollY;
+    state.directory.visibleCount += 24;
+    return syncDirectoryResults(scroll).then(() => {
+      app.querySelector("#load-more")?.focus({ preventScroll: true });
+    });
   }
 }
 
@@ -297,27 +277,50 @@ function navigateWithoutReload(event) {
   if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   const link = event.target.closest("a");
   if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
-  const url = new URL(link.href, window.location.href);
-  if (url.origin !== window.location.origin || url.pathname !== window.location.pathname) return;
-  if (url.hash && url.search === window.location.search) return;
+  const url = new URL(link.href, location.href);
+  if (url.origin !== location.origin || url.pathname !== location.pathname) return;
+  if (url.hash && url.search === location.search) return;
   event.preventDefault();
-  window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
-  renderCurrentRoute();
-  window.scrollTo({ top: 0, behavior: "auto" });
+  saveLocation();
+  const directory = history.state?.directory;
+  history.pushState(directory ? { directory } : {}, "", `${url.pathname}${url.search}${url.hash}`);
+  renderCurrentRoute({ focus: true });
 }
 
 applyTheme();
-document.addEventListener("click", navigateWithoutReload);
-window.addEventListener("popstate", () => {
-  renderCurrentRoute();
-  window.scrollTo({ top: 0, behavior: "auto" });
+history.scrollRestoration = "manual";
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".theme-toggle")) {
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    state.followsSystemTheme = false;
+    preferences.setItem("reading-theme", state.theme);
+    applyTheme();
+  }
+  if (event.target.closest("#retry-document")) renderCurrentRoute();
+  directoryAction(event.target);
+  navigateWithoutReload(event);
 });
-document.addEventListener("keydown", focusSearchShortcut);
+app.addEventListener("toggle", (event) => {
+  if (!event.target.matches(".parts-disclosure") || state.route?.kind !== "directory") return;
+  state.directory.expanded = [...app.querySelectorAll(".parts-disclosure[open]")].map((details) => details.dataset.video);
+  saveDirectory();
+}, true);
+window.addEventListener("popstate", () => renderCurrentRoute({ focus: true }));
+window.addEventListener("hashchange", () => { if (state.route?.kind === "article") focusDocumentHash(location.hash); });
+window.addEventListener("pagehide", saveLocation);
 document.addEventListener("scroll", updateReadingProgress, { passive: true });
+window.addEventListener("resize", updateReadingProgress);
+document.addEventListener("keydown", (event) => {
+  const active = document.activeElement;
+  const editable = active?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "SUMMARY", "BUTTON"].includes(active?.tagName);
+  if (event.key === "/" && !editable && app.querySelector("#search")) {
+    event.preventDefault();
+    app.querySelector("#search").focus();
+  }
+});
 themeMedia.addEventListener("change", (event) => {
   if (!state.followsSystemTheme) return;
   state.theme = event.matches ? "dark" : "light";
   applyTheme();
-  updateThemeToggle();
 });
 renderCurrentRoute();
