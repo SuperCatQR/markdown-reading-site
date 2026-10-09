@@ -2,8 +2,8 @@ import { entryKey, entryRoute, directoryRoute, videoRoute, groupVideos } from ".
 import { contextSnippet, matchHash, searchModes, searchTerms } from "./search.js";
 import { escapeHtml, highlightText, statusBadge, viewLabels, draftNotice, footer } from "./ui.js";
 
-export function searchControls({ mode = "general", scoped = false }) {
-  return `<fieldset class="search-modes"><legend>查找方式</legend>${Object.entries(searchModes).map(([value, label]) => `<label><input type="radio" name="search-mode" value="${value}"${mode === value ? " checked" : ""}><span>${label}</span></label>`).join("")}</fieldset><p class="search-help" id="search-help">${searchHelp(mode)}</p>${scoped ? '<p class="search-scope">范围：本视频已收录稿件</p>' : ""}`;
+export function searchControls({ mode = "general" }) {
+  return `<fieldset class="search-modes"><legend>查找方式</legend>${Object.entries(searchModes).map(([value, label]) => `<label><input type="radio" name="search-mode" value="${value}"${mode === value ? " checked" : ""}><span>${label}</span></label>`).join("")}</fieldset><p class="search-help" id="search-help">${searchHelp(mode)}</p>`;
 }
 
 export function searchHelp(mode) {
