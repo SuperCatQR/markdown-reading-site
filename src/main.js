@@ -2,7 +2,7 @@ import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
 import summaries from "virtual:reader-summaries";
 import searchUrls from "virtual:reader-search-urls";
-import { isDraft, sortReaderEntries, resolveReaderRoute, directoryRoute, searchRoute, videoRoute, continuousRoute } from "./manuscripts.js";
+import { isDraft, sortReaderEntries, sourceTagsByFrequency, resolveReaderRoute, directoryRoute, searchRoute, videoRoute, continuousRoute } from "./manuscripts.js";
 import { searchEntries } from "./search.js";
 import { browserStorage, createDirectoryStore, sanitizeDirectoryState } from "./directory-state.js";
 import { header, footer, themeIconMarkup, viewLabels } from "./ui.js";
@@ -52,7 +52,7 @@ function pageHeader(options = {}) {
 }
 
 function tagsForView(view) {
-  return ["全部", ...new Set(entriesByView[view].flatMap((entry) => entry.tags))];
+  return ["全部", ...sourceTagsByFrequency(entriesByView[view])];
 }
 
 function isSearchPage() { return ["directory", "video"].includes(state.route?.kind); }
