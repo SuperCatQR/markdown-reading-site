@@ -235,7 +235,7 @@ function renderArticle(entry, mode = "body") {
       <a class="issue-link" href="${escapeHtml(getIssueUrl(entry, mode))}" target="_blank" rel="noopener noreferrer">建议修改 <span aria-hidden="true">→</span></a></header>
       ${toc.length ? `<nav class="table-of-contents" aria-label="文章目录"><h2>本文目录</h2><ol>${toc.map(({ slug, heading, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(slug)}">${escapeHtml(heading)}</a></li>`).join("")}</ol></nav>` : ""}
       <div class="prose">${body}</div>
-    </article><footer class="site-footer"><span>档案室 · ${viewLabel()}</span><a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">回到顶部</a></footer></main>`;
+    </article><footer class="site-footer"><span>档案室 · ${viewLabel()}</span><a href="#top">回到顶部</a></footer></main>`;
   app.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
   app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
   updateReadingProgress();
