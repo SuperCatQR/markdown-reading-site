@@ -4,11 +4,12 @@
 
 ## 页面与组件
 
-- 目录页：`.page-shell`、`.page-heading`、`.directory-tools`、`.article-row`；支持正文搜索与主题筛选。
-- 阅读及审核页：`.reading-shell`、`.reading-heading`、`.view-switch`、`.table-of-contents`、`.prose`。
+- 目录页：`.page-shell`、`.page-heading`、`.directory-tools`、`.video-group`、`.video-part`；按视频聚合，支持正文命中上下文、标签筛选与分批显示。
+- 阅读及校验参照页：`.reading-shell`、`.reading-heading`、`.document-tabs`、`.parts-navigation`、`.table-of-contents`、`.prose`。
 - 公共元素：`.site-header`、`.theme-toggle`、`.site-footer`。
-- 内容说明：`.content-notice` 标记当前测试稿件，`.review-notice` 说明公开审核上下文。
-- 状态标签：`.review-state` 及 `.state-*`；审核状态与测试内容标记分别显示。
+- 内容说明：`.library-notice`、`.draft-notice` 说明公开预览状态；`.review-reference-notice` 说明 AI 基线参照；`.provenance` 展示来源、整理与编辑说明。
+- 状态标签：`.draft-state` 与 `data-status`；审核和正式发布分别表达，已审核草稿仍标为未发布。
+- 搜索定位：`mark`、`.search-passage`、`.search-arrival`；安全高亮并定位正文，不改写复制的原始文件。
 
 ## 颜色
 
@@ -30,7 +31,7 @@
 | `--gold` | `#8a5c18` | `#e2b868` | 主题与审核说明 |
 | `--focus` | `#a93253` | `#ffabc0` | 键盘焦点 |
 
-辅助文字在纸面、表面、柔和背景及行悬停背景上的对比度必须至少为 4.5:1。主题标签还需计算半透明色底叠加纸面、表面及行悬停背景后的实际对比度；眉题分隔符与结果计数使用 `--accent-strong`，小字号文字同样至少为 4.5:1。`test/contrast.test.js` 直接读取 CSS 的前景、混色比例及主题变量，作为 `pnpm test` 和 Pages CI 的回归门禁。
+辅助文字在纸面、表面及柔和背景上的对比度必须至少为 4.5:1。主题标签需计算半透明色底叠加纸面与表面后的实际对比度；搜索高亮、结果计数、分 P 链接与命中提示也需满足 4.5:1。`test/contrast.test.js` 直接读取 CSS 前景、混色比例与主题变量，作为 `pnpm test` 和 Pages CI 的回归门禁。
 
 ## 字体与加载
 
@@ -52,7 +53,9 @@ Noto Sans SC、Noto Serif SC 与 Songti SC 是本地字体候选，本站未下�
 ## 交互与验证
 
 - 控件保留键盘焦点、可读标签及主题切换状态。
+- 提供跳到内容链接；搜索和正文加载有反馈与重试，手机输入字号至少 16px。
 - 搜索输入期间只刷新结果，中文组合期间保持输入框；主题筛选使用原生 details。
+- 返回目录恢复搜索、标签、展开分 P、显示数量与位置；同视频导航只使用已收录且同稿件类别的分 P。
 - 悬停反馈主要采用颜色、阴影与小幅位移，具体时间以 CSS 为准。
 - `prefers-reduced-motion` 下关闭平滑滚动并缩短过渡与动画。
 - 修改后运行 `pnpm test` 和 `pnpm build`；布局变化另需检查目录、阅读与审核视图在深浅主题及移动宽度下的表现。
