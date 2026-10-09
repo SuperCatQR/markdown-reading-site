@@ -2,31 +2,23 @@
   "files": [
     {
       "path": "catalog.json",
-      "sha256": "0bb1e608930aa2e4e28397edb690709583c5dfd95e56f4116735675efeca93cd"
+      "sha256": "0657b2b2983f56a68a65599d55c02c528c2a4b71111bac9458dac0121280f31e"
     },
     {
-      "path": "drafts/edition-07a05d356e6048a191866f36fe5daa04/preview.md",
-      "sha256": "c42b31ec51be3114d898a84b57bc4b36c58a118c77c106c535a3cac20d2faaa6"
+      "path": "drafts/edition-06c4a79c87bc4622b9b04330f7cdc61c/preview.md",
+      "sha256": "2bf3c5b0f34636fa511f3d4d35f5668f6f2a5dd7a01203c05598bdf15b2d899f"
     },
     {
-      "path": "drafts/edition-07a05d356e6048a191866f36fe5daa04/review.md",
-      "sha256": "9c19dadc5cc4959ec0e89725d106d138a3950f6457470f64a092d6b845fbdcb1"
+      "path": "drafts/edition-06c4a79c87bc4622b9b04330f7cdc61c/review.md",
+      "sha256": "94844b6ff668e918b4313219542052cad80ade3b5bbb3d2155740d2b1e0a7bd0"
     },
     {
-      "path": "drafts/edition-1173fca74d2c4a9484d8d3779f90493d/preview.md",
-      "sha256": "aafc786dc7b3c5a5c8a971f0ab748179b385dd6bdd6b49ca71dd793bcfaf604c"
+      "path": "drafts/edition-0a87650edd384caebdf56b89fd41945a/preview.md",
+      "sha256": "0ebd95992d113555ba972f7b5bc0fd90693388d43d682388e417facafe873451"
     },
     {
-      "path": "drafts/edition-1173fca74d2c4a9484d8d3779f90493d/review.md",
-      "sha256": "c01fa213bbe0260531a0fc17c42dbe63a9ec04005b7af296b0686313eb05cb82"
-    },
-    {
-      "path": "drafts/edition-149c3735491948cda342a898bd2f2898/preview.md",
-      "sha256": "510f02301b36aa2201090f5d89d4bbddcce73512e0c7cb119c2461a2d5182349"
-    },
-    {
-      "path": "drafts/edition-149c3735491948cda342a898bd2f2898/review.md",
-      "sha256": "657bc5431117a339e772d9dce69be8e91ff74a70192dd1536b0e7450299ec93c"
+      "path": "drafts/edition-0a87650edd384caebdf56b89fd41945a/review.md",
+      "sha256": "0ec6ae7aab13e83dcebebcaf7114bfca4c065723d89c29c41ffe1fa6b12ab24b"
     },
     {
       "path": "drafts/edition-17f3e2fd63d748988b2c88be899e44ea/preview.md",
@@ -37,111 +29,119 @@
       "sha256": "fa05cc5b3754865303f67f9302fd7ffcc1f0dabbbdd0ac0e147a869c03acc0d8"
     },
     {
-      "path": "drafts/edition-20440c939bd34002bd9d62f4df757363/preview.md",
-      "sha256": "80de6b5e8ba472c8b0e0e6c0f281770221130d44ac4cc564173bc38172705019"
+      "path": "drafts/edition-22dfba1c34b643629fc09e46499da93e/preview.md",
+      "sha256": "0b39cf4854a9c330c6f050b011425573c2eda6835f7e030de902c67a14860c15"
     },
     {
-      "path": "drafts/edition-20440c939bd34002bd9d62f4df757363/review.md",
-      "sha256": "77df7a73757c9a45e563258e8a362a07e2ae61c0036ba7f647eeeb4a516b44a6"
-    },
-    {
-      "path": "drafts/edition-70cdae2ed569485ab5b65e5f2fed4768/preview.md",
-      "sha256": "2e7f777e123ac031db0173c54ee0942a6c762139bb52b5fe466b65645b151c4e"
-    },
-    {
-      "path": "drafts/edition-70cdae2ed569485ab5b65e5f2fed4768/review.md",
-      "sha256": "308a0bbd3066b330d93b77fa6f29fcbbc46a05e158bbe1b175c9b78701e2b907"
-    },
-    {
-      "path": "drafts/edition-7beb54bd948a49928b25337cb6627ac9/preview.md",
-      "sha256": "de43365179538bb06235f7b08a471b38170eda461d1c4b61ca03cf6b11d27ea4"
-    },
-    {
-      "path": "drafts/edition-7beb54bd948a49928b25337cb6627ac9/review.md",
-      "sha256": "1e57c70b65b94ba00df5109ac99a1a49d73fce31631a1f82150a249193e368e6"
-    },
-    {
-      "path": "drafts/edition-a25ba9f51d1d4d128e6ceec0f441b0eb/preview.md",
-      "sha256": "48e74e2d9849edc9c4d671981a8f6bddfbebc2fb4638263171ea8b5dd6195c2f"
-    },
-    {
-      "path": "drafts/edition-a25ba9f51d1d4d128e6ceec0f441b0eb/review.md",
-      "sha256": "0ec6ae7aab13e83dcebebcaf7114bfca4c065723d89c29c41ffe1fa6b12ab24b"
-    },
-    {
-      "path": "drafts/edition-afeefabe937843d195e764022aa3c1e9/preview.md",
-      "sha256": "b7ae6f950dc5d3b92b797e5922b04481052eb670bbad6d293d1183e3c4c49928"
-    },
-    {
-      "path": "drafts/edition-afeefabe937843d195e764022aa3c1e9/review.md",
-      "sha256": "f90976b0ded3e7440171e0ef3f4a541e5186610d89e53049ad1e401d76700474"
-    },
-    {
-      "path": "drafts/edition-b4389ce335a24f98b087651ab770cf8a/preview.md",
-      "sha256": "35619230fa55184f2933f81c3826826734fe36b843a3d7eb109d177f1a153d20"
-    },
-    {
-      "path": "drafts/edition-b4389ce335a24f98b087651ab770cf8a/review.md",
-      "sha256": "d37e8b65fd1ab3bf49251760530c8b9d073fab4436757ec5c4de4222e775fd30"
-    },
-    {
-      "path": "drafts/edition-bf601e5c94124299a6967401eb8868be/preview.md",
-      "sha256": "db8a6ecfd4ca2385d619eabd790c42c4b610d896f4e19fcb97e527a6187ded9d"
-    },
-    {
-      "path": "drafts/edition-bf601e5c94124299a6967401eb8868be/review.md",
-      "sha256": "3df307c8b69e8625e49f8fb20ca7f6e66ae09d646ca4759ffa8b698e8f0df24c"
-    },
-    {
-      "path": "drafts/edition-bffd7db2e47d48939b6fccd3c4f4ffbc/preview.md",
-      "sha256": "d59465d6eccd6b5fa8b9a95c82c63ac2b8259a62d16d5b771cb2546de6316b7a"
-    },
-    {
-      "path": "drafts/edition-bffd7db2e47d48939b6fccd3c4f4ffbc/review.md",
+      "path": "drafts/edition-22dfba1c34b643629fc09e46499da93e/review.md",
       "sha256": "2370f53a1282ea1900df2acd30299552d51a8322993408b2f9f6fb99318bbf04"
     },
     {
-      "path": "drafts/edition-c6ca1682d4af4412a427202a964be5dc/preview.md",
-      "sha256": "4d3af02a3562a1cf250dd1b7d87feacf7d10c340c11c75b50bcd880274e1e3e0"
+      "path": "drafts/edition-30f7974a5611419e828cf82518ced518/preview.md",
+      "sha256": "3b301631a6739534ef14cbade6ff0fd6792bccefc92c4120d78fc6d361216a56"
     },
     {
-      "path": "drafts/edition-c6ca1682d4af4412a427202a964be5dc/review.md",
-      "sha256": "94844b6ff668e918b4313219542052cad80ade3b5bbb3d2155740d2b1e0a7bd0"
+      "path": "drafts/edition-30f7974a5611419e828cf82518ced518/review.md",
+      "sha256": "9707fbed653915675fc60b658a078aedc79181020b7a6daa024a0558a98e6fc8"
     },
     {
-      "path": "drafts/edition-d7ade4fc13d44fd58d0b642de6933a4d/preview.md",
-      "sha256": "cf1f90453a5fd7d4ef33b39429b217443382523ba7cfd48bc342b21483e590d1"
+      "path": "drafts/edition-43ac0fdab33d45ca83056af97cb88e07/preview.md",
+      "sha256": "ed087864bf6b05120d38590ba6382d2d9f51c5a607439077265de4d1c4b8c9b0"
     },
     {
-      "path": "drafts/edition-d7ade4fc13d44fd58d0b642de6933a4d/review.md",
-      "sha256": "e5e0d62abcd19c835864d5ea5b6287fe6a69c47bb7dc0cf0478dc7a90ec27453"
+      "path": "drafts/edition-43ac0fdab33d45ca83056af97cb88e07/review.md",
+      "sha256": "9c19dadc5cc4959ec0e89725d106d138a3950f6457470f64a092d6b845fbdcb1"
     },
     {
-      "path": "drafts/edition-dba67b7c200e4c5caacf7daef6338f53/preview.md",
-      "sha256": "5ff8dc94bc42cac8bcbaf616aac2cdec7a9112347497af519ad3b8c8613a229e"
+      "path": "drafts/edition-4a6735b7244141f78cb795ab41fa9205/preview.md",
+      "sha256": "251e855212f490a1dcd028571ae285b9ff31a119a105501a804d9f9a07259ae6"
     },
     {
-      "path": "drafts/edition-dba67b7c200e4c5caacf7daef6338f53/review.md",
+      "path": "drafts/edition-4a6735b7244141f78cb795ab41fa9205/review.md",
+      "sha256": "77df7a73757c9a45e563258e8a362a07e2ae61c0036ba7f647eeeb4a516b44a6"
+    },
+    {
+      "path": "drafts/edition-6fad1ddba319495e9ee97ccbe18a23ad/preview.md",
+      "sha256": "e4db11c837d0076ca03372ff8c59bcf24bbcdf12eeb47393f1e0e7ac4f486e2f"
+    },
+    {
+      "path": "drafts/edition-6fad1ddba319495e9ee97ccbe18a23ad/review.md",
+      "sha256": "1e57c70b65b94ba00df5109ac99a1a49d73fce31631a1f82150a249193e368e6"
+    },
+    {
+      "path": "drafts/edition-764bc6a2b2424937ac07724c46831977/preview.md",
+      "sha256": "7163cf1e627045613a4e6f5b7deb6c624cc4c83945a6210ced4e70ee8406aa80"
+    },
+    {
+      "path": "drafts/edition-764bc6a2b2424937ac07724c46831977/review.md",
+      "sha256": "d37e8b65fd1ab3bf49251760530c8b9d073fab4436757ec5c4de4222e775fd30"
+    },
+    {
+      "path": "drafts/edition-94aeb08d1db74b32893f6df97107182f/preview.md",
+      "sha256": "8fc2375404165100afd7cb3ff7c53b9e259888a314938bb62e2bcefcf32b7fc6"
+    },
+    {
+      "path": "drafts/edition-94aeb08d1db74b32893f6df97107182f/review.md",
+      "sha256": "c01fa213bbe0260531a0fc17c42dbe63a9ec04005b7af296b0686313eb05cb82"
+    },
+    {
+      "path": "drafts/edition-a38d5d8ec0e447e180a059c31a766dcf/preview.md",
+      "sha256": "01d5e0338912fe193fd95db6722e4f97ef7ab1e2095d529f4f8e917964132f16"
+    },
+    {
+      "path": "drafts/edition-a38d5d8ec0e447e180a059c31a766dcf/review.md",
+      "sha256": "308a0bbd3066b330d93b77fa6f29fcbbc46a05e158bbe1b175c9b78701e2b907"
+    },
+    {
+      "path": "drafts/edition-a489f35344c146598b4e1634d829f21d/preview.md",
+      "sha256": "47b4b2bb655bd3d199b786d02bf4749f345602284412284a2c0538eac0057aca"
+    },
+    {
+      "path": "drafts/edition-a489f35344c146598b4e1634d829f21d/review.md",
       "sha256": "5f0d63cda235a6a08719c3c432c0fa37a90c8820eb68e39179d16c024ccbb5ac"
     },
     {
-      "path": "drafts/edition-f24b4cad51a84cc68b889cbc4291cd60/preview.md",
-      "sha256": "9df686f5c21900e1d96ec602e8585220ed547ff1b205079bca17ce7787dfbfec"
+      "path": "drafts/edition-cd9f60d2c0404e7284469b1c852ab1fc/preview.md",
+      "sha256": "9dfd45745b6cdfd5f7c50da0a1d2a80b733579112e62bee7d677a2c2b2084d4c"
     },
     {
-      "path": "drafts/edition-f24b4cad51a84cc68b889cbc4291cd60/review.md",
+      "path": "drafts/edition-cd9f60d2c0404e7284469b1c852ab1fc/review.md",
+      "sha256": "f90976b0ded3e7440171e0ef3f4a541e5186610d89e53049ad1e401d76700474"
+    },
+    {
+      "path": "drafts/edition-d2892d4200e149d8b3a1bdefbbf21553/preview.md",
+      "sha256": "572a843ecdff7b7a8567cfd86a31bf524d8fd5e497f2ae42e7d30d106f5a976c"
+    },
+    {
+      "path": "drafts/edition-d2892d4200e149d8b3a1bdefbbf21553/review.md",
       "sha256": "5e0dff506cab966738edf643ba6a86b91d11f3993c56f6e0446d772ea2948fd8"
     },
     {
-      "path": "drafts/edition-f7f9deb1acba4f7b86f3edf675ee93c5/preview.md",
-      "sha256": "ffa50ac33984a3e74f6d8954247208d1b2078a607c9c66587adbbe1cd9d798b9"
+      "path": "drafts/edition-e7fbad3e581242559fce94fa1e3ca77c/preview.md",
+      "sha256": "e471db63302caf03c567bca1144570f3be6f361d1db00071f89341726b986f36"
     },
     {
-      "path": "drafts/edition-f7f9deb1acba4f7b86f3edf675ee93c5/review.md",
-      "sha256": "9707fbed653915675fc60b658a078aedc79181020b7a6daa024a0558a98e6fc8"
+      "path": "drafts/edition-e7fbad3e581242559fce94fa1e3ca77c/review.md",
+      "sha256": "e5e0d62abcd19c835864d5ea5b6287fe6a69c47bb7dc0cf0478dc7a90ec27453"
+    },
+    {
+      "path": "drafts/edition-f5cc9cb4ca274c63868099726a554dd8/preview.md",
+      "sha256": "ea2bd54807d41b93a216c71db9b2069e079e314d48b758a65ca403485f594b4f"
+    },
+    {
+      "path": "drafts/edition-f5cc9cb4ca274c63868099726a554dd8/review.md",
+      "sha256": "3df307c8b69e8625e49f8fb20ca7f6e66ae09d646ca4759ffa8b698e8f0df24c"
+    },
+    {
+      "path": "drafts/edition-fbdc43f2b94c46cc83c2f403a8b20743/preview.md",
+      "sha256": "b5e08fb224067b99a489eefb52e2200e7fcaa7db71f8243789903d92ee2dd042"
+    },
+    {
+      "path": "drafts/edition-fbdc43f2b94c46cc83c2f403a8b20743/review.md",
+      "sha256": "657bc5431117a339e772d9dce69be8e91ff74a70192dd1536b0e7450299ec93c"
     }
   ],
   "manuscriptType": "publication-draft-export",
   "schemaVersion": 1,
-  "snapshotId": "f082b29a0e961fb701f5bc78bf503977a9fc32e650431f4e518764e3bb1869d0"
+  "snapshotId": "6009256275bb82a1bc59bef2386eef2d3d911bd5b9f924bdc35953e4b24bcee5"
 }
