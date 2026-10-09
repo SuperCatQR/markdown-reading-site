@@ -2,7 +2,7 @@ import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
 import summaries from "virtual:reader-summaries";
 import searchUrls from "virtual:reader-search-urls";
-import { isDraft, sortReaderEntries, resolveReaderRoute, directoryRoute, searchRoute, videoRoute } from "./manuscripts.js";
+import { isDraft, sortReaderEntries, resolveReaderRoute, directoryRoute, searchRoute, videoRoute, continuousRoute } from "./manuscripts.js";
 import { searchEntries } from "./search.js";
 import { browserStorage, createDirectoryStore, sanitizeDirectoryState } from "./directory-state.js";
 import { header, footer, themeIconMarkup, viewLabels } from "./ui.js";
@@ -44,6 +44,8 @@ const state = {
 let renderVersion = 0;
 let resultsVersion = 0;
 let searchTimer;
+let continuousReader;
+let continuousScrollTimer;
 
 function pageHeader(options = {}) {
   return header({ view: state.route?.view, theme: state.theme, counts, siteRoot, ...options });
@@ -71,6 +73,10 @@ function saveDirectory() {
 function saveLocation() {
   if (isSearchPage()) saveDirectory();
   else if (state.route?.kind === "article") history.replaceState({ ...history.state, articleScroll: window.scrollY }, "");
+  else if (state.route?.kind === "continuous") {
+    const continuous = continuousReader?.snapshot();
+    if (continuous) history.replaceState({ ...history.state, continuous }, "");
+  }
 }
 
 async function loadSearchData(view) {
@@ -204,6 +210,9 @@ function messagePage(title, message, { missing = false, retry = false } = {}) {
 
 async function renderCurrentRoute({ focus = false } = {}) {
   const version = ++renderVersion;
+  clearTimeout(continuousScrollTimer);
+  continuousScrollTimer = null;
+  continuousReader = null;
   ++resultsVersion;
   clearTimeout(searchTimer);
   state.route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
@@ -220,6 +229,29 @@ async function renderCurrentRoute({ focus = false } = {}) {
     return;
   }
   state.directory = null;
+  if (route.kind === "continuous") {
+    let createContinuousReader;
+    try { ({ createContinuousReader } = await import("./continuous-reader.js")); }
+    catch {
+      if (version === renderVersion) messagePage("阅读页面加载失败", "请检查网络后重试。", { retry: true });
+      return;
+    }
+    if (version !== renderVersion) return;
+    continuousReader = createContinuousReader({
+      app, route, pageHeader, saved: history.state?.continuous, focus,
+      isCurrent: () => version === renderVersion,
+      loadBody: (entry) => {
+        const url = bodyFiles[`../${isDraft(entry) ? "draft-content" : "content"}/${entry.file}`];
+        if (!url) return Promise.reject(new Error("Document not in snapshot"));
+        return loadDocument(url);
+      },
+      onReady: () => { saveLocation(); updateReadingProgress(); },
+    });
+    document.title = `${route.entries[0]?.title || route.bvid} · 连续阅读 · 档案室`;
+    document.querySelector('meta[name="description"]').content = "按分 P 连续阅读视频整理稿，逐篇查看来源与审核状态。";
+    await continuousReader.render();
+    return;
+  }
   const entry = route.entry;
   const folder = isDraft(entry) ? "draft-content" : "content";
   const files = route.mode === "review" ? reviewFiles : bodyFiles;
@@ -238,6 +270,8 @@ async function renderCurrentRoute({ focus = false } = {}) {
     app.innerHTML = pageHeader() + readerMarkup(entry, route.mode, source, {
       entries: entriesByView[route.view], returnView, pageUrl: location.href, issueUrl,
       returnVideo: history.state?.directory?.bvid === entry.bvid ? searchRoute(history.state.directory) : videoRoute(entry.bvid),
+      returnContinuous: history.state?.continuous?.bvid === entry.bvid && history.state.continuous.view === route.view
+        ? continuousRoute(entry.bvid, route.view, history.state.continuous.current) : null,
     });
     document.title = `${entry.title} · P${entry.pageIndex + 1}${route.mode === "review" ? " · 校验参照" : ""} · 档案室`;
     document.querySelector('meta[name="description"]').content = entry.summary || `${entry.title}，P${entry.pageIndex + 1}。${entry.attribution}`;
@@ -322,7 +356,8 @@ function navigateWithoutReload(event) {
   event.preventDefault();
   saveLocation();
   const directory = history.state?.directory;
-  history.pushState(directory ? { directory } : {}, "", `${url.pathname}${url.search}${url.hash}`);
+  const continuous = history.state?.continuous;
+  history.pushState({ ...(directory ? { directory } : {}), ...(continuous ? { continuous } : {}) }, "", `${url.pathname}${url.search}${url.hash}`);
   renderCurrentRoute({ focus: true });
 }
 
@@ -348,7 +383,13 @@ app.addEventListener("toggle", (event) => {
 window.addEventListener("popstate", () => renderCurrentRoute({ focus: true }));
 window.addEventListener("hashchange", () => { if (state.route?.kind === "article") focusDocumentHash(location.hash); });
 window.addEventListener("pagehide", saveLocation);
-document.addEventListener("scroll", updateReadingProgress, { passive: true });
+document.addEventListener("scroll", () => {
+  updateReadingProgress();
+  if (state.route?.kind === "continuous" && !continuousScrollTimer) continuousScrollTimer = setTimeout(() => {
+    continuousScrollTimer = null;
+    if (state.route?.kind === "continuous") saveLocation();
+  }, 150);
+}, { passive: true });
 window.addEventListener("resize", updateReadingProgress);
 document.addEventListener("keydown", (event) => {
   const active = document.activeElement;
