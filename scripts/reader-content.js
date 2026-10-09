@@ -22,11 +22,11 @@ export async function buildReaderData(root, watch = () => {}) {
       if (sha256(bytes) !== entry.artifactSha256) throw new Error(`生成搜索索引时正文 SHA-256 不匹配: ${entry.file}`);
       const source = bytes.toString("utf8");
       const { blocks } = prepareDocument(source);
-      return { entry, blocks, excerpt: blocks.find(({ text }) => text)?.text.slice(0, 160) || "", minutes: estimateReadingMinutes(source) };
+      return { entry, blocks, minutes: estimateReadingMinutes(source) };
     }));
-    for (const { entry, blocks, excerpt, minutes } of documents) {
+    for (const { entry, blocks, minutes } of documents) {
       search[view][entryKey(entry)] = blocks;
-      summaries[entryKey(entry)] = { excerpt, minutes };
+      summaries[entryKey(entry)] = { minutes };
     }
   }));
   return { summaries, search };
