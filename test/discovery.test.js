@@ -59,6 +59,27 @@ test("video overview exposes numeric parts, missing ranges and both manuscript v
   assert.match(videoResults([], { query: "" }, summaries), /此类别暂无收录稿件/);
 });
 
+test("overview prioritizes reading, folds optional controls and restores active queries", () => {
+  const draft = entry(1);
+  const summaries = { [entryKey(draft)]: { minutes: 25 } };
+  const render = (options = {}) => videoMarkup([draft], { bvid: draft.bvid, view: "all", query: "", mode: "general", ...options }, summaries);
+  const single = render();
+  assert.doesNotMatch(single, /class="continuous-entry"|无法开启|class="video-search" open/);
+  assert.match(single, /<details class="video-category">/);
+  assert.match(single, /公开预览不代表审核通过或正式发布/);
+  assert.match(single, /<details class="video-source-details">/);
+  assert.match(single, /id="result-count"/);
+  assert.match(render({ query: "体验" }), /class="video-search" open/);
+  assert.match(render({ mode: "phrase" }), /class="video-search" open/);
+  assert.match(render({ view: "published" }), /class="video-category" open/);
+  const second = entry(2);
+  const multi = videoMarkup([draft, second], { bvid: draft.bvid, view: "all", query: "", mode: "general" }, { ...summaries, [entryKey(second)]: { minutes: 1 } });
+  assert.match(multi, /连续阅读公开预览 · 2 个分 P/);
+  const published = entry(1, { manuscriptType: "publication", editionId: "f".repeat(32) });
+  const both = videoMarkup([draft, published], { bvid: draft.bvid, view: "all", query: "", mode: "general" }, { ...summaries, [entryKey(published)]: { minutes: 1 } });
+  assert.match(both, /class="video-category" open/);
+});
+
 test("search URLs round-trip video scope, exact query and category while rejecting ambiguous manuscript selectors", () => {
   const draft = entry(1);
   const url = searchRoute({ view: "drafts", bvid: draft.bvid, query: "自由 & [x.*]", mode: "keywords" });

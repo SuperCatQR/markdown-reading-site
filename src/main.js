@@ -126,6 +126,7 @@ async function syncDirectoryResults(restoreScroll = null) {
   try {
     let index = {};
     if (current.query.trim()) {
+      resultCount.hidden = false;
       resultCount.textContent = "正在搜索正文…";
       if (!results.children.length) results.innerHTML = '<p class="search-feedback" role="status">正在加载正文搜索索引…</p>';
       index = await loadSearchData(view);
@@ -136,6 +137,7 @@ async function syncDirectoryResults(restoreScroll = null) {
     if (state.route.kind === "video") {
       results.innerHTML = videoResults(matches, current, summaries);
       resultCount.innerHTML = `<strong>${matches.length}</strong> / ${entries.length} 篇稿件`;
+      resultCount.hidden = !current.query.trim();
     } else {
       const result = directoryResults(matches, { ...current, counts, view }, summaries);
       results.innerHTML = result.html;
@@ -396,6 +398,8 @@ document.addEventListener("keydown", (event) => {
   const editable = active?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "SUMMARY", "BUTTON"].includes(active?.tagName);
   if (event.key === "/" && !editable && app.querySelector("#search")) {
     event.preventDefault();
+    const disclosure = app.querySelector(".video-search");
+    if (disclosure) disclosure.open = true;
     app.querySelector("#search").focus();
   }
 });

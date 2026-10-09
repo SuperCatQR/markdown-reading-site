@@ -29,6 +29,7 @@ async (page) => {
   assert(await target.locator(".part-link").first().boundingBox().then((box) => box.y < 900), "Overview puts first part below desktop viewport");
   assert(!requests.some((url) => /\.md$|search-.*\.json/.test(url)), "Overview eagerly loaded content");
   await target.screenshot({ path: "artifacts/discovery-video-desktop.png", animations: "disabled", fullPage: false });
+  await target.locator(".video-search > summary").click();
   await target.getByRole("radio", { name: "正文关键词" }).check();
   await target.getByRole("searchbox", { name: "在此视频中查找" }).fill("审美 痛苦");
   await target.waitForFunction(() => document.querySelector(".match-summary")?.textContent?.includes("全部关键词命中"));
@@ -57,6 +58,7 @@ async (page) => {
   await fresh.waitForFunction(() => document.querySelector("#directory-results")?.getAttribute("aria-busy") === "false");
   assert(await fresh.locator(".part-number").allTextContents().then((items) => items.join(",")) === parts.join(","), "Share URL changed matches");
   await fresh.close();
+  await target.locator(".video-category > summary").click();
   await target.getByRole("navigation", { name: "视频稿件类别" }).getByRole("link", { name: "已发布 0", exact: true }).click();
   await ready();
   assert(await target.locator("#search").inputValue() === "审美 痛苦", "Category switch discarded query");
