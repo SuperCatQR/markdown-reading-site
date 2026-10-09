@@ -52,17 +52,20 @@ async (page) => {
   const disclosure = browser.locator(".parts-disclosure").first();
   await disclosure.locator("summary").click();
   const video = await disclosure.getAttribute("data-video");
+  const parts = await disclosure.locator(".part-number").allTextContents();
+  assert(parts.length >= 2 && Number(parts[0].slice(1)) < Number(parts[1].slice(1)), "Directory parts are not in source order");
   await disclosure.locator(".part-link").first().click();
   await browser.locator(".prose").waitFor();
   const firstUrl = browser.url();
-  assert(await browser.locator(".reading-heading .current-part").textContent() === "P1", "Parts are not ordered from P1");
+  assert(await browser.locator(".reading-heading .current-part").textContent() === parts[0], "Reader did not open the first collected part");
   await browser.locator('.parts-navigation a[rel="next"]').first().click();
-  await browser.waitForFunction(() => document.querySelector(".reading-heading .current-part")?.textContent === "P2");
+  await browser.waitForFunction((part) => document.querySelector(".reading-heading .current-part")?.textContent === part, parts[1]);
   assert(!browser.url().includes("#hit="), "Old search hash leaked to next part");
   await browser.goBack();
-  await browser.waitForFunction(() => document.querySelector(".reading-heading .current-part")?.textContent === "P1");
+  await browser.waitForFunction((part) => document.querySelector(".reading-heading .current-part")?.textContent === part, parts[0]);
   const reference = browser.getByRole("link", { name: "校验参照稿件", exact: true });
   await reference.click();
+  await browser.locator(".provenance > summary").click();
   await browser.locator(".review-reference-notice").waitFor();
   assert(await browser.locator(".prose").textContent() !== "", "Reference body missing");
   await browser.locator(".reading-navigation .back-link").click();
@@ -89,5 +92,5 @@ async (page) => {
   assert(await browser.locator(".top-nav [aria-current]").count() === 0, "404 incorrectly marks a category active");
   assert(errors.length === 0, `Runtime errors: ${errors.join("; ")}`);
   await browser.close();
-  return { passed: true, initialVideos, documentRequests: requests.filter(isDocument).length, checks: ["home lazy loading", "search index", "search passage", "directory state", "session reload", "expanded parts", "P1/P2/history", "reference", "mobile light/dark", "empty publication", "404", "no runtime errors"] };
+  return { passed: true, initialVideos, documentRequests: requests.filter(isDocument).length, checks: ["home lazy loading", "search index", "search passage", "directory state", "session reload", "expanded parts", "collected part order/history", "reference", "mobile light/dark", "empty publication", "404", "no runtime errors"] };
 }

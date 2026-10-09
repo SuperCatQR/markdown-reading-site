@@ -10,6 +10,7 @@ export function sanitizeDirectoryState(value, tags) {
   return {
     query: typeof saved.query === "string" ? saved.query.slice(0, 300) : "",
     mode: ["general", "phrase", "keywords"].includes(saved.mode) ? saved.mode : "general",
+    sort: ["body", "title"].includes(saved.sort) ? saved.sort : "body",
     tag: tags.includes(saved.tag) ? saved.tag : "全部",
     scroll: Number.isFinite(saved.scroll) ? Math.max(0, saved.scroll) : 0,
     visibleCount: Number.isInteger(saved.visibleCount) ? Math.max(24, Math.min(100000, saved.visibleCount)) : 24,

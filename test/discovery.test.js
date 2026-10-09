@@ -101,7 +101,7 @@ test("search URLs round-trip video scope, exact query and category while rejecti
   const draft = entry(1);
   const url = searchRoute({ view: "drafts", bvid: draft.bvid, query: "自由 & [x.*]", mode: "keywords" });
   assert.deepEqual(resolveReaderRoute(url, [], [draft]), { kind: "video", view: "drafts", bvid: draft.bvid, searchState: { query: "自由 & [x.*]", mode: "keywords", tag: "全部" } });
-  assert.deepEqual(resolveReaderRoute(searchRoute({ view: "published", query: "自由", tag: "哲学" }), [], [draft]), { kind: "directory", view: "published", searchState: { query: "自由", mode: "general", tag: "哲学" } });
+  assert.deepEqual(resolveReaderRoute(searchRoute({ view: "published", query: "自由", tag: "哲学" }), [], [draft]), { kind: "directory", view: "published", searchState: { query: "自由", mode: "general", sort: "body", tag: "哲学" } });
   for (const invalid of ["?video=missing", "?video=../escape", "?q=a&q=b", "?mode=semantic", "?tag=不存在", "?video=BVexample&tag=哲学", "?video=BVexample&draft=" + draft.editionId, "?review=" + draft.editionId + "&q=test", "?q=" + "a".repeat(301)]) {
     assert.equal(resolveReaderRoute(invalid, [], [draft]).kind, "missing", invalid);
   }

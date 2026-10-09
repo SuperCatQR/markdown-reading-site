@@ -30,6 +30,7 @@ async (page) => {
       assert(await target.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Overflow at ${width}`);
     }
     await target.screenshot({ path: "artifacts/direct-reader-mobile-light.png" });
+    await target.locator(".reader-site-menu > summary").click();
     await target.getByRole("button", { name: "切换深浅主题" }).click();
     await target.screenshot({ path: "artifacts/direct-reader-mobile-dark.png" });
     await target.locator("main").focus();

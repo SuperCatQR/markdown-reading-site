@@ -1,6 +1,6 @@
 # 档案室设计维护说明
 
-本文记录当前站点的设计实现，替代原有生成器建议。运行时样式以 `src/site.css` 为准，页面结构以 `src/main.js` 为准；修改视觉规则时同步更新本文。未实现的通用组件、间距 token 和动画建议不构成本项目规范。
+本文记录当前站点的设计实现，替代原有生成器建议。运行时样式依次由 `src/site.css`、`src/reader-experience.css`、`src/directory-experience.css` 定义，页面结构以视图模块和 `src/main.js` 为准；修改视觉规则时同步更新本文。未实现的通用组件、间距 token 和动画建议不构成本项目规范。
 
 ## 页面与组件
 
@@ -10,7 +10,8 @@
 - 内容说明：`.library-notice`、`.draft-notice` 说明公开预览状态；`.review-reference-notice` 说明 AI 基线参照；`.provenance` 展示来源、整理与编辑说明。
 - 状态标签：`.draft-state` 与 `data-status`；审核和正式发布分别表达，已审核草稿仍标为未发布。
 - 搜索定位：`mark`、`.search-passage`、`.search-arrival`；安全高亮并定位正文，不改写复制的原始文件。
-- 视频总览：`.video-overview-heading`、`.video-versions`、`.video-search`；使用既有纸面、排版与颜色，保留源标签与版本状态，列出实际收录分 P。
+- 阅读工具：`.reader-header` 固定 64px，提供返回、实际可见 P、视频内查找及有真实标题时的本文目录；`.reader-site-menu` 按需提供分类与主题。旧视频链接兼容进入正文，不再有独立视频总览页。
+- 渐进披露：原生 details 用于 `.provenance`、`.advanced-search`、`.recent-reading`；首次访问默认收起，非默认查询与存储异常显示相应提示。完整标题不截断，当前状态和排序依据在折叠外可见。
 - 内容反查：原生单选 `.search-modes`、`.search-help`、`.passage-list`、`.passage-disclosure`；默认展示两个命中，再展开其余证据，每个片段可单独定位。避免为搜索增加模态窗口，保持输入框和键盘焦点稳定。
 
 ## 颜色
@@ -56,6 +57,8 @@ Noto Sans SC、Noto Serif SC 与 Songti SC 是本地字体候选，本站未下�
 
 - 控件保留键盘焦点、可读标签及主题切换状态。
 - 提供跳到内容链接；搜索和正文加载有反馈与重试，手机输入字号至少 16px。
+- 关键状态、元数据、分 P 与主题文字至少 13px，说明文字 14px；正文保持 17px 手机基线，主要控件保留 44px 操作区域。标签为准确编码的原生探索链接。
+- 最近阅读恢复绑定准确版本和段落相对位置，异步查找布局完成不覆盖读者主动操作；存储异常有可读提示。
 - 搜索输入期间只刷新结果，中文组合期间保持输入框；主题筛选使用原生 details。
 - 返回目录恢复搜索、标签、展开分 P、显示数量与位置；同视频导航只使用已收录且同稿件类别的分 P。
 - 悬停反馈主要采用颜色、阴影与小幅位移，具体时间以 CSS 为准。

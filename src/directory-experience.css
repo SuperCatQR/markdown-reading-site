@@ -1,0 +1,55 @@
+/* Keep discovery close to the first screen; details retain the provenance. */
+.directory-shell { padding-top: 30px; }
+.directory-shell .page-heading { align-items: baseline; padding-bottom: 14px; gap: 18px; }
+.directory-shell .page-heading h1 { font-size: clamp(30px, 3.2vw, 42px); line-height: 1.35; }
+.directory-shell .intro { max-width: 360px; line-height: 1.7; }
+.directory-shell .library-overview { gap: 8px 16px; padding: 4px 0; }
+.library-status { position: relative; }
+.library-status > summary { display: flex; align-items: center; min-height: 44px; gap: 8px; color: var(--muted); cursor: pointer; list-style: none; }
+.library-status > summary::-webkit-details-marker { display: none; }
+.library-status-body { position: absolute; right: 0; z-index: 14; width: min(360px, calc(100vw - 40px)); padding: 14px 16px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-md); }
+.library-status-body p + p { margin-top: 8px; }
+.directory-shell .directory-tools { padding: 12px 0 8px; gap: 12px; border-bottom: 0; }
+.directory-shell .filter-menu, .directory-shell .result-count { font-size: 13px; }
+.directory-shell .filter-hint { font-size: 13px; line-height: 1.7; }
+.directory-shell .filter-search { min-height: 44px; }
+.directory-shell .tag-option:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.advanced-search { margin: 0 0 6px; color: var(--muted); font-size: 13px; }
+.advanced-search > summary { display: flex; align-items: center; gap: 12px; width: fit-content; min-height: 44px; cursor: pointer; list-style: none; }
+.advanced-search > summary::-webkit-details-marker { display: none; }
+.advanced-search > summary::before { content: "＋"; color: var(--accent-strong); }
+.advanced-search[open] > summary::before { content: "−"; }
+.search-mode-current { padding-left: 12px; border-left: 1px solid var(--line); color: var(--ink); }
+.advanced-search .search-modes { margin: 0; gap: 4px 18px; }
+.advanced-search .search-modes legend { float: none; padding: 0; margin: 0; }
+.advanced-search .search-help { max-width: 760px; margin: 4px 0 10px; }
+.directory-shell .directory-order { max-width: 900px; margin: 0 0 8px; line-height: 1.65; }
+.search-sort { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.search-sort select { min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: var(--surface); }
+.search-sort select:disabled { color: var(--muted); }
+.source-bvid { margin-left: 8px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.directory-shell .video-meta { gap: 4px 14px; }
+.directory-shell .video-heading h2 { text-wrap: pretty; }
+
+@media (max-width: 700px) {
+  .directory-shell { padding-top: 20px; }
+  .directory-shell .page-heading { align-items: start; gap: 6px; padding-bottom: 8px; }
+  .directory-shell .page-heading h1 { font-size: 30px; }
+  .directory-shell .library-overview { position: relative; }
+  .library-status { position: static; }
+  .library-status-body { left: 0; right: 0; width: 100%; }
+  .directory-shell .directory-tools { row-gap: 8px; }
+  .directory-shell .filter-menu summary { gap: 6px; padding-inline: 10px; }
+  .directory-shell .filter-popover { min-width: 0; width: min(320px, calc(100vw - 40px)); }
+  .directory-shell .result-count { white-space: normal; }
+  .advanced-search .search-modes { display: grid; gap: 0; }
+  .advanced-search .search-modes legend { margin-bottom: 4px; }
+  .advanced-search .search-modes label { width: fit-content; padding-inline: 4px; }
+  .directory-shell .video-heading { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .directory-shell .video-number { display: none; }
+  .directory-shell .video-parts, .directory-shell .parts-disclosure { margin-left: 0; }
+  .directory-shell .part-heading { gap: 4px 12px; }
+  .directory-shell .part-link { gap: 10px; }
+  .directory-shell .video-meta { font-size: 13px; }
+  .directory-shell .part-minutes { font-size: 13px; }
+}

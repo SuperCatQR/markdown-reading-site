@@ -50,7 +50,7 @@ for (const [theme, selector] of [["light", ":root"], ["dark", ':root[data-theme=
       assert.ok(ratio >= 4.5, `${theme} --faint on ${name}: ${ratio.toFixed(2)}:1 (requires 4.5:1)`);
     }
 
-    for (const selector of [".article-tags span", ".article-tags span:nth-child(2n)"]) {
+    for (const selector of [".article-tags a", ".article-tags a:nth-child(2n)"]) {
       const foreground = tokenColor(declaration(selector, "color"), tokens);
       const tint = declaration(selector, "background")
         .match(/^color-mix\(in srgb, (var\(--[\w-]+\)) (\d+)%, transparent\)$/);

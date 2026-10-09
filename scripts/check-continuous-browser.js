@@ -38,6 +38,7 @@ async (page) => {
     await target.locator(".continuous-part").last().getByRole("link", { name: "单篇正文", exact: true }).click();
     await target.locator(".reading-article .prose").waitFor();
     await target.getByRole("link", { name: "校验参照稿件", exact: true }).click();
+    await target.locator(".provenance > summary").click();
     await target.locator(".review-reference-notice").waitFor();
     await target.getByRole("link", { name: "返回连续阅读 →" }).click();
     await ready();
@@ -45,7 +46,7 @@ async (page) => {
     await target.getByRole("navigation", { name: "连续阅读分 P 目录" }).getByRole("link", { name: "P10", exact: true }).click();
     await ready();
     assert(await target.locator(".continuous-part").count() === 3, "Jump fetched intervening parts");
-    assert(await target.locator(".continuous-part > .reading-heading > .current-part").allTextContents().then((parts) => parts.join(",")) === "P1,P2,P10", "Jumped body order wrong");
+    assert(await target.locator(".continuous-part > .reading-heading .current-part").allTextContents().then((parts) => parts.join(",")) === "P1,P2,P10", "Jumped body order wrong");
     await target.getByRole("navigation", { name: "连续阅读分 P 目录" }).getByRole("link", { name: "P13", exact: true }).click();
     await ready();
     assert(await target.locator(".continuous-feedback").textContent().then((text) => text.includes("最后一个")), "Last part has wrong next action");
@@ -54,7 +55,7 @@ async (page) => {
     await fresh.goto(shared);
     await fresh.locator(".continuous-part").waitFor();
     assert(await fresh.locator(".continuous-part").count() === 1, "New shared URL loaded earlier bodies");
-    assert(await fresh.locator(".continuous-part > .reading-heading > .current-part").textContent() === "P13", "Share opened wrong part");
+    assert(await fresh.locator(".continuous-part > .reading-heading .current-part").textContent() === "P13", "Share opened wrong part");
     await fresh.close();
     await target.reload();
     await ready();
@@ -68,6 +69,7 @@ async (page) => {
     await target.setViewportSize({ width: 375, height: 900 });
     await target.evaluate(() => scrollTo(0, 0));
     await target.screenshot({ path: "artifacts/continuous-mobile-light.png", fullPage: false });
+    await target.locator(".reader-site-menu > summary").click();
     await target.getByRole("button", { name: "切换深浅主题" }).click();
     await target.screenshot({ path: "artifacts/continuous-mobile-dark.png", fullPage: false });
     await target.goto(`${base}?video=BV1dA411T7xD&view=published&flow=continuous`);
