@@ -38,7 +38,9 @@ async (page) => {
   try {
     await target.goto(`${base}?view=all`);
     await target.locator(".video-heading h2 a").first().waitFor();
-    bodyUrl = await absoluteUrl(await target.locator(".video-heading h2 a").first().getAttribute("href"));
+    // Use the existing long-body fixture; newly imported first items may fit
+    // entirely in one viewport and cannot exercise a nonzero paragraph offset.
+    bodyUrl = await absoluteUrl("?draft=29fcc4b3cc2045c1abecaad159d95420");
     await target.goto(bodyUrl);
     await readyBody(target);
     const position = await scrollToProse(target);

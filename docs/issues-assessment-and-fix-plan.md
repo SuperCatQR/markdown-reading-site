@@ -2,7 +2,7 @@
 
 评估日期：2026-10-09（Asia/Hong_Kong）。评估基线：`main` / `015444fece2154aeedc08d7e43a8972fba8998ed`，与 GitHub 当前 main 一致。
 
-本文件保留实施前的评估基线与计划。随后按维护者“全部修复，在独立 worktree 和分支”的指示，开放 issues #39–#48 已在 `codex/fix-all-reader-issues` 实现；最终行为、验证和边界见 [阅读体验修复交付说明](issues-reading-improvements.md)。尚未合并或部署，GitHub issues 状态未改变。产品依据为 [项目哲学与产品原则](product-philosophy.md)，当前内容契约依据为 [README](../README.md)。
+本文件保留实施前的评估基线与计划。随后按维护者“全部修复，在独立 worktree 和分支”的指示，开放 issues #39–#48 已在 `codex/fix-all-reader-issues` 实现；最终行为、验证和边界见 [阅读体验修复交付说明](issues-reading-improvements.md)。合并、部署及 issue 关闭状态以 GitHub 对应记录为准。产品依据为 [项目哲学与产品原则](product-philosophy.md)，当前内容契约依据为 [README](../README.md)。
 
 ## 1. 范围与结论
 

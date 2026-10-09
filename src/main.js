@@ -278,8 +278,9 @@ async function renderCurrentRoute({ focus = false } = {}) {
       return;
     }
     if (version !== renderVersion) return;
+    const savedContinuous = history.state?.continuous;
     continuousReader = createContinuousReader({
-      app, route, pageHeader, saved: history.state?.continuous, focus,
+      app, route, pageHeader, saved: savedContinuous, focus,
       videoEntries: entriesByView.all.filter((entry) => entry.bvid === route.bvid),
       isCurrent: () => version === renderVersion,
       loadBody: (entry) => {
@@ -295,7 +296,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     if (version !== renderVersion) return;
     readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
     const localPosition = readingHistory.ready({ historyRestored: continuousReader.didRestore() });
-    const historyScroll = continuousReader.didRestore() ? continuousReader.snapshot().scroll : null;
+    const historyScroll = continuousReader.didRestore() ? savedContinuous.scroll : null;
     if (route.entry && app.querySelector(".reader-video-search")) {
       const { bindReaderVideo } = await import("./reader-video.js");
       if (version !== renderVersion) return;
