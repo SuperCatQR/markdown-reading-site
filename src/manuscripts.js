@@ -9,6 +9,15 @@ export const entryRoute = (entry) => isDraft(entry) ? `?draft=${entry.editionId}
 export const reviewRoute = (entry) => `?review=${entry.editionId}`;
 export const entryDate = (entry) => new Date((isDraft(entry) ? entry.createdAt : entry.publishedAt) * 1000).toISOString().slice(0, 10);
 export const directoryRoute = (view) => view === "all" ? "?view=all" : `?view=${view}`;
+export const videoRoute = (bvid, view = "all") => `?video=${encodeURIComponent(bvid)}&view=${view}`;
+
+export function searchRoute({ view, bvid, query = "", mode = "general", tag = "全部" }) {
+  const params = new URLSearchParams({ ...(bvid ? { video: bvid } : {}), view });
+  params.set("q", query);
+  if (mode !== "general") params.set("mode", mode);
+  if (tag !== "全部") params.set("tag", tag);
+  return `?${params}`;
+}
 export const statusLabel = (entry) => isDraft(entry)
   ? entry.reviewStatus === "approved" ? REVIEW_LABELS.approved : `${REVIEW_LABELS[entry.reviewStatus]} · 未发布`
   : "已审核 · 已发布";
@@ -40,10 +49,12 @@ export function sortReaderEntries(entries) {
 
 export function resolveReaderRoute(search, publication, drafts) {
   const params = new URLSearchParams(search);
-  const allowed = ["view", "read", "draft", "review"];
+  const allowed = ["view", "read", "draft", "review", "video", "q", "mode", "tag"];
   if ([...params.keys()].some((key) => !allowed.includes(key) || params.getAll(key).length !== 1)) return { kind: "missing" };
   const selectors = ["read", "draft", "review"].filter((key) => params.has(key));
-  if (selectors.length > 1 || (selectors.length && params.has("view"))
+  if (selectors.length > 1 || (selectors.length && ["view", "video", "q", "mode", "tag"].some((key) => params.has(key)))
+      || (params.has("mode") && !["general", "phrase", "keywords"].includes(params.get("mode")))
+      || (params.get("q")?.length > 300)
       || (params.has("view") && !["all", "published", "drafts"].includes(params.get("view")))) return { kind: "missing" };
   if (params.has("review")) {
     const id = params.get("review");
@@ -58,7 +69,14 @@ export function resolveReaderRoute(search, publication, drafts) {
     return /^[0-9a-f]{32}$/.test(id) ? { kind: "article", view: "drafts", mode: "body", entry: drafts.find((entry) => entry.editionId === id) } : { kind: "missing" };
   }
   if (params.has("read")) return { kind: "article", view: "published", mode: "body", entry: publication.find((entry) => entry.slug === params.get("read")) };
-  return { kind: "directory", view: params.get("view") || "all" };
+  const view = params.get("view") || "all";
+  const bvid = params.get("video");
+  if (params.has("video") && (!/^[\w-]{1,80}$/.test(bvid) || ![...publication, ...drafts].some((entry) => entry.bvid === bvid))) return { kind: "missing" };
+  const tag = params.get("tag");
+  if (params.has("tag") && (bvid || (tag !== "全部" && ![...publication, ...drafts].some((entry) => entry.tags.includes(tag))))) return { kind: "missing" };
+  const searchState = ["q", "mode", "tag"].some((key) => params.has(key))
+    ? { query: params.get("q") || "", mode: params.get("mode") || "general", tag: params.get("tag") || "全部" } : undefined;
+  return { kind: bvid ? "video" : "directory", view, ...(bvid ? { bvid } : {}), ...(searchState ? { searchState } : {}) };
 }
 
 export function buildIssueUrl(entry, pageUrl, issueUrl, mode = "body") {

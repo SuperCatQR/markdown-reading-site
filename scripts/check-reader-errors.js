@@ -35,11 +35,12 @@ async (page) => {
   await target.route("**/*search-drafts*.json", async (route) => { intercepted = true; await gate; await route.continue(); });
   await target.reload();
   await target.locator(".video-group").first().waitFor();
+  await target.locator(".parts-disclosure summary").first().click();
   await target.locator("#search").fill("克尔凯郭尔");
   let frames = 0;
   while (!intercepted && frames++ < 600) await target.evaluate(() => new Promise(requestAnimationFrame));
   assert(intercepted, "Search index request was not intercepted");
-  await target.locator(".video-heading a").first().click();
+  await target.locator(".part-link").first().click();
   await target.locator(".prose").waitFor();
   const response = target.waitForResponse((response) => /search-drafts.*\.json/.test(response.url()));
   release();

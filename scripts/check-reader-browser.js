@@ -27,7 +27,7 @@ async (page) => {
   await browser.getByRole("button", { name: "哲学", exact: true }).click();
   await ready(browser);
   await browser.getByRole("searchbox", { name: "搜索全部内容", exact: true }).fill("克尔凯郭尔");
-  await browser.waitForFunction(() => document.querySelector(".part-excerpt mark")?.textContent === "克尔凯郭尔");
+  await browser.waitForFunction(() => document.querySelector(".passage-link mark")?.textContent === "克尔凯郭尔");
   assert(requests.some((url) => /search-drafts.*\.json/.test(url)), "Search index was not requested");
   assert(!requests.some(isDocument), "Search fetched article bodies");
   const hit = browser.locator('.part-link[href*="#hit="]').first();
@@ -48,7 +48,7 @@ async (page) => {
   await ready(browser);
   assert(await browser.locator("#search").inputValue() === "克尔凯郭尔", "Query lost after reload");
   await browser.locator("#clear-search").click();
-  await browser.waitForFunction(() => document.querySelector("#directory-results")?.getAttribute("aria-busy") === "false" && !document.querySelector(".part-excerpt mark"));
+  await browser.waitForFunction(() => document.querySelector("#directory-results")?.getAttribute("aria-busy") === "false" && !document.querySelector("#directory-results mark"));
   const disclosure = browser.locator(".parts-disclosure").first();
   await disclosure.locator("summary").click();
   const video = await disclosure.getAttribute("data-video");

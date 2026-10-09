@@ -10,6 +10,8 @@
 - 内容说明：`.library-notice`、`.draft-notice` 说明公开预览状态；`.review-reference-notice` 说明 AI 基线参照；`.provenance` 展示来源、整理与编辑说明。
 - 状态标签：`.draft-state` 与 `data-status`；审核和正式发布分别表达，已审核草稿仍标为未发布。
 - 搜索定位：`mark`、`.search-passage`、`.search-arrival`；安全高亮并定位正文，不改写复制的原始文件。
+- 视频总览：`.video-overview-heading`、`.video-versions`、`.video-search`；使用既有纸面、排版与颜色，保留源标签与版本状态，列出实际收录分 P。
+- 内容反查：原生单选 `.search-modes`、`.search-help`、`.passage-list`、`.passage-disclosure`；默认展示两个命中，再展开其余证据，每个片段可单独定位。避免为搜索增加模态窗口，保持输入框和键盘焦点稳定。
 
 ## 颜色
 
