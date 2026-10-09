@@ -12,8 +12,8 @@
   --accent: #c64668;
   --accent-strong: #a93253;
   --accent-soft: #f7e5ea;
-  --green: #2e775e;
-  --gold: #9b6a20;
+  --green: #286e56;
+  --gold: #8a5c18;
   --focus: #a93253;
   --shadow-sm: 0 1px 2px rgb(55 35 27 / 5%);
   --shadow-md: 0 10px 30px rgb(55 35 27 / 8%);
@@ -71,7 +71,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .page-shell { max-width: 1180px; min-height: calc(100dvh - var(--header-height)); margin: 0 auto; padding: 64px 28px 26px; display: flex; flex-direction: column; }
 .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; padding-bottom: 38px; border-bottom: 1px solid var(--line); }
 .eyebrow { margin: 0 0 15px; color: var(--muted); font: 10px "Public Sans", sans-serif; letter-spacing: .12em; }
-.eyebrow span { padding: 0 8px; color: var(--accent); }
+.eyebrow span { padding: 0 8px; color: var(--accent-strong); }
 .page-heading h1 { margin: 0; color: var(--ink); font: 500 clamp(38px, 5vw, 58px)/1.02 "Libre Bodoni", Georgia, serif; letter-spacing: -.035em; text-wrap: balance; }
 .intro { max-width: 285px; margin: 0 0 3px; color: var(--muted); font-size: 13px; line-height: 1.8; text-wrap: pretty; }
 .directory-tools { display: grid; grid-template-columns: minmax(280px, 1.45fr) minmax(180px, .8fr) auto; align-items: center; gap: 22px; padding: 24px 0 18px; border-bottom: 1px solid var(--line); }
@@ -107,7 +107,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .tag-option[hidden] { display: none; }
 .filter-hint { margin: 8px 3px 1px; color: var(--faint); font-size: 10px; }
 .result-count { margin: 0; color: var(--muted); white-space: nowrap; text-align: right; font: 11px "Public Sans", sans-serif; }
-.result-count strong { color: var(--accent); font-weight: 700; }
+.result-count strong { color: var(--accent-strong); font-weight: 700; }
 
 .article-list { display: grid; gap: 10px; padding-top: 16px; }
 .article-row { min-height: 146px; display: grid; grid-template-columns: 42px minmax(0, 1fr) 102px 22px; align-items: center; column-gap: 16px; padding: 20px 21px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); box-shadow: var(--shadow-sm); transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease, transform 200ms ease; }
