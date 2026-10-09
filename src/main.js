@@ -3,12 +3,17 @@ import draftCatalog from "../draft-content/catalog.json";
 import summaries from "virtual:reader-summaries";
 import searchUrls from "virtual:reader-search-urls";
 import { isDraft, sortReaderEntries, sourceTagsByFrequency, resolveReaderRoute, directoryRoute, searchRoute, readerSearchRoute, videoEntry, continuousRoute } from "./manuscripts.js";
-import { searchEntries } from "./search.js";
+import { searchEntries, sortingHelp, searchModes } from "./search.js";
+import { createSearchLoader, measureSearchStage, showSearchWaiting } from "./search-loader.js";
 import { browserStorage, createDirectoryStore, sanitizeDirectoryState } from "./directory-state.js";
 import { header, footer, themeIconMarkup, viewLabels } from "./ui.js";
 import { directoryMarkup, directoryResults, searchHelp } from "./directory-view.js";
 import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
+import { readerToolsMarkup, bindReaderTools } from "./reader-tools.js";
+import { createReadingHistoryBrowser } from "./reading-history-browser.js";
 import "./site.css";
+import "./reader-experience.css";
+import "./directory-experience.css";
 
 const bodyFiles = {
   ...import.meta.glob("../content/articles/part-*/publish.md", { eager: true, query: "?url", import: "default" }),
@@ -18,7 +23,7 @@ const reviewFiles = {
   ...import.meta.glob("../content/articles/part-*/review.md", { eager: true, query: "?url", import: "default" }),
   ...import.meta.glob("../draft-content/drafts/edition-*/review.md", { eager: true, query: "?url", import: "default" }),
 };
-const searchCache = new Map();
+const loadSearchData = createSearchLoader(searchUrls);
 const documentCache = new Map();
 const entriesByView = {
   all: sortReaderEntries([...catalog.articles, ...draftCatalog.articles]),
@@ -45,9 +50,32 @@ let resultsVersion = 0;
 let searchTimer;
 let continuousReader;
 let continuousScrollTimer;
+let readerTools;
+let layoutRestoreEvents;
+const readingHistory = createReadingHistoryBrowser({ app, entries: entriesByView.all, getRoute: () => state.route });
+
+// Search results above the prose can change its position after the body is ready.
+// Repeat the chosen restoration only while the reader has not taken control.
+function finishReadingLayout(ready, version, restore) {
+  layoutRestoreEvents?.abort();
+  const events = new AbortController();
+  layoutRestoreEvents = events;
+  let interrupted = false;
+  for (const type of ["wheel", "touchmove", "keydown", "pointerdown"]) window.addEventListener(type, () => { interrupted = true; }, { passive: true, signal: events.signal });
+  ready.then(() => {
+    events.abort();
+    if (version !== renderVersion || interrupted) return;
+    restore();
+    updateReadingProgress();
+  });
+}
 
 function pageHeader(options = {}) {
-  return header({ view: state.route?.view, theme: state.theme, counts, siteRoot, ...options });
+  const route = state.route;
+  const returnView = Object.hasOwn(viewLabels, history.state?.directory?.view) ? history.state.directory.view : route?.view;
+  const tools = route?.entry && ["article", "continuous"].includes(route.kind)
+    ? readerToolsMarkup(route, { entries: entriesByView.all, returnView }) : "";
+  return header({ view: route?.view, theme: state.theme, counts, siteRoot, readerTools: tools, ...options });
 }
 
 function tagsForView(view) {
@@ -66,30 +94,13 @@ function saveDirectory() {
 }
 
 function saveLocation() {
+  readingHistory.flush();
   if (isSearchPage()) saveDirectory();
   else if (state.route?.kind === "article") history.replaceState({ ...history.state, articleScroll: window.scrollY }, "");
   else if (state.route?.kind === "continuous") {
     const continuous = continuousReader?.snapshot();
     if (continuous) history.replaceState({ ...history.state, continuous }, "");
   }
-}
-
-async function loadSearchData(view) {
-  if (view === "all") {
-    const indices = await Promise.all([loadSearchData("published"), loadSearchData("drafts")]);
-    return Object.assign({}, ...indices);
-  }
-  if (!searchCache.has(view)) {
-    const promise = fetch(searchUrls[view]).then((response) => {
-      if (!response.ok) throw new Error("Search index unavailable");
-      return response.json();
-    }).catch((error) => {
-      searchCache.delete(view);
-      throw error;
-    });
-    searchCache.set(view, promise);
-  }
-  return searchCache.get(view);
 }
 
 function loadDocument(url) {
@@ -112,23 +123,33 @@ async function syncDirectoryResults(restoreScroll = null) {
   const current = { ...state.directory };
   saveDirectory();
   const isCurrent = () => version === resultsVersion && routeVersion === renderVersion;
+  let stopWaiting = () => {};
+  const started = performance.now();
   results.setAttribute("aria-busy", "true");
   app.querySelector("#clear-search").hidden = !current.query;
+  updateSortingControls();
   try {
     let index = {};
     if (current.query.trim()) {
       resultCount.hidden = false;
-      resultCount.textContent = "正在搜索正文…";
-      if (!results.children.length) results.innerHTML = '<p class="search-feedback" role="status">正在加载正文搜索索引…</p>';
+      resultCount.textContent = "正在加载搜索资料…";
+      stopWaiting = showSearchWaiting(results, { isCurrent });
       index = await loadSearchData(view);
     }
     if (!isCurrent()) return;
     const entries = entriesByView[view];
+    let start = performance.now();
     const matches = searchEntries(entries, current, index);
+    measureSearchStage("compute", start, { view, scope: "directory" });
+    start = performance.now();
     const result = directoryResults(matches, { ...current, counts, view }, summaries);
+    measureSearchStage("markup", start, { view, scope: "directory", matches: matches.length });
+    start = performance.now();
     results.innerHTML = result.html;
     resultCount.innerHTML = `<strong>${result.count}</strong> 个视频 · <strong>${matches.length}</strong> / ${counts[view]} 篇`;
     results.setAttribute("aria-busy", "false");
+    measureSearchStage("dom", start, { view, scope: "directory" });
+    measureSearchStage("total", started, { view, scope: "directory" });
     if (restoreScroll !== null) window.scrollTo({ top: restoreScroll, behavior: "instant" });
     saveDirectory();
   } catch {
@@ -136,7 +157,20 @@ async function syncDirectoryResults(restoreScroll = null) {
     results.setAttribute("aria-busy", "false");
     resultCount.textContent = "搜索未完成";
     results.innerHTML = '<section class="search-feedback" role="alert"><p>正文搜索索引加载失败，请检查网络后重试。</p><button class="reset-button" type="button" id="retry-search">重新搜索</button></section>';
-  }
+  } finally { stopWaiting(); }
+}
+
+function updateSortingControls() {
+  const sort = app.querySelector("#search-sort");
+  if (sort) { sort.value = state.directory.sort; sort.disabled = state.directory.mode !== "general"; }
+  const help = app.querySelector("#sort-help");
+  if (help) help.textContent = sortingHelp(state.directory.mode, state.directory.sort, state.directory.query);
+  const mode = app.querySelector(".search-mode-current");
+  if (mode) mode.textContent = searchModes[state.directory.mode];
+  const label = app.querySelector(".search-sort-current");
+  if (label) { label.textContent = "标题相关优先"; label.hidden = state.directory.sort !== "title" || state.directory.mode !== "general"; }
+  const advanced = app.querySelector("#advanced-search");
+  if (advanced && (state.directory.mode !== "general" || state.directory.sort === "title")) advanced.open = true;
 }
 
 function updateSearch(value) {
@@ -162,6 +196,10 @@ function renderDirectory() {
     ...state.directory, view, tags, counts, videoCount: new Set(entriesByView[view].map((entry) => entry.bvid)).size,
   };
   app.innerHTML = pageHeader({ directory: true }) + directoryMarkup(options);
+  const recentHost = document.createElement("div");
+  recentHost.id = "recent-reading";
+  app.querySelector("#directory-results").before(recentHost);
+  readingHistory.renderRecent(recentHost);
   document.title = `${viewLabels[view]} · 视频文字资料库 · 档案室`;
   document.querySelector('meta[name="description"]').content = "搜索视频讲解的文字整理稿，按分 P 阅读、复习并回看来源。公开预览逐篇标注审核状态。";
   const input = app.querySelector("#search");
@@ -177,6 +215,13 @@ function renderDirectory() {
     clearTimeout(searchTimer);
     syncDirectoryResults();
   }));
+  app.querySelector("#search-sort")?.addEventListener("change", (event) => {
+    state.directory.sort = event.target.value;
+    state.directory.visibleCount = 24;
+    state.directory.passages = [];
+    clearTimeout(searchTimer);
+    syncDirectoryResults();
+  });
   app.querySelector("#tag-search")?.addEventListener("input", (event) => {
     const query = event.target.value.trim().toLocaleLowerCase("zh-Hans");
     app.querySelectorAll(".tag-option").forEach((option) => { option.hidden = !!query && !option.dataset.tag.toLocaleLowerCase("zh-Hans").includes(query); });
@@ -193,6 +238,10 @@ function messagePage(title, message, { missing = false, retry = false } = {}) {
 }
 
 async function renderCurrentRoute({ focus = false } = {}) {
+  readingHistory.suspend();
+  readerTools?.destroy();
+  readerTools = null;
+  layoutRestoreEvents?.abort();
   const version = ++renderVersion;
   clearTimeout(continuousScrollTimer);
   continuousScrollTimer = null;
@@ -208,6 +257,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     state.route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
   }
   const route = state.route;
+  document.documentElement.dataset.reading = String(!!route.entry && ["article", "continuous"].includes(route.kind));
   if (route.kind === "missing" || (route.kind === "article" && !route.entry)) {
     const video = new URLSearchParams(location.search).has("video");
     messagePage(video ? "没有找到这个视频" : "没有找到这篇稿件", "内容可能尚未导入、已更新或撤回，或链接参数无效。", { missing: true });
@@ -230,6 +280,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     if (version !== renderVersion) return;
     continuousReader = createContinuousReader({
       app, route, pageHeader, saved: history.state?.continuous, focus,
+      videoEntries: entriesByView.all.filter((entry) => entry.bvid === route.bvid),
       isCurrent: () => version === renderVersion,
       loadBody: (entry) => {
         const url = bodyFiles[`../${isDraft(entry) ? "draft-content" : "content"}/${entry.file}`];
@@ -241,6 +292,26 @@ async function renderCurrentRoute({ focus = false } = {}) {
     document.title = `${route.entries[0]?.title || route.bvid} · 连续阅读 · 档案室`;
     document.querySelector('meta[name="description"]').content = "按分 P 连续阅读视频整理稿，逐篇查看来源与审核状态。";
     await continuousReader.render();
+    if (version !== renderVersion) return;
+    readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
+    const localPosition = readingHistory.ready({ historyRestored: continuousReader.didRestore() });
+    const historyScroll = continuousReader.didRestore() ? continuousReader.snapshot().scroll : null;
+    if (route.entry && app.querySelector(".reader-video-search")) {
+      const { bindReaderVideo } = await import("./reader-video.js");
+      if (version !== renderVersion) return;
+      const currentReader = continuousReader;
+      const videoSearchReady = bindReaderVideo({
+        app, route: { ...route, mode: "continuous", videoSearch: currentReader.searchState() },
+        entries: entriesByView.all.filter((entry) => entry.bvid === route.bvid), summaries, loadSearchData,
+        isCurrent: () => version === renderVersion,
+        persistSearch: (value) => { currentReader.setSearch(value); saveLocation(); },
+      });
+      finishReadingLayout(videoSearchReady, version, () => {
+        if (localPosition) localPosition.restore();
+        else if (Number.isFinite(historyScroll)) window.scrollTo({ top: historyScroll, behavior: "instant" });
+        else if (location.hash) focusDocumentHash(location.hash);
+      });
+    }
     return;
   }
   const entry = route.entry;
@@ -272,15 +343,12 @@ async function renderCurrentRoute({ focus = false } = {}) {
     if (focus) app.querySelector("main").focus({ preventScroll: true });
     if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
     else if (location.hash) focusDocumentHash(location.hash);
-    const restoreEvents = new AbortController();
-    let restoreInterrupted = false;
-    for (const type of ["wheel", "touchmove", "keydown", "pointerdown"]) window.addEventListener(type, () => { restoreInterrupted = true; }, { passive: true, signal: restoreEvents.signal });
-    videoSearchReady.then(() => {
-      restoreEvents.abort();
-      if (version !== renderVersion || restoreInterrupted) return;
-      if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
+    readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
+    const localPosition = readingHistory.ready({ historyRestored: Number.isFinite(history.state?.articleScroll) });
+    finishReadingLayout(videoSearchReady, version, () => {
+      if (localPosition) localPosition.restore();
+      else if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
       else if (location.hash) focusDocumentHash(location.hash);
-      updateReadingProgress();
     });
     updateReadingProgress();
   } catch {
@@ -322,7 +390,7 @@ function directoryAction(target) {
     app.querySelector("#tag-filter-menu summary").focus();
     return syncDirectoryResults();
   }
-  if (target.closest("#clear-search, #reset-filters")) {
+  if (target.closest("#clear-search, #cancel-search, #reset-filters")) {
     if (target.closest("#reset-filters")) {
       state.directory.tag = "全部";
       app.querySelector(".filter-current").textContent = "全部";

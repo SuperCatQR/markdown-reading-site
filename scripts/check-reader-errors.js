@@ -25,7 +25,8 @@ async (page) => {
   await target.getByRole("button", { name: "重新加载", exact: true }).click();
   await target.locator(".search-passage mark").first().waitFor();
 
-  // A delayed search must not replace the directory after navigation.
+  // Pending search intentionally removes old article links; switching category
+  // remains available and a late response must not replace that destination.
   await target.goto(base);
   await target.locator("#clear-search").click();
   await target.waitForFunction(() => document.querySelector("#directory-results")?.getAttribute("aria-busy") === "false");
@@ -40,13 +41,13 @@ async (page) => {
   let frames = 0;
   while (!intercepted && frames++ < 600) await target.evaluate(() => new Promise(requestAnimationFrame));
   assert(intercepted, "Search index request was not intercepted");
-  await target.locator(".part-link").first().click();
-  await target.locator(".prose").waitFor();
+  await target.locator('.top-nav a[href="?view=published"]').click();
+  await target.getByRole("heading", { name: "暂无已发布稿件" }).waitFor();
   const response = target.waitForResponse((response) => /search-drafts.*\.json/.test(response.url()));
   release();
   await response;
   await target.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-  assert(await target.locator("#directory-results").count() === 0, "Stale search replaced the reader");
+  assert(await target.evaluate(() => new URL(location.href).searchParams.get("view")) === "published" && await target.locator(".match-summary").count() === 0, "Stale search replaced the selected directory");
   await isolated.close();
 
   const blocked = await page.context().browser().newContext({ viewport: { width: 375, height: 812 } });

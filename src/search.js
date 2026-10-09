@@ -2,36 +2,61 @@ import { entryKey } from "./manuscripts.js";
 
 export const normalizeSearch = (value) => value.trim().replace(/\s+/gu, " ").toLocaleLowerCase("zh-Hans");
 export const searchModes = { general: "综合搜索", phrase: "正文原句", keywords: "正文关键词" };
+export const searchSorts = { body: "正文证据优先", title: "标题相关优先" };
+const normalizedBlocks = new WeakMap();
+
+function normalizedBlock(block) {
+  const cached = normalizedBlocks.get(block);
+  if (cached?.source === block.text) return cached.text;
+  const text = normalizeSearch(block.text);
+  normalizedBlocks.set(block, { source: block.text, text });
+  return text;
+}
+
+// Cache derived text in memory; never change the frozen index or its display text.
+export function prepareSearchIndex(index) {
+  for (const blocks of Object.values(index)) for (const block of blocks) normalizedBlock(block);
+  return index;
+}
+
+export function sortingHelp(mode = "general", sort = "body", query = "") {
+  if (!query.trim()) return "按稿件创建或发布时间从新到旧排列；同视频内按分 P 顺序，不代表课程学习顺序。";
+  if (mode === "keywords") return "所有关键词须在同一篇正文出现；同段覆盖更多关键词的结果优先。同分保留目录顺序。";
+  if (mode === "phrase") return "只收录正文原句命中；同分保留目录顺序。";
+  return sort === "title" ? "标题包含搜索词的结果优先，其余按正文证据排序；同分保留目录顺序。视频以最相关分 P 排位，组内仍按 P 顺序。"
+    : "正文命中优先于标题、摘要和标签；同分保留目录顺序。视频以最相关分 P 排位，组内仍按 P 顺序。";
+}
 
 export function searchTerms(query, mode = "general") {
   const normalized = normalizeSearch(query);
   return normalized ? [...new Set(mode === "keywords" ? normalized.split(" ") : [normalized])] : [];
 }
 
-function entryMatches(entry, query, blocks, mode) {
-  const terms = searchTerms(query, mode);
+function entryMatches(entry, terms, blocks, mode, sort) {
   if (!terms.length) return { match: null, matches: [], score: 0 };
   const matches = blocks.flatMap((block) => {
-    const text = normalizeSearch(block.text);
+    const text = normalizedBlock(block);
     const found = terms.filter((term) => text.includes(term));
     return found.length ? [{ label: "正文命中", ...block, terms: found }] : [];
   });
   const covered = new Set(matches.flatMap((match) => match.terms));
+  const titleFirst = mode === "general" && sort === "title" && normalizeSearch(entry.title).includes(terms[0]);
   if (covered.size === terms.length) {
     const together = Math.max(...matches.map((match) => match.terms.length));
-    return { match: matches[0], matches, score: 100 + together / terms.length };
+    return { match: matches[0], matches, score: (titleFirst ? 200 : 100) + together / terms.length };
   }
   if (mode !== "general") return null;
   for (const [label, text] of [["标题", entry.title], ["摘要", entry.summary], ["来源标签", entry.tags.join(" · ")]]) {
-    if (normalizeSearch(text).includes(terms[0])) return { match: { label, text, id: null }, matches: [], score: 1 };
+    if (normalizeSearch(text).includes(terms[0])) return { match: { label, text, id: null }, matches: [], score: titleFirst ? 200 : 1 };
   }
   return null;
 }
 
-export function searchEntries(entries, { query, tag, mode = "general" }, index = {}) {
+export function searchEntries(entries, { query, tag, mode = "general", sort = "body" }, index = {}) {
+  const terms = searchTerms(query, mode);
   return entries.flatMap((entry) => {
     if (tag !== "全部" && !entry.tags.includes(tag)) return [];
-    const result = entryMatches(entry, query, index[entryKey(entry)] || [], mode);
+    const result = entryMatches(entry, terms, index[entryKey(entry)] || [], mode, sort);
     return result ? [{ entry, ...result }] : [];
   }).sort((a, b) => b.score - a.score);
 }

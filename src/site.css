@@ -109,8 +109,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .result-count strong { color: var(--accent-strong); font-weight: 700; }
 
 .article-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.article-tags span { padding: 4px 7px; color: var(--green); background: color-mix(in srgb, var(--green) 11%, transparent); font-size: 10px; line-height: 1.1; }
-.article-tags span:nth-child(2n) { color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, transparent); }
+.article-tags a { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; padding: 7px 10px; color: var(--green); background: color-mix(in srgb, var(--green) 11%, transparent); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 3px; }
+.article-tags a:nth-child(2n) { color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, transparent); }
 .draft-notice { margin: 24px 0 0; padding: 15px 18px; border-left: 2px solid var(--gold); background: var(--soft); color: var(--muted); font-size: 12px; line-height: 1.8; }
 .draft-notice strong { color: var(--ink); font-weight: 600; }
 .draft-notice p { margin: 5px 0 0; }

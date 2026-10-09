@@ -14,6 +14,7 @@ async (page) => {
     await navigation.getByRole("link", { name: "P10", exact: true }).click();
     await target.locator(".reading-meta .current-part").filter({ hasText: "P10" }).waitFor();
     await target.locator(".reader-video-search > summary").click();
+    await target.locator("#advanced-search > summary").click();
     await target.getByRole("radio", { name: "正文关键词" }).check();
     await target.locator("#video-query").fill("审美 痛苦");
     await target.waitForFunction(() => document.querySelector(".match-summary")?.textContent?.includes("全部关键词命中"));
@@ -28,6 +29,7 @@ async (page) => {
     await ready();
     assert(await target.locator("#video-query").inputValue() === "审美 痛苦", "Result navigation lost query");
     await target.getByRole("link", { name: "校验参照稿件", exact: true }).click();
+    await target.locator(".provenance > summary").click();
     await target.locator(".review-reference-notice").waitFor();
     await ready();
     assert(await target.locator("#video-query").inputValue() === "审美 痛苦", "Reference navigation lost query");
@@ -63,6 +65,7 @@ async (page) => {
     await target.screenshot({ path: "artifacts/reader-video-search-desktop.png" });
     await target.setViewportSize({ width: 375, height: 900 });
     await target.screenshot({ path: "artifacts/reader-video-search-mobile.png" });
+    await target.locator(".reader-site-menu > summary").click();
     await target.getByRole("button", { name: "切换深浅主题" }).click();
     await target.locator(".reader-video-search").scrollIntoViewIfNeeded();
     await target.screenshot({ path: "artifacts/reader-video-search-mobile-dark.png" });

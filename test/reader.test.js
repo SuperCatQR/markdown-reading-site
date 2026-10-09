@@ -109,11 +109,11 @@ test("directory state survives return and session restoration, rejects corrupt v
   store.write("all", saved);
   saved.query = "changed";
   assert.equal(store.read("all", ["全部", "哲学"]).query, "努斯");
-  assert.deepEqual(createDirectoryStore(storage).read("all", ["全部", "哲学"]), { ...saved, query: "努斯" });
+  assert.deepEqual(createDirectoryStore(storage).read("all", ["全部", "哲学"]), { ...saved, query: "努斯", sort: "body" });
   assert.equal(createDirectoryStore(storage).read("all", ["全部"]).tag, "全部");
   assert.equal(store.read("drafts", ["全部"]).query, "");
   values.set("reading-directory-all", '{"query":1,"tag":"不存在","scroll":-12,"visibleCount":0,"expanded":["../escape",5]}');
-  assert.deepEqual(createDirectoryStore(storage).read("all", ["全部"]), { query: "", mode: "general", tag: "全部", scroll: 0, visibleCount: 24, expanded: [], passages: [] });
+  assert.deepEqual(createDirectoryStore(storage).read("all", ["全部"]), { query: "", mode: "general", sort: "body", tag: "全部", scroll: 0, visibleCount: 24, expanded: [], passages: [] });
   const blocked = createDirectoryStore({ getItem() { throw Error("blocked"); }, setItem() { throw Error("blocked"); } });
   blocked.write("all", { ...saved, query: "仍然可用" });
   assert.equal(blocked.read("all", ["全部", "哲学"]).query, "仍然可用");

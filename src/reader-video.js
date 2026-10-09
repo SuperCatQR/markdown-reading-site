@@ -1,9 +1,10 @@
 import { entryRoute, isDraft, readerSearchRoute } from "./manuscripts.js";
-import { searchEntries } from "./search.js";
+import { searchEntries, searchModes } from "./search.js";
+import { measureSearchStage, showSearchWaiting } from "./search-loader.js";
 import { searchHelp } from "./directory-view.js";
 import { videoResults } from "./video-view.js";
 
-export function bindReaderVideo({ app, route, entries, summaries, loadSearchData, isCurrent }) {
+export function bindReaderVideo({ app, route, entries, summaries, loadSearchData, isCurrent, persistSearch }) {
   const root = app.querySelector(".reader-video-search");
   const input = root.querySelector("#video-query");
   const category = root.querySelector("#video-search-view");
@@ -17,8 +18,9 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   let composing = false;
 
   function save() {
-    history.replaceState({ ...history.state, videoSearch: { editionId: route.entry.editionId, query: current.query, mode: current.mode, view: current.view, passages: current.passages } }, "", `${readerSearchRoute(route.entry, current, route.mode === "review")}${location.hash}`);
-    app.querySelectorAll(".parts-navigation a:not(.continuous-link), .document-tabs a").forEach((link) => {
+    if (persistSearch) persistSearch({ ...current });
+    else history.replaceState({ ...history.state, videoSearch: { editionId: route.entry.editionId, query: current.query, mode: current.mode, view: current.view, passages: current.passages } }, "", `${readerSearchRoute(route.entry, current, route.mode === "review")}${location.hash}`);
+    app.querySelectorAll(".parts-navigation a:not(.continuous-link), .reader-part-menu a, .document-tabs a").forEach((link) => {
       const params = new URLSearchParams(new URL(link.href).search);
       const entry = entries.find((entry) => params.get("draft") === entry.editionId || params.get("read") === entry.slug || params.get("review") === entry.editionId);
       if (entry) link.setAttribute("href", readerSearchRoute(entry, current, params.has("review")));
@@ -50,19 +52,27 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
       return;
     }
     results.setAttribute("aria-busy", "true");
-    count.textContent = "正在搜索正文…";
+    count.textContent = "正在加载搜索资料…";
+    const currentRequest = () => isCurrent() && requestVersion === version;
+    const stopWaiting = showSearchWaiting(results, { isCurrent: currentRequest, cancelId: "cancel-video-search" });
+    const started = performance.now();
     try {
       const index = await loadSearchData(request.view);
       if (!isCurrent() || requestVersion !== version) return;
+      const start = performance.now();
       const matches = searchEntries(candidates, request, index);
+      measureSearchStage("compute", start, { view: request.view, scope: "video" });
+      const renderStart = performance.now();
       showMatches(matches, request);
+      measureSearchStage("render", renderStart, { view: request.view, scope: "video", matches: matches.length });
       count.textContent = `${matches.length} / ${candidates.length} 篇稿件`;
+      measureSearchStage("total", started, { view: request.view, scope: "video" });
     } catch {
       if (!isCurrent() || requestVersion !== version) return;
       count.textContent = "搜索未完成";
       results.innerHTML = '<div class="search-feedback" role="alert"><p>正文搜索索引加载失败，请检查网络后重试。</p><button class="reset-button" type="button" id="retry-video-search">重新搜索</button></div>';
-    }
-    results.setAttribute("aria-busy", "false");
+    } finally { stopWaiting(); }
+    if (currentRequest()) results.setAttribute("aria-busy", "false");
   }
 
   function update() {
@@ -82,12 +92,15 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   root.querySelectorAll('[name="search-mode"]').forEach((radio) => radio.addEventListener("change", () => {
     current.mode = radio.value;
     root.querySelector("#search-help").textContent = searchHelp(radio.value);
+    const label = root.querySelector(".search-mode-current");
+    if (label) label.textContent = searchModes[radio.value];
+    if (radio.value !== "general") root.querySelector("#advanced-search").open = true;
     clearTimeout(timer);
     search();
   }));
   root.addEventListener("click", (event) => {
     if (event.target.closest("#retry-video-search")) search();
-    if (event.target.closest("#clear-video-query")) {
+    if (event.target.closest("#clear-video-query, #cancel-video-search")) {
       input.value = current.query = "";
       current.passages = [];
       clearTimeout(timer);

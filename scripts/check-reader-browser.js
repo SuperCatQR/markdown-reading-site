@@ -63,6 +63,7 @@ async (page) => {
   await browser.waitForFunction(() => document.querySelector(".reading-heading .current-part")?.textContent === "P1");
   const reference = browser.getByRole("link", { name: "校验参照稿件", exact: true });
   await reference.click();
+  await browser.locator(".provenance > summary").click();
   await browser.locator(".review-reference-notice").waitFor();
   assert(await browser.locator(".prose").textContent() !== "", "Reference body missing");
   await browser.locator(".reading-navigation .back-link").click();

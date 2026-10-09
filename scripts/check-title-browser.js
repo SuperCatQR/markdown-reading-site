@@ -25,6 +25,7 @@ async (page) => {
         if (mode === "draft" && [1920, 375].includes(width)) await target.screenshot({ path: `artifacts/title-${width}-light.png` });
       }
     }
+    await target.locator(".reader-site-menu > summary").click();
     await target.getByRole("button", { name: "切换深浅主题" }).click();
     await target.screenshot({ path: "artifacts/title-mobile-dark.png" });
     return { passed: true, metrics };

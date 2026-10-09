@@ -77,5 +77,9 @@ export function focusDocumentHash(hash) {
     target.setAttribute("tabindex", "-1");
     target.focus({ preventScroll: true });
   }
+  if (!match) {
+    target.setAttribute("tabindex", "-1");
+    target.focus({ preventScroll: true });
+  }
   target.scrollIntoView({ behavior: "instant", block: "start" });
 }

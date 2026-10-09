@@ -26,6 +26,7 @@ async (page) => {
     await target.evaluate(() => scrollTo(0, 1400));
     const scroll = await target.evaluate(() => scrollY);
     await target.getByRole("navigation", { name: "稿件视图" }).getByRole("link", { name: "校验参照稿件", exact: true }).evaluate((link) => link.click());
+    await target.locator(".provenance > summary").click();
     await target.locator(".review-reference-notice").waitFor();
     await target.goBack();
     await target.waitForFunction(() => document.querySelector("#video-results")?.getAttribute("aria-busy") === "false");
@@ -45,7 +46,7 @@ async (page) => {
     await late.goto(`${base}?video=BV1dA411T7xD&view=drafts`);
     await late.locator(".reader-video-search > summary").click();
     await late.locator("#video-query").fill("审美");
-    await late.getByText("正在搜索正文…", { exact: true }).waitFor();
+    await late.locator("#video-results .search-feedback").waitFor();
     await late.locator("#video-search-view").selectOption("published");
     await late.getByRole("heading", { name: "本视频没有匹配的稿件" }).waitFor();
     release();
@@ -57,7 +58,7 @@ async (page) => {
     const leavingHold = new Promise((resolve) => { release = resolve; });
     await leaving.route(/search-drafts.*\.json/, async (route) => { await leavingHold; await route.continue(); });
     await leaving.goto(`${base}?video=BV1dA411T7xD&view=drafts&q=${encodeURIComponent("审美")}`);
-    await leaving.getByText("正在搜索正文…", { exact: true }).waitFor();
+    await leaving.locator("#video-results .search-feedback").waitFor();
     await leaving.locator(".reading-navigation .back-link").evaluate((link) => link.click());
     await leaving.locator(".video-group").first().waitFor();
     release();
