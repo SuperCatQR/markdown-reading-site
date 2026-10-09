@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "catalog.json",
-      "sha256": "711c9143176c1026ea6a0cea901b22bc9a62f1a5cf0376339025d74bcb936b26"
+      "sha256": "7f2695731b9603785d583a6cf7aa430b1bf103382fe17800b991c5be8c4d440b"
     },
     {
       "path": "drafts/edition-00372efc4aff4cd9ba42559c5297413f/preview.md",
@@ -171,14 +171,6 @@
     {
       "path": "drafts/edition-15f997dca1fe45d8bd7377e22c7dfd2c/review.md",
       "sha256": "30c3d9cf26f0ef397c85149c81adce05c5c44c0ce0840897f4bef16aad12ec1f"
-    },
-    {
-      "path": "drafts/edition-17f3e2fd63d748988b2c88be899e44ea/preview.md",
-      "sha256": "f2a98cd938954ee9be3848c36e5687a04d47eb97554e352d8035ec9ccf28c639"
-    },
-    {
-      "path": "drafts/edition-17f3e2fd63d748988b2c88be899e44ea/review.md",
-      "sha256": "fa05cc5b3754865303f67f9302fd7ffcc1f0dabbbdd0ac0e147a869c03acc0d8"
     },
     {
       "path": "drafts/edition-19184d4adff542ac84e2c1f563e87d20/preview.md",
@@ -1943,5 +1935,5 @@
   ],
   "manuscriptType": "publication-draft-export",
   "schemaVersion": 1,
-  "snapshotId": "45e2017373162d9fb227cf2494295396ef2d432e7d1596f6203a95ab1dacf55f"
+  "snapshotId": "4b5d064ec7c454306a6a4cb8d1e0a5c5f44e5febca59560f156bc879004bfc37"
 }
