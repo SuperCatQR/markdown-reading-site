@@ -2,12 +2,11 @@ import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
 import summaries from "virtual:reader-summaries";
 import searchUrls from "virtual:reader-search-urls";
-import { isDraft, sortReaderEntries, sourceTagsByFrequency, resolveReaderRoute, directoryRoute, searchRoute, videoRoute, continuousRoute } from "./manuscripts.js";
+import { isDraft, sortReaderEntries, sourceTagsByFrequency, resolveReaderRoute, directoryRoute, searchRoute, readerSearchRoute, videoEntry, continuousRoute } from "./manuscripts.js";
 import { searchEntries } from "./search.js";
 import { browserStorage, createDirectoryStore, sanitizeDirectoryState } from "./directory-state.js";
 import { header, footer, themeIconMarkup, viewLabels } from "./ui.js";
 import { directoryMarkup, directoryResults, searchHelp } from "./directory-view.js";
-import { videoMarkup, videoResults } from "./video-view.js";
 import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
 import "./site.css";
 
@@ -55,13 +54,9 @@ function tagsForView(view) {
   return ["全部", ...sourceTagsByFrequency(entriesByView[view])];
 }
 
-function isSearchPage() { return ["directory", "video"].includes(state.route?.kind); }
+function isSearchPage() { return state.route?.kind === "directory"; }
 
-function scopedEntries() {
-  return state.route.kind === "video" ? entriesByView[state.route.view].filter((entry) => entry.bvid === state.route.bvid) : entriesByView[state.route.view];
-}
-
-function directoryKey() { return `${state.route.view}${state.route.bvid ? `:${state.route.bvid}` : ""}`; }
+function directoryKey() { return state.route.view; }
 
 function saveDirectory() {
   if (!isSearchPage() || !state.directory) return;
@@ -115,10 +110,6 @@ async function syncDirectoryResults(restoreScroll = null) {
   const resultCount = app.querySelector("#result-count");
   if (!results || !resultCount) return;
   const current = { ...state.directory };
-  if (state.route.kind === "video") app.querySelectorAll(".video-versions a").forEach((link) => {
-    const view = new URL(link.href).searchParams.get("view");
-    link.setAttribute("href", searchRoute({ ...current, bvid: state.route.bvid, view }));
-  });
   saveDirectory();
   const isCurrent = () => version === resultsVersion && routeVersion === renderVersion;
   results.setAttribute("aria-busy", "true");
@@ -132,17 +123,11 @@ async function syncDirectoryResults(restoreScroll = null) {
       index = await loadSearchData(view);
     }
     if (!isCurrent()) return;
-    const entries = scopedEntries();
+    const entries = entriesByView[view];
     const matches = searchEntries(entries, current, index);
-    if (state.route.kind === "video") {
-      results.innerHTML = videoResults(matches, current, summaries);
-      resultCount.innerHTML = `<strong>${matches.length}</strong> / ${entries.length} 篇稿件`;
-      resultCount.hidden = !current.query.trim();
-    } else {
-      const result = directoryResults(matches, { ...current, counts, view }, summaries);
-      results.innerHTML = result.html;
-      resultCount.innerHTML = `<strong>${result.count}</strong> 个视频 · <strong>${matches.length}</strong> / ${counts[view]} 篇`;
-    }
+    const result = directoryResults(matches, { ...current, counts, view }, summaries);
+    results.innerHTML = result.html;
+    resultCount.innerHTML = `<strong>${result.count}</strong> 个视频 · <strong>${matches.length}</strong> / ${counts[view]} 篇`;
     results.setAttribute("aria-busy", "false");
     if (restoreScroll !== null) window.scrollTo({ top: restoreScroll, behavior: "instant" });
     saveDirectory();
@@ -171,16 +156,13 @@ function renderDirectory() {
   const saved = history.state?.directory;
   state.directory = saved?.view === view && saved.bvid === state.route.bvid ? sanitizeDirectoryState(saved, tags) : directories.read(directoryKey(), tags);
   if (state.route.searchState) state.directory = sanitizeDirectoryState({ ...state.directory, ...state.route.searchState }, tags);
-  if (state.route.kind === "video") state.directory.tag = "全部";
   state.composingSearch = false;
   const scroll = state.directory.scroll;
   const options = {
     ...state.directory, view, tags, counts, videoCount: new Set(entriesByView[view].map((entry) => entry.bvid)).size,
   };
-  const videoEntries = entriesByView.all.filter((entry) => entry.bvid === state.route.bvid);
-  app.innerHTML = pageHeader({ directory: state.route.kind === "directory" }) + (state.route.kind === "video"
-    ? videoMarkup(videoEntries, { ...options, bvid: state.route.bvid }, summaries) : directoryMarkup(options));
-  document.title = `${state.route.kind === "video" ? `${videoEntries[0].title} · 视频总览` : `${viewLabels[view]} · 视频文字资料库`} · 档案室`;
+  app.innerHTML = pageHeader({ directory: true }) + directoryMarkup(options);
+  document.title = `${viewLabels[view]} · 视频文字资料库 · 档案室`;
   document.querySelector('meta[name="description"]').content = "搜索视频讲解的文字整理稿，按分 P 阅读、复习并回看来源。公开预览逐篇标注审核状态。";
   const input = app.querySelector("#search");
   input.setAttribute("aria-describedby", "search-help");
@@ -218,6 +200,13 @@ async function renderCurrentRoute({ focus = false } = {}) {
   ++resultsVersion;
   clearTimeout(searchTimer);
   state.route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
+  // Old video links open the first matching manuscript with the original search scope.
+  if (state.route.kind === "video") {
+    const legacy = state.route;
+    const entry = videoEntry(entriesByView.all, legacy.bvid, legacy.view) || videoEntry(entriesByView.all, legacy.bvid);
+    history.replaceState(history.state, "", `${readerSearchRoute(entry, { ...legacy.searchState, view: legacy.view })}${location.hash}`);
+    state.route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
+  }
   const route = state.route;
   if (route.kind === "missing" || (route.kind === "article" && !route.entry)) {
     const video = new URLSearchParams(location.search).has("video");
@@ -225,7 +214,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     window.scrollTo({ top: 0, behavior: "instant" });
     return;
   }
-  if (["directory", "video"].includes(route.kind)) {
+  if (route.kind === "directory") {
     renderDirectory();
     if (focus) app.querySelector("main").focus({ preventScroll: true });
     return;
@@ -270,17 +259,29 @@ async function renderCurrentRoute({ focus = false } = {}) {
     if (version !== renderVersion) return;
     const returnView = Object.hasOwn(viewLabels, history.state?.directory?.view) ? history.state.directory.view : route.view;
     app.innerHTML = pageHeader() + readerMarkup(entry, route.mode, source, {
-      entries: entriesByView[route.view], returnView, pageUrl: location.href, issueUrl,
-      returnVideo: history.state?.directory?.bvid === entry.bvid ? searchRoute(history.state.directory) : videoRoute(entry.bvid),
+      entries: entriesByView[route.view], videoEntries: entriesByView.all, videoSearch: route.videoSearch, returnView, pageUrl: location.href, issueUrl,
       returnContinuous: history.state?.continuous?.bvid === entry.bvid && history.state.continuous.view === route.view
         ? continuousRoute(entry.bvid, route.view, history.state.continuous.current) : null,
     });
     document.title = `${entry.title} · P${entry.pageIndex + 1}${route.mode === "review" ? " · 校验参照" : ""} · 档案室`;
     document.querySelector('meta[name="description"]').content = entry.summary || `${entry.title}，P${entry.pageIndex + 1}。${entry.attribution}`;
     app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
+    const { bindReaderVideo } = await import("./reader-video.js");
+    if (version !== renderVersion) return;
+    const videoSearchReady = bindReaderVideo({ app, route, entries: entriesByView.all.filter((candidate) => candidate.bvid === entry.bvid), summaries, loadSearchData, isCurrent: () => version === renderVersion });
     if (focus) app.querySelector("main").focus({ preventScroll: true });
     if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
     else if (location.hash) focusDocumentHash(location.hash);
+    const restoreEvents = new AbortController();
+    let restoreInterrupted = false;
+    for (const type of ["wheel", "touchmove", "keydown", "pointerdown"]) window.addEventListener(type, () => { restoreInterrupted = true; }, { passive: true, signal: restoreEvents.signal });
+    videoSearchReady.then(() => {
+      restoreEvents.abort();
+      if (version !== renderVersion || restoreInterrupted) return;
+      if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
+      else if (location.hash) focusDocumentHash(location.hash);
+      updateReadingProgress();
+    });
     updateReadingProgress();
   } catch {
     if (version === renderVersion) messagePage("稿件加载失败", "请检查网络后重试，或返回目录阅读其他内容。", { retry: true });
@@ -396,11 +397,11 @@ window.addEventListener("resize", updateReadingProgress);
 document.addEventListener("keydown", (event) => {
   const active = document.activeElement;
   const editable = active?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "SUMMARY", "BUTTON"].includes(active?.tagName);
-  if (event.key === "/" && !editable && app.querySelector("#search")) {
+  if (event.key === "/" && !editable && app.querySelector("#search, #video-query")) {
     event.preventDefault();
-    const disclosure = app.querySelector(".video-search");
+    const disclosure = app.querySelector(".reader-video-search");
     if (disclosure) disclosure.open = true;
-    app.querySelector("#search").focus();
+    app.querySelector("#search, #video-query").focus();
   }
 });
 themeMedia.addEventListener("change", (event) => {

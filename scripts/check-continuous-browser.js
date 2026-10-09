@@ -11,7 +11,7 @@ async (page) => {
   const ready = () => target.waitForFunction(() => !!document.querySelector(".continuous-part") && !document.querySelector("#retry-document") && document.querySelector(".continuous-feedback")?.getAttribute("aria-busy") !== "true" && (!new URL(location.href).searchParams.has("part") || history.state?.continuous?.current === new URL(location.href).searchParams.get("part")));
   try {
     await target.goto(`${base}?video=BV1dA411T7xD&view=all`);
-    await target.getByRole("link", { name: /连续阅读公开预览/ }).click();
+    await target.locator(".parts-navigation").first().getByRole("link", { name: "从此 P 连续阅读 →" }).click();
     await ready();
     assert(await target.locator(".continuous-part").count() === 1, "Initial stream loaded multiple parts");
     assert(requests.filter((url) => /\.md$/.test(url)).length === 1, "Initial stream fetched more than one body");
@@ -71,7 +71,7 @@ async (page) => {
     await target.getByRole("button", { name: "切换深浅主题" }).click();
     await target.screenshot({ path: "artifacts/continuous-mobile-dark.png", fullPage: false });
     await target.goto(`${base}?video=BV1dA411T7xD&view=published&flow=continuous`);
-    await target.getByText("此类别暂无收录稿件，请返回视频总览选择其他类别。").waitFor();
+    await target.getByText("此类别暂无收录稿件，可返回单篇阅读切换查找类别。").waitFor();
     assert(await target.locator(".continuous-part").count() === 0, "Empty release flow mixed in drafts");
     await target.goto(`${base}?video=BV1dA411T7xD&view=drafts&flow=continuous&part=${firstId}#%ZZ`);
     await ready();
@@ -91,7 +91,7 @@ async (page) => {
     await target.getByRole("link", { name: /加载下一部分 · P3/ }).click();
     await target.getByText("正在加载 P3 正文…").waitFor();
     await target.locator(".continuous-shell > .back-link").evaluate((link) => link.click());
-    await target.locator(".video-overview").waitFor();
+    await target.locator(".reading-article .prose").waitFor();
     release();
     await target.waitForLoadState("networkidle");
     assert(await target.locator(".continuous-part").count() === 0, "Late body replaced destination page");

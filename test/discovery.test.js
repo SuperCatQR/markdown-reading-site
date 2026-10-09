@@ -1,9 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { searchEntries, searchTerms, contextSnippet, textSegments, matchHash, parseMatchHash } from "../src/search.js";
-import { resolveReaderRoute, searchRoute, entryKey } from "../src/manuscripts.js";
+import { resolveReaderRoute, searchRoute, entryKey, readerSearchRoute, videoEntry } from "../src/manuscripts.js";
 import { prepareDocument } from "../src/document.js";
-import { videoMarkup, videoResults } from "../src/video-view.js";
+import { readerVideoMarkup, videoResults } from "../src/video-view.js";
 
 const entry = (part, patch = {}) => ({ manuscriptType: "publication-draft", bvid: "BVexample", pageIndex: part - 1,
   editionId: String(part).padStart(32, "0"), title: "内在体验", summary: "", tags: ["哲学"], reviewStatus: "pending-review",
@@ -45,8 +45,8 @@ test("literal phrase whitespace and overlapping keyword highlights have correct 
 test("video overview exposes numeric parts, missing ranges and both manuscript versions without loading documents", () => {
   const entries = [entry(10), entry(2), entry(2, { manuscriptType: "publication", editionId: "f".repeat(32), slug: "published-2" })];
   const summaries = Object.fromEntries(entries.map((entry) => [entryKey(entry), { minutes: 3, excerpt: "原文摘录" }]));
-  const overview = videoMarkup(entries, { bvid: "BVexample", view: "all", query: "", mode: "general" }, summaries);
-  assert.match(overview, /已收录 2 个分 P · 3 篇稿件/);
+  const overview = readerVideoMarkup(entries, { view: "all", query: "", mode: "general" });
+  assert.match(overview, /已收录 2 个分 P/);
   assert.match(overview, /P1 未收录/);
   assert.match(overview, /P3–P9 未收录/);
   assert.match(overview, /不代表视频完整目录/);
@@ -59,25 +59,42 @@ test("video overview exposes numeric parts, missing ranges and both manuscript v
   assert.match(videoResults([], { query: "" }, summaries), /此类别暂无收录稿件/);
 });
 
-test("overview prioritizes reading, folds optional controls and restores active queries", () => {
+test("reader folds scoped search, restores active queries and makes empty categories recoverable", () => {
   const draft = entry(1);
   const summaries = { [entryKey(draft)]: { minutes: 25 } };
-  const render = (options = {}) => videoMarkup([draft], { bvid: draft.bvid, view: "all", query: "", mode: "general", ...options }, summaries);
+  const render = (options = {}) => readerVideoMarkup([draft], { view: "drafts", query: "", mode: "general", ...options });
   const single = render();
-  assert.doesNotMatch(single, /class="continuous-entry"|无法开启|class="video-search" open/);
-  assert.match(single, /<details class="video-category">/);
-  assert.match(single, /公开预览不代表审核通过或正式发布/);
-  assert.match(single, /<details class="video-source-details">/);
-  assert.match(single, /id="result-count"/);
-  assert.match(render({ query: "体验" }), /class="video-search" open/);
-  assert.match(render({ mode: "phrase" }), /class="video-search" open/);
-  assert.match(render({ view: "published" }), /class="video-category" open/);
+  assert.doesNotMatch(single, /class="reader-video-search" open|视频总览/);
+  assert.match(single, /id="video-query"/);
+  assert.match(single, /id="video-result-count"/);
+  assert.match(single, /校验参照不参与搜索/);
+  assert.match(render({ query: "体验" }), /class="reader-video-search" open/);
+  assert.match(render({ mode: "phrase" }), /class="reader-video-search" open/);
+  assert.match(render({ view: "published" }), /class="reader-video-search" open/);
   const second = entry(2);
-  const multi = videoMarkup([draft, second], { bvid: draft.bvid, view: "all", query: "", mode: "general" }, { ...summaries, [entryKey(second)]: { minutes: 1 } });
-  assert.match(multi, /连续阅读公开预览 · 2 个分 P/);
+  const multi = readerVideoMarkup([draft, second], { view: "all" });
+  assert.match(multi, /已收录 2 个分 P/);
   const published = entry(1, { manuscriptType: "publication", editionId: "f".repeat(32) });
-  const both = videoMarkup([draft, published], { bvid: draft.bvid, view: "all", query: "", mode: "general" }, { ...summaries, [entryKey(published)]: { minutes: 1 } });
-  assert.match(both, /class="video-category" open/);
+  const both = readerVideoMarkup([draft, published], { view: "all" });
+  assert.match(both, /已发布 · 1/);
+  assert.match(both, /未发布 · 1/);
+});
+
+test("reader search URLs preserve exact edition, category and query without mixing directory parameters", () => {
+  const draft = entry(2);
+  const published = entry(1, { manuscriptType: "publication", editionId: "f".repeat(32), slug: "published-1" });
+  const search = { query: '自由 & "[x.*]"', mode: "keywords", view: "published" };
+  const route = resolveReaderRoute(readerSearchRoute(draft, search), [published], [draft]);
+  assert.equal(route.entry, draft);
+  assert.deepEqual(route.videoSearch, search);
+  assert.equal(resolveReaderRoute(readerSearchRoute(draft, search, true), [published], [draft]).mode, "review");
+  assert.equal(videoEntry([draft, published], draft.bvid), published);
+  assert.equal(videoEntry([draft, published], draft.bvid, "drafts"), draft);
+  assert.equal(videoEntry([draft], draft.bvid, "published"), undefined);
+  for (const suffix of ["&vq=a&vq=b", "&vm=semantic", "&vview=unknown", "&vq=" + "x".repeat(301), "&q=test"]) {
+    assert.equal(resolveReaderRoute(`${readerSearchRoute(draft)}${suffix}`, [published], [draft]).kind, "missing");
+  }
+  assert.equal(resolveReaderRoute("?view=all&vq=test", [published], [draft]).kind, "missing");
 });
 
 test("search URLs round-trip video scope, exact query and category while rejecting ambiguous manuscript selectors", () => {

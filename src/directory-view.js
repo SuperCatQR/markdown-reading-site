@@ -1,4 +1,4 @@
-import { entryKey, entryRoute, directoryRoute, videoRoute, groupVideos } from "./manuscripts.js";
+import { entryKey, entryRoute, directoryRoute, groupVideos } from "./manuscripts.js";
 import { contextSnippet, matchHash, searchModes, searchTerms } from "./search.js";
 import { escapeHtml, highlightText, statusBadge, viewLabels, draftNotice, footer } from "./ui.js";
 
@@ -52,7 +52,7 @@ export function directoryResults(matches, { view, query, visibleCount, expanded,
   return { count: groups.length, html: `<section class="video-list" aria-label="${viewLabels[view]}视频列表">${groups.slice(0, visibleCount).map((group, index) => {
     const distinctParts = new Set(group.parts.map(({ entry }) => entry.pageIndex)).size;
     const body = `<ol class="video-parts">${group.parts.map((part) => partMarkup(part, { query, mode, passages }, summaries)).join("")}</ol>`;
-    return `<article class="video-group"><header class="video-heading"><span class="video-number">${String(index + 1).padStart(2, "0")}</span><div><h2><a href="${videoRoute(group.bvid, view)}">${highlightText(group.title, searchTerms(query, mode))}</a></h2><p class="video-meta"><a href="${escapeHtml(group.parts[0].entry.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="打开原视频 ${escapeHtml(group.bvid)}">${escapeHtml(group.bvid)}</a><span>${query.trim() ? "命中" : "已收录"} ${distinctParts} 个分 P · ${group.parts.length} 篇稿件</span></p></div></header>
+    return `<article class="video-group"><header class="video-heading"><span class="video-number">${String(index + 1).padStart(2, "0")}</span><div><h2><a href="${entryRoute(group.parts[0].entry)}">${highlightText(group.title, searchTerms(query, mode))}</a></h2><p class="video-meta"><a href="${escapeHtml(group.parts[0].entry.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="打开原视频 ${escapeHtml(group.bvid)}">${escapeHtml(group.bvid)}</a><span>${query.trim() ? "命中" : "已收录"} ${distinctParts} 个分 P · ${group.parts.length} 篇稿件</span></p></div></header>
       ${group.parts.length > 1 && !query.trim() ? `<details class="parts-disclosure" data-video="${group.bvid}"${expanded.includes(group.bvid) ? " open" : ""}><summary>查看 ${distinctParts} 个分 P 与稿件状态</summary>${body}</details>` : body}</article>`;
   }).join("")}</section>${groups.length > visibleCount ? `<button class="load-more" type="button" id="load-more">再显示 ${Math.min(24, groups.length - visibleCount)} 个视频 · 还有 ${groups.length - visibleCount} 个</button>` : ""}` };
 }
