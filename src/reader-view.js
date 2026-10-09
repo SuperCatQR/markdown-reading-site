@@ -1,5 +1,5 @@
 import { prepareDocument } from "./document.js";
-import { isDraft, entryRoute, reviewRoute, entryDate, directoryRoute, adjacentParts, buildIssueUrl } from "./manuscripts.js";
+import { isDraft, entryRoute, reviewRoute, entryDate, directoryRoute, videoRoute, adjacentParts, buildIssueUrl } from "./manuscripts.js";
 import { estimateReadingMinutes } from "./reading-time.js";
 import { escapeHtml, statusBadge, draftNotice, reviewNotice, documentTabs, viewLabels, footer } from "./ui.js";
 
@@ -16,7 +16,7 @@ function partsNavigation(entry, entries, mode) {
     <ol>${parts.map((part) => `<li><a href="${route(part)}"${part.editionId === entry.editionId ? ' aria-current="page"' : ""}>P${part.pageIndex + 1}</a></li>`).join("")}</ol><div class="parts-adjacent">${previous ? `<a rel="prev" href="${route(previous)}">← 上一部分 · P${previous.pageIndex + 1}</a>` : `<span>这是首个已收录分 P</span>`}${next ? `<a rel="next" href="${route(next)}">下一部分 · P${next.pageIndex + 1} →</a>` : `<span>已到最后一个收录分 P</span>`}</div></nav>`;
 }
 
-export function readerMarkup(entry, mode, source, { entries, returnView, pageUrl, issueUrl }) {
+export function readerMarkup(entry, mode, source, { entries, returnView, pageUrl, issueUrl, returnVideo = videoRoute(entry.bvid) }) {
   const review = mode === "review";
   const { title, body, headings } = prepareDocument(source);
   const toc = headings.filter(({ level }) => level > 1);
@@ -24,6 +24,7 @@ export function readerMarkup(entry, mode, source, { entries, returnView, pageUrl
   const draft = isDraft(entry);
   return `<div class="reading-progress" aria-hidden="true"><span></span></div><main id="main-content" class="reading-shell" tabindex="-1">
     <div class="reading-navigation"><a class="back-link" href="${directoryRoute(returnView)}">返回${viewLabels[returnView]}目录</a>${documentTabs(entry, mode)}</div>
+    <a class="video-return" href="${escapeHtml(returnVideo)}">视频总览 · 全部分 P →</a>
     <article class="reading-article"><header class="reading-heading">${review ? reviewNotice() : ""}${draft ? draftNotice() : ""}
       <div class="article-tags">${entry.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>${title || `<h1>${escapeHtml(entry.title)}</h1>`}
       <div class="reading-meta"><span class="current-part">P${entry.pageIndex + 1}</span><time datetime="${date}">${review ? "关联稿件" : draft ? "创建于" : "发布于"} ${date.replaceAll("-", ".")}</time><span>${estimateReadingMinutes(source)} 分钟阅读</span><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">原视频 · ${escapeHtml(entry.bvid)} / P${entry.pageIndex + 1} ↗</a><button class="copy-markdown" type="button">复制 Markdown</button></div>

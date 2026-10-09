@@ -45,4 +45,6 @@ playwright-cli -s=p0 run-code --filename=scripts/check-reader-errors.js
 
 ## 后续范围
 
+后续已增加视频总览、多关键词与原句反查、多个命中和可分享查询；新范围见 [内容发现交付说明](discovery-experience.md)。本文记录 P0 初次交付，当前能力以该补充说明及 README 为准。
+
 关闭会话后继续阅读的个人进度、收藏、阅读设置、批注和离线保存仍属于 P1/P2。搜索索引目前按发布类别拆分，首次全文搜索会加载该类别的可读正文索引；内容进一步增长时可根据测量结果考虑分片或 Worker。

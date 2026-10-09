@@ -159,7 +159,7 @@ Issue 讨论不会自动改写文章或审核事实；维护者需在主项目�
 内部审阅包使用 `bili-asr editorial export` 单独导出，不能放入此站点内容目录。
 
 P0 的实现对应与浏览器复测方式见 [P0 阅读体验交付说明](docs/p0-reading-experience.md)。
-下一阶段的设计建议见 [内容反查与多分 P 阅读计划](docs/next-reading-features.md)；该计划中的新增能力尚未实现。
+视频总览、原句与多关键词内容反查、多个段落命中及视频内搜索已实现，范围与复测方式见 [内容发现交付说明](docs/discovery-experience.md)。[内容反查与多分 P 阅读计划](docs/next-reading-features.md)中的连续阅读模式仍待实施。
 
 ## 构建与部署
 

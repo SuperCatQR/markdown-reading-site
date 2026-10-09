@@ -90,7 +90,7 @@ test("directory state survives return and session restoration, rejects corrupt v
   const values = new Map();
   const storage = { getItem: (key) => values.get(key), setItem: (key, value) => values.set(key, value) };
   const store = createDirectoryStore(storage);
-  const saved = { query: "努斯", tag: "哲学", scroll: 860, visibleCount: 48, expanded: ["BVexample"] };
+  const saved = { query: "努斯", mode: "keywords", tag: "哲学", scroll: 860, visibleCount: 48, expanded: ["BVexample"], passages: [entryKey(entry(1))] };
   store.write("all", saved);
   saved.query = "changed";
   assert.equal(store.read("all", ["全部", "哲学"]).query, "努斯");
@@ -98,7 +98,7 @@ test("directory state survives return and session restoration, rejects corrupt v
   assert.equal(createDirectoryStore(storage).read("all", ["全部"]).tag, "全部");
   assert.equal(store.read("drafts", ["全部"]).query, "");
   values.set("reading-directory-all", '{"query":1,"tag":"不存在","scroll":-12,"visibleCount":0,"expanded":["../escape",5]}');
-  assert.deepEqual(createDirectoryStore(storage).read("all", ["全部"]), { query: "", tag: "全部", scroll: 0, visibleCount: 24, expanded: [] });
+  assert.deepEqual(createDirectoryStore(storage).read("all", ["全部"]), { query: "", mode: "general", tag: "全部", scroll: 0, visibleCount: 24, expanded: [], passages: [] });
   const blocked = createDirectoryStore({ getItem() { throw Error("blocked"); }, setItem() { throw Error("blocked"); } });
   blocked.write("all", { ...saved, query: "仍然可用" });
   assert.equal(blocked.read("all", ["全部", "哲学"]).query, "仍然可用");

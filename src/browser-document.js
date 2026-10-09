@@ -1,4 +1,4 @@
-import { parseMatchHash, textSegments } from "./search.js";
+import { parseMatchHash, textSegments, searchTerms } from "./search.js";
 
 export async function copyMarkdown(source, button) {
   let textarea;
@@ -43,7 +43,7 @@ export function focusDocumentHash(hash) {
     while (walker.nextNode()) nodes.push(walker.currentNode);
     const text = nodes.map((node) => node.textContent).join("");
     let position = 0;
-    const ranges = textSegments(text, match.query).flatMap((segment) => {
+    const ranges = textSegments(text, searchTerms(match.query, match.mode)).flatMap((segment) => {
       const start = position;
       position += segment.text.length;
       return segment.match ? [{ start, end: position }] : [];
