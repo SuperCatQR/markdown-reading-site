@@ -97,6 +97,9 @@ draft-content/
 ```
 
 草稿 catalog 使用 `{ "schemaVersion": 2, "manuscriptType": "publication-draft", "articles": [...] }`。
+主题 `tags` 只使用源视频元数据中已采集的标签名称（主项目 `video_tags.tag_name`），按 BVID 对应稿件，
+去重后保留原名称。不得从标题、编号或正文推断主题，也不得使用 AI 生成的分类；缺少标签时先补采
+源视频元数据，获取失败时保留空值，不填入替代分类。
 每条记录冻结读者元数据和来源，携带 edition/revision 标识、内容哈希、预览文件哈希、审核状态与
 Unix 秒创建时间；`reviewFile` 固定为同一 edition 目录的 `review.md`，`reviewArtifactSha256`
 校验原始参照字节。没有 release ID、发布时间或发布模板声明。manifest 保持 v1，类型为
