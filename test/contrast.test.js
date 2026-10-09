@@ -60,7 +60,7 @@ for (const [theme, selector] of [["light", ":root"], ["dark", ':root[data-theme=
         assert.ok(ratio >= 4.5, `${theme} ${selector} on ${name}: ${ratio.toFixed(2)}:1 (requires 4.5:1)`);
       }
     }
-    for (const selector of [".result-count strong", ".part-link", ".parts-disclosure > summary", ".search-arrival", ".passage-disclosure > summary", ".video-versions a", ".search-modes label:has(input:checked)"]) {
+    for (const selector of [".result-count strong", ".part-link", ".parts-disclosure > summary", ".search-arrival", ".passage-disclosure > summary", ".reader-video-search > summary", ".search-modes label:has(input:checked)"]) {
       const ratio = contrast(tokenColor(declaration(selector, "color"), tokens), tokens.paper);
       assert.ok(ratio >= 4.5, `${theme} ${selector} on paper: ${ratio.toFixed(2)}:1 (requires 4.5:1)`);
     }

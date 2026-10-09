@@ -12,6 +12,19 @@ export const directoryRoute = (view) => view === "all" ? "?view=all" : `?view=${
 export const videoRoute = (bvid, view = "all") => `?video=${encodeURIComponent(bvid)}&view=${view}`;
 export const continuousRoute = (bvid, view, editionId) => `?${new URLSearchParams({ video: bvid, view, flow: "continuous", ...(editionId ? { part: editionId } : {}) })}`;
 
+export function readerSearchRoute(entry, { query = "", mode = "general", view } = {}, review = false) {
+  const params = new URLSearchParams(review ? reviewRoute(entry) : entryRoute(entry));
+  if (query) params.set("vq", query);
+  if (mode !== "general") params.set("vm", mode);
+  if (view) params.set("vview", view);
+  return `?${params}`;
+}
+
+export function videoEntry(entries, bvid, view = "all") {
+  return entries.filter((entry) => entry.bvid === bvid && (view === "all" || isDraft(entry) === (view === "drafts")))
+    .sort((a, b) => a.pageIndex - b.pageIndex || Number(isDraft(a)) - Number(isDraft(b)))[0];
+}
+
 export function searchRoute({ view, bvid, query = "", mode = "general", tag = "全部" }) {
   const params = new URLSearchParams({ ...(bvid ? { video: bvid } : {}), view });
   params.set("q", query);
@@ -58,26 +71,32 @@ export function sourceTagsByFrequency(entries) {
 
 export function resolveReaderRoute(search, publication, drafts) {
   const params = new URLSearchParams(search);
-  const allowed = ["view", "read", "draft", "review", "video", "q", "mode", "tag", "flow", "part"];
+  const allowed = ["view", "read", "draft", "review", "video", "q", "mode", "tag", "flow", "part", "vq", "vm", "vview"];
   if ([...params.keys()].some((key) => !allowed.includes(key) || params.getAll(key).length !== 1)) return { kind: "missing" };
   const selectors = ["read", "draft", "review"].filter((key) => params.has(key));
   if (selectors.length > 1 || (selectors.length && ["view", "video", "q", "mode", "tag", "flow", "part"].some((key) => params.has(key)))
       || (params.has("mode") && !["general", "phrase", "keywords"].includes(params.get("mode")))
       || (params.get("q")?.length > 300)
-      || (params.has("view") && !["all", "published", "drafts"].includes(params.get("view")))) return { kind: "missing" };
+      || (params.has("view") && !["all", "published", "drafts"].includes(params.get("view")))
+      || (["vq", "vm", "vview"].some((key) => params.has(key)) && !selectors.length)
+      || (params.get("vq")?.length > 300)
+      || (params.has("vm") && !["general", "phrase", "keywords"].includes(params.get("vm")))
+      || (params.has("vview") && !["all", "published", "drafts"].includes(params.get("vview")))) return { kind: "missing" };
+  const videoSearch = ["vq", "vm", "vview"].some((key) => params.has(key))
+    ? { videoSearch: { query: params.get("vq") || "", mode: params.get("vm") || "general", view: params.get("vview") || "all" } } : {};
   if (params.has("review")) {
     const id = params.get("review");
     if (!/^[0-9a-f]{32}$/.test(id)) return { kind: "missing" };
     const matches = [...publication, ...drafts].filter((entry) => entry.editionId === id);
     if (matches.length !== 1) return { kind: "missing" };
     const entry = matches[0];
-    return { kind: "article", view: isDraft(entry) ? "drafts" : "published", mode: "review", entry };
+    return { kind: "article", view: isDraft(entry) ? "drafts" : "published", mode: "review", entry, ...videoSearch };
   }
   if (params.has("draft")) {
     const id = params.get("draft");
-    return /^[0-9a-f]{32}$/.test(id) ? { kind: "article", view: "drafts", mode: "body", entry: drafts.find((entry) => entry.editionId === id) } : { kind: "missing" };
+    return /^[0-9a-f]{32}$/.test(id) ? { kind: "article", view: "drafts", mode: "body", entry: drafts.find((entry) => entry.editionId === id), ...videoSearch } : { kind: "missing" };
   }
-  if (params.has("read")) return { kind: "article", view: "published", mode: "body", entry: publication.find((entry) => entry.slug === params.get("read")) };
+  if (params.has("read")) return { kind: "article", view: "published", mode: "body", entry: publication.find((entry) => entry.slug === params.get("read")), ...videoSearch };
   const view = params.get("view") || "all";
   const bvid = params.get("video");
   if (params.has("video") && (!/^[\w-]{1,80}$/.test(bvid) || ![...publication, ...drafts].some((entry) => entry.bvid === bvid))) return { kind: "missing" };

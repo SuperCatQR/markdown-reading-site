@@ -90,6 +90,8 @@ test("directory omits automatic excerpts, links video sources and preserves safe
   assert.match(result.html, /href="https:\/\/www.bilibili.com\/video\/BVexample\/\?p=1" target="_blank" rel="noopener noreferrer"/);
   assert.doesNotMatch(result.html, /<img/);
   assert.match(result.html, /&lt;img/);
+  assert.match(result.html, new RegExp(`href="\\?draft=${draft.editionId}"`));
+  assert.doesNotMatch(result.html, /href="\?video=/);
   const match = { label: "正文命中", id: "passage-1", text: '<script>危险</script>' };
   const search = directoryResults([{ entry: draft, match }], { view: "all", query: "危险", visibleCount: 24, expanded: [], counts: { all: 1 } }, summaries);
   assert.match(search.html, /<mark>危险<\/mark>/);
@@ -125,4 +127,10 @@ test("reader displays source, editorial notes and review scope with navigation a
   for (const value of [first.attribution, first.editorNote, "待审核 · 未发布", "不代表对视频中全部观点的学术认证", "完整正文，不能改写。", "返回全部内容目录"]) assert.ok(html.includes(value));
   assert.ok(html.includes(`href="${entryRoute(second)}"`));
   assert.equal(html.match(/<h1/g).length, 1);
+  assert.match(html, /从此 P 连续阅读/);
+  assert.match(html, /在此视频中查找/);
+  assert.doesNotMatch(html, /视频总览/);
+  const single = readerMarkup(first, "body", source, { entries: [first], returnView: "all", pageUrl: "https://site.example/", issueUrl: "https://github.com/example/site/issues/new" });
+  assert.doesNotMatch(single, /class="parts-navigation"|从此 P 连续阅读/);
+  assert.match(single, /class="reader-video-search"/);
 });
