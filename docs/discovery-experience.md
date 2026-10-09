@@ -1,6 +1,6 @@
 # 内容发现交付说明
 
-依据 [项目哲学](product-philosophy.md)，本次改善复习者凭原句或术语找回上下文，以及学习者查看同视频已收录分 P 的任务。对应 [下一阶段计划](next-reading-features.md) 的前三步；连续阅读模式仍待实施。
+依据 [项目哲学](product-philosophy.md)，本次改善复习者凭原句或术语找回上下文，以及学习者查看同视频已收录分 P 的任务。对应 [下一阶段计划](next-reading-features.md) 的前三步；第四步后续已完成，见 [连续阅读交付说明](continuous-reading.md)。
 
 ## 已实现
 

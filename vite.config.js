@@ -4,9 +4,9 @@ import { readerContentPlugin } from "./scripts/reader-content.js";
 
 export default defineConfig({
   base: process.env.VITE_BASE_PATH || "/",
-  // Markdown documents remain separate files, including short ones.
-  assetsInlineLimit: 0,
   build: {
+    // Markdown documents remain separate files, including short ones.
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
         manualChunks(id) {

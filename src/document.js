@@ -9,7 +9,7 @@ function inlineText(token) {
   }).join("");
 }
 
-export function prepareDocument(source) {
+export function prepareDocument(source, { idPrefix = "", titleLevel = 1 } = {}) {
   const tokens = markdown.parse(source, {});
   const headings = [];
   const blocks = [];
@@ -21,25 +21,32 @@ export function prepareDocument(source) {
     if (token.type === "heading_open") {
       text = inlineText(tokens[index + 1]);
       const slug = text.toLocaleLowerCase("zh-Hans").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || "section";
-      id = `${slug}-${headings.length + 1}`;
+      id = `${idPrefix}${slug}-${headings.length + 1}`;
       headings.push({ id, text, level: Number(token.tag.slice(1)) });
     } else if (token.type === "paragraph_open") {
       text = inlineText(tokens[index + 1]);
-      id = `passage-${blocks.length + 1}`;
+      id = `${idPrefix}passage-${blocks.length + 1}`;
     } else if (["fence", "code_block"].includes(token.type)) {
       text = token.content;
-      id = `passage-${blocks.length + 1}`;
+      id = `${idPrefix}passage-${blocks.length + 1}`;
     } else if (token.type === "table_open") {
       for (let next = index + 1; next < tokens.length && tokens[next].type !== "table_close"; next += 1) {
         if (tokens[next].type === "inline") text += `${inlineText(tokens[next])} `;
       }
-      id = `passage-${blocks.length + 1}`;
+      id = `${idPrefix}passage-${blocks.length + 1}`;
     }
     if (!id) continue;
     token.attrSet("id", id);
     if (!(index === 0 && hasOpeningTitle)) {
       blocks.push({ id, text: text.replace(/\s+/gu, " ").trim() });
     }
+  }
+  if (idPrefix) for (const token of tokens) for (const child of token.children || []) {
+    const href = child.attrGet("href");
+    if (child.type === "link_open" && href?.startsWith("#")) child.attrSet("href", `#${idPrefix}${href.slice(1)}`);
+  }
+  if (titleLevel !== 1) for (const token of tokens) {
+    if (["heading_open", "heading_close"].includes(token.type)) token.tag = `h${Math.min(6, Number(token.tag.slice(1)) + titleLevel - 1)}`;
   }
   const title = hasOpeningTitle ? markdown.renderer.render(tokens.slice(0, 3), markdown.options, {}) : "";
   const body = markdown.renderer.render(hasOpeningTitle ? tokens.slice(3) : tokens, markdown.options, {});

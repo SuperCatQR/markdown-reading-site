@@ -10,6 +10,7 @@ export const reviewRoute = (entry) => `?review=${entry.editionId}`;
 export const entryDate = (entry) => new Date((isDraft(entry) ? entry.createdAt : entry.publishedAt) * 1000).toISOString().slice(0, 10);
 export const directoryRoute = (view) => view === "all" ? "?view=all" : `?view=${view}`;
 export const videoRoute = (bvid, view = "all") => `?video=${encodeURIComponent(bvid)}&view=${view}`;
+export const continuousRoute = (bvid, view, editionId) => `?${new URLSearchParams({ video: bvid, view, flow: "continuous", ...(editionId ? { part: editionId } : {}) })}`;
 
 export function searchRoute({ view, bvid, query = "", mode = "general", tag = "全部" }) {
   const params = new URLSearchParams({ ...(bvid ? { video: bvid } : {}), view });
@@ -49,10 +50,10 @@ export function sortReaderEntries(entries) {
 
 export function resolveReaderRoute(search, publication, drafts) {
   const params = new URLSearchParams(search);
-  const allowed = ["view", "read", "draft", "review", "video", "q", "mode", "tag"];
+  const allowed = ["view", "read", "draft", "review", "video", "q", "mode", "tag", "flow", "part"];
   if ([...params.keys()].some((key) => !allowed.includes(key) || params.getAll(key).length !== 1)) return { kind: "missing" };
   const selectors = ["read", "draft", "review"].filter((key) => params.has(key));
-  if (selectors.length > 1 || (selectors.length && ["view", "video", "q", "mode", "tag"].some((key) => params.has(key)))
+  if (selectors.length > 1 || (selectors.length && ["view", "video", "q", "mode", "tag", "flow", "part"].some((key) => params.has(key)))
       || (params.has("mode") && !["general", "phrase", "keywords"].includes(params.get("mode")))
       || (params.get("q")?.length > 300)
       || (params.has("view") && !["all", "published", "drafts"].includes(params.get("view")))) return { kind: "missing" };
@@ -72,6 +73,14 @@ export function resolveReaderRoute(search, publication, drafts) {
   const view = params.get("view") || "all";
   const bvid = params.get("video");
   if (params.has("video") && (!/^[\w-]{1,80}$/.test(bvid) || ![...publication, ...drafts].some((entry) => entry.bvid === bvid))) return { kind: "missing" };
+  if (params.has("flow") || params.has("part")) {
+    if (params.get("flow") !== "continuous" || !bvid || !["published", "drafts"].includes(view)
+        || ["q", "mode", "tag"].some((key) => params.has(key))) return { kind: "missing" };
+    const entries = (view === "drafts" ? drafts : publication).filter((entry) => entry.bvid === bvid).sort((a, b) => a.pageIndex - b.pageIndex);
+    const id = params.get("part");
+    if (params.has("part") && (!/^[0-9a-f]{32}$/.test(id) || !entries.some((entry) => entry.editionId === id))) return { kind: "missing" };
+    return { kind: "continuous", bvid, view, entries, entry: id ? entries.find((entry) => entry.editionId === id) : entries[0] };
+  }
   const tag = params.get("tag");
   if (params.has("tag") && (bvid || (tag !== "全部" && ![...publication, ...drafts].some((entry) => entry.tags.includes(tag))))) return { kind: "missing" };
   const searchState = ["q", "mode", "tag"].some((key) => params.has(key))
