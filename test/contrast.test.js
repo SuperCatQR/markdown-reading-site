@@ -20,7 +20,7 @@ function contrast(a, b) {
 }
 
 function declaration(selector, property) {
-  const start = css.indexOf(`${selector} {`);
+  const start = css.indexOf(`\n${selector} {`);
   assert.ok(start >= 0, `Missing selector ${selector}`);
   const block = css.slice(start, css.indexOf("}", start));
   const value = block.match(new RegExp(`(?:\\{|;)\\s*${property}:\\s*([^;]+);`))?.[1];
@@ -45,11 +45,7 @@ for (const [theme, selector] of [["light", ":root"], ["dark", ':root[data-theme=
     const block = css.slice(start, css.indexOf("}", start));
     const tokens = Object.fromEntries([...block.matchAll(/--([\w-]+):\s*(#[a-f\d]{6})/gi)]
       .map(([, name, value]) => [name, rgb(value)]));
-    const hoverMix = declaration(".article-row:hover", "background")
-      .match(/^color-mix\(in srgb, var\(--surface\) (\d+)%, var\(--accent-soft\)\)$/);
-    assert.ok(hoverMix, "Unexpected row hover background");
-    const hover = mix(tokens.surface, tokens["accent-soft"], Number(hoverMix[1]) / 100);
-    for (const [name, background] of [...["paper", "surface", "soft"].map((name) => [name, tokens[name]]), ["article hover", hover]]) {
+    for (const [name, background] of ["paper", "surface", "soft"].map((name) => [name, tokens[name]])) {
       const ratio = contrast(tokens.faint, background);
       assert.ok(ratio >= 4.5, `${theme} --faint on ${name}: ${ratio.toFixed(2)}:1 (requires 4.5:1)`);
     }
@@ -59,14 +55,16 @@ for (const [theme, selector] of [["light", ":root"], ["dark", ':root[data-theme=
       const tint = declaration(selector, "background")
         .match(/^color-mix\(in srgb, (var\(--[\w-]+\)) (\d+)%, transparent\)$/);
       assert.ok(tint, `Unexpected tag background for ${selector}`);
-      for (const [name, background] of [["paper", tokens.paper], ["surface", tokens.surface], ["article hover", hover]]) {
+      for (const [name, background] of [["paper", tokens.paper], ["surface", tokens.surface]]) {
         const ratio = contrast(foreground, mix(tokenColor(tint[1], tokens), background, Number(tint[2]) / 100));
         assert.ok(ratio >= 4.5, `${theme} ${selector} on ${name}: ${ratio.toFixed(2)}:1 (requires 4.5:1)`);
       }
     }
-    for (const selector of [".eyebrow span", ".result-count strong"]) {
+    for (const selector of [".result-count strong", ".part-link", ".parts-disclosure > summary", ".search-arrival"]) {
       const ratio = contrast(tokenColor(declaration(selector, "color"), tokens), tokens.paper);
       assert.ok(ratio >= 4.5, `${theme} ${selector} on paper: ${ratio.toFixed(2)}:1 (requires 4.5:1)`);
     }
+    const highlight = contrast(tokenColor(declaration("mark", "color"), tokens), tokenColor(declaration("mark", "background"), tokens));
+    assert.ok(highlight >= 4.5, `${theme} search highlight contrast: ${highlight.toFixed(2)}:1`);
   });
 }

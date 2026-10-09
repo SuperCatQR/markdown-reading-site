@@ -5,7 +5,9 @@ import os from "node:os";
 import path from "node:path";
 import { sha256, validateCatalog, validateSnapshot, validateCatalogPair, REVIEW_STATUSES } from "../scripts/catalog.js";
 import { validateContentDirectory, validateSiteSnapshots } from "../scripts/validate-catalog.mjs";
-import { createReaderIndex, resolveReaderRoute, buildIssueUrl, entryDate, REVIEW_LABELS } from "../src/manuscripts.js";
+import { entryKey, resolveReaderRoute, buildIssueUrl, entryDate, REVIEW_LABELS } from "../src/manuscripts.js";
+import { buildReaderData } from "../scripts/reader-content.js";
+import { searchEntries } from "../src/search.js";
 
 const document = "# 未发布版本 B\n\n红杉星辰只在草稿中。\n";
 const review = "# 合成数据校验参照\n\nAI 初稿基线，未经人工复核。\n";
@@ -104,13 +106,12 @@ test("published A and current draft B coexist without asserting the same edition
 });
 
 test("directory search and routes keep published A independent of B review status", () => {
-  const published = createReaderIndex([publication], () => "青竹溪流");
+  const index = { [entryKey(publication)]: [{ id: "passage-1", text: "青竹溪流" }], [entryKey(draft)]: [{ id: "passage-1", text: "红杉星辰" }] };
   for (const reviewStatus of REVIEW_STATUSES) {
     const selectedDraft = { ...draft, reviewStatus };
-    const pending = createReaderIndex([selectedDraft], () => "红杉星辰");
-    assert.equal(published.filter({ query: "红杉星辰", tag: "全部" }).length, 0);
-    assert.equal(pending.filter({ query: "红杉星辰", tag: "全部" })[0].editionId, draft.editionId);
-    assert.equal(pending.filter({ query: "", tag: "不存在" }).length, 0);
+    assert.equal(searchEntries([publication], { query: "红杉星辰", tag: "全部" }, index).length, 0);
+    assert.equal(searchEntries([selectedDraft], { query: "红杉星辰", tag: "全部" }, index)[0].entry.editionId, draft.editionId);
+    assert.equal(searchEntries([selectedDraft], { query: "", tag: "不存在" }, index).length, 0);
     assert.equal(resolveReaderRoute("?read=part-1", [publication], [selectedDraft]).entry, publication);
     assert.equal(resolveReaderRoute("?draft=" + draft.editionId, [publication], [selectedDraft]).entry, selectedDraft);
   }
@@ -137,8 +138,14 @@ test("validates both deployment roots, refuses leftovers and detects changed dra
   await writeSnapshot(path.join(root, "content"), snapshot([publication], "publication"));
   await writeSnapshot(path.join(root, "draft-content"), snapshot());
   assert.equal((await validateSiteSnapshots(root)).drafts.articles[0].editionId, draft.editionId);
+  const generated = await buildReaderData(root);
+  assert.equal(Object.keys(generated.summaries).length, 2);
+  assert.ok(JSON.stringify(generated.search.drafts).includes("红杉星辰"));
+  assert.ok(!JSON.stringify(generated.search.published).includes("红杉星辰"));
+  assert.ok(!JSON.stringify(generated.search).includes("AI 初稿基线"), "reference content stays out of the body search index");
   await writeFile(path.join(root, "draft-content", draft.file), "modified draft");
   await assert.rejects(validateSiteSnapshots(root), /SHA-256/);
+  await assert.rejects(buildReaderData(root), /SHA-256/);
   await writeSnapshot(path.join(root, "draft-content"), snapshot());
   await mkdir(path.join(root, "draft-content", "reviews"));
   await assert.rejects(validateSiteSnapshots(root), /未知目录/);
