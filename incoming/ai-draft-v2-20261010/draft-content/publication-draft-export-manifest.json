@@ -1,0 +1,27 @@
+{
+  "files": [
+    {
+      "path": "catalog.json",
+      "sha256": "8bbf10dde4bc4c9ed811f60c5cb964bd5421442edbda84e0015f389d1e3ad6bf"
+    },
+    {
+      "path": "drafts/edition-5fa432ce896042e4a754fd0bd0fb5273/preview.md",
+      "sha256": "4f6d22f1dac727ef6dee7926f792874a95e9a345d785bf30f6f7fd95849feb1d"
+    },
+    {
+      "path": "drafts/edition-5fa432ce896042e4a754fd0bd0fb5273/review.md",
+      "sha256": "da6064a500a03a0dd99b0f855b2d2eba8f540d1dd8062ee09bb6b3568248937f"
+    },
+    {
+      "path": "drafts/edition-e32d0106be8b4d7ba6efd0f3685fea3d/preview.md",
+      "sha256": "69d924c9d69415679aadb737086f761b29297d664101d977e797d579da9f915b"
+    },
+    {
+      "path": "drafts/edition-e32d0106be8b4d7ba6efd0f3685fea3d/review.md",
+      "sha256": "178a91ce18877a2abb4ca328188e700ec24b7068d8983fc993af88c99d8924a3"
+    }
+  ],
+  "manuscriptType": "publication-draft-export",
+  "schemaVersion": 1,
+  "snapshotId": "3ccf8b70d6e4ce274ee77805f20253bf67e815e3c21fc804f58cdb8c6315a01c"
+}

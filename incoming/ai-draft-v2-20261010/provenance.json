@@ -1,0 +1,64 @@
+{
+  "archiveContract": "universal-v2",
+  "artifacts": [
+    {
+      "externalVideoId": "BV1Lo4y147ox",
+      "generatedAt": 1791610641,
+      "inputId": "d838b1dc167e1bc546150f8742fbe84934cbc9a3ff5413414385315b9f05c28e",
+      "inputVersion": 2,
+      "partIndex": 0,
+      "path": "ai-artifacts/part-533/64b1144c2308b567da1fb46a19ff054432f9c643363ec124a90c9ca7ed09d985/ai-draft-v2/ai-draft.md",
+      "platform": "bilibili",
+      "revisionId": "64b1144c2308b567da1fb46a19ff054432f9c643363ec124a90c9ca7ed09d985",
+      "sha256": "f8cbe788c059afc7d427df3f4bd968824ed2dbf84b48a4cc73233ea58eacd77e",
+      "templateVersion": "ai-draft-v2"
+    },
+    {
+      "externalVideoId": "BV1Lo4y147ox",
+      "generatedAt": 1791610641,
+      "inputId": "d838b1dc167e1bc546150f8742fbe84934cbc9a3ff5413414385315b9f05c28e",
+      "inputVersion": 2,
+      "partIndex": 0,
+      "path": "ai-artifacts/part-533/64b1144c2308b567da1fb46a19ff054432f9c643363ec124a90c9ca7ed09d985/ai-draft-v2/review.md",
+      "platform": "bilibili",
+      "revisionId": "64b1144c2308b567da1fb46a19ff054432f9c643363ec124a90c9ca7ed09d985",
+      "sha256": "da6064a500a03a0dd99b0f855b2d2eba8f540d1dd8062ee09bb6b3568248937f",
+      "templateVersion": "ai-draft-v2"
+    },
+    {
+      "externalVideoId": "BV1QM411G7v5",
+      "generatedAt": 1791610601,
+      "inputId": "0eb755511a6b79b41203730b96329cc1b1f5e57dde7ec7918b16dc7100105e0b",
+      "inputVersion": 2,
+      "partIndex": 0,
+      "path": "ai-artifacts/part-541/a405fadb715a324754e65f3808d4e80e1c38905ccb5c689e8b2804613a4c42eb/ai-draft-v2/ai-draft.md",
+      "platform": "bilibili",
+      "revisionId": "a405fadb715a324754e65f3808d4e80e1c38905ccb5c689e8b2804613a4c42eb",
+      "sha256": "8888591295356ee07e5bd1fc683ef0b25783c0ca01950158dfa1cb00ff96f647",
+      "templateVersion": "ai-draft-v2"
+    },
+    {
+      "externalVideoId": "BV1QM411G7v5",
+      "generatedAt": 1791610601,
+      "inputId": "0eb755511a6b79b41203730b96329cc1b1f5e57dde7ec7918b16dc7100105e0b",
+      "inputVersion": 2,
+      "partIndex": 0,
+      "path": "ai-artifacts/part-541/a405fadb715a324754e65f3808d4e80e1c38905ccb5c689e8b2804613a4c42eb/ai-draft-v2/review.md",
+      "platform": "bilibili",
+      "revisionId": "a405fadb715a324754e65f3808d4e80e1c38905ccb5c689e8b2804613a4c42eb",
+      "sha256": "178a91ce18877a2abb4ca328188e700ec24b7068d8983fc993af88c99d8924a3",
+      "templateVersion": "ai-draft-v2"
+    }
+  ],
+  "catalogVersion": 3,
+  "contentVersion": 2,
+  "exportedAt": 1791610656,
+  "inputVersion": 2,
+  "legacyPairsIncluded": 0,
+  "pairs": 2,
+  "producerCommit": "472229804283655e877a3dd01764e4991a807cc9",
+  "productionDatabaseModified": false,
+  "publicationStatus": "unreviewed-preview",
+  "snapshotId": "3ccf8b70d6e4ce274ee77805f20253bf67e815e3c21fc804f58cdb8c6315a01c",
+  "templateVersion": "ai-draft-v2"
+}
