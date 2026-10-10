@@ -3,3 +3,4 @@ content/** -text
 draft-content/** -text
 # Export fixture bytes participate in the producer's snapshot hashes.
 test/fixtures/universal-origin-v1/** -text
+test/fixtures/source-supplement-v1/** -text

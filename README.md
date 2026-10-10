@@ -45,6 +45,8 @@ pnpm dev
 
 上游契约固定于 [producer b584f6a](https://github.com/SuperCatQR/bilibili-asr-archive/blob/b584f6ac29b9e6acf598496c255ee73753063074/docs/preserved-body-import.md)。这是 PR #304 实现、PR #75/#77 已接入的来源交付策略，替代早期 issues #64/#68 提议的 manifest v1。导入步骤及来源说明见 [保留旧正文的迁移导入](docs/preserved-body-import.md)。
 
+迁移后有归档证据的分 P 标题支持独立政策 `legacy-part-title-supplement-v1`，旧冻结政策保持原规则。证据、配套交付和验证边界见 [分 P 标题补充](docs/source-part-title-supplement.md)。
+
 当前读取架构、#64–#68 修复映射、快照身份与验收/部署边界见 [通用契约修复交付](docs/universal-reader-delivery.md)。
 
 桌面与窄屏的切换、导航层级和查找复测，以及 #80–#91 的逐项修复映射见 [阅读层级与切换修复](docs/desktop-reading-hierarchy-fixes.md)。最近阅读使用独立视图展示完整记录；目录保留最近一篇的快捷继续入口。单篇与连续阅读保留视频查询、查找方式和筛选范围，来源面板中的发布状态始终与冻结快照一致。
