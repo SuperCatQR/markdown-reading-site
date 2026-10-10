@@ -1,8 +1,9 @@
+import { partIndex } from "./source-identity.js";
 import { readingOutlineMarkup, partGapsMarkup } from "./reading-outline.js";
 import { prepareDocument } from "./document.js";
 import { continuousRoute, entryRoute, reviewRoute, entryKey, videoRoute } from "./manuscripts.js";
 import { escapeHtml, statusBadge, footer, viewLabels } from "./ui.js";
-import { provenanceMarkup } from "./reader-details.js";
+import { provenanceMarkup, originNoticeMarkup } from "./reader-details.js";
 import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
 import { readerVideoMarkup } from "./video-view.js";
 import { seriesMarkup, seriesAdjacentMarkup } from "./series-view.js";
@@ -14,8 +15,8 @@ const partId = (entry) => `part-${entry.editionId}`;
 export function continuousPartMarkup(entry, source) {
   const prepared = prepareDocument(source, { idPrefix: `${partId(entry)}-`, titleLevel: 2 });
   const { title, body } = prepared;
-  return `<article class="continuous-part" id="${partId(entry)}" tabindex="-1" data-edition="${entry.editionId}"><header class="reading-heading"><div class="reading-status"><span class="current-part">P${entry.pageIndex + 1}</span>${statusBadge(entry)}</div>${title || `<h2>${escapeHtml(entry.title)}</h2>`}
-    <details class="reading-information"><summary>来源、稿件信息与校验</summary><div class="reading-meta"><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">原视频 · P${entry.pageIndex + 1} ↗</a><a href="${entryRoute(entry)}">单篇正文</a><a href="${reviewRoute(entry)}">校验参照稿件</a><button class="copy-markdown" type="button">复制 Markdown</button><button type="button" data-feedback>反馈这一段</button></div>${provenanceMarkup(entry, { includeVersion: true })}</details></header>
+  return `<article class="continuous-part" id="${partId(entry)}" tabindex="-1" data-edition="${entry.editionId}"><header class="reading-heading"><div class="reading-status"><span class="current-part">P${partIndex(entry) + 1}</span>${statusBadge(entry)}</div>${title || `<h2>${escapeHtml(entry.title)}</h2>`}
+    ${originNoticeMarkup(entry)}<details class="reading-information"><summary>来源、稿件信息与校验</summary><div class="reading-meta"><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">原视频 · P${partIndex(entry) + 1} ↗</a><a href="${entryRoute(entry)}">单篇正文</a><a href="${reviewRoute(entry)}">校验参照稿件</a><button class="copy-markdown" type="button">复制 Markdown</button><button type="button" data-feedback>反馈这一段</button></div>${provenanceMarkup(entry, { includeVersion: true })}</details></header>
     ${readingOutlineMarkup(prepared, "本部分目录")}<div class="prose">${body}</div></article>`;
 }
 
@@ -48,11 +49,11 @@ export function createContinuousReader({ app, route, pageHeader, loadBody, saved
     const next = route.entries[currentIndex + 1];
     const returnEntry = loaded.includes(route.entry) ? route.entry : loaded.at(-1) || route.entry;
     app.innerHTML = pageHeader() + `<div class="reading-progress" aria-hidden="true"><span></span></div><main id="main-content" class="reading-shell continuous-shell" tabindex="-1"><a class="back-link" href="${returnEntry ? entryRoute(returnEntry) : videoRoute(route.bvid, route.view)}">返回单篇阅读</a><header class="continuous-heading"><p class="eyebrow">连续阅读 · ${viewLabels[route.view]}</p><h1>${escapeHtml(route.entries[0]?.title || route.bvid)}</h1><p>当前类别收录 ${route.entries.length} 篇稿件 · 仅包含已收录的分 P${route.view === "drafts" ? " · 公开预览，未经正式发布" : ""}</p></header>
-      <details class="continuous-overview"><summary>已收录分 P 与连续阅读说明</summary>${partGapsMarkup(route.entries)}<nav class="continuous-directory" aria-label="连续阅读分 P 目录"><ol>${route.entries.map((entry) => `<li><a href="${continuousRoute(route.bvid, route.view, entry.editionId)}"${entry === route.entry ? ' aria-current="page"' : ""}>P${entry.pageIndex + 1}${loaded.includes(entry) ? '<span class="sr-only"> · 已加载</span>' : ""}</a></li>`).join("")}</ol></nav></details>
+      <details class="continuous-overview"><summary>已收录分 P 与连续阅读说明</summary>${partGapsMarkup(route.entries)}<nav class="continuous-directory" aria-label="连续阅读分 P 目录"><ol>${route.entries.map((entry) => `<li><a href="${continuousRoute(route.bvid, route.view, entry.editionId)}"${entry === route.entry ? ' aria-current="page"' : ""}>P${partIndex(entry) + 1}${loaded.includes(entry) ? '<span class="sr-only"> · 已加载</span>' : ""}</a></li>`).join("")}</ol></nav></details>
       ${seriesMarkup(route.entry, series, seriesEntries)}
       ${route.entry ? readerVideoMarkup(videoEntries, videoSearch) : ""}
       <div class="continuous-stream">${loaded.map(partMarkup).join("")}</div>
-      <div class="continuous-feedback"${loading ? ' role="status" aria-busy="true"' : error ? ' role="alert"' : ' role="status"'}>${loading ? `<p>正在加载 P${route.entry.pageIndex + 1} 正文…</p>` : error ? `<p>P${route.entry.pageIndex + 1} 加载失败，已加载的正文仍可阅读。</p><button class="reset-button" type="button" id="retry-document">重新加载</button>` : !route.entry ? '<p>此类别暂无收录稿件，可返回单篇阅读切换查找类别。</p>' : next ? `<a class="reset-button" rel="next" href="${continuousRoute(route.bvid, route.view, next.editionId)}">加载下一个已收录部分 · P${next.pageIndex + 1} →</a>` : '<p>已到当前类别最后一个收录分 P。可通过上方目录阅读其他部分。</p>'}</div>${seriesAdjacentMarkup(route.entry, series, seriesEntries)}${footer(viewLabels[route.view])}</main>`;
+      <div class="continuous-feedback"${loading ? ' role="status" aria-busy="true"' : error ? ' role="alert"' : ' role="status"'}>${loading ? `<p>正在加载 P${partIndex(route.entry) + 1} 正文…</p>` : error ? `<p>P${partIndex(route.entry) + 1} 加载失败，已加载的正文仍可阅读。</p><button class="reset-button" type="button" id="retry-document">重新加载</button>` : !route.entry ? '<p>此类别暂无收录稿件，可返回单篇阅读切换查找类别。</p>' : next ? `<a class="reset-button" rel="next" href="${continuousRoute(route.bvid, route.view, next.editionId)}">加载下一个已收录部分 · P${partIndex(next) + 1} →</a>` : '<p>已到当前类别最后一个收录分 P。可通过上方目录阅读其他部分。</p>'}</div>${seriesAdjacentMarkup(route.entry, series, seriesEntries)}${footer(viewLabels[route.view])}</main>`;
     for (const article of app.querySelectorAll(".continuous-part")) {
       const entry = loaded.find((candidate) => candidate.editionId === article.dataset.edition);
       article.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(sources.get(entryKey(entry)), event.currentTarget));
@@ -68,7 +69,7 @@ export function createContinuousReader({ app, route, pageHeader, loadBody, saved
         sources.set(entryKey(route.entry), source);
         if (!isCurrent()) return;
         loaded.push(route.entry);
-        loaded.sort((a, b) => a.pageIndex - b.pageIndex);
+        loaded.sort((a, b) => partIndex(a) - partIndex(b));
       } catch {
         if (!isCurrent()) return;
         draw({ error: true });

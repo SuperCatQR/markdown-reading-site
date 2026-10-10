@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { validateSeries } from "./series-contract.js";
+import { ORIGIN_PROFILE, canonicalDigest, validateUniversalSource, validateOrigins } from "./universal-contract.js";
 
 export const ARTICLE_FIELDS = [
   "manuscriptType", "slug", "title", "summary", "tags", "attribution", "editorNote",
@@ -9,6 +10,7 @@ export const ARTICLE_FIELDS = [
 export const DRAFT_FIELDS = ARTICLE_FIELDS.filter((field) =>
   !["releaseId", "publishedAt", "templateVersion"].includes(field)).concat(["reviewStatus", "createdAt"]);
 export const REVIEW_STATUSES = ["pending-review", "in-review", "changes-requested", "approved", "rejected"];
+const UNIVERSAL_FIELDS = ["platform", "externalVideoId", "partIndex", "sourceMetadata", "sourcePublishedAt", "pubdateUnix", "contentVersion"];
 
 export function snapshotContract(kind = "publication") {
   if (kind === "publication") return {
@@ -92,7 +94,7 @@ export function validateCatalog(catalog, markdownFiles, kind = "publication") {
   const draft = kind === "publication-draft";
   const errors = [];
   if (!exactFields(catalog, ["schemaVersion", "manuscriptType", "articles"])
-      || catalog.schemaVersion !== 2 || catalog.manuscriptType !== kind
+      || ![2, 3].includes(catalog.schemaVersion) || catalog.manuscriptType !== kind
       || !Array.isArray(catalog.articles)) {
     return [`catalog.json 必须使用 schemaVersion=2、manuscriptType=${kind} 的准确 envelope`];
   }
@@ -100,11 +102,13 @@ export function validateCatalog(catalog, markdownFiles, kind = "publication") {
   const listedFiles = new Set();
   for (const [index, entry] of catalog.articles.entries()) {
     const label = `catalog.json.articles[${index}]`;
-    if (!exactFields(entry, contract.fields)) {
+    const universal = catalog.schemaVersion === 3;
+    const fields = universal ? contract.fields.filter((field) => !["bvid", "pageIndex"].includes(field)).concat(UNIVERSAL_FIELDS) : contract.fields;
+    if (!exactFields(entry, fields)) {
       errors.push(`${label} 必须包含准确的 ${kind} 字段，不接受内部审核或旧稿件字段`);
       continue;
     }
-    if (entry.manuscriptType !== kind || (!draft && entry.templateVersion !== "publish-v1")) {
+    if (entry.manuscriptType !== kind || (!draft && entry.templateVersion !== (universal ? "publish-v2" : "publish-v1"))) {
       errors.push(`${label} 稿件类型或模板无效`);
     }
     for (const field of ["title", "summary", "attribution", "editorNote"]) {
@@ -129,7 +133,8 @@ export function validateCatalog(catalog, markdownFiles, kind = "publication") {
     } else {
       listedFiles.add(entry.file);
     }
-    if (!Number.isSafeInteger(entry.pageIndex) || entry.pageIndex < 0
+    if (universal) errors.push(...validateUniversalSource(entry).map((message) => `${label}: ${message}`));
+    else if (!Number.isSafeInteger(entry.pageIndex) || entry.pageIndex < 0
         || typeof entry.bvid !== "string" || !/^[A-Za-z0-9_-]+$/.test(entry.bvid)
         || entry.sourceUrl !== `https://www.bilibili.com/video/${entry.bvid}/?p=${entry.pageIndex + 1}`) {
       errors.push(`${label} 的视频来源身份不一致`);
@@ -173,29 +178,33 @@ export function validateSnapshot(files, kind = "publication") {
   const contract = snapshotContract(kind);
   const MANIFEST = contract.manifest;
   const errors = [];
-  let catalog, manifest, series = null;
+  let catalog, manifest, series = null, origins = null;
   try {
     const decoder = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true });
     catalog = parseUniqueJson(decoder.decode(files.get("catalog.json")));
     manifest = parseUniqueJson(decoder.decode(files.get(MANIFEST)));
     if (files.has("series.json")) series = parseUniqueJson(decoder.decode(files.get("series.json")));
+    if (files.has("origins.json")) origins = parseUniqueJson(decoder.decode(files.get("origins.json")));
     for (const bytes of files.values()) decoder.decode(bytes);
   } catch (error) {
     return { errors: [`公开快照缺失文件或包含无效 UTF-8/JSON: ${error.message}`], catalog: null };
   }
-  const available = [...files.keys()].filter((name) => !["catalog.json", "series.json", MANIFEST].includes(name));
+  const universal = manifest?.schemaVersion === 2;
+  const available = [...files.keys()].filter((name) => !["catalog.json", "series.json", MANIFEST, ...(universal ? ["origins.json"] : [])].includes(name));
   errors.push(...validateCatalog(catalog, available, kind));
   if (files.has("series.json")) errors.push(...validateSeries(series, catalog, kind));
-  if (!exactFields(manifest, ["schemaVersion", "manuscriptType", "snapshotId", "files"])
-      || manifest.schemaVersion !== 1 || manifest.manuscriptType !== contract.manifestKind
+  if (!exactFields(manifest, ["schemaVersion", "manuscriptType", "snapshotId", "files", ...(universal ? ["contractProfile"] : [])])
+      || ![1, 2].includes(manifest.schemaVersion) || catalog?.schemaVersion !== (universal ? 3 : 2)
+      || (universal && manifest.contractProfile !== ORIGIN_PROFILE) || manifest.manuscriptType !== contract.manifestKind
       || !SHA256.test(manifest.snapshotId) || !Array.isArray(manifest.files) || !manifest.files.length) {
     errors.push(`${MANIFEST} 必须使用准确的 ${contract.manifestKind} v1 契约`);
     return { errors, catalog };
   }
   const managed = new Map();
+  if (universal) errors.push(...validateOrigins(origins, catalog, kind));
   for (const entry of manifest.files) {
     if (!exactFields(entry, ["path", "sha256"]) || typeof entry.path !== "string"
-        || (!["catalog.json", "series.json"].includes(entry.path) && !contract.file.test(entry.path) && !contract.reviewFile.test(entry.path)) || !SHA256.test(entry.sha256)) {
+        || (!["catalog.json", "series.json", ...(universal ? ["origins.json"] : [])].includes(entry.path) && !contract.file.test(entry.path) && !contract.reviewFile.test(entry.path)) || !SHA256.test(entry.sha256)) {
       errors.push("manifest 包含无效受管文件");
       continue;
     }
@@ -213,7 +222,8 @@ export function validateSnapshot(files, kind = "publication") {
   if (JSON.stringify(paths) !== JSON.stringify([...paths].sort())) {
     errors.push("manifest 受管文件必须按路径排序");
   }
-  if (sha256(JSON.stringify(canonicalFiles)) !== manifest.snapshotId) {
+  const snapshotId = universal ? canonicalDigest({ schemaVersion: 2, manuscriptType: manifest.manuscriptType, contractProfile: ORIGIN_PROFILE, files: canonicalFiles }) : sha256(JSON.stringify(canonicalFiles));
+  if (snapshotId !== manifest.snapshotId) {
     errors.push("manifest snapshotId 与受管文件身份不一致");
   }
   if (Array.isArray(catalog?.articles)) {
@@ -224,11 +234,11 @@ export function validateSnapshot(files, kind = "publication") {
       }
     }
   }
-  return { errors, catalog, series };
+  return { errors, catalog, series, origins };
 }
 
 export function validateCatalogPair(publication, drafts) {
   const published = new Set(publication.articles.map((entry) => entry.editionId));
-  return drafts.articles.filter((entry) => published.has(entry.editionId))
-    .map((entry) => `同一编辑版本不能同时声明为已发布和未发布: ${entry.editionId}`);
+  return [...(publication.schemaVersion !== drafts.schemaVersion ? ["两份快照必须使用同一目录契约版本"] : []), ...drafts.articles.filter((entry) => published.has(entry.editionId))
+    .map((entry) => `同一编辑版本不能同时声明为已发布和未发布: ${entry.editionId}`)];
 }

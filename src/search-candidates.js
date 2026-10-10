@@ -1,4 +1,5 @@
 import { normalizeSearch, searchTerms } from "./search.js";
+import { validWorkKey } from "./source-identity.js";
 
 // UTF-16 pairs deliberately match String.includes, including surrogate pairs.
 // Intersecting sampled pairs can admit false positives, never reject a match.
@@ -33,7 +34,7 @@ export function candidateIds(manifest, grams, partitions) {
 
 export function validateCandidateManifest(manifest) {
   if (manifest?.version !== 1 || !/^[a-f0-9]{64}$/.test(manifest.fingerprint) || !Array.isArray(manifest.entries)
-      || manifest.entries.some((record) => !Array.isArray(record) || record.length !== 2 || typeof record[0] !== "string" || !/^[\w-]{1,80}$/.test(record[1]))
+      || manifest.entries.some((record) => !Array.isArray(record) || record.length !== 2 || typeof record[0] !== "string" || !validWorkKey(record[1]))
       || new Set(manifest.entries.map(([key]) => key)).size !== manifest.entries.length) throw Error("Invalid search candidates");
   return manifest;
 }

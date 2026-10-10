@@ -1,3 +1,4 @@
+import { partIndex } from "./source-identity.js";
 import { groupVideos, isDraft } from "./manuscripts.js";
 import { escapeHtml, viewLabels } from "./ui.js";
 import { partMarkup, searchControls } from "./directory-view.js";
@@ -6,7 +7,7 @@ import { partGapsMarkup } from "./reading-outline.js";
 
 export function readerVideoMarkup(entries, { query = "", mode = "general", view }) {
   const counts = { all: entries.length, published: entries.filter((entry) => !isDraft(entry)).length, drafts: entries.filter(isDraft).length };
-  const indices = [...new Set(entries.map((entry) => entry.pageIndex))].sort((a, b) => a - b);
+  const indices = [...new Set(entries.map((entry) => partIndex(entry)))].sort((a, b) => a - b);
   return `<details class="reader-video-search"${query.trim() || mode !== "general" || !counts[view] ? " open" : ""}><summary>在此视频中查找</summary>
     <div class="search-box"><label class="search-label" for="video-query">在此视频中查找</label><input id="video-query" type="search" maxlength="300" value="${escapeHtml(visibleQuery(query))}" placeholder="在此视频中查找" autocomplete="off" aria-describedby="search-help"><button class="clear-search" id="clear-video-query" type="button" aria-label="清空视频内搜索"${visibleQuery(query) ? "" : " hidden"}>×</button></div>
     <label class="video-search-category">稿件类别<select id="video-search-view">${Object.entries(viewLabels).map(([kind, label]) => `<option value="${kind}"${view === kind ? " selected" : ""}>${label} · ${counts[kind]}</option>`).join("")}</select></label>

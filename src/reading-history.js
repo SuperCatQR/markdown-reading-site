@@ -1,3 +1,5 @@
+import { workKey, partIndex, validWorkKey } from "./source-identity.js";
+
 export const READING_HISTORY_KEY = "reader-history-v1";
 export const READING_HISTORY_LIMIT = 20;
 export const READING_HISTORY_MAX_AGE = 180 * 24 * 60 * 60 * 1000;
@@ -8,7 +10,8 @@ export const readingRecordId = (entry) => `${entry.manuscriptType}:${entry.video
 export function recordFromEntry(entry, { anchor, offset = 0, text = "", readingMode = "single", lastReadAt = Date.now() }) {
   return {
     id: readingRecordId(entry), manuscriptType: entry.manuscriptType, videoPartId: entry.videoPartId,
-    bvid: entry.bvid, pageIndex: entry.pageIndex, editionId: entry.editionId,
+    ...(entry.contentVersion === 2 ? { contentVersion: 2, platform: entry.platform, externalVideoId: entry.externalVideoId, partIndex: entry.partIndex }
+      : { bvid: entry.bvid, pageIndex: entry.pageIndex }), editionId: entry.editionId,
     contentSha256: entry.contentSha256, artifactSha256: entry.artifactSha256,
     releaseId: entry.manuscriptType === "publication" ? entry.releaseId : null,
     title: entry.title, readingMode, documentMode: "body", anchor, offset,
@@ -19,8 +22,10 @@ export function recordFromEntry(entry, { anchor, offset = 0, text = "", readingM
 function validRecord(record) {
   return record && ["publication", "publication-draft"].includes(record.manuscriptType)
     && Number.isSafeInteger(record.videoPartId) && record.videoPartId > 0
-    && record.id === readingRecordId(record) && typeof record.bvid === "string" && /^[\w-]{1,80}$/.test(record.bvid)
-    && Number.isSafeInteger(record.pageIndex) && record.pageIndex >= 0
+    && record.id === readingRecordId(record) && validWorkKey(workKey(record))
+    && (record.contentVersion === 2 ? !Object.hasOwn(record, "bvid") && !Object.hasOwn(record, "pageIndex")
+      : !Object.hasOwn(record, "contentVersion"))
+    && Number.isSafeInteger(partIndex(record)) && partIndex(record) >= 0
     && hex(record.editionId, 32) && hex(record.contentSha256, 64) && hex(record.artifactSha256, 64)
     && (record.manuscriptType === "publication" ? hex(record.releaseId, 64) : record.releaseId === null)
     && typeof record.title === "string" && record.title.length <= 10000
@@ -33,7 +38,8 @@ function validRecord(record) {
 export function reconcileReadingRecord(record, entries) {
   const entry = entries.find((candidate) => readingRecordId(candidate) === record.id);
   if (!entry) return { status: "missing", record };
-  const exact = ["manuscriptType", "videoPartId", "bvid", "pageIndex", "editionId", "contentSha256", "artifactSha256"]
+  const exact = workKey(entry) === workKey(record) && partIndex(entry) === partIndex(record)
+    && ["manuscriptType", "videoPartId", "editionId", "contentSha256", "artifactSha256"]
     .every((field) => entry[field] === record[field])
     && (entry.manuscriptType !== "publication" || entry.releaseId === record.releaseId);
   return { status: exact ? "available" : "updated", record, entry };

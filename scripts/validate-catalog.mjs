@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateSnapshot, snapshotContract, validateCatalogPair } from "./catalog.js";
 
-export async function validateContentDirectory(contentRoot, kind = "publication", { includeSeries = false } = {}) {
+export async function validateContentDirectory(contentRoot, kind = "publication", { includeSeries = false, includeOrigins = false } = {}) {
   const contract = snapshotContract(kind);
   const root = path.resolve(contentRoot);
   for (let current = root; ; current = path.dirname(current)) {
@@ -32,7 +32,7 @@ export async function validateContentDirectory(contentRoot, kind = "publication"
     }
   }
   await scan(root);
-  const { errors, catalog, series } = validateSnapshot(files, kind);
+  const { errors, catalog, series, origins } = validateSnapshot(files, kind);
   const expectedDirectories = new Set();
   for (const relative of files.keys()) {
     const segments = relative.split("/");
@@ -44,15 +44,17 @@ export async function validateContentDirectory(contentRoot, kind = "publication"
     if (!expectedDirectories.has(directory)) errors.push(`公开快照包含残留空目录: ${directory}`);
   }
   if (errors.length) throw new Error(errors.join("\n"));
-  return includeSeries ? { catalog, series } : catalog;
+  return includeSeries || includeOrigins ? { catalog, series, origins } : catalog;
 }
 
-export async function validateSiteSnapshots(siteRoot) {
-  const publication = await validateContentDirectory(path.join(siteRoot, "content"));
-  const drafts = await validateContentDirectory(path.join(siteRoot, "draft-content"), "publication-draft");
+export async function validateSiteSnapshots(siteRoot, { includeOrigins = false } = {}) {
+  const published = await validateContentDirectory(path.join(siteRoot, "content"), "publication", { includeOrigins });
+  const unpublished = await validateContentDirectory(path.join(siteRoot, "draft-content"), "publication-draft", { includeOrigins });
+  const publication = includeOrigins ? published.catalog : published;
+  const drafts = includeOrigins ? unpublished.catalog : unpublished;
   const errors = validateCatalogPair(publication, drafts);
   if (errors.length) throw new Error(errors.join("\n"));
-  return { publication, drafts };
+  return { publication, drafts, ...(includeOrigins ? { origins: { published: published.origins, drafts: unpublished.origins } } : {}) };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

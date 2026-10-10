@@ -1,0 +1,24 @@
+{
+  "contractProfile": "universal-origin-v1",
+  "files": [
+    {
+      "path": "articles/part-1/publish.md",
+      "sha256": "39c966919897264c5d42eb7e59abbb45a4938b74c11b20577e84bdc92b5e6351"
+    },
+    {
+      "path": "articles/part-1/review.md",
+      "sha256": "df6754d563b05d91927d84de202bbd5ebe0cf5dcc79b42ab7554ffb9ed40725f"
+    },
+    {
+      "path": "catalog.json",
+      "sha256": "653ff1c4bb05a67b59198de923eb794510689b45d31d742b805cd35d06ca0796"
+    },
+    {
+      "path": "origins.json",
+      "sha256": "4be7b19a558a84ecc124260adc90db285bdfc6d3a84abccda80debaaf6bc6774"
+    }
+  ],
+  "manuscriptType": "publication-export",
+  "schemaVersion": 2,
+  "snapshotId": "8c6a668df1172b32e133f49980e92576430a05a6b2440b8f51c61cd19b5b5a5a"
+}

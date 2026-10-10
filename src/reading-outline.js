@@ -1,3 +1,4 @@
+import { partIndex } from "./source-identity.js";
 import { escapeHtml } from "./ui.js";
 
 export function readingOutlineMarkup({ headings, blocks = [] }, label = "本文目录") {
@@ -9,7 +10,7 @@ export function readingOutlineMarkup({ headings, blocks = [] }, label = "本文�
 }
 
 export function missingPartRanges(entries) {
-  const pages = [...new Set(entries.map((entry) => entry.pageIndex + 1))].sort((a, b) => a - b);
+  const pages = [...new Set(entries.map((entry) => partIndex(entry) + 1))].sort((a, b) => a - b);
   const missing = [];
   let previous = 0;
   for (const page of pages) {

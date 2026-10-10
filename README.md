@@ -55,7 +55,10 @@ bili-asr publication export --archive-root C:\Archive\new-contract --out C:\Site
 后端契约实现与审核流程见 [主项目 PR #264](https://github.com/SuperCatQR/bilibili-asr-archive/pull/264)。
 公开未发布预览的后端导出实现见 [主项目 PR #265](https://github.com/SuperCatQR/bilibili-asr-archive/pull/265)。
 
-本仓库只接受新契约：
+本仓库按准确版本接受两组公开快照契约：下述已有 catalog v2/manifest v1，及
+显式 `universal-origin-v1` 的 catalog v3/manifest v2。新入口每篇必须为 content v2，
+受管 `origins.json` 绑定生成或迁移来源，不自动转换旧输入。迁移步骤、来源展示与
+跨仓库测试见 [保留旧正文的迁移导入](docs/preserved-body-import.md)。
 
 ```text
 content/

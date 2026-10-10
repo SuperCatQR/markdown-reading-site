@@ -1,3 +1,4 @@
+import { partIndex, sourceLabel } from "./source-identity.js";
 import { tagOptionsMarkup } from "./discovery-controls.js";
 import { visibleQuery } from "./query-state.js";
 import { entryKey, entryRoute, readerSearchRoute, groupVideos } from "./manuscripts.js";
@@ -50,7 +51,7 @@ export function partMarkup({ entry, match, matches = [] }, { query = "", mode = 
   const label = match?.label || "编辑摘要";
   const evidence = matches.map((hit) => passageMarkup(entry, hit, query, mode, view, directory));
   const firstBody = matches.find((hit) => hit.id) || (match?.id ? match : null);
-  return `<li class="video-part"><div class="part-heading"><a class="part-link"${directory && query.trim() ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(entry, firstBody, { query, mode, view }))}"><span class="part-number">P${entry.pageIndex + 1}</span><span>${match ? `阅读命中${match.id ? "段落" : "稿件"}` : "阅读正文"} →</span></a>${statusBadge(entry)}<span class="part-minutes">${summary.minutes} 分钟阅读</span></div>
+  return `<li class="video-part"><div class="part-heading"><a class="part-link"${directory && query.trim() ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(entry, firstBody, { query, mode, view }))}"><span class="part-number">P${partIndex(entry) + 1}</span><span>${match ? `阅读命中${match.id ? "段落" : "稿件"}` : "阅读正文"} →</span></a>${statusBadge(entry)}<span class="part-minutes">${summary.minutes} 分钟阅读</span></div>
     ${evidence.length ? `<p class="match-summary">${mode === "keywords" ? "全部关键词命中" : mode === "phrase" ? "原句匹配" : "正文命中"} · ${evidence.length} 个段落</p><ul class="passage-list">${evidence.slice(0, 1).join("")}</ul>${evidence.length > 1 ? `<details class="passage-disclosure" data-entry="${entryKey(entry)}"${passages.includes(entryKey(entry)) ? " open" : ""}><summary>其余 ${evidence.length - 1} 个命中段落</summary><ul class="passage-list">${evidence.slice(1).join("")}</ul></details>` : ""}` : excerpt ? `<p class="part-excerpt"><span class="excerpt-label">${label}</span>${highlightText(excerpt, searchTerms(query, mode))}</p>` : ""}</li>`;
 }
 
@@ -61,7 +62,7 @@ export function directoryResults(matches, { view, query, visibleCount, expanded,
     return { count: 0, html: `<section class="empty-state"><h2>${hasContent ? "没有找到匹配的稿件" : view === "published" ? "暂无已发布稿件" : "暂无可阅读内容"}</h2><p>${hasContent ? "试试其他关键词，或清除主题筛选。" : view === "published" && counts.drafts ? "正式发布内容暂为空，可以先阅读明确标注状态的公开预览。" : "公开内容准备好后，会显示在这里。"}</p>${hasContent ? `<button class="reset-button" id="reset-filters" type="button">清除筛选</button>` : view === "published" && counts.drafts ? `<a class="reset-button" href="?view=drafts">阅读公开预览 →</a>` : ""}</section>` };
   }
   return { count: groups.length, html: `<section class="video-list" aria-label="${viewLabels[view]}视频列表">${groups.slice(0, visibleCount).map((group, index) => {
-    const distinctParts = new Set(group.parts.map(({ entry }) => entry.pageIndex)).size;
+    const distinctParts = new Set(group.parts.map(({ entry }) => partIndex(entry))).size;
     const body = `<ol class="video-parts">${group.parts.map((part) => partMarkup(part, { query, mode, view, passages, directory: true }, summaries)).join("")}</ol>`;
     const firstBodyPart = group.parts.find((part) => part.matches?.some((hit) => hit.id) || part.match?.id);
     const titlePart = firstBodyPart || group.parts[0];
@@ -70,7 +71,7 @@ export function directoryResults(matches, { view, query, visibleCount, expanded,
       : distinctParts > 1 ? `已收录 ${distinctParts} 个分 P${group.parts.length > distinctParts ? ` · ${group.parts.length} 个版本` : ""}`
       : group.parts.length > 1 ? `同一分 P · ${group.parts.length} 个版本` : "";
     const disclosure = distinctParts > 1 ? `查看 ${distinctParts} 个分 P 与稿件状态` : `查看 ${group.parts.length} 个版本与稿件状态`;
-    return `<article class="video-group"><header class="video-heading"><span class="video-number">${String(index + 1).padStart(2, "0")}</span><div><h2><a${query.trim() ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(titlePart.entry, titleMatch, { query, mode, view }))}">${highlightText(group.title, searchTerms(query, mode))}</a></h2><p class="video-meta"><a href="${escapeHtml(group.parts[0].entry.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="打开原视频 ${escapeHtml(group.bvid)}">原视频<span class="source-bvid">${escapeHtml(group.bvid)}</span></a>${quantities ? `<span>${quantities}</span>` : ""}</p></div></header>
+    return `<article class="video-group"><header class="video-heading"><span class="video-number">${String(index + 1).padStart(2, "0")}</span><div><h2><a${query.trim() ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(titlePart.entry, titleMatch, { query, mode, view }))}">${highlightText(group.title, searchTerms(query, mode))}</a></h2><p class="video-meta"><a href="${escapeHtml(group.parts[0].entry.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="打开原视频 ${escapeHtml(sourceLabel(group.parts[0].entry))}">原视频<span class="source-bvid">${escapeHtml(sourceLabel(group.parts[0].entry))}</span></a>${quantities ? `<span>${quantities}</span>` : ""}</p></div></header>
       ${group.parts.length > 1 && !query.trim() ? `<details class="parts-disclosure" data-video="${group.bvid}"${expanded.includes(group.bvid) ? " open" : ""}><summary>${disclosure}</summary>${body}</details>` : body}</article>`;
   }).join("")}</section>${groups.length > visibleCount ? `<button class="load-more" type="button" id="load-more">再显示 ${Math.min(24, groups.length - visibleCount)} 个视频 · 还有 ${groups.length - visibleCount} 个</button>` : ""}` };
 }

@@ -1,10 +1,11 @@
+import { workKey } from "./source-identity.js";
 import { escapeHtml } from "./ui.js";
 
 export function sourceTagStats(entries) {
   const videos = new Map();
   for (const entry of entries) for (const tag of entry.tags) {
     if (!videos.has(tag)) videos.set(tag, new Set());
-    videos.get(tag).add(entry.bvid);
+    videos.get(tag).add(workKey(entry));
   }
   return [...videos].map(([tag, ids]) => ({ tag, count: ids.size }))
     .sort((a, b) => b.count - a.count);

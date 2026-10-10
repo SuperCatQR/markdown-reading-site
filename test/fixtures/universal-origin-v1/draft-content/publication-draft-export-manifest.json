@@ -1,0 +1,40 @@
+{
+  "contractProfile": "universal-origin-v1",
+  "files": [
+    {
+      "path": "catalog.json",
+      "sha256": "e71416118423dd3c554872efb3353237da104c6e918d03d0d403a9747defe20a"
+    },
+    {
+      "path": "drafts/edition-5e045466cd2c4879954e23d911aa01d6/preview.md",
+      "sha256": "c5193c94e87debb591403b923ee1c7efeae8eefcc55dab410b14f1bdbaa91dac"
+    },
+    {
+      "path": "drafts/edition-5e045466cd2c4879954e23d911aa01d6/review.md",
+      "sha256": "df6754d563b05d91927d84de202bbd5ebe0cf5dcc79b42ab7554ffb9ed40725f"
+    },
+    {
+      "path": "drafts/edition-90112a14983a41e199b2caab26967bdf/preview.md",
+      "sha256": "865ab4c74f7266d0fbd77e4314e8bb60a517309038b91842a2dda503c08a62dd"
+    },
+    {
+      "path": "drafts/edition-90112a14983a41e199b2caab26967bdf/review.md",
+      "sha256": "de1f509463124edd79a69e3d8432bc7f54a2d0f055f39ca64e0db54defef9355"
+    },
+    {
+      "path": "drafts/edition-b1e4012e89bf4bbe80eacdeac0a53d79/preview.md",
+      "sha256": "cbb9845038863723d344b9c8829bba3621746c5216414ca0df5b834e8779a0ce"
+    },
+    {
+      "path": "drafts/edition-b1e4012e89bf4bbe80eacdeac0a53d79/review.md",
+      "sha256": "b43242213583a72ce5a344f07bb0e4bc225265244c4650c8b0264237835aef1a"
+    },
+    {
+      "path": "origins.json",
+      "sha256": "a352eefb08ba1e64da615a5936164a8fffa61d7707815c69788990c592638a94"
+    }
+  ],
+  "manuscriptType": "publication-draft-export",
+  "schemaVersion": 2,
+  "snapshotId": "ebeb6082cfbe15ac4c519185b4437ef8103d5871dba6b447dd1ffd3a2fcbf352"
+}

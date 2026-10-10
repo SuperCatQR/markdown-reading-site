@@ -1,5 +1,6 @@
 import { prepareSearchIndex } from "./search.js";
 import { entryKey } from "./manuscripts.js";
+import { validWorkKey } from "./source-identity.js";
 import { queryGrams, candidatePartition, candidateIds, metadataMatches, validateCandidateManifest, validateCandidatePartition } from "./search-candidates.js";
 
 // Browser diagnostics contain timings and index identity, never the reader's query.
@@ -90,7 +91,7 @@ export function createSearchLoader(urls, { fetchIndex = (...args) => fetch(...ar
     return results;
   }
   function load(view, bvid = null, request = null) {
-    if (!["all", "published", "drafts"].includes(view) || (bvid !== null && !/^[\w-]{1,80}$/.test(bvid))) return Promise.reject(new Error("Unknown search scope"));
+    if (!["all", "published", "drafts"].includes(view) || (bvid !== null && !validWorkKey(bvid))) return Promise.reject(new Error("Unknown search scope"));
     if (bvid === null && request?.query?.trim()) return loadCandidates(view, request);
     const key = `${view}:${bvid || "*"}`;
     const scope = bvid ? "video" : "global";

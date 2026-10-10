@@ -1,3 +1,4 @@
+import { workKey, partIndex } from "./source-identity.js";
 import { partGapsMarkup } from "./reading-outline.js";
 import { adjacentParts, continuousRoute, directoryRoute, readerSearchRoute, isDraft } from "./manuscripts.js";
 import { escapeHtml, viewLabels } from "./ui.js";
@@ -7,11 +8,11 @@ export function readerToolsMarkup(route, { entries, returnView = route.view }) {
   if (!entry) return "";
   const { parts } = adjacentParts(entry, entries);
   const partHref = (part) => route.kind === "continuous"
-    ? continuousRoute(part.bvid, route.view, part.editionId)
+    ? continuousRoute(workKey(part), route.view, part.editionId)
     : readerSearchRoute(part, route.videoSearch || {}, route.mode === "review");
   return `<nav class="reader-tools" aria-label="阅读工具"><a class="reader-directory-link" href="${directoryRoute(returnView)}" aria-label="返回${viewLabels[returnView]}目录">← 目录</a>
-    ${parts.length > 1 ? `<details class="reader-part-menu"><summary aria-label="切换分 P"><span class="reader-current-label">P${entry.pageIndex + 1}</span><span aria-hidden="true">⌄</span></summary><div class="reader-parts-popover">${partGapsMarkup(parts)}<ol>${parts.map((part) => `<li><a data-edition="${part.editionId}" href="${escapeHtml(partHref(part))}"${part.editionId === entry.editionId ? ' aria-current="page"' : ""}>P${part.pageIndex + 1}</a></li>`).join("")}</ol><a class="reader-flow-link" href="${escapeHtml(route.kind === "continuous" ? readerSearchRoute(entry) : continuousRoute(entry.bvid, isDraft(entry) ? "drafts" : "published", entry.editionId))}">${route.kind === "continuous" ? "返回当前 P 单篇阅读" : "从当前 P 连续阅读"} →</a></div></details>` : `<span class="reader-current-label">P${entry.pageIndex + 1}</span>`}
-    <button id="reader-find" type="button" aria-label="${route.mode === 'review' ? '查找当前校验参照' : '打开视频内查找'}">查找</button><button id="reader-outline" type="button" aria-label="打开文章或段落导览" hidden>导览</button><button id="reader-settings" type="button" aria-label="调整阅读排版">排版</button></nav><details class="reader-identity"><summary aria-label="当前篇目与核验工具"><span class="reader-title-preview">${escapeHtml(entry.title)}</span><span class="reader-title-mobile">篇目</span></summary><div class="reader-identity-popover"><strong class="reader-current-title">${escapeHtml(entry.title)}</strong><p>当前 <span class="reader-current-label">P${entry.pageIndex + 1}</span></p><a class="reader-mode-link" href="${escapeHtml(readerSearchRoute(entry, route.videoSearch || {}, route.mode !== 'review'))}">${route.mode === 'review' ? '正文' : '核对'}</a><button type="button" data-feedback aria-label="反馈当前段落">纠错</button></div></details>`;
+    ${parts.length > 1 ? `<details class="reader-part-menu"><summary aria-label="切换分 P"><span class="reader-current-label">P${partIndex(entry) + 1}</span><span aria-hidden="true">⌄</span></summary><div class="reader-parts-popover">${partGapsMarkup(parts)}<ol>${parts.map((part) => `<li><a data-edition="${part.editionId}" href="${escapeHtml(partHref(part))}"${part.editionId === entry.editionId ? ' aria-current="page"' : ""}>P${partIndex(part) + 1}</a></li>`).join("")}</ol><a class="reader-flow-link" href="${escapeHtml(route.kind === "continuous" ? readerSearchRoute(entry) : continuousRoute(workKey(entry), isDraft(entry) ? "drafts" : "published", entry.editionId))}">${route.kind === "continuous" ? "返回当前 P 单篇阅读" : "从当前 P 连续阅读"} →</a></div></details>` : `<span class="reader-current-label">P${partIndex(entry) + 1}</span>`}
+    <button id="reader-find" type="button" aria-label="${route.mode === 'review' ? '查找当前校验参照' : '打开视频内查找'}">查找</button><button id="reader-outline" type="button" aria-label="打开文章或段落导览" hidden>导览</button><button id="reader-settings" type="button" aria-label="调整阅读排版">排版</button></nav><details class="reader-identity"><summary aria-label="当前篇目与核验工具"><span class="reader-title-preview">${escapeHtml(entry.title)}</span><span class="reader-title-mobile">篇目</span></summary><div class="reader-identity-popover"><strong class="reader-current-title">${escapeHtml(entry.title)}</strong><p>当前 <span class="reader-current-label">P${partIndex(entry) + 1}</span></p><a class="reader-mode-link" href="${escapeHtml(readerSearchRoute(entry, route.videoSearch || {}, route.mode !== 'review'))}">${route.mode === 'review' ? '正文' : '核对'}</a><button type="button" data-feedback aria-label="反馈当前段落">纠错</button></div></details>`;
 }
 
 export function visibleReadingEntry(app, entries, topOffset) {
@@ -80,14 +81,14 @@ export function bindReaderTools({ app, route, entries }) {
   function update() {
     current = visibleReadingEntry(app, entries, offset()) || route.entry;
     header.querySelectorAll(".reader-current-title, .reader-title-preview").forEach((label) => { label.textContent = current.title; });
-    header.querySelectorAll(".reader-current-label").forEach((label) => { label.textContent = `P${current.pageIndex + 1}`; });
+    header.querySelectorAll(".reader-current-label").forEach((label) => { label.textContent = `P${partIndex(current) + 1}`; });
     header.querySelectorAll(".reader-part-menu a").forEach((link) => {
       if (link.dataset.edition === current.editionId) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
     });
     header.querySelector("#reader-outline").hidden = !currentArticle()?.querySelector(".table-of-contents");
     const flow = header.querySelector(".reader-flow-link");
-    if (flow) flow.href = route.kind === "continuous" ? readerSearchRoute(current) : continuousRoute(current.bvid, isDraft(current) ? "drafts" : "published", current.editionId);
+    if (flow) flow.href = route.kind === "continuous" ? readerSearchRoute(current) : continuousRoute(workKey(current), isDraft(current) ? "drafts" : "published", current.editionId);
     if (route.mode !== "review") header.querySelector(".reader-mode-link").href = readerSearchRoute(current, route.videoSearch || {}, true);
   }
 

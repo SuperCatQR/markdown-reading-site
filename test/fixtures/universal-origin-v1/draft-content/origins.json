@@ -1,0 +1,265 @@
+{
+  "contractProfile": "universal-origin-v1",
+  "entries": [
+    {
+      "aiRevisionId": "2c6a9df34ac010732a53f243eed9aabb48710d672fe5ecacb8ee12e2e6df5966",
+      "aiTemplateVersion": "ai-draft-v1",
+      "baselineBodySha256": "0de365998ba11193c64372f7b14fedd581f8ff162404d759ee7cc27a098c83fa",
+      "bodyPreserved": false,
+      "contentSha256": "52ad4fc34f238ce2615095fac38c7c87ef054bbef51e91a29010298763e8668e",
+      "currentBodySha256": "056d7ea29c904083a3bea6f7cb7d1fb63c94a0b45b641e478ec068a0fb351d79",
+      "editionId": "5e045466cd2c4879954e23d911aa01d6",
+      "importId": "0a3b75834a5b34378873ba7eefe50c70afa3a7d6d46c8aefc517b394581f042a",
+      "importedAt": 1791618676,
+      "inputVersion": 1,
+      "kind": "edited-after-preservation",
+      "legacyAiRevisionId": "2c6a9df34ac010732a53f243eed9aabb48710d672fe5ecacb8ee12e2e6df5966",
+      "legacyEditionId": "526ae5c2785b4b2ab81a2de68d3e2a48",
+      "legacyReleaseId": null,
+      "metadataEvidence": [
+        {
+          "field": "aid",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "categoryId",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "coverUrl",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "creatorId",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "creatorName",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "description",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "durationMs",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "externalVideoId",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "9d67b60784e64171ee1e689f4530af1f44ff275b11fdf7f1862ece52c91c92fa"
+        },
+        {
+          "field": "metadataObservedAt",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "partIndex",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+        },
+        {
+          "field": "partTitle",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "platform",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "b601499487996d14c134f9bd64c984ad218228a4ad876548cc64fac3f6c5fe1b"
+        },
+        {
+          "field": "pubdateUnix",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "sourcePublishedAt",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "tags",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "field": "title",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "12823eeb5e0ffdef1bccc2b741c8cc4f04d5cc598352d6d3f1763d43385a5a95"
+        },
+        {
+          "field": "version",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "fb9ab7778510be0fa153bf64942736c755b8a6bf0dc9aa87f794fa31aa8dea52"
+        }
+      ],
+      "policyVersion": "legacy-frozen-facts-v1",
+      "reviewArtifactSha256": "df6754d563b05d91927d84de202bbd5ebe0cf5dcc79b42ab7554ffb9ed40725f",
+      "sourceMetadataSha256": "2b9f1f622247a53882de7cae69041dbb8d7e00e1080303f3e8e17dd0204954e7",
+      "videoPartId": 1
+    },
+    {
+      "aiRevisionId": "1daec813eabf8b1eb316f3bc899a4ed31c319e062808670df16d9c931aa8eb93",
+      "aiTemplateVersion": "ai-draft-v1",
+      "baselineBodySha256": "91a514147cfdd83d92acc02eade2830b987f9a42ab704bb5ca3a7486838df216",
+      "bodyPreserved": true,
+      "contentSha256": "9caec582fcf0c91971497fee5cae34e11a5a5fd4eee138e5a2377cdefec231d3",
+      "currentBodySha256": "91a514147cfdd83d92acc02eade2830b987f9a42ab704bb5ca3a7486838df216",
+      "editionId": "90112a14983a41e199b2caab26967bdf",
+      "importId": "f93e37e3ec760af5c04f5269486b557ff396ba0ecc7e3502b83ba4d8a7d772bd",
+      "importedAt": 1791618676,
+      "inputVersion": 1,
+      "kind": "preserved-legacy-body",
+      "legacyAiRevisionId": "1daec813eabf8b1eb316f3bc899a4ed31c319e062808670df16d9c931aa8eb93",
+      "legacyEditionId": "e568e1d694fa4bad93fb8b5df08d59a1",
+      "legacyReleaseId": null,
+      "metadataEvidence": [
+        {
+          "field": "aid",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "categoryId",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "coverUrl",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "creatorId",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "creatorName",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "description",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "durationMs",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "externalVideoId",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "9d67b60784e64171ee1e689f4530af1f44ff275b11fdf7f1862ece52c91c92fa"
+        },
+        {
+          "field": "metadataObservedAt",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "partIndex",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        },
+        {
+          "field": "partTitle",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "platform",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "b601499487996d14c134f9bd64c984ad218228a4ad876548cc64fac3f6c5fe1b"
+        },
+        {
+          "field": "pubdateUnix",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "sourcePublishedAt",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        {
+          "field": "tags",
+          "kind": "unobserved",
+          "observedAt": null,
+          "valueSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "field": "title",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "12823eeb5e0ffdef1bccc2b741c8cc4f04d5cc598352d6d3f1763d43385a5a95"
+        },
+        {
+          "field": "version",
+          "kind": "legacy-input",
+          "observedAt": null,
+          "valueSha256": "fb9ab7778510be0fa153bf64942736c755b8a6bf0dc9aa87f794fa31aa8dea52"
+        }
+      ],
+      "policyVersion": "legacy-frozen-facts-v1",
+      "reviewArtifactSha256": "de1f509463124edd79a69e3d8432bc7f54a2d0f055f39ca64e0db54defef9355",
+      "sourceMetadataSha256": "49189f3deb061eafd1f11d34e24031fd42d4b20ba38b5e669360f59865234a30",
+      "videoPartId": 2
+    },
+    {
+      "aiRevisionId": "d98bf0b1cd4b59c713941a3c47dcaa8c13813ea5a9b310f5539af6b98f4222ec",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "cd7b4c36918cdf23e1e66fba05b31cf62b0e2192bb7ce2f020687e6a80d3c53a",
+      "editionId": "b1e4012e89bf4bbe80eacdeac0a53d79",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "cdba6b3b924d0178313a3c587c5663a2dc178c2130e4e7a302d7ed45851a560f",
+      "videoPartId": 4
+    }
+  ],
+  "manuscriptType": "publication-draft",
+  "schemaVersion": 1
+}

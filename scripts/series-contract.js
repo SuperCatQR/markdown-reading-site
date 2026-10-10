@@ -1,3 +1,5 @@
+import { bilibiliId, partIndex } from "../src/source-identity.js";
+
 const object = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
 const exact = (value, fields) => object(value) && Object.keys(value).length === fields.length && fields.every((key) => Object.hasOwn(value, key));
 const text = (value) => typeof value === "string" && value.length > 0 && value === value.trim() && !/[\u0000-\u001f]/u.test(value);
@@ -40,8 +42,8 @@ export function validateSeries(envelope, catalog, kind = "publication") {
       if (typeof member.bvid !== "string" || !/^BV[A-Za-z0-9]{10}$/.test(member.bvid) || videos.has(member.bvid) || !text(member.label)) errors.push(`${location} 视频身份或说明无效/重复`);
       videos.add(member.bvid);
       if (!Array.isArray(member.entries)) { errors.push(`${location}.entries 必须是数组`); continue; }
-      const expected = articles.filter((entry) => entry.bvid === member.bvid)
-        .sort((a, b) => a.pageIndex - b.pageIndex || (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
+      const expected = articles.filter((entry) => bilibiliId(entry) === member.bvid)
+        .sort((a, b) => partIndex(a) - partIndex(b) || (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
       if (member.entries.length !== expected.length || member.entries.some((binding, part) => !exact(binding, bindingFields)
           || !expected[part] || bindingFields.some((key) => binding[key] !== expected[part][key]))) errors.push(`${location}.entries 必须准确绑定当前类别的完整目录及版本顺序`);
     }
