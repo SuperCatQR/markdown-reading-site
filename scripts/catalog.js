@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { validateSeries } from "./series-contract.js";
 
 export const ARTICLE_FIELDS = [
   "manuscriptType", "slug", "title", "summary", "tags", "attribution", "editorNote",
@@ -172,17 +173,19 @@ export function validateSnapshot(files, kind = "publication") {
   const contract = snapshotContract(kind);
   const MANIFEST = contract.manifest;
   const errors = [];
-  let catalog, manifest;
+  let catalog, manifest, series = null;
   try {
     const decoder = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true });
     catalog = parseUniqueJson(decoder.decode(files.get("catalog.json")));
     manifest = parseUniqueJson(decoder.decode(files.get(MANIFEST)));
+    if (files.has("series.json")) series = parseUniqueJson(decoder.decode(files.get("series.json")));
     for (const bytes of files.values()) decoder.decode(bytes);
   } catch (error) {
     return { errors: [`公开快照缺失文件或包含无效 UTF-8/JSON: ${error.message}`], catalog: null };
   }
-  const available = [...files.keys()].filter((name) => name !== "catalog.json" && name !== MANIFEST);
+  const available = [...files.keys()].filter((name) => !["catalog.json", "series.json", MANIFEST].includes(name));
   errors.push(...validateCatalog(catalog, available, kind));
+  if (files.has("series.json")) errors.push(...validateSeries(series, catalog, kind));
   if (!exactFields(manifest, ["schemaVersion", "manuscriptType", "snapshotId", "files"])
       || manifest.schemaVersion !== 1 || manifest.manuscriptType !== contract.manifestKind
       || !SHA256.test(manifest.snapshotId) || !Array.isArray(manifest.files) || !manifest.files.length) {
@@ -192,7 +195,7 @@ export function validateSnapshot(files, kind = "publication") {
   const managed = new Map();
   for (const entry of manifest.files) {
     if (!exactFields(entry, ["path", "sha256"]) || typeof entry.path !== "string"
-        || (entry.path !== "catalog.json" && !contract.file.test(entry.path) && !contract.reviewFile.test(entry.path)) || !SHA256.test(entry.sha256)) {
+        || (!["catalog.json", "series.json"].includes(entry.path) && !contract.file.test(entry.path) && !contract.reviewFile.test(entry.path)) || !SHA256.test(entry.sha256)) {
       errors.push("manifest 包含无效受管文件");
       continue;
     }
@@ -221,7 +224,7 @@ export function validateSnapshot(files, kind = "publication") {
       }
     }
   }
-  return { errors, catalog };
+  return { errors, catalog, series };
 }
 
 export function validateCatalogPair(publication, drafts) {

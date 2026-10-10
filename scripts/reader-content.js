@@ -5,6 +5,7 @@ import { prepareDocument } from "../src/document.js";
 import { entryKey } from "../src/manuscripts.js";
 import { estimateReadingMinutes } from "../src/reading-time.js";
 import { sha256 } from "./catalog.js";
+import { buildCandidateData } from "./search-candidate-data.js";
 
 // Derived presentation data lives outside the immutable input snapshots.
 export async function buildReaderData(root, watch = () => {}) {
@@ -12,6 +13,7 @@ export async function buildReaderData(root, watch = () => {}) {
   const summaries = {};
   const search = { published: {}, drafts: {} };
   const videos = { published: {}, drafts: {} };
+  const candidates = {};
   await Promise.all(Object.entries({ published: catalogs.publication, drafts: catalogs.drafts }).map(async ([view, catalog]) => {
     const folder = path.join(root, view === "drafts" ? "draft-content" : "content");
     watch(path.join(folder, "catalog.json"));
@@ -30,8 +32,9 @@ export async function buildReaderData(root, watch = () => {}) {
       (videos[view][entry.bvid] ||= {})[entryKey(entry)] = blocks;
       summaries[entryKey(entry)] = { minutes };
     }
+    candidates[view] = buildCandidateData(catalog.articles, search[view]);
   }));
-  return { summaries, search, videos };
+  return { summaries, search, videos, candidates };
 }
 
 export function readerContentPlugin(root) {
@@ -62,14 +65,21 @@ export function readerContentPlugin(root) {
         const records = Object.entries(indices).map(([bvid, index]) => `${JSON.stringify(bvid)}: ${assetUrl(`search-video-${view}-${bvid}`, index)}`);
         return `${JSON.stringify(view)}: {${records.join(",")}}`;
       });
-      return `export default {${urls.join(",")}, videos: {${videos.join(",")}}};`;
+      const candidates = Object.entries(generated.candidates).map(([view, data]) => `${JSON.stringify(view)}: {
+        manifest: ${assetUrl(`search-candidates-${view}`, data.manifest)},
+        partitions: [${data.partitions.map((index, partition) => assetUrl(`search-pairs-${view}-${partition}`, index)).join(",")}]
+      }`);
+      return `export default {${urls.join(",")}, videos: {${videos.join(",")}}, candidates: {${candidates.join(",")}}};`;
     },
     configureServer(server) {
       server.middlewares.use((request, response, next) => {
         const pathname = new URL(request.url, "http://reader.local").pathname;
         const view = ["published", "drafts"].find((kind) => pathname === `${base}__reader/search-${kind}.json`);
         const local = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-video-(published|drafts)-([\w-]{1,80})\.json$/) : null;
-        const index = view ? generated.search[view] : local ? generated.videos[local[1]][local[2]] : null;
+        const manifest = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-candidates-(published|drafts)\.json$/) : null;
+        const pairs = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-pairs-(published|drafts)-(\d+)\.json$/) : null;
+        const index = view ? generated.search[view] : local ? generated.videos[local[1]][local[2]]
+          : manifest ? generated.candidates[manifest[1]].manifest : pairs ? generated.candidates[pairs[1]].partitions[Number(pairs[2])] : null;
         if (!index) return next();
         response.setHeader("Content-Type", "application/json; charset=utf-8");
         response.setHeader("Cache-Control", "no-cache");
