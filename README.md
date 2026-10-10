@@ -60,6 +60,11 @@ bili-asr publication export --archive-root C:\Archive\new-contract --out C:\Site
 受管 `origins.json` 绑定生成或迁移来源，不自动转换旧输入。迁移步骤、来源展示与
 跨仓库测试见 [保留旧正文的迁移导入](docs/preserved-body-import.md)。
 
+2026-10-10 的生产导入已将本站两份输入切换至 `universal-origin-v1`：未发布目录共
+1,228 篇，其中 1,103 篇保留旧正文迁移，125 篇来自原生 ai-draft-v2。全部待审核，
+正式发布目录为零篇。导入依据与验证见 [生产迁移记录](docs/production-preserved-import-20261010.md)。
+下述 catalog v2/manifest v1 说明记录已有入口规则，当前受管快照采用新入口。
+
 ```text
 content/
   catalog.json

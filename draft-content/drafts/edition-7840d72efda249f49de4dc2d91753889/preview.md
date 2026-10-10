@@ -1,0 +1,15 @@
+# 【实事求是】5000元真伪现场探访
+
+有人问徐阿姨：“有人说他五一的时候在你这里买了五千块钱蔬菜，是真的还是假的？”徐阿姨说：“没有，没有。”对方说：“不信你看一下。就是这个，你看，徐阿姨。他有一个，这个是假的，这个是转账的，是吧？”对方接着问：“是在你店里买的吗？这个是他到你这换了五千块现金，对吧？”
+
+徐阿姨说：“要不就是换现金，没有人买这么多菜。啊，就是没有，没买过蔬菜。没有，没有。”对方问：“因为你们这是大规模，是吧？”徐阿姨说：“哦，我这里就差不多。”对方说：“五千块钱要很多菜，对吧？”徐阿姨说：“啊，是。”
+
+徐阿姨说：“四月份到现在都没有人买过。没有，没有，就没有买过五千块钱。”对方说：“那这个确实是你店，这完全是你店吧？江山是四十。”徐阿姨说：“嗯，是的。”对方说：“啊，应该是到你这换现金。”徐阿姨说：“那要不就是换现金，没人买这么多。”对方说：“好的，好的，谢谢阿姨。”
+
+Source: [bilibili / BV1YFEUzpEsT / P1](https://www.bilibili.com/video/BV1YFEUzpEsT/?p=1)
+
+Source published at: unknown
+
+Body preserved from a legacy AI-assisted manuscript; no new AI inference during import.
+
+Imported edition requires human review. The reference is the historical AI baseline.

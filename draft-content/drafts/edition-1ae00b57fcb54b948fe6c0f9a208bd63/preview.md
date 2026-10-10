@@ -1,0 +1,15 @@
+# 【主义主义】经量部的种子形而上学（2\-2\-1\-3）——乔达摩·悉达多哲学的饮鸩止渴
+
+这个时候，有些人就跳出来说：“我们是实证，实证，我们有实证。”我这个时候，作为一个精神分析者，会摧残你的逻辑结构，摧残你的意识结构，让里面短路；短路之后，一种可能是变成psychotic，一种可能是走向非常严重、极为严重的歇斯底里，也会走向perversion。庸俗的人会走向perversion，而那些聪明的人——最最聪明的人——会变成psychotic。
+
+然后，你们实证当时，比如说你们那些禅定、几禅里面的那些东西：为什么二禅比一禅更清净？第二次总比第一次快感要少一点，总比第一次快感要少一点。
+
+我不说那么多了。我他妈的，这不是说太多了吗？你们要是冲过来跟我拼命，你们那些戒律啊什么的都不管了，我跟你讲。
+
+Source: [bilibili / BV1Z5411w7wu / P4](https://www.bilibili.com/video/BV1Z5411w7wu/?p=4)
+
+Source published at: unknown
+
+Body preserved from a legacy AI-assisted manuscript; no new AI inference during import.
+
+Imported edition requires human review. The reference is the historical AI baseline.

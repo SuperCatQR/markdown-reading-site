@@ -1,11 +1,16 @@
 {
+  "contractProfile": "universal-origin-v1",
   "files": [
     {
       "path": "catalog.json",
-      "sha256": "436933cab853268cd89f9088da6d092e3836e31207fdc3f368809f6cc0801e81"
+      "sha256": "5e00659c69a3c2a93d2d8f159555eac8e18aa2961c8b76db153448d57015fe59"
+    },
+    {
+      "path": "origins.json",
+      "sha256": "d228bd0fa768b9cca7f5fd98d96f8c10a1e49af655ec60b9c08612712b8fb37c"
     }
   ],
   "manuscriptType": "publication-export",
-  "schemaVersion": 1,
-  "snapshotId": "ad5541d892adf41b890748b1cd17409e3fa4e7aaf9562bcd2351a0cb3e29fe86"
+  "schemaVersion": 2,
+  "snapshotId": "239cef0cd903de3bb1d7d0007b20426abb0dd1fbd9a260b27ea4dad5bc981cf7"
 }
