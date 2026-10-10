@@ -12,13 +12,21 @@ export const reviewRoute = (entry) => `?review=${entry.editionId}`;
 export const entryDate = (entry) => new Date((isDraft(entry) ? entry.createdAt : entry.publishedAt) * 1000).toISOString().slice(0, 10);
 export const directoryRoute = (view) => view === "all" ? "?view=all" : `?view=${view}`;
 export const videoRoute = (videoKey, view = "all") => `?${new URLSearchParams({ ...videoParameters(videoKey), view })}`;
-export const continuousRoute = (videoKey, view, editionId) => `?${new URLSearchParams({ ...videoParameters(videoKey), view, flow: "continuous", ...(editionId ? { part: editionId } : {}) })}`;
+export function continuousRoute(videoKey, view, editionId, search = {}) {
+  const params = new URLSearchParams({ ...videoParameters(videoKey), view, flow: "continuous", ...(editionId ? { part: editionId } : {}) });
+  setVideoSearchParams(params, search);
+  return `?${params}`;
+}
 
-export function readerSearchRoute(entry, { query = "", mode = "general", view } = {}, review = false) {
-  const params = new URLSearchParams(review ? reviewRoute(entry) : entryRoute(entry));
+function setVideoSearchParams(params, { query = "", mode = "general", view } = {}) {
   if (visibleQuery(query)) params.set("vq", visibleQuery(query));
   if (mode !== "general") params.set("vm", mode);
   if (view) params.set("vview", view);
+}
+
+export function readerSearchRoute(entry, { query = "", mode = "general", view } = {}, review = false) {
+  const params = new URLSearchParams(review ? reviewRoute(entry) : entryRoute(entry));
+  setVideoSearchParams(params, { query, mode, view });
   return `?${params}`;
 }
 
@@ -82,7 +90,7 @@ export function resolveReaderRoute(search, publication, drafts) {
       || (params.has("sort") && (!["body", "title"].includes(params.get("sort")) || params.has("video")))
       || (params.get("q")?.length > 300)
       || (params.has("view") && !["all", "published", "drafts"].includes(params.get("view")))
-      || (["vq", "vm", "vview"].some((key) => params.has(key)) && !selectors.length)
+      || (["vq", "vm", "vview"].some((key) => params.has(key)) && !selectors.length && params.get("flow") !== "continuous")
       || (params.get("vq")?.length > 300)
       || (params.has("vm") && !["general", "phrase", "keywords"].includes(params.get("vm")))
       || (params.has("vview") && !["all", "published", "drafts"].includes(params.get("vview")))) return { kind: "missing" };
@@ -111,7 +119,7 @@ export function resolveReaderRoute(search, publication, drafts) {
     const entries = (view === "drafts" ? drafts : publication).filter((entry) => workKey(entry) === videoKey).sort((a, b) => partIndex(a) - partIndex(b));
     const id = params.get("part");
     if (params.has("part") && (!/^[0-9a-f]{32}$/.test(id) || !entries.some((entry) => entry.editionId === id))) return { kind: "missing" };
-    return { kind: "continuous", videoKey, view, entries, entry: id ? entries.find((entry) => entry.editionId === id) : entries[0] };
+    return { kind: "continuous", videoKey, view, entries, entry: id ? entries.find((entry) => entry.editionId === id) : entries[0], ...videoSearch };
   }
   const tag = params.get("tag");
   if (params.has("tag") && (videoKey || (tag !== "全部" && ![...publication, ...drafts].some((entry) => sourceTags(entry).includes(tag))))) return { kind: "missing" };

@@ -25,7 +25,7 @@ export function sortingHelp(mode = "general", sort = "body", query = "") {
   if (mode === "keywords") return "所有关键词须在同一篇正文出现；同段覆盖更多关键词的结果优先。同分保留目录顺序。";
   if (mode === "phrase") return "只收录正文原句命中；同分保留目录顺序。";
   return sort === "title" ? "标题包含搜索词的结果优先，其余按正文证据排序；同分保留目录顺序。视频以最相关分 P 排位，组内仍按 P 顺序。"
-    : "正文命中优先于标题、摘要和标签；同分保留目录顺序。视频以最相关分 P 排位，组内仍按 P 顺序。";
+    : "完整标题精确匹配优先，其余正文命中优先于标题片段、摘要和标签；同分保留目录顺序。视频以最相关分 P 排位，组内仍按 P 顺序。";
 }
 
 export function searchTerms(query, mode = "general") {
@@ -41,14 +41,15 @@ function entryMatches(entry, terms, blocks, mode, sort) {
     return found.length ? [{ label: "正文命中", ...block, terms: found }] : [];
   });
   const covered = new Set(matches.flatMap((match) => match.terms));
+  const exactTitle = mode === "general" && normalizeSearch(entry.title) === terms[0];
   const titleFirst = mode === "general" && sort === "title" && normalizeSearch(entry.title).includes(terms[0]);
   if (covered.size === terms.length) {
     const together = Math.max(...matches.map((match) => match.terms.length));
-    return { match: matches[0], matches, score: (titleFirst ? 200 : 100) + together / terms.length };
+    return { match: matches[0], matches, score: (exactTitle ? 300 : titleFirst ? 200 : 100) + together / terms.length };
   }
   if (mode !== "general") return null;
   for (const [label, text] of [["标题", entry.title], ["摘要", entry.summary], ["来源标签", sourceTags(entry).join(" · ")]]) {
-    if (normalizeSearch(text).includes(terms[0])) return { match: { label, text, id: null }, matches: [], score: titleFirst ? 200 : 1 };
+    if (normalizeSearch(text).includes(terms[0])) return { match: { label, text, id: null }, matches: [], score: exactTitle ? 300 : titleFirst ? 200 : 1 };
   }
   return null;
 }
