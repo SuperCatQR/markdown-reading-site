@@ -1,7 +1,7 @@
-import { partIndex, partLabel, sourceLabel } from "./source-identity.js";
+import { partIndex, partLabel, partTitle, sourceLabel } from "./source-identity.js";
 import { tagOptionsMarkup } from "./discovery-controls.js";
 import { visibleQuery } from "./query-state.js";
-import { entryKey, entryRoute, readerSearchRoute, groupVideos } from "./manuscripts.js";
+import { entryKey, entryRoute, readerSearchRoute, searchRoute, groupVideos } from "./manuscripts.js";
 import { contextSnippet, matchHash, searchModes, searchTerms, sortingHelp } from "./search.js";
 import { escapeHtml, highlightText, statusBadge, viewLabels, footer } from "./ui.js";
 
@@ -51,7 +51,7 @@ export function partMarkup({ entry, match, matches = [] }, { query = "", mode = 
   const label = match?.label || "编辑摘要";
   const evidence = matches.map((hit) => passageMarkup(entry, hit, query, mode, view, directory));
   const firstBody = matches.find((hit) => hit.id) || (match?.id ? match : null);
-  return `<li class="video-part"><div class="part-heading"><a class="part-link"${directory && query.trim() ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(entry, firstBody, { query, mode, view }))}"><span class="part-number">${partLabel(entry)}</span><span>${match ? `阅读命中${match.id ? "段落" : "稿件"}` : "阅读正文"} →</span></a>${statusBadge(entry)}<span class="part-minutes">${summary.minutes} 分钟阅读</span></div>
+  return `<li class="video-part"><div class="part-heading"><a class="part-link"${directory && query.trim() ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(entry, firstBody, { query, mode, view }))}"><span class="part-number">${partLabel(entry)}</span>${partTitle(entry) ? `<span class="part-source-title">${escapeHtml(partTitle(entry))}</span>` : ""}<span>${match ? `阅读命中${match.id ? "段落" : "稿件"}` : "阅读正文"} →</span></a>${statusBadge(entry)}<span class="part-minutes">${summary.minutes} 分钟阅读</span></div>
     ${evidence.length ? `<p class="match-summary">${mode === "keywords" ? "全部关键词命中" : mode === "phrase" ? "原句匹配" : "正文命中"} · ${evidence.length} 个段落</p><ul class="passage-list">${evidence.slice(0, 1).join("")}</ul>${evidence.length > 1 ? `<details class="passage-disclosure" data-entry="${entryKey(entry)}"${passages.includes(entryKey(entry)) ? " open" : ""}><summary>其余 ${evidence.length - 1} 个命中段落</summary><ul class="passage-list">${evidence.slice(1).join("")}</ul></details>` : ""}` : excerpt ? `<p class="part-excerpt"><span class="excerpt-label">${label}</span>${highlightText(excerpt, searchTerms(query, mode))}</p>` : ""}</li>`;
 }
 
@@ -59,7 +59,8 @@ export function directoryResults(matches, { view, query, visibleCount, expanded,
   const groups = groupVideos(matches);
   if (!groups.length) {
     const hasContent = counts[view] > 0;
-    return { count: 0, html: `<section class="empty-state"><h2>${hasContent ? "没有找到匹配的稿件" : view === "published" ? "暂无已发布稿件" : "暂无可阅读内容"}</h2><p>${hasContent ? "试试其他关键词，或清除主题筛选。" : view === "published" && counts.drafts ? "正式发布内容暂为空，可以先阅读明确标注状态的公开预览。" : "公开内容准备好后，会显示在这里。"}</p>${hasContent ? `<button class="reset-button" id="reset-filters" type="button">清除筛选</button>` : view === "published" && counts.drafts ? `<a class="reset-button" href="?view=drafts">阅读公开预览 →</a>` : ""}</section>` };
+    const advice = mode === "phrase" ? "当前按正文连续原句匹配，标点不同可能无法命中。可修改原句，或恢复综合查找。" : mode === "keywords" ? "当前要求所有关键词都出现在同一篇正文。可减少关键词，或恢复综合查找。" : "试试其他关键词，或恢复默认查找以清空条件。";
+    return { count: 0, html: `<section class="empty-state"><h2>${hasContent ? "没有找到匹配的稿件" : view === "published" ? "暂无已发布稿件" : "暂无可阅读内容"}</h2><p>${hasContent ? advice : view === "published" && counts.drafts ? "正式发布内容暂为空，可以先阅读明确标注状态的公开预览。" : "公开内容准备好后，会显示在这里。"}</p>${hasContent ? `<button class="reset-button" id="reset-filters" type="button">恢复默认查找</button><p>清空搜索词与主题，恢复综合搜索和默认排序；保留稿件发布范围。</p>` : view === "published" && counts.drafts ? `<a class="reset-button" href="${escapeHtml(searchRoute({ view: "drafts", query, mode }))}" data-preserve-search>阅读公开预览 →</a><p>保留当前查询与查找方式。</p>` : ""}</section>` };
   }
   return { count: groups.length, html: `<section class="video-list" aria-label="${viewLabels[view]}视频列表">${groups.slice(0, visibleCount).map((group, index) => {
     const distinctParts = new Set(group.parts.map(({ entry }) => partIndex(entry))).size;

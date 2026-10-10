@@ -8,8 +8,8 @@ function observedTime(value) {
   return Number.isNaN(date.valueOf()) ? "未知" : date.toISOString();
 }
 
-export function provenanceMarkup(entry, { review = false, pageUrl, issueUrl, includeVersion = false } = {}) {
-  return `<details class="provenance" aria-label="来源与整理说明"><summary>来源与整理说明</summary><div class="provenance-content"><div><span>当前稿件</span>${statusBadge(entry)}</div>
+export function provenanceMarkup(entry, { review = false, pageUrl, issueUrl, includeVersion = false, expanded = false } = {}) {
+  return `<${expanded ? 'section' : 'details'} class="provenance" aria-label="来源与整理说明">${expanded ? '<h3>来源与整理说明</h3>' : '<summary>来源与整理说明</summary>'}<div class="provenance-content"><div><span>当前稿件</span>${statusBadge(entry)}</div>
     ${review ? reviewNotice() : ""}${isDraft(entry) ? draftNotice() : ""}
     <p><strong>视频来源</strong><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(sourceLabel(entry))} / ${escapeHtml(partLabel(entry))} ↗</a></p>
     <p><strong>来源原标题</strong>${escapeHtml(entry.sourceMetadata.title)}</p>
@@ -19,7 +19,7 @@ export function provenanceMarkup(entry, { review = false, pageUrl, issueUrl, inc
     <p><strong>整理方式</strong>${escapeHtml(entry.attribution)}</p>${entry.editorNote ? `<p><strong>编辑说明</strong>${escapeHtml(entry.editorNote)}</p>` : ""}
     <p class="verification-scope">审核与发布说明稿件的处理状态，不代表对视频中全部观点的学术认证。</p>
     ${includeVersion ? versionDetailsMarkup(entry, review) : ""}
-    ${pageUrl && issueUrl ? `<a class="issue-link" href="${escapeHtml(buildIssueUrl(entry, pageUrl, issueUrl, review ? "review" : "body"))}" target="_blank" rel="noopener noreferrer">建议修改 →</a>` : ""}</div></details>`;
+    ${pageUrl && issueUrl ? `<a class="issue-link" href="${escapeHtml(buildIssueUrl(entry, pageUrl, issueUrl, review ? "review" : "body"))}" target="_blank" rel="noopener noreferrer">建议修改 →</a>` : ""}</div></${expanded ? 'section' : 'details'}>`;
 }
 
 export function versionDetailsMarkup(entry, review = false) {

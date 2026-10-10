@@ -3,6 +3,8 @@ import { entryKey, isDraft, readerSearchRoute, searchRoute } from "./manuscripts
 import { sanitizeSearchOrigin } from "./directory-state.js";
 import { matchHash, parseMatchHash, normalizeSearch } from "./search.js";
 import { escapeHtml } from "./ui.js";
+import { readerFormatRoute } from "./reading-routes.js";
+import { readingToolPosition, restoreReadingToolPosition } from "./reading-position.js";
 
 // Traverse source parts, then the actual body-block order. Relevance ranking is
 // useful for results; it must not reorder the passages while reading a video.
@@ -28,8 +30,11 @@ export function passageNavigationState(passages, entry, hash) {
 }
 
 export function passageNavigationMarkup(state, request, origin = null) {
+  const href = (passage) => request.readingMode === "continuous"
+    ? readerFormatRoute(passage.entry, {}, true, request, matchHash(passage.match, request.query, request.mode))
+    : `${readerSearchRoute(passage.entry, request)}${matchHash(passage.match, request.query, request.mode)}`;
   const link = (passage, label, direction) => passage
-    ? `<a class="search-hit-step" data-search-hit="${direction}" href="${escapeHtml(`${readerSearchRoute(passage.entry, request)}${matchHash(passage.match, request.query, request.mode)}`)}" aria-label="${label}：${partLabel(passage.entry)} 正文命中">${label}</a>`
+    ? `<a class="search-hit-step" data-search-hit="${direction}" href="${escapeHtml(href(passage))}" aria-label="${label}：${partLabel(passage.entry)} 正文命中">${label}</a>`
     : `<span class="search-hit-boundary" aria-disabled="true">${label}</span>`;
   const global = origin ? `<a data-return-global href="${escapeHtml(searchRoute({ ...origin.directory, view: origin.view }))}">返回全站搜索结果</a>`
     : `<a href="${escapeHtml(searchRoute({ query: request.query, mode: request.mode, view: request.view }))}">重新全站搜索</a>`;
@@ -52,7 +57,7 @@ export function createSearchNavigation({ app, route, getRequest, isCurrent }) {
     const active = ready && route.mode !== "review" && state.current >= 0 && expected
       && normalizeSearch(hit.query) === normalizeSearch(expected.query);
     host.hidden = !active;
-    host.innerHTML = active ? passageNavigationMarkup(state, { ...getRequest(), manuscriptType: route.entry.manuscriptType }, sanitizeSearchOrigin(history.state?.searchOrigin, workKey(route.entry))) : "";
+    host.innerHTML = active ? passageNavigationMarkup(state, { ...getRequest(), manuscriptType: route.entry.manuscriptType, readingMode: route.kind === "continuous" ? "continuous" : "single" }, sanitizeSearchOrigin(history.state?.searchOrigin, workKey(route.entry))) : "";
     app.dispatchEvent(new CustomEvent("search-navigation-change", { detail: { active }, bubbles: true }));
   }
   function clearHighlights() {
@@ -64,9 +69,12 @@ export function createSearchNavigation({ app, route, getRequest, isCurrent }) {
     app.querySelectorAll(".search-arrival").forEach((node) => node.remove());
   }
   function end() {
+    const offset = () => Math.max(app.querySelector(".site-header").getBoundingClientRect().bottom, host?.hidden ? 0 : host?.getBoundingClientRect().bottom || 0) + 12;
+    const position = readingToolPosition(app, offset());
     if (parseMatchHash(location.hash)) history.replaceState(history.state, "", `${location.pathname}${location.search}`);
     clearHighlights();
     render();
+    requestAnimationFrame(() => { if (isCurrent()) restoreReadingToolPosition(position, offset(), { focus: false }); });
   }
   window.addEventListener("keydown", (event) => {
     const menu = host?.querySelector(".search-hit-actions[open]");
@@ -87,20 +95,14 @@ export function createSearchNavigation({ app, route, getRequest, isCurrent }) {
     }
     if (event.target.closest("[data-search-results]")) {
       host?.querySelector(".search-hit-actions")?.removeAttribute("open");
-      dispatch("reading-tool-open");
-      const disclosure = app.querySelector(".reader-video-search");
-      if (disclosure) {
-        disclosure.open = true;
-        disclosure.scrollIntoView({ behavior: "instant", block: "start" });
-        disclosure.querySelector("#video-query")?.focus({ preventScroll: true });
-      }
+      app.dispatchEvent(new CustomEvent("reader-panel-request", { detail: { kind: "search" } }));
     }
     if (event.target.closest("[data-search-end]")) {
       const arrival = parseMatchHash(location.hash);
       const paragraph = arrival ? document.getElementById(arrival.id) : null;
       end();
       paragraph?.focus({ preventScroll: true });
-      // reader-tools handles data-reading-tool-return and its prior body anchor.
+      // Removing the search toolbar preserves the current body block.
     }
   }, { capture: true, signal: events.signal });
   window.addEventListener("hashchange", render, { signal: events.signal });

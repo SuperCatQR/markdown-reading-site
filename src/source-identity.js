@@ -11,6 +11,8 @@ export const partIndex = (entry) => entry.partIndex;
 export const sourceTags = (entry) => entry.sourceMetadata.tags;
 export const platformLabel = (entry) => entry.platform === "youtube" ? "YouTube" : "哔哩哔哩";
 export const partLabel = (entry) => entry.platform === "youtube" ? "单视频" : `P${entry.partIndex + 1}`;
+export const partTitle = (entry) => entry.sourceMetadata?.partTitle || "";
+export const partName = (entry) => `${partLabel(entry)}${partTitle(entry) ? ` · ${partTitle(entry)}` : ""}`;
 export const sourceLabel = (entry) => `${platformLabel(entry)} · ${entry.externalVideoId}`;
 export const validWorkKey = (value) => typeof value === "string"
   && /^(?:bilibili\.[A-Za-z0-9_-]{1,128}|youtube\.[A-Za-z0-9_-]{11})$/.test(value);

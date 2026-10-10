@@ -7,7 +7,7 @@ import { continuousPartMarkup } from "../src/continuous-reader.js";
 const entry = (part, manuscriptType = "publication-draft", edition = part) => ({
   contentVersion: 2, platform: "bilibili", externalVideoId: "BVexample", partIndex: part - 1, manuscriptType, editionId: String(edition).padStart(32, "0"),
   sourceMetadata: {title: "同一视频", creatorName: null, creatorId: null, metadataObservedAt: null, tags: []}, title: "同一视频", slug: `part-${part}`, sourceUrl: `https://www.bilibili.com/video/BVexample/?p=${part}`,
-  reviewStatus: "pending-review", attribution: "视频整理", editorNote: "尚待复核", aiRevisionId: "a".repeat(64),
+  reviewStatus: "pending-review", createdAt: 1791417600, publishedAt: 1791417600, attribution: "视频整理", editorNote: "尚待复核", aiRevisionId: "a".repeat(64),
   contentSha256: "b".repeat(64), releaseId: "c".repeat(64),
 });
 
@@ -52,8 +52,8 @@ test("multiple documents have distinct anchors and safe part boundaries without 
   const markup = continuousPartMarkup(draft, source + '\n<script>alert(1)</script>');
   assert.match(markup, /待审核 · 未发布/);
   assert.match(markup, /原视频 · P2/);
-  assert.match(markup, new RegExp(`\\?draft=${draft.editionId}`));
-  assert.match(markup, new RegExp(`\\?review=${draft.editionId}`));
+  assert.match(markup, /data-reader-panel="source"/);
+  assert.ok(markup.includes(draft.editionId));
   assert.match(markup, /关联编辑内容 SHA-256/);
   assert.doesNotMatch(markup, /<script>|已审核 · 已发布|发布 ID/);
 });

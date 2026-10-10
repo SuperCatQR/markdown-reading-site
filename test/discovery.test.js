@@ -69,9 +69,11 @@ test("reader folds scoped search, restores active queries and makes empty catego
   assert.match(single, /id="video-query"/);
   assert.match(single, /id="video-result-count"/);
   assert.match(single, /校验参照不参与搜索/);
-  assert.match(render({ query: "体验" }), /class="reader-video-search" open/);
-  assert.match(render({ mode: "phrase" }), /class="reader-video-search" open/);
-  assert.match(render({ view: "published" }), /class="reader-video-search" open/);
+  assert.match(render({ query: "体验" }), /value="体验"/);
+  assert.match(render({ mode: "phrase" }), /value="phrase" checked/);
+  assert.match(render({ view: "published" }), /value="published" selected/);
+  assert.match(single, /data-reader-panel="search" hidden/);
+  assert.match(single, /仅筛选查找结果，不切换当前正文/);
   const second = entry(2);
   const multi = readerVideoMarkup([draft, second], { view: "all" });
   assert.match(multi, /已收录 2 个分 P/);

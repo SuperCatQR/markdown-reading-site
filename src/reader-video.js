@@ -1,11 +1,12 @@
 import { workKey } from "./source-identity.js";
-import { entryRoute, isDraft, readerSearchRoute } from "./manuscripts.js";
+import { isDraft, readerSearchRoute } from "./manuscripts.js";
 import { searchEntries, searchModes, parseMatchHash } from "./search.js";
 import { createSearchNavigation } from "./search-navigation.js";
 import { visibleQuery } from "./query-state.js";
 import { measureSearchStage, showSearchWaiting } from "./search-loader.js";
 import { searchHelp } from "./directory-view.js";
 import { videoResults } from "./video-view.js";
+import { readerFormatRoute } from "./reading-routes.js";
 
 export function bindReaderVideo({ app, route, entries, summaries, loadSearchData, isCurrent, persistSearch }) {
   const root = app.querySelector(".reader-video-search");
@@ -15,9 +16,6 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   const count = root.querySelector("#video-result-count");
   const current = { query: input.value, mode: route.videoSearch?.mode || "general", view: category.value, tag: "全部", passages: route.videoSearch?.passages || [] };
   const arrival = parseMatchHash(location.hash);
-  // A hit URL resumes the body, including its saved scroll position. Reopening
-  // the result disclosure would insert every result above that body position.
-  if (arrival && route.mode !== "review") root.open = false;
   if (!current.query && arrival && route.mode !== "review") {
     current.query = input.value = arrival.query;
     current.mode = arrival.mode || "general";
@@ -37,7 +35,9 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   function save() {
     if (persistSearch) persistSearch({ ...current });
     else history.replaceState({ ...history.state, videoSearch: { videoKey: workKey(route.entry), editionId: route.entry.editionId, query: current.query, mode: current.mode, view: current.view, passages: current.passages } }, "", `${readerSearchRoute(route.entry, current, route.mode === "review")}${location.hash}`);
-    app.querySelectorAll(".parts-navigation a:not(.continuous-link), .reader-part-menu a, .document-tabs a").forEach((link) => {
+    route.videoSearch = { ...current };
+    app.dispatchEvent(new CustomEvent("reader-search-change", { detail: { ...current } }));
+    app.querySelectorAll(".parts-navigation a, .document-tabs a").forEach((link) => {
       const params = new URLSearchParams(new URL(link.href).search);
       const entry = entries.find((entry) => params.get("draft") === entry.editionId || params.get("read") === entry.slug || params.get("review") === entry.editionId);
       if (entry) link.setAttribute("href", readerSearchRoute(entry, current, params.has("review")));
@@ -48,8 +48,8 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
     results.innerHTML = videoResults(matches, request, summaries);
     results.querySelectorAll("a").forEach((link) => {
       const url = new URL(link.href);
-      const entry = entries.find((entry) => url.search === entryRoute(entry));
-      if (entry) link.setAttribute("href", `${readerSearchRoute(entry, request)}${url.hash}`);
+      const entry = entries.find((entry) => url.searchParams.get("draft") === entry.editionId || url.searchParams.get("read") === entry.slug);
+      if (entry) link.setAttribute("href", route.kind === "continuous" ? readerFormatRoute(entry, route, true, request, url.hash) : `${readerSearchRoute(entry, request)}${url.hash}`);
     });
   }
 

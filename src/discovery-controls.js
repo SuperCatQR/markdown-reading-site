@@ -60,15 +60,7 @@ export function openDirectorySection(app, section) {
     return true;
   }
   if (section === "recent-reading") {
-    const host = app.querySelector("#recent-reading");
-    if (!host) return false;
-    if (!host.textContent.trim()) host.innerHTML = '<p class="recent-empty" role="status">当前浏览器还没有阅读记录。打开正文阅读后，可以从这里继续。</p>';
-    const management = host.querySelector(".recent-reading-management");
-    if (management) management.open = true;
-    host.tabIndex = -1;
-    host.focus({ preventScroll: true });
-    host.scrollIntoView({ block: "start" });
-    return true;
+    return false;
   }
   return false;
 }
@@ -90,10 +82,5 @@ export function bindDirectoryPopovers(app) {
   document.addEventListener("click", (event) => {
     if (event.target.closest("[data-directory-section]")) return;
     app.querySelectorAll(selector).forEach((menu) => { if (menu.open && !menu.contains(event.target)) menu.open = false; });
-  });
-  app.addEventListener("click", (event) => {
-    const link = event.target.closest("[data-directory-section]");
-    if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey
-        && link && openDirectorySection(app, link.dataset.directorySection)) event.preventDefault();
   });
 }

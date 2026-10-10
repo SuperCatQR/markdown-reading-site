@@ -1,0 +1,202 @@
+// Run with playwright-cli run-code --filename=scripts/browser-reading-hierarchy-check.js
+// after opening the local dev/preview server. Uses the current frozen P1/P2 sample.
+async (page) => {
+  const base = page.url().split(/[?#]/)[0];
+  const p1 = "0724ad88f2f34abea2924007462b7f7b";
+  const p2 = "6d80c76a04364605b8938af08f96183a";
+  const single = `${base}?draft=${p1}`;
+  const flow = `${base}?platform=bilibili&video=BV1cb411U7Gr&view=drafts&flow=continuous&part=${p1}`;
+  const evidence = [];
+  const errors = [];
+  page.on("pageerror", error => errors.push(error.message));
+  const assert = (condition, message) => { if (!condition) throw new Error(message); };
+  const settle = () => page.evaluate(() => new Promise(resolve => {
+    let frames = 0; const tick = () => ++frames === 12 ? resolve() : requestAnimationFrame(tick); requestAnimationFrame(tick);
+  }));
+  // Coordinate clicks on visible sticky tools model a visitor's click without
+  // Playwright's preparatory scrollIntoView changing the body reading anchor.
+  const clickTool = async selector => {
+    const box = await page.locator(selector).boundingBox();
+    assert(box, `Tool not visible: ${selector}`);
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    await settle();
+  };
+  const ready = async () => { await page.locator('.prose').first().waitFor(); await page.locator('.contribution-dialog').waitFor({ state: 'attached' }); await settle(); };
+  const position = () => page.evaluate(() => {
+    const offset = Math.max(document.querySelector('.reader-header').getBoundingClientRect().bottom, document.querySelector('#reader-search-navigation:not([hidden])')?.getBoundingClientRect().bottom || 0) + 12;
+    const blocks = [...document.querySelectorAll('.prose [id]')].filter(node => !node.closest('details:not([open])'));
+    const node = blocks.find(node => { const rect = node.getBoundingClientRect(); return rect.height > 0 && rect.bottom > offset && rect.top < innerHeight; });
+    const rect = node?.getBoundingClientRect();
+    return { id: node?.id, fraction: rect ? Math.max(0, (offset - rect.top) / rect.height) : 0, y: scrollY };
+  });
+  const samePosition = (before, after, message) => assert(before.id === after.id && Math.abs(before.fraction - after.fraction) < 0.03, `${message}: ${JSON.stringify({ before, after })}`);
+  const fresh = await page.context().browser().newContext({ viewport: { width: 1366, height: 768 } });
+  const clean = await fresh.newPage();
+  await clean.goto(flow); await clean.locator('.continuous-part .prose').waitFor();
+  await clean.locator('.continuous-feedback a[rel=next]').click();
+  await clean.locator(`#part-${p2} .prose`).waitFor();
+  await clean.waitForFunction(() => document.querySelector('.reader-current-name')?.textContent === 'P2');
+  const arrival = await clean.evaluate(() => ({ url: location.href, top: document.querySelectorAll('.continuous-part')[1].getBoundingClientRect().top, offset: document.querySelector('.reader-header').getBoundingClientRect().bottom }));
+  assert(arrival.url.includes(`part=${p2}`) && arrival.top >= arrival.offset - 3 && arrival.top < arrival.offset + 40, 'F01 next P2 arrival');
+  await clean.locator(`#part-${p1}`).evaluate(node => { const offset = document.querySelector('.reader-header').getBoundingClientRect().bottom + 12; scrollTo({ top: scrollY + node.getBoundingClientRect().top - offset, behavior: 'instant' }); });
+  await clean.waitForFunction(id => location.search.includes(`part=${id}`) && document.querySelector('.reader-current-name')?.textContent.startsWith('P1'), p1);
+  const sharedUrl = clean.url();
+  const shared = await fresh.newPage(); await shared.goto(sharedUrl); await shared.locator('.continuous-part .prose').waitFor();
+  assert((await shared.locator('.reader-current-name').textContent()).startsWith('P1'), 'F02 share points at visible P1');
+  evidence.push({ issues: [80, 81], arrival, sharedUrl });
+  const failed = await fresh.newPage();
+  let bodyRequests = 0;
+  await failed.route('**/*.md*', request => ++bodyRequests === 1 ? request.continue() : request.abort());
+  await failed.goto(flow); await failed.locator('.continuous-part .prose').waitFor();
+  await failed.locator('.continuous-feedback a[rel=next]').click();
+  await failed.locator('#retry-continuous').waitFor();
+  assert((await failed.locator('#retry-continuous').getAttribute('href')).includes(`part=${p2}`), 'Failed P2 keeps explicit retry target');
+  assert(await failed.locator('.continuous-part .prose').count() === 1, 'Failed P2 preserves loaded P1');
+  await failed.unroute('**/*.md*');
+  await failed.locator('#retry-continuous').click();
+  await failed.locator(`#part-${p2} .prose`).waitFor();
+  await failed.waitForFunction(id => location.search.includes(`part=${id}`), p2);
+  evidence.push({ check: 'failed P2 retries P2', url: failed.url() });
+  await fresh.close();
+
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.goto(single); await ready();
+  await page.evaluate(() => scrollTo({ top: 700, behavior: 'instant' }));
+  await settle(); const original = await position();
+  await clickTool('#reader-source'); const sourceOpen = await position();
+  samePosition(original, sourceOpen, 'F04 source panel keeps anchor');
+  await page.locator('#reader-panel .release-details summary').click(); await settle();
+  samePosition(sourceOpen, await position(), 'F04 version does not shift prose');
+  assert(await page.locator('#reader-panel details details').count() === 0, 'F04 source not nested disclosures');
+  await page.keyboard.press('Escape'); await settle(); samePosition(original, await position(), 'F04 close source returns anchor');
+  await clickTool('#reader-find'); await page.locator('#video-query').fill('主义');
+  await page.waitForFunction(() => /\d+ \/ \d+ 篇/.test(document.querySelector('#video-result-count')?.textContent || '') && document.querySelector('#video-results').getAttribute('aria-busy') === 'false');
+  samePosition(sourceOpen, await position(), 'F03 result list does not push prose');
+  await page.locator('#video-search-view').selectOption('published');
+  await page.waitForFunction(() => document.querySelector('#video-results').textContent.includes('没有匹配'));
+  assert(await page.locator('.reading-article:not(.review-article)').count() === 1, 'F10 filtering keeps current draft body');
+  assert((await page.locator('#video-search-scope').textContent()).includes('不切换当前正文'), 'F10 explains local scope');
+  await page.locator('#video-search-view').selectOption('all');
+  await clickTool('[data-reader-panel-close]');
+  await clickTool('[data-reader-format=continuous]'); await ready();
+  assert(await page.evaluate(() => new URLSearchParams(location.search).get('vq')) === '主义', 'F06 query enters continuous');
+  await clickTool('[data-reader-format=single]'); await ready();
+  assert(await page.locator('#video-query').inputValue() === '主义', 'F06 query returns to single');
+  await page.goBack(); await ready();
+  assert(page.url().includes('flow=continuous') && await page.locator('#video-query').inputValue() === '主义', 'Browser back restores continuous query');
+  await page.goForward(); await ready();
+  assert(!page.url().includes('flow=continuous') && await page.locator('#video-query').inputValue() === '主义', 'Browser forward restores single query');
+  evidence.push({ issues: [82, 83, 85, 89], original, sourceOpen, singleUrl: page.url() });
+
+  await page.goto(`${single}&vq=%E4%B8%BB%E4%B9%89&vview=all#hit=passage-1&q=%E4%B8%BB%E4%B9%89`); await ready();
+  const bodyUrl = page.url(); const bodyPosition = await position();
+  await clickTool('[data-reader-format=continuous]'); await ready();
+  assert(page.url().includes(`#hit=part-${p1}-passage-1`), 'F06 hit translates to continuous paragraph');
+  await clickTool('[data-reader-format=single]'); await ready();
+  assert(page.url() === bodyUrl, 'F06 exact query and hit return to single');
+  await clickTool('[data-reader-mode=review]'); await page.locator('.review-article .prose').waitFor(); await settle();
+  assert(await page.locator('[data-reader-mode=review]').getAttribute('aria-current') === 'page', 'F05 review mode stays selected');
+  await clickTool('#reader-find');
+  await page.locator('#review-query').fill('主义'); await page.locator('.reader-review-search button[type=submit]').click(); await settle();
+  assert((await page.locator('.reader-review-search output').textContent()).includes('仅当前参照'), 'F05 reference search explains scope');
+  await page.keyboard.press('Escape'); await settle();
+  await clickTool('[data-reader-mode=body]'); await ready();
+  assert(page.url() === bodyUrl, 'reference returns exact original URL');
+  samePosition(bodyPosition, await position(), 'reference restores body context');
+  assert((await page.locator('.reader-sidebar').textContent()).includes('主义主义-介绍'), 'F07 known source part title is visible');
+  evidence.push({ issues: [84, 86], bodyUrl });
+
+  await page.goto(`${flow}&vq=%E4%B8%BB%E4%B9%89&vview=all`); await ready();
+  await clickTool('#reader-find');
+  await page.waitForFunction(() => document.querySelector('#video-results').getAttribute('aria-busy') === 'false' && document.querySelector('#video-results .passage-link'));
+  const continuousHit = page.locator('#video-results .passage-link').first();
+  assert((await continuousHit.getAttribute('href')).includes('flow=continuous'), 'Continuous search results keep reading format');
+  await continuousHit.click(); await ready();
+  assert(page.url().includes('flow=continuous') && page.url().includes('#hit=part-'), 'Continuous result arrives in flow');
+  assert((await page.locator('.search-hit-step[data-search-hit=next]').getAttribute('href')).includes('flow=continuous'), 'Next hit keeps continuous format');
+  const beforeEnd = await position();
+  await clickTool('.search-hit-actions summary');
+  await clickTool('[data-search-end]');
+  samePosition(beforeEnd, await position(), 'Ending lookup preserves current paragraph');
+
+  await page.goto(`${base}?view=all&mode=general&sort=body&q=${encodeURIComponent('一分钟哲学课')}`);
+  await page.waitForFunction(() => document.querySelector('#directory-results')?.getAttribute('aria-busy') === 'false');
+  assert(await page.locator('.video-heading h2').first().textContent() === '一分钟哲学课', 'F11 exact title first by default');
+  await page.locator('.video-heading h2 a').first().click(); await ready();
+  assert((await page.locator('.reader-directory-link').textContent()).includes('返回全站搜索结果'), 'F09 primary global return visible');
+  await clickTool('.reader-directory-link');
+  await page.waitForFunction(() => document.querySelector('#directory-results')?.getAttribute('aria-busy') === 'false');
+  assert(await page.locator('#search').inputValue() === '一分钟哲学课', 'F09 global query restored');
+  await page.locator('#advanced-search summary').click();
+  await page.locator('input[name=search-mode][value=phrase]').check();
+  await page.locator('#search').fill('NO_RESULT_ZZ_20261010');
+  await page.locator('#reset-filters').waitFor();
+  assert((await page.locator('.empty-state').textContent()).includes('连续原句'), 'F12 empty state explains phrase');
+  await page.locator('#reset-filters').click();
+  assert(await page.locator('#search').inputValue() === '', 'F12 clears query');
+  assert(await page.locator('input[value=general]').isChecked(), 'F12 restores general search');
+  await page.locator('#advanced-search summary').click();
+  await page.locator('input[name=search-mode][value=phrase]').check();
+  await page.locator('#search').fill('NO_RESULT_ZZ_20261010');
+  await page.locator('#publication-filter').selectOption('published');
+  await page.locator('[data-preserve-search]').waitFor(); await page.locator('[data-preserve-search]').click();
+  await page.locator('#search').waitFor();
+  assert(await page.locator('#search').inputValue() === 'NO_RESULT_ZZ_20261010' && await page.locator('input[value=phrase]').isChecked(), 'F12 preview preserves query and mode');
+  evidence.push({ issues: [88, 90, 91], previewUrl: page.url() });
+
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto(`${base}?view=all#recent-reading`); await page.locator('.recent-page').waitFor();
+  assert(await page.locator('.site-header .top-nav [aria-current]').textContent() === '最近阅读', 'F08 recent nav selected');
+  assert(await page.locator('#directory-results, #search, #publication-filter').count() === 0, 'F08 no mixed directory');
+  assert((await page.locator('#recent-reading').textContent()).includes('主义主义-介绍'), 'F07 recent source title');
+  await page.locator('[data-reading-resume]').first().click(); await ready();
+  assert((await page.locator('.reader-directory-link').textContent()).includes('返回最近阅读'), 'F09 return to recent source');
+  evidence.push({ issues: [87, 88], recentReturn: await page.locator('.reader-directory-link').getAttribute('href') });
+
+  for (const width of [1920, 1366, 390, 320]) {
+    await page.setViewportSize({ width, height: width >= 1000 ? 900 : 844 });
+    await page.goto(single); await ready();
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `No horizontal overflow at ${width}`);
+    await clickTool('#reader-parts');
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Panel fits at ${width}`);
+    await page.keyboard.press('Escape'); await settle();
+    assert(await page.locator('#reader-panel').getAttribute('open') === null, `Escape closes at ${width}`);
+    assert(await page.locator('[data-reader-mode=body]').isVisible(), `Body mode visible at ${width}`);
+    if (width === 390) {
+      await clickTool('#reader-source');
+      await page.locator('#reader-panel .release-details summary').click();
+      await page.keyboard.press('Escape'); await settle();
+      await clickTool('#reader-settings'); assert(await page.locator('.reading-settings').getAttribute('open') !== null, 'Settings work');
+      await page.keyboard.press('Escape'); await settle();
+    }
+  }
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto(single); await ready();
+  await clickTool('#reader-source');
+  await page.setViewportSize({ width: 390, height: 844 }); await settle();
+  assert(await page.locator('#reader-panel').getAttribute('open') === null, 'Crossing desktop breakpoint closes the dock');
+  await clickTool('#reader-source');
+  assert(await page.locator('#reader-panel').evaluate(node => node.matches(':modal')), 'Narrow tool reopens with modal focus');
+  await page.keyboard.press('Escape'); await settle();
+  assert(await page.locator('#reader-source').evaluate(node => node === document.activeElement), 'Escape returns keyboard focus');
+  await clickTool('[data-reader-mode=review]'); await ready();
+  await clickTool('#reader-find'); await page.locator('#review-query').fill('主义');
+  await page.locator('.reader-review-search button[type=submit]').click(); await settle();
+  assert(await page.locator('.review-hit-excerpt').isVisible(), 'Narrow reference search previews the covered hit');
+  await page.locator('[data-review-read]').click(); await settle();
+  assert(await page.locator('#reader-panel').getAttribute('open') === null && await page.locator('.review-match').count() === 1, 'Reading reference hit closes drawer and keeps selected passage');
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto(single); await ready();
+  const previousTheme = await page.evaluate(() => document.documentElement.dataset.theme);
+  await clickTool('.reader-site-links .theme-toggle');
+  assert(await page.evaluate(() => document.documentElement.dataset.theme) !== previousTheme, 'Theme toggles from saved preference');
+  if (await page.evaluate(() => document.documentElement.dataset.theme) !== 'dark') await clickTool('.reader-site-links .theme-toggle');
+  assert(await page.evaluate(() => document.documentElement.dataset.theme) === 'dark', 'Dark theme works');
+  await clickTool('#reader-source');
+  assert(await page.locator('#reader-panel').isVisible(), 'Dark source panel');
+  await clickTool('#reader-settings');
+  assert(await page.locator('#reader-panel').getAttribute('open') === null, 'Tools do not stack with settings');
+  await page.keyboard.press('Escape');
+  assert(errors.length === 0, `No browser errors: ${errors.join('; ')}`);
+  return { passedIssues: Array.from({ length: 12 }, (_, i) => i + 80), viewportWidths: [1920, 1366, 390, 320], evidence, errors };
+}

@@ -1,11 +1,10 @@
-import { partIndex, partLabel } from "./source-identity.js";
-import { readingOutlineMarkup, partGapsMarkup } from "./reading-outline.js";
+import { partIndex, partLabel, partName } from "./source-identity.js";
 import { prepareDocument } from "./document.js";
-import { continuousRoute, entryRoute, reviewRoute, entryKey, videoRoute } from "./manuscripts.js";
+import { continuousRoute, entryKey } from "./manuscripts.js";
 import { escapeHtml, statusBadge, footer, viewLabels } from "./ui.js";
-import { provenanceMarkup, originNoticeMarkup } from "./reader-details.js";
+import { originNoticeMarkup } from "./reader-details.js";
 import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
-import { readerVideoMarkup } from "./video-view.js";
+import { readerSidebarMarkup, readerPanelsMarkup, readerPartToolsMarkup } from "./reading-layout.js";
 import { seriesMarkup, seriesAdjacentMarkup } from "./series-view.js";
 
 const sources = new Map();
@@ -16,17 +15,18 @@ export function continuousPartMarkup(entry, source) {
   const prepared = prepareDocument(source, { idPrefix: `${partId(entry)}-`, titleLevel: 2 });
   const { title, body } = prepared;
   return `<article class="continuous-part" id="${partId(entry)}" tabindex="-1" data-edition="${entry.editionId}"><header class="reading-heading"><div class="reading-status"><span class="current-part">${partLabel(entry)}</span>${statusBadge(entry)}</div>${title || `<h2>${escapeHtml(entry.title)}</h2>`}
-    ${originNoticeMarkup(entry)}<details class="reading-information"><summary>来源、稿件信息与校验</summary><div class="reading-meta"><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">原视频 · ${partLabel(entry)} ↗</a><a href="${entryRoute(entry)}">单篇正文</a><a href="${reviewRoute(entry)}">校验参照稿件</a><button class="copy-markdown" type="button">复制 Markdown</button><button type="button" data-feedback>反馈这一段</button></div>${provenanceMarkup(entry, { includeVersion: true })}</details></header>
-    ${readingOutlineMarkup(prepared, "本部分目录")}<div class="prose">${body}</div></article>`;
+    ${originNoticeMarkup(entry)}<p class="reading-meta">${escapeHtml(partName(entry))}</p></header>
+    ${readerPartToolsMarkup(entry, prepared)}<div class="prose">${body}</div></article>`;
 }
 
 export function createContinuousReader({ app, route, pageHeader, loadBody, saved, isCurrent, focus, onReady, videoEntries = route.entries, series = [], seriesEntries = videoEntries }) {
+  const requestedEntry = route.entry;
   const sameFlow = saved?.videoKey === route.videoKey && saved?.view === route.view;
   const savedIds = sameFlow && Array.isArray(saved.loaded) ? saved.loaded : [];
   const loaded = route.entries.filter((entry) => savedIds.includes(entry.editionId) && sources.has(entryKey(entry)));
   const restore = sameFlow && saved.current === route.entry?.editionId && savedIds.length === loaded.length && Number.isFinite(saved.scroll);
   let ready = false;
-  const priorSearch = sameFlow ? saved?.videoSearch : null;
+  const priorSearch = route.videoSearch || (sameFlow ? saved?.videoSearch : null);
   let videoSearch = {
     query: typeof priorSearch?.query === "string" ? priorSearch.query.slice(0, 300) : "",
     mode: ["general", "phrase", "keywords"].includes(priorSearch?.mode) ? priorSearch.mode : "general",
@@ -45,15 +45,12 @@ export function createContinuousReader({ app, route, pageHeader, loadBody, saved
   }
 
   function draw({ loading = false, error = false } = {}) {
-    const currentIndex = route.entries.indexOf(route.entry);
+    const currentIndex = route.entries.indexOf(loaded.at(-1) || route.entry);
     const next = route.entries[currentIndex + 1];
-    const returnEntry = loaded.includes(route.entry) ? route.entry : loaded.at(-1) || route.entry;
-    app.innerHTML = pageHeader() + `<div class="reading-progress" aria-hidden="true"><span></span></div><main id="main-content" class="reading-shell continuous-shell" tabindex="-1"><a class="back-link" href="${returnEntry ? entryRoute(returnEntry) : videoRoute(route.videoKey, route.view)}">返回单篇阅读</a><header class="continuous-heading"><p class="eyebrow">连续阅读 · ${viewLabels[route.view]}</p><h1>${escapeHtml(route.entries[0]?.title || route.videoKey)}</h1><p>当前类别收录 ${route.entries.length} 篇稿件 · 仅包含当前来源已收录稿件${route.view === "drafts" ? " · 公开预览，未经正式发布" : ""}</p></header>
-      <details class="continuous-overview"><summary>已收录稿件与连续阅读说明</summary>${partGapsMarkup(route.entries)}<nav class="continuous-directory" aria-label="连续阅读稿件目录"><ol>${route.entries.map((entry) => `<li><a href="${continuousRoute(route.videoKey, route.view, entry.editionId)}"${entry === route.entry ? ' aria-current="page"' : ""}>${partLabel(entry)}${loaded.includes(entry) ? '<span class="sr-only"> · 已加载</span>' : ""}</a></li>`).join("")}</ol></nav></details>
+    app.innerHTML = pageHeader() + `<div class="reading-progress" aria-hidden="true"><span></span></div><div class="reader-layout">${readerSidebarMarkup({ ...route, videoSearch }, videoEntries)}<main id="main-content" class="reading-shell continuous-shell" tabindex="-1"><header class="continuous-heading"><p>连续阅读 · 当前类别收录 ${route.entries.length} 篇稿件${route.view === "drafts" ? " · 公开预览，未经正式发布" : ""}</p></header>
       ${seriesMarkup(route.entry, series, seriesEntries)}
-      ${route.entry ? readerVideoMarkup(videoEntries, videoSearch) : ""}
       <div class="continuous-stream">${loaded.map(partMarkup).join("")}</div>
-      <div class="continuous-feedback"${loading ? ' role="status" aria-busy="true"' : error ? ' role="alert"' : ' role="status"'}>${loading ? `<p>正在加载 ${partLabel(route.entry)} 正文…</p>` : error ? `<p>${partLabel(route.entry)} 加载失败，已加载的正文仍可阅读。</p><button class="reset-button" type="button" id="retry-document">重新加载</button>` : !route.entry ? '<p>此类别暂无收录稿件，可返回单篇阅读切换查找类别。</p>' : next ? `<a class="reset-button" rel="next" href="${continuousRoute(route.videoKey, route.view, next.editionId)}">加载下一个已收录部分 · ${partLabel(next)} →</a>` : '<p>已到当前类别最后一篇收录稿件。可通过上方目录阅读其他部分。</p>'}</div>${seriesAdjacentMarkup(route.entry, series, seriesEntries)}${footer(viewLabels[route.view])}</main>`;
+      <div class="continuous-feedback"${loading ? ' role="status" aria-busy="true"' : error ? ' role="alert"' : ' role="status"'}>${loading ? `<p>正在加载 ${partLabel(requestedEntry)} 正文…</p>` : error ? `<p>${partLabel(requestedEntry)} 加载失败，已加载的正文仍可阅读。</p><a class="reset-button" id="retry-continuous" href="${escapeHtml(continuousRoute(route.videoKey, route.view, requestedEntry.editionId, videoSearch))}">重新加载 ${partLabel(requestedEntry)}</a>` : !route.entry ? '<p>此类别暂无收录稿件。</p>' : next ? `<a class="reset-button" rel="next" href="${continuousRoute(route.videoKey, route.view, next.editionId, videoSearch)}">加载下一个已收录部分 · ${escapeHtml(partName(next))} →</a>` : '<p>已到当前类别最后一篇收录稿件。可通过同视频目录阅读其他部分。</p>'}</div>${seriesAdjacentMarkup(route.entry, series, seriesEntries)}${footer(viewLabels[route.view])}</main></div>${route.entry ? readerPanelsMarkup({ ...route, videoSearch }, videoEntries) : ""}`;
     for (const article of app.querySelectorAll(".continuous-part")) {
       const entry = loaded.find((candidate) => candidate.editionId === article.dataset.edition);
       article.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(sources.get(entryKey(entry)), event.currentTarget));
@@ -74,7 +71,7 @@ export function createContinuousReader({ app, route, pageHeader, loadBody, saved
         if (!isCurrent()) return;
         draw({ error: true });
         ready = true;
-        app.querySelector("#retry-document").focus({ preventScroll: true });
+        app.querySelector("#retry-continuous").focus({ preventScroll: true });
         onReady();
         return;
       }
@@ -87,9 +84,23 @@ export function createContinuousReader({ app, route, pageHeader, loadBody, saved
       window.scrollTo({ top: saved.scroll, behavior: "instant" });
     }
     else if (location.hash) focusDocumentHash(location.hash);
-    else if (route.entry && new URLSearchParams(location.search).has("part")) app.querySelector(`#${partId(route.entry)}`).focus();
+    else if (route.entry && new URLSearchParams(location.search).has("part")) {
+      const target = app.querySelector(`#${partId(route.entry)}`);
+      const offset = (app.querySelector(".reader-header")?.getBoundingClientRect().bottom || 0) + 12;
+      window.scrollTo({ top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset), behavior: "instant" });
+      target.focus({ preventScroll: true });
+    }
     else if (focus) app.querySelector("main").focus({ preventScroll: true });
     onReady();
   }
-  return { render, snapshot, didRestore: () => restore, searchState: () => videoSearch, setSearch(value) { videoSearch = { query: value.query, mode: value.mode, view: value.view, passages: value.passages }; } };
+  function updateAddress() {
+    const hit = location.hash;
+    let hash = "";
+    try { if (hit && decodeURIComponent(hit).includes(partId(route.entry))) hash = hit; } catch { /* Invalid fragments never identify a current passage. */ }
+    history.replaceState(history.state, "", `${continuousRoute(route.videoKey, route.view, route.entry?.editionId, videoSearch)}${hash}`);
+  }
+  return { render, snapshot, didRestore: () => restore, searchState: () => videoSearch,
+    setCurrent(entry) { if (route.entry !== entry) { route.entry = entry; updateAddress(); } },
+    setSearch(value) { videoSearch = { query: value.query, mode: value.mode, view: value.view, passages: value.passages }; route.videoSearch = videoSearch; updateAddress(); },
+  };
 }

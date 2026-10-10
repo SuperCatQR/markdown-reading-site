@@ -1,4 +1,4 @@
-import { workKey, partIndex, partLabel } from "./source-identity.js";
+import { workKey, partIndex, partLabel, partTitle } from "./source-identity.js";
 import { continuousRoute, entryRoute } from "./manuscripts.js";
 import { escapeHtml } from "./ui.js";
 import {
@@ -40,7 +40,7 @@ export function readingRecordHref(record, entry) {
   return `${route}#${encodeURIComponent(`${continuous ? partPrefix(entry.editionId) : ""}${record.anchor}`)}`;
 }
 
-export function recentReadingMarkup({ records, status }, entries) {
+export function recentReadingMarkup({ records, status }, entries, { full = false } = {}) {
   if (!records.length && status === "ok") return "";
   const recordMarkup = (record, primary = false) => {
     const current = reconcileReadingRecord(record, entries);
@@ -50,14 +50,16 @@ export function recentReadingMarkup({ records, status }, entries) {
     const titleMarkup = primary
       ? `<details class="recent-reading-title"><summary><strong>${title}</strong><span class="recent-title-expand" aria-hidden="true">展开</span><span class="recent-title-collapse" aria-hidden="true">收起</span></summary></details>`
       : `<strong>${title}</strong>`;
+    const segment = current.entry && partTitle(current.entry) ? `<span class="recent-reading-part-title">${escapeHtml(partTitle(current.entry))}</span>` : "";
     const action = current.status === "available" && status === "ok"
       ? `<a href="${escapeHtml(readingRecordHref(record, current.entry))}" data-reading-resume="${escapeHtml(record.id)}">继续阅读 →</a>`
       : current.status === "updated" ? `<a href="${escapeHtml(entryRoute(current.entry))}">从新版开始 →</a>` : "";
-    return `<${primary ? 'div class="recent-reading-primary"' : "li"}><div><span class="recent-reading-part">${primary ? "上次读到 · " : ""}${partLabel(record)} · ${record.manuscriptType === "publication" ? "已发布" : "公开预览"}</span>${titleMarkup}${current.status !== "available" ? `<p>${detail}</p>` : ""}${primary ? "" : action}</div>${primary ? action : `<button type="button" class="reset-button" data-reading-delete="${escapeHtml(record.id)}" aria-label="删除 ${escapeHtml(record.title)} 的阅读记录">删除</button>`}</${primary ? "div" : "li"}>`;
+    return `<${primary ? 'div class="recent-reading-primary"' : "li"}><div><span class="recent-reading-part">${primary ? "上次读到 · " : ""}${partLabel(record)} · ${record.manuscriptType === "publication" ? "已发布" : "公开预览"}</span>${titleMarkup}${segment}${current.status !== "available" ? `<p>${detail}</p>` : ""}${primary ? "" : action}</div>${primary ? action : `<button type="button" class="reset-button" data-reading-delete="${escapeHtml(record.id)}" aria-label="删除 ${escapeHtml(record.title)} 的阅读记录">删除</button>`}</${primary ? "div" : "li"}>`;
   };
   // The latest record stays visible, including its invalidation state. Do not
   // silently promote an older valid record when the reader's latest has changed.
   const primary = records[0] ? recordMarkup(records[0], true) : "";
+  if (full) return `<section class="recent-reading" aria-label="最近阅读">${status !== "ok" ? `<p role="status">${escapeHtml(notices[status] || notices.unavailable)}</p>` : ""}<ol>${records.map((record) => recordMarkup(record)).join("")}</ol><details class="recent-reading-management"><summary>管理当前浏览器的记录</summary><button type="button" class="reset-button" data-reading-clear>清空记录</button><p class="reading-history-help">保存在当前浏览器，最多 20 篇，180 天后到期。校验参照不覆盖正文位置。</p></details><p class="reading-history-result" role="status"></p></section>`;
   return `<section class="recent-reading" aria-label="最近阅读">${primary}${status !== "ok" ? `<p role="status">${escapeHtml(notices[status] || notices.unavailable)}</p>` : ""}<details class="recent-reading-management"${status !== "ok" ? " open" : ""}><summary>查看全部 ${records.length} 篇与管理记录</summary><ol>${records.map((record) => recordMarkup(record)).join("")}</ol><div class="recent-reading-heading"><button type="button" class="reset-button" data-reading-clear>清空记录</button></div><p class="reading-history-help">保存在当前浏览器，最多保留 20 篇，180 天后到期。校验参照不覆盖正文位置。</p></details><p class="reading-history-result" role="status"></p></section>`;
 }
 
@@ -95,7 +97,8 @@ export function createReadingHistoryBrowser({
     recentHost = host;
     if (!host?.isConnected) return;
     const wasOpen = host.querySelector(".recent-reading-management")?.open;
-    host.innerHTML = recentReadingMarkup(store.read(), entries);
+    host.innerHTML = recentReadingMarkup(store.read(), entries, { full: host.dataset.recentView === "full" });
+    if (host.dataset.recentView === "full" && !host.textContent.trim()) host.innerHTML = '<p class="recent-empty" role="status">当前浏览器还没有阅读记录。打开正文阅读后，可以从这里继续。</p>';
     if (wasOpen && host.querySelector(".recent-reading-management")) host.querySelector(".recent-reading-management").open = true;
   }
 
