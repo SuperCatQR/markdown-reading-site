@@ -1,0 +1,54 @@
+{
+  "articles": [
+    {
+      "aiRevisionId": "2c6a9df34ac010732a53f243eed9aabb48710d672fe5ecacb8ee12e2e6df5966",
+      "artifactSha256": "39c966919897264c5d42eb7e59abbb45a4938b74c11b20577e84bdc92b5e6351",
+      "attribution": "Body preserved from a legacy AI-assisted manuscript; no new AI inference during import.",
+      "contentSha256": "d544d255c72293dab4adcf4000ec282beed452174936c182a10f597a323359dc",
+      "contentVersion": 2,
+      "editionId": "df08a8e75b4d47df920429ecd09c0ce0",
+      "editorNote": "Imported edition requires human review. The reference is the historical AI baseline.",
+      "externalVideoId": "BVpreserve",
+      "file": "articles/part-1/publish.md",
+      "manuscriptType": "publication",
+      "partIndex": 0,
+      "platform": "bilibili",
+      "pubdateUnix": null,
+      "publishedAt": 1791642010,
+      "releaseId": "ee94456d4acb63e96667aa7511427b13f6e2f4de51f3de154a7c4de08ace51e1",
+      "reviewArtifactSha256": "df6754d563b05d91927d84de202bbd5ebe0cf5dcc79b42ab7554ffb9ed40725f",
+      "reviewFile": "articles/part-1/review.md",
+      "slug": "part-1",
+      "sourceMetadata": {
+        "aid": null,
+        "categoryId": null,
+        "coverUrl": null,
+        "creatorId": null,
+        "creatorName": null,
+        "description": null,
+        "durationMs": null,
+        "externalVideoId": "BVpreserve",
+        "metadataObservedAt": null,
+        "partIndex": 0,
+        "partTitle": "概要",
+        "platform": "bilibili",
+        "pubdateUnix": null,
+        "sourcePublishedAt": null,
+        "tags": [],
+        "title": "单集视频",
+        "version": "source-metadata-v1"
+      },
+      "sourcePublishedAt": null,
+      "sourceUrl": "https://www.bilibili.com/video/BVpreserve/?p=1",
+      "summary": "",
+      "tags": [
+        "源标签"
+      ],
+      "templateVersion": "publish-v2",
+      "title": "单集视频",
+      "videoPartId": 1
+    }
+  ],
+  "manuscriptType": "publication",
+  "schemaVersion": 3
+}

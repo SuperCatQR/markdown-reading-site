@@ -12,6 +12,20 @@ export const METADATA_FIELDS = ["version", "platform", "externalVideoId", "partI
 const common = ["kind", "editionId", "aiRevisionId", "videoPartId", "contentSha256", "sourceMetadataSha256", "inputVersion", "aiTemplateVersion"];
 const imported = ["importId", "policyVersion", "legacyAiRevisionId", "legacyEditionId", "legacyReleaseId", "baselineBodySha256", "currentBodySha256", "reviewArtifactSha256", "importedAt", "bodyPreserved", "metadataEvidence"];
 const knownFacts = new Set(["version", "platform", "externalVideoId", "partIndex", "title"]);
+const supplementPolicy = "legacy-part-title-supplement-v1";
+const supplementKind = "archive-part-projection";
+
+function validateSupplement(value, article) {
+  if (!exact(value, ["supplementId", "evidence"])) return false;
+  const evidence = value.evidence;
+  if (!exact(evidence, ["version", "platform", "externalVideoId", "partIndex", "videoPartId", "cid", "field", "value", "sourceKind", "observedAt"])) return false;
+  return evidence.version === 1 && evidence.platform === "bilibili" && evidence.sourceKind === supplementKind
+    && evidence.field === "partTitle" && evidence.observedAt === null
+    && integer(evidence.partIndex) && integer(evidence.videoPartId, 1) && integer(evidence.cid, 1)
+    && ["platform", "externalVideoId", "partIndex"].every((key) => evidence[key] === article.sourceMetadata[key])
+    && evidence.videoPartId === article.videoPartId && text(evidence.value, 512) && Boolean(evidence.value.trim())
+    && evidence.value === article.sourceMetadata.partTitle && value.supplementId === canonicalDigest(evidence);
+}
 
 export function canonicalJson(value) {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
@@ -75,7 +89,8 @@ export function validateOrigins(value, catalog, kind) {
   const seen = [];
   for (const origin of value.entries) {
     const native = origin?.kind === "ai-generated-v2";
-    if (!exact(origin, native ? common : [...common, ...imported])
+    const supplemented = !native && origin?.policyVersion === supplementPolicy;
+    if (!exact(origin, native ? common : [...common, ...imported, ...(supplemented ? ["metadataSupplement"] : [])])
         || !["ai-generated-v2", "preserved-legacy-body", "edited-after-preservation"].includes(origin.kind)) {
       errors.push("未知来源类型或来源字段"); continue;
     }
@@ -95,7 +110,8 @@ export function validateOrigins(value, catalog, kind) {
       if (origin[key] !== null && !hash(origin[key], size)) errors.push(`历史身份无效: ${key}`);
     }
     if (origin.legacyAiRevisionId !== article.aiRevisionId || origin.reviewArtifactSha256 !== article.reviewArtifactSha256
-        || origin.policyVersion !== "legacy-frozen-facts-v1" || !integer(origin.importedAt)) errors.push("导入基线或策略绑定无效");
+        || !["legacy-frozen-facts-v1", supplementPolicy].includes(origin.policyVersion) || !integer(origin.importedAt)) errors.push("导入基线或策略绑定无效");
+    if (supplemented && !validateSupplement(origin.metadataSupplement, article)) errors.push("分 P 标题补充证据或身份绑定无效");
     const preserved = origin.kind === "preserved-legacy-body";
     if (origin.bodyPreserved !== preserved || (origin.baselineBodySha256 === origin.currentBodySha256) !== preserved) errors.push("正文保留声明与哈希关系不一致");
     const evidence = origin.metadataEvidence;
@@ -105,9 +121,10 @@ export function validateOrigins(value, catalog, kind) {
       if (!exact(fact, ["field", "kind", "observedAt", "valueSha256"]) || !METADATA_FIELDS.includes(fact.field)) { errors.push("元数据证据字段无效"); continue; }
       fields.push(fact.field);
       const known = knownFacts.has(fact.field);
-      if (fact.kind !== (known ? "legacy-input" : "unobserved") || fact.observedAt !== null
+      const supplied = supplemented && fact.field === "partTitle";
+      if (fact.kind !== (supplied ? supplementKind : known ? "legacy-input" : "unobserved") || fact.observedAt !== null
           || fact.valueSha256 !== canonicalDigest(article.sourceMetadata?.[fact.field])) errors.push("元数据证据违反冻结旧事实策略");
-      if (!known && canonicalJson(article.sourceMetadata?.[fact.field]) !== canonicalJson(fact.field === "tags" ? [] : null)) errors.push("未观测元数据必须保留未知值");
+      if (!known && !supplied && canonicalJson(article.sourceMetadata?.[fact.field]) !== canonicalJson(fact.field === "tags" ? [] : null)) errors.push("未观测元数据必须保留未知值");
     }
     if (JSON.stringify(fields) !== JSON.stringify([...METADATA_FIELDS].sort())) errors.push("元数据证据遗漏、重复或未排序");
   }

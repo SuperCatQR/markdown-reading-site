@@ -1,0 +1,53 @@
+{
+  "articles": [
+    {
+      "aiRevisionId": "1daec813eabf8b1eb316f3bc899a4ed31c319e062808670df16d9c931aa8eb93",
+      "artifactSha256": "865ab4c74f7266d0fbd77e4314e8bb60a517309038b91842a2dda503c08a62dd",
+      "attribution": "Body preserved from a legacy AI-assisted manuscript; no new AI inference during import.",
+      "contentSha256": "5e43a5cc974bfcce5aa3aca49382b86bb28cc90450ab2320998859ca9031f4a2",
+      "contentVersion": 2,
+      "createdAt": 1791642005,
+      "editionId": "2019e1ec28374ec4877fd49fb2190eb0",
+      "editorNote": "Imported edition requires human review. The reference is the historical AI baseline.",
+      "externalVideoId": "BVpreserve",
+      "file": "drafts/edition-2019e1ec28374ec4877fd49fb2190eb0/preview.md",
+      "manuscriptType": "publication-draft",
+      "partIndex": 1,
+      "platform": "bilibili",
+      "pubdateUnix": null,
+      "reviewArtifactSha256": "de1f509463124edd79a69e3d8432bc7f54a2d0f055f39ca64e0db54defef9355",
+      "reviewFile": "drafts/edition-2019e1ec28374ec4877fd49fb2190eb0/review.md",
+      "reviewStatus": "pending-review",
+      "slug": "edition-2019e1ec28374ec4877fd49fb2190eb0",
+      "sourceMetadata": {
+        "aid": null,
+        "categoryId": null,
+        "coverUrl": null,
+        "creatorId": null,
+        "creatorName": null,
+        "description": null,
+        "durationMs": null,
+        "externalVideoId": "BVpreserve",
+        "metadataObservedAt": null,
+        "partIndex": 1,
+        "partTitle": "如何进行真正的哲学反思",
+        "platform": "bilibili",
+        "pubdateUnix": null,
+        "sourcePublishedAt": null,
+        "tags": [],
+        "title": "单集视频",
+        "version": "source-metadata-v1"
+      },
+      "sourcePublishedAt": null,
+      "sourceUrl": "https://www.bilibili.com/video/BVpreserve/?p=2",
+      "summary": "",
+      "tags": [
+        "源标签"
+      ],
+      "title": "单集视频",
+      "videoPartId": 2
+    }
+  ],
+  "manuscriptType": "publication-draft",
+  "schemaVersion": 3
+}
