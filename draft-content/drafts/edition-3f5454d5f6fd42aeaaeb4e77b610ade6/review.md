@@ -1,0 +1,509 @@
+# 【经典译读】谢林《先验观念论体系》（连载中）: verification reference
+
+AI draft; human review required.
+
+Revision: `67130c6866f24e4d3a2e9a3415601aef9a39ba1f31ec753a0c5e11b46292189d`
+
+Input: `ed68e71fd1b320ef701106f8f64f823290c25dea152f62c5c202b6b54d6cebf3`
+
+Model: `deepseek\-flash`; template: `ai-draft-v2`
+
+Base transcript: `2940`; digest: `d68f7025284a4bab25d7bd6d43474901a3e41860ec44b7bfc95448ddc7cd3c1e`
+
+Reference transcript: none
+
+Prompt digest: `7c20f08368bfbc39d4fbd1552aa1f8e5154a4c54a593f94f1acdc3dc16881455`; source rule: `multilingual-prose-v1`
+
+Configuration: `\{"base\_url":"https://api\.deepseek\.com","context\_segments":2,"context\_tokens":1048576,"max\_input\_tokens":480000,"max\_output\_tokens":262144,"model":"deepseek\-flash","reasoning\_effort":"high","rule\_version":"readable\-prose\-v2","safety\_tokens":16384,"timeout\_seconds":1800,"top\_p":0\.95\}`
+
+Source: [bilibili / BV18L4y1E7qs](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23)
+
+Source published at: 2021-12-29T13:37:54Z
+
+## Paragraph 1: 1680–71040 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=1)
+
+Segments: `t2940:s0`, `t2940:s1`, `t2940:s2`, `t2940:s3`, `t2940:s4`, `t2940:s5`, `t2940:s6`, `t2940:s7`
+
+Original: 那我们今天来讲这个现象观念体系的它的啊现象演绎部分啊啊就是理论哲学的现象演绎啊啊实际上就是对于理智直观它那个现实过程的一个模仿，它模仿到就是第一纪元第一纪元firstepoch第一纪元的它的物质啊物质的演绎productiveintuition它现在生产性的直观它给出第一个环节了啊就是物质啊啊就物质的演绎开始全面进入物质了，因为这个生产性的直观它给出物自体嘛实际上，然后但是它就把它这个呃统一物自体和这个自身自体的这个实行动啊给它遗忘掉了，给它遗忘掉了，对这个表象给它遗忘掉了，那么下面就要证明啊下面就要证明这个第三种行动综合了这个物自体和自身自体的这个那个第三个行动的它的第一种实现形式啊就是啊matter啊就是物质，那么对于物质的演绎啊下面
+
+Edited: 那我们今天来讲现象观念体系的现象演绎部分。理论哲学的现象演绎实际上就是对理智直观那个现实过程的模仿，它模仿到第一纪元，first epoch，第一纪元的物质的演绎、productive intuition。现在生产性的直观给出第一个环节了，就是物质。物质的演绎开始全面进入物质了，因为这个生产性的直观给出物自体嘛；但是它把统一物自体和自身自体的这个实行动遗忘了，把这个表象遗忘了。那么下面就要证明，第三种行动综合了物自体和自身自体的第三个行动的、它的第一种实现形式，也就是 matter，也就是物质。
+
+## Paragraph 2: 71040–151200 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=71)
+
+Segments: `t2940:s8`, `t2940:s9`, `t2940:s10`, `t2940:s11`, `t2940:s12`, `t2940:s13`, `t2940:s14`, `t2940:s15`, `t2940:s16`
+
+Original: 就要证明为什么第一个环节是物质啊啊说呃那两种活动性啊它在啊产物当中在它们产物这个产物就表现了啊维持一种equilibrium啊维持一种均势，它只能表现为是将死的静态的活动性，也就是说呃显现为力forces the least asforces，那么啊这个就是对于这个力的一个定义啊力就是处在均势当中的啊两个形成稳态的均势的活动性，这个时候就把这个活动性叫做力forces，强迫力啊force有强制的意思啊，那么这些力的第一种力呢就会是自然的啊will be by naturepositive啊不是自然就是说它的天性它是一种实证的啊肯定性的设定性的一种力，第一种力是设定性的，就我们要在它那个产物当中都要分这前面那个讲的那个任务你们还记得吧啊你好好用心学的人就记得啊就是说要在那个产物当中找到两种活动性的痕迹，把它分出来两种活动，那么一种活动性是绝对的设定性，另外一种活动性是绝对的否定性啊那么第一种
+
+Edited: 那么对于物质的演绎，下面就要证明为什么第一个环节是物质。那两种活动性在它们的产物当中维持一种 equilibrium，一种均势，它只能表现为死的、静态的活动性，也就是显现为力，forces。这个就是对力的定义：力就是处在均势当中的、两个形成稳态的均势的活动性；这时就把这种活动性叫做力，forces，强迫力，force 有强制的意思。那么这些力的第一种力就会是自然的，will be by nature positive，不是自然，就是说它的天性是一种实证的、肯定性的、设定性的一种力。第一种力是设定性的。我们要在它的产物当中分前面讲的那个任务，你们还记得吧？好好用心学的人就记得：就是说要在那个产物当中找到两种活动性的痕迹，把它分出来。一种活动性是绝对的设定性，另外一种活动性是绝对的否定性。
+
+## Paragraph 3: 151200–220190 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=151)
+
+Segments: `t2940:s17`, `t2940:s18`, `t2940:s19`, `t2940:s20`, `t2940:s21`, `t2940:s22`, `t2940:s23`, `t2940:s24`
+
+Original: 活动性也就是第一种力呢处在一个固定的静态的啊状态的一个活动性，因为它们两个形成均势嘛，所以这两种活动性现在都变成两种力了，那么第一种力它是按其本性来说它是肯定性的力设定性的力，所以呢如果啊unrestricted by any opposingforce如果它不被任何的对立和它对立的啊和它相敌对的对立的力所限制的话，它就会啊扩展到无限这种力第一种力会扩展到无限啊。那么that matter possesses such an infinite expansion force will be given only a transcendental proof\.那么物质拥有这么一种无限的扩张力呢？它只能被给予一个鲜艳的一个证明。我们其实他的意思就是，如果没有限制力的话，物质就会像，像那个太阳光线无限往外射出去，它会有一个无限的扩张力。这个是举个举个例子啊，并不是说什么太阳射，就是说物质如果没有那个否定性的力给它压缩的话，物质啊就会充盈整个存在啊存在的领
+
+Edited: 那么第一种活动性，也就是第一种力，处在一种固定的、静态的状态；因为它们两个形成均势，所以这两种活动性现在都变成两种力了。第一种力按其本性来说是肯定性的力、设定性的力，所以如果 unrestricted by any opposing force，如果它不被任何与它对立的、与它相敌对的力所限制的话，它就会扩展到无限，这种第一种力会扩展到无限。那么 that matter possesses such an infinite expansion force will be given only a transcendental proof。物质拥有这么一种无限的扩张力，它只能被给予一个先验的证明。他的意思其实就是：如果没有限制力的话，物质就会像太阳光线一样无限往外射出去，它会有一个无限的扩张力。这是举个例子，并不是说什么太阳射；就是说物质如果没有那个否定性的力给它压缩的话，物质就会充盈整个存在领域，充满整个存在领域，拉满，它会有一个无限的扩张力。
+
+- 原文作‘鲜艳’，疑为‘先验’; 先验; t2940:s22
+
+## Paragraph 4: 220190–327630 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=220)
+
+Segments: `t2940:s25`, `t2940:s26`, `t2940:s27`, `t2940:s28`, `t2940:s29`, `t2940:s30`, `t2940:s31`, `t2940:s32`, `t2940:s33`, `t2940:s34`, `t2940:s35`, `t2940:s36`, `t2940:s37`, `t2940:s38`
+
+Original: 域，充满整个存在领域，拉满，它会有一个无限的扩张力啊。但是我们证明它有这种无限的扩张力，我只能对它进行一个鲜艳的证明。As surely as first of the two activities from which the product is constructed tends by its nature to strive into theinfinite，就是说这两种活动性的第一种，我们非常确定的就是说啊，从这从这些活动性当中构造出来的这个呃物物是从这两种活动性当中构造出来的，而它这两种活动性当中的第一种，它一定会由于这就是把废话重复一遍，出于其本性啊，它一定会啊standsto倾向于去啊努力去变成一种无限strive into the infinitystrive就是努力努力进入到无限当中去啊，努力变成无限了，这里into可以化身为无限。Sosurely它是如此的确定，must the first factor of the product啊be also an infinite expansive force？我们非常可以确定这一点啊，两种活动性的第一种，第一种活动性就是那个realactivity，那个现实的活动性啊，它可以跑到无限里面去啊，它有一种无限的一种啊一种就是就发展的那种力量啊，相当于年羹尧做小兵不满足，做什么将军不满足，还要做大帅，最后还要做什么什么什么什么，反正就是越做越大嘛，不停的设立界限，跨越界限，设立界限，跨越界限，设立界限，跨越界限啊这个力，这如此的确定啊，所以啊这个产物物质这个产物当中的它的第一个要素，也就是说第一种这种力将同样会是一种无限的一种扩张性的力。那么left to itself this latter
+
+Edited: 但是我们证明它有这种无限的扩张力，我只能对它进行一个先验的证明。As surely as the first of the two activities from which the product is constructed tends by its nature to strive into the infinite，就是说这两种活动性的第一种，我们非常确定：从这些活动性当中构造出来的这个物，是从这两种活动性当中构造出来的，而这两种活动性当中的第一种，一定会出于其本性——这就是把废话重复一遍——一定会倾向于努力去变成一种无限，strive into the infinity；strive 就是努力，努力进入到无限当中去，努力变成无限，这里 into 可以化身为无限。So surely 它是如此的确定，must the first factor of the product be also an infinite expansive force？我们非常可以确定这一点：两种活动性的第一种，第一种活动性就是那个 real activity，那个现实的活动性，它可以跑到无限里面去，它有一种无限的发展的那种力量。相当于年羹尧做小兵不满足，做什么将军不满足，还要做大帅，最后还要做什么什么什么，反正就是越做越大嘛，不停地设立界限、跨越界限，设立界限、跨越界限。这个力如此确定，所以这个产物、物质这个产物当中的第一个要素，也就是说第一种力，将同样会是一种无限的扩张性的力。
+
+- 原文作‘鲜艳’，疑为‘先验’; 先验; t2940:s26
+
+## Paragraph 5: 327630–476592 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=327)
+
+Segments: `t2940:s39`, `t2940:s40`, `t2940:s41`, `t2940:s42`, `t2940:s43`, `t2940:s44`, `t2940:s45`, `t2940:s46`, `t2940:s47`, `t2940:s48`, `t2940:s49`, `t2940:s50`, `t2940:s51`, `t2940:s52`, `t2940:s53`, `t2940:s54`, `t2940:s55`, `t2940:s56`, `t2940:s57`, `t2940:s58`, `t2940:s59`
+
+Original: force，呃which is concentratedconcentrated in the product would now expand as infinite嘛？Left to itself，left toitself，集中在这个产物当中将会left to itself this latter force。后latter force就指这里的latter不是指那个，就是指前面前面所讨论的left left to itself如果只只让这种力存在。它一个应该是这个意思啊，如果只让这种力存在，只有这前面所说这第一种力存在的话，它是集中在这个啊，它被凝缩在concentrated，或者它被集中在啊，被约束在，被它这种力呢，它是被约束在这个产物当中的concentrated in theproduct，或者说它在这个产物当中被另外一种力所约束了，但如果它left toitself，如果它啊仅仅只剩它自己leftto就是be leftto，这里是用一个被动就是过去分词分词状态来做一个修饰词，呃就是giventhe呃preposition类似的嘛left toitself，这也是个分词状态，就是说if itself is if it is left toitself，就是省略的，这个这这句话就是可以把它变成补足啊if it is left toitself，或者说if something leave it toitself，是不是be left to some toitself就是被留下left就leaveleave就是留下，哎呀，如果很多人英文很差的，我轮不到我我来教你英语吧，是不是啊beleft就给给就给他自己就给他自己，这里不是什么出发的意思，这里是个被动，这里不是这里不是出发，出发到自身，它现在就是只如果只有这个，只是只有这第一种力的话啊，那么这个力呢，它实际上它是啊集中在这个这个产物当中的，就是生产性的直观的产物，也是物质或者说那种表象，第一种物质体的表象吧，
+
+Edited: 那么 left to itself this latter force, which is concentrated in the product, would now expand as infinite？Left to itself，集中在这个产物当中将会……latter force 就指这里的 latter，不是指那个，就是指前面所讨论的。Left to itself，如果只让这种力存在——它应该是这个意思——如果只让这种力存在，只有前面所说的第一种力存在的话，它是集中在这个……它被凝缩在 concentrated，或者它被集中在，被约束在，它这种力被约束在这个产物当中，concentrated in the product，或者说它在这个产物当中被另外一种力所约束了。但如果它 left to itself，如果它仅仅只剩它自己，left to 就是 be left to，这里是用一个被动，就是过去分词状态来做一个修饰词，就是 given the preposition 类似的嘛，left to itself，这也是个分词状态，就是说 if itself is, if it is left to itself，就是省略的；这句话可以把它变成补足：if it is left to itself，或者说 if something leave it to itself，是不是 be left to itself？就是被留下，left 就 leave，leave 就是留下。哎呀，如果很多人英文很差的，我轮不到我来教你英语吧？be left 就给给他自己，就给他自己。这里不是什么出发的意思，这里是个被动，这里不是出发，出发到自身。它现在就是，如果只有这第一种力的话，那么这个力实际上它是集中在这个产物当中的，就是生产性的直观的产物，也是物质，或者说那种表象，第一种物质体的表象吧。
+
+## Paragraph 6: 477952–626413 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=477)
+
+Segments: `t2940:s60`, `t2940:s61`, `t2940:s62`, `t2940:s63`, `t2940:s64`, `t2940:s65`, `t2940:s66`, `t2940:s67`, `t2940:s68`, `t2940:s69`, `t2940:s70`, `t2940:s71`, `t2940:s72`, `t2940:s73`, `t2940:s74`, `t2940:s75`, `t2940:s76`, `t2940:s77`
+
+Original: 啊它将会如果只有这种力的话，它将会扩展到无限啊，that is actually retaining a finite product is explicable only through a positivenegative，但是呢事实上啊这个就是有这么一个情况，that开头的句子代代表一个情况，用一个情况当做一个主语从句，这是一个非常简单的一个语法现象，that点点点点点这是个主语从句，它是作为一个主语，它整个这个从句是一个主语，所以它用加个that啊它要加一个that代表一个就是主语从句的标标示词，或者取消句子独立性，把这个后面的这整个句子啊给它收摄成为一个主语，这些英文语法现象，我希望在座的小孩子，初中生高中生你英语没有掌握的，你去学英语，你不需要不要过来学哲学，你就从这个直播间里面退出去啊，我我的意思就是说，直播间现在有两百零四个人，如果你的这个对于这个语法的把握能力没有的话，你就去学英语。呃，我希望你们在尽早退场。我要说这么一句话，因为我后面不会照顾这些看不懂英文句子的人了，我不会照顾你们了。然后你在我这里就是纯粹就是浪费时间了。啊，纯粹就是浪费时间。你的人生在目前当前这个时间段还不值得，还不配掌握比较复杂的哲学思想。你可能现在你的首要任务应该去掌握基本的学习阅读能力，基本的就是呃就是基本的一些基本素养，基本的一些基本素养。就像一个就像一个人到少林寺，他先要学砍柴、挑水，把体力啊、把耐力啊给培养起来。那你应该回到校园里面去，把你的那个什么语文、数学、英语啊、逻辑，还有基本上你的这个历史的一些基本要素、情报，把这些东西都掌握起来。啊，那我这里相当于说是达摩院了，你没有资格进来。虽然在网络时代呢，这东西就是都向你们敞开的，但是你这很可怜，你也看不看不懂。然后我接下来我就不会再去照顾这些比较笨的人了，这些比较无能的弱弱小的人了，我没有这个义务照顾他。
+
+Edited: 它将会，如果只有这种力的话，它将会扩展到无限。That is actually retaining a finite product is explicable only through a positive negative。但是事实上，就是有这么一个情况：that 开头的句子代表一个情况，用一个情况当做一个主语从句；这是一个非常简单的语法现象，that 点点点点点这是个主语从句，它作为一个主语，整个从句是一个主语，所以它要加一个 that 代表主语从句的标示词，或者取消句子独立性，把后面整个句子收摄成为一个主语。这些英文语法现象，我希望在座的小孩子，初中生、高中生，你英语没有掌握的，你去学英语，你不需要、不要过来学哲学，你就从这个直播间里面退出去。我的意思就是说，直播间现在有两百零四个人，如果你对于这个语法的把握能力没有的话，你就去学英语。呃，我希望你们尽早退场。我要说这么一句话，因为我后面不会照顾这些看不懂英文句子的人了，我不会照顾你们了。然后你在我这里就是纯粹浪费时间了，纯粹就是浪费时间。你的人生在目前当前这个时间段还不值得、还不配掌握比较复杂的哲学思想。你可能现在的首要任务应该去掌握基本的学习阅读能力，基本的基本素养。就像一个到少林寺的人，先要学砍柴、挑水，把体力、耐力培养起来。那你应该回到校园里面去，把你的语文、数学、英语、逻辑，还有基本上你的历史的一些基本要素、情报，把这些东西都掌握起来。那我这里相当于说是达摩院了，你没有资格进来。虽然在网络时代，这东西都向你们敞开，但是你很可怜，你也看不懂。然后我接下来就不会再去照顾这些比较笨的人了，这些比较无能的、弱小的人了，我没有这个义务照顾他。然后这也拖慢我自己的节奏。
+
+## Paragraph 7: 627293–730531 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=627)
+
+Segments: `t2940:s78`, `t2940:s79`, `t2940:s80`, `t2940:s81`, `t2940:s82`, `t2940:s83`, `t2940:s84`, `t2940:s85`, `t2940:s86`, `t2940:s87`, `t2940:s88`, `t2940:s89`, `t2940:s90`, `t2940:s91`, `t2940:s92`
+
+Original: 然后这也拖慢我自己的节奏啊。所以说呃，但是这么一种力呢，就前一种力了，前一种力它事实上又是啊被retain的啊，被持留在一个有限的啊被约束在这个retain就可以翻译成约束。这实际上是保留、持留的意思，但这一个相当于就是一个约束啊，它是保持在这么一个有限的产物当中。那么这个东西呢，可以解释一个无限的扩张的力，却在就是却在一个有限的一个产物当中被禁锢住了。那怎么解释呢？只能解释啊，通过一个对立的否定性的一个restraining啊，一个restraining的限定性的、约束性的一个力啊。这个restraining这个force就是前面讲的那个无限回返的那个绝对的否定性的那个力，which mustlikewise那这个力是在哪里？在物质体里面的。但是规律里它是来自于自身的，是自身意识设定的。啊，不要笨。我们说的物质体在谢林这里只是一个物质体在谢林这里只是个什么？只是一个浪迹人间的私生子，一个杂种被忘掉了而已。啊，物质体在谢林这边没有独立的本体论地位啊，但是它是一个环节，它是个重要的环节。Which must likewise display itself as a counterpart in the common product to the limiting activity itself。那么这种否定性的力呢，限定性的力量，这种这里的限定是restraining啊，约束性的这种力，它必须同样的显现出它自身作为啊一个对立面c o u n t e r p a r t，c o u n t e r p a r t不是对立面的意思，是c o u n t e r p a r t反作用的那一部分啊，相当于对它施加反作用那一部分c o u n t e r p a r t在那个这两种力的共同的产物之中，它作为一个c o u n t e r p a r t，作为那个那个无限的往外扩展力的c o u n t e r p a r t，它要显现出它自身啊，t o t h e l i m i t i n g a c t i v i t y o f t h e s e l f，它是和那个l i m i t i n g a c t i v i t y和这个自身的那种设限定啊，l i m i t i n g就是设设置限定，就是p o s i t i n g t h e l i m i t，l i m i t i n g就等于w h o p o s i t w h o i s p o s i t i n g t h e l i m i t，w h o p o s i t s t h e l i m i t，谁设定那个设定性的活动性，限定性的活动性，限定性活动性啊自身它是一个限定性的活动性，这里的活动性就是前面那个活动性啊那个要扩展到无限的那个现实的活动性，它叫做l i m i t i n g a c t i v i t y，因此呢，如果这个自身呢可以在当前的这个阶段啊反思它自己的这么一个构造r e f l e c t u p o n i t s c o n s t r u c t i o n，如果可以的话啊，它将会发现啊这它的构造是一个由两种力构成的一个一个一个组合体啊，嗯，由两种力组成的一个东西啊m a i n t a i n i n g这两种力呢维持着一个均势，o f w h i c h o n e o n i t s o w n w o u l d p r o d u c e i n f i n i t e l y l a r g e，对于这么一个均势呢，或者说对于这么一个这里的w h i c h应该还是指前面的那个前面的这个就是作为它的那个宾语的t o b e呃这里哎反正作为这个就是o f w h i c h就是说对于这么一个组合体呢啊对于这么一个东西呢，或者说对于它的这么一个构造物呢，o n e o n i t s o w n一个力就凭它本身就会产生无限大啊，而另外一个力w h i l e t h e o t h e r i n i t s u n r e s t r i c t e d f o r m w o u l d r e d u c e t h e p r o d u c t e d p r o d u c t t o t o t h e i n f i n i t e l y s m a l l，另外一个力呢则会啊如果在它不受限制那种形式之下，将会把它变成无限小啊变成无限小，所以物质具有空间性的大小，这里不是空间性大小啊，这里是它的一个设定它一个存在论上的强度，就谢林在这里用的这个l a r g e和这个s m a l l啊，不是一个占据空间大小的意义，而是它的一个占据一个外在性的可被叙述的那个实在性的强弱，这不是空间大小，空间性在这里还没有呢，空间性还是后面的啊，不要你。
+
+Edited: 所以说，但是这么一种力，前一种力，它事实上又是被 retain 的，被持留在、被约束在一个有限的……retain 可以翻译成约束，实际上是保留、持留的意思，但这一个相当于就是一个约束，它保持在这么一个有限的产物当中。那么这个东西可以解释：一个无限的扩张的力，却在一个有限的产物当中被禁锢住了。那怎么解释呢？只能通过一个对立的、否定性的 restraining，一个 restraining 的限定性的、约束性的力来解释。这个 restraining force 就是前面讲的那个无限回返的、绝对的否定性的那个力，which must likewise……那这个力是在哪里？在物质体里面的。但是规律里它是来自于自身的，是自身意识设定的。啊，不要笨。我们说的物质体，在谢林这里只是一个什么？只是一个浪迹人间的私生子，一个杂种，被忘掉了而已。物质体在谢林这边没有独立的本体论地位，但是它是一个环节，它是个重要的环节。Which must likewise display itself as a counterpart in the common product to the limiting activity itself。
+
+## Paragraph 8: 730531–904201 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=730)
+
+Segments: `t2940:s93`, `t2940:s94`, `t2940:s95`, `t2940:s96`, `t2940:s97`, `t2940:s98`, `t2940:s99`, `t2940:s100`, `t2940:s101`, `t2940:s102`, `t2940:s103`, `t2940:s104`, `t2940:s105`, `t2940:s106`, `t2940:s107`, `t2940:s108`, `t2940:s109`, `t2940:s110`, `t2940:s111`, `t2940:s112`
+
+Original: counterpartcounterpart不是对立面的意思是counterpart反作用的那一部分啊相当于对它施加反作用那一部分counterpart在那个这两种力的共同的产物之中它作为一个counterpart作为那个那个无限的往外扩展力的counterpart它要显现出它自身啊to the limiting activity of the self它是和那个limiting activity和这个自身的那种设限定啊limiting就是设设置限定就是positing thelimitlimiting就等于who posit who is positing the limitwho positsthe limit谁设定那个设定性的活动性限定性的活动性限定性活动性啊自身它是一个限定性的活动性这里的活动性就是前面那个活动性啊那个要扩展到无限的那个现实的活动性它叫做limiting activity因此呢如果这个自身呢可以在当前的这个阶段啊反思它自己的这么一个构造reflect upon its construction如果可以的话啊它将会发现啊这它的构造是一个由两种力构成的一个一个一个组合体啊嗯由两种力组成的一个东西啊maintaining这两种力呢维持着一个均势of which one on its own would produce infinitelylarge对于这么一个均势呢或者说对于这么一个这里的which应该还是指前面的那个前面的这个就是作为它的那个宾语的to be呃这里哎反正作为这个就是of which就是说对于这么一个组合体呢啊对于这么一个东西呢或者说对于它的这么一个构造物呢oneon its own一个力就凭它本身就会产生无限大啊而另外一个力while the other in its unrestrictedform would reduce the producted product to to the infinitelysmall另外一个力呢则会啊如果在它不受限制那种形式之下将会把它变成无限小啊变成无限小所以物质具有空间性的大小这里不是空间性大小啊这里是它的一个设定它一个存在论上的强度就谢林在这里用的这个large和这个small啊不是一个占据空间大小的意义而是它的一个占据一个外在性的可被叙述的那个实在性的强弱这不是空间大小空间性在这里还没有呢空间性还是后面的啊不要你学哲学的人，请把你那个庸俗、愚蠢、下贱的、卑劣的那个朴素的实证啊，或者说朴素的物理主义实证的那个
+
+Edited: 那么这种否定性的力、限定性的力量，这里的限定是 restraining，约束性的这种力，它必须同样地显现出它自身作为一个对立面 counterpart。counterpart 不是对立面的意思，是反作用的那一部分，相当于对它施加反作用那一部分。counterpart 在那个两种力的共同产物之中，它作为一个 counterpart，作为那个无限的往外扩展力的 counterpart，它要显现出它自身，to the limiting activity of the self。它是和那个 limiting activity、和这个自身的那种设限定——limiting 就是设置限定，就是 positing the limit，limiting 就等于 who posit, who is positing the limit, who posits the limit——谁设定那个设定性的活动性、限定性的活动性。限定性活动性啊，自身它是一个限定性的活动性；这里的活动性就是前面那个活动性，那个要扩展到无限的那个现实的活动性，它叫做 limiting activity。因此，如果这个自身可以在当前的这个阶段反思它自己的这么一个构造，reflect upon its construction，如果可以的话，它将会发现它的构造是一个由两种力构成的一个组合体，由两种力组成的一个东西，maintaining。这两种力维持着一个均势，of which one on its own would produce infinitely large。对于这么一个均势，或者说对于这么一个……这里的 which 应该还是指前面的那个，就是作为它的那个宾语的 to be——呃这里哎，反正作为这个就是 of which，就是说对于这么一个组合体呢，对于这么一个东西呢，或者说对于它的这么一个构造物呢，one on its own，一个力就凭它本身就会产生无限大；而另外一个力，while the other in its unrestricted form would reduce the producted product to the infinitely small，另外一个力则会，如果在它不受限制那种形式之下，将会把它变成无限小，变成无限小。所以物质具有空间性的大小——这里不是空间性大小，这里是它的一个设定，它一个存在论上的强度。谢林在这里用的这个 large 和这个 small，不是一个占据空间大小的意义，而是它的一个占据一个外在性的、可被叙述的那个实在性的强弱。这不是空间大小，空间性在这里还没有呢，空间性还是后面的。啊，不要你……
+
+## Paragraph 9: 904361–979081 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=904)
+
+Segments: `t2940:s113`, `t2940:s114`, `t2940:s115`, `t2940:s116`, `t2940:s117`, `t2940:s118`, `t2940:s119`, `t2940:s120`, `t2940:s121`, `t2940:s122`, `t2940:s123`
+
+Original: 空间时间观，全都塞到茅坑里面拉跑屎冲下去啊，否则你学不了什么东西的。在这里，这里的这个这里的无限啊，这里的无限，它更多的只是这个无限大都是一个比喻啊，并不是空间大小啊。However，它是它的作为一个被自身设定出来的外部的，就所谓的外部就是被它遗忘的啊，和它对立的，反过来对它具有设定性的，看上去反过来它觉得它能够设定我的一个外部力量。那么这个外部力量所谓的无限大呢，只是指它的那种占据外部场域的那个势头，那种劲啊，那种劲道或者那种就是就相当于说是雍正感觉年羹尧做大了，他不是凭不是察觉这个年羹尧他妈的占的地盘有多大，而是觉得这个年羹尧怎么胆越来越大了，越来越肥了，年羹尧怎么野心越来越膨胀，那那种嚣嚣张的气焰啊越来越大了，那种感觉。那嚣张气焰完全没有了，就是无限小，无限小。这里的大小啊，不要把它把握成空间性的大小。我说了，你把那些东西冲到马桶里面去，拉跑屎把它冲掉。
+
+Edited: 学哲学的人，请把你那个庸俗、愚蠢、下贱的、卑劣的朴素的实证，或者说朴素的物理主义实证的那个空间时间观，全都塞到茅坑里面拉泡屎冲下去，否则你学不了什么东西的。在这里，这里的无限，它更多的只是……这个无限大都是一个比喻，并不是空间大小。However，它是它的作为一个被自身设定出来的外部的——就所谓的外部就是被它遗忘的、和它对立、反过来对它具有设定性的，看上去反过来它觉得它能够设定我的一个外部力量。那么这个外部力量所谓的无限大呢，只是指它的那种占据外部场域的那个势头，那种劲，那种劲道，或者那种就是相当于说雍正感觉年羹尧做大了，他不是察觉这个年羹尧占的地盘有多大，而是觉得这个年羹尧怎么胆越来越大了，越来越肥了，年羹尧怎么野心越来越膨胀，那种嚣张的气焰越来越大了，那种感觉。那嚣张气焰完全没有了，就是无限小，无限小。这里的大小，不要把它把握成空间性的大小。我说了，你把那些东西冲到马桶里面去，拉泡屎把它冲掉。
+
+## Paragraph 10: 979801–1078062 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=979)
+
+Segments: `t2940:s124`, `t2940:s125`, `t2940:s126`, `t2940:s127`, `t2940:s128`, `t2940:s129`, `t2940:s130`, `t2940:s131`, `t2940:s132`, `t2940:s133`, `t2940:s134`, `t2940:s135`, `t2940:s136`, `t2940:s137`, `t2940:s138`
+
+Original: 做不到这一点的话，就是你你的思维不能得到不不够精纯的。However，at its present stage，the self is not yet reflective。但是呢，在目前的这么一个阶段啊，在生产性的直观这个阶段，这个自身呢还不是反思性的，it's notreflective，还不是反思。天哪，we have had regard only to the opposite natures of the two activities。啊，直到现在呢，我们只是啊考虑了，只是考虑了只关于什么？关于这么一个这两个活动性，这两个相关于对应于这个活动性的两种力的它们一种对立的天性，我们只考虑它们对立的那个天性啊，这个我不想不想翻译成本质。但是呢，关于它们的对立的天性，它们的对立啊，它们的那种对立的方向也是来自于它们那个对立的天性的。我们可以因此呢就提出这么一个问题，这两个力呢它是如何被区分出来的啊？甚至在它们仅仅是在方向上它怎么被区分出来的？为什么一个让它变大，一个变让变小？啊，一这个这个大小可以说它的存在论的效力啊，存在论的力量，就存在论上的独立性啊。这个大小指的是它能不能具有某种在存在论上具有独立性的一个存在论单元，指的是这个这个这个能力，这个大小啊，它的独立性，独立性大小可以说，或者说它的那个它的那个独立性，就是它后面那个眼，这个infinite large就是说它。这个infinite large
+
+Edited: 做不到这一点的话，你的思维不能得到、不够精纯。However, at its present stage, the self is not yet reflective。但是呢，在目前的这么一个阶段，在生产性的直观这个阶段，这个自身还不是反思性的，it's not reflective，还不是反思。天哪，we have had regard only to the opposite natures of the two activities。直到现在，我们只是考虑了，只关于什么？关于这两个活动性，这两个相关于对应于这个活动性的两种力的它们一种对立的天性；我们只考虑它们对立的那个天性，这个我不想翻译成本质。但是关于它们的对立的天性，它们的对立，它们的那种对立的方向也是来自于它们那个对立的天性的。我们可以因此提出这么一个问题：这两个力是如何被区分出来的？甚至在它们仅仅是在方向上，它怎么被区分出来的？为什么一个让它变大，一个让它变小？啊，这个大小可以说它的存在论的效力、存在论的力量，就存在论上的独立性。这个大小指的是它能不能具有某种在存在论上具有独立性的一个存在论单元，指的是这个能力，这个大小，它的独立性。
+
+## Paragraph 11: 1078062–1217342 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=1078)
+
+Segments: `t2940:s139`, `t2940:s140`, `t2940:s141`, `t2940:s142`, `t2940:s143`, `t2940:s144`, `t2940:s145`, `t2940:s146`, `t2940:s147`, `t2940:s148`, `t2940:s149`, `t2940:s150`, `t2940:s151`, `t2940:s152`, `t2940:s153`, `t2940:s154`, `t2940:s155`, `t2940:s156`, `t2940:s157`, `t2940:s158`, `t2940:s159`
+
+Original: 就相当于就是说让你lost in in it infinitely有那种感觉，但谢林这里就是这个体系不精致，就就在于此。他对于这个large andsmall，什么infinite finfinitude，他妈的，他都这个equilibrium，他都没有对他进行相应演绎，他直接拿来用的。这个就年轻人他头脑就是嚣张跋扈的小孩就是这种状态。那么we cantherefore，这个时候，那么a problem that will lead us to a closer determination of theproduct，这么一个问题呢将把我们啊对于这么一个产物啊影像对于这个产物的一个更近的一个规定啊，更弄清楚到底这个产物所谓这个matter，到底是什么。And will open the road to a newinquiry，并且啊让我们打开了一条通路，抵达一个新的探索，新的一个研究。What isundoubtedly a query？Query，这个念怎么念？Qu，query，query，query，query，啊就是，然后因为呢这是毫无疑问是一个具有非常重要性的啊非常大重要性的一个研究或者一个探索一个问题。那么toask，啊什么很重要，很具有这个非常大的重要性，就是问这些力呢是如何能够how forces that are thought of as operating from one and the samepoint啊can act in opposite opposition directions？就是力呢为什么能够被思考成，能够被把握成，被想象成它是能够啊从一个点上面啊起作用的啊从一个同一个点上施加作用，但是呢却能够在不同的方向上，却能够以不同的方向来施加作用。力为什么能够产生不同的方向性？它对于同一个点为什么能产生不同的方向性？其实这里又有方向性的起源。谢林的体系粗糙啊，这个directions，它没有没有精确的演绎到后面空间性的抽象场域符号学空间的空间性，不是空间的空间性，不是空间性的空间性，而是符号学里面空间性一种符号学里面的拓扑性的那种空间性。
+
+Edited: 或者说它的那个独立性，就是它后面那个眼，这个 infinite large 就是说它。这个 infinite large 就相当于就是说让你 lost in it infinitely，有那种感觉。但谢林这里就是这个体系不精致，就在于此。他对于这个 large and small，什么 infinite finitude，他妈的，他都这个 equilibrium，他都没有对它进行相应演绎，他直接拿来用的。这个就是年轻人他头脑就是嚣张跋扈的小孩就是这种状态。那么 we can therefore，这个时候，那么 a problem that will lead us to a closer determination of the product，这么一个问题将把我们对于这么一个产物，对于这个产物的一个更近的规定，更弄清楚到底这个产物所谓这个 matter 到底是什么。And will open the road to a new inquiry，并且让我们打开了一条通路，抵达一个新的探索，新的一个研究。What is undoubtedly a query？Query，这个念怎么念？Qu, query, query, query，query。啊就是，然后因为呢这是毫无疑问是一个具有非常重要性的、非常大重要性的一个研究或者一个探索、一个问题。那么 to ask，什么很重要，很具有这个非常大的重要性，就是问这些力是如何能够 how forces that are thought of as operating from one and the same point can act in opposite opposition directions？就是力为什么能够被思考成，能够被把握成，被想象成它能够从一个点上面起作用，从同一个点上施加作用，但是却能够在不同的方向上，以不同的方向来施加作用。力为什么能够产生不同的方向性？它对于同一个点为什么能产生不同的方向性？其实这里又有方向性的起源。谢林的体系粗糙，这个 directions，它没有精确的演绎到后面空间性的抽象场域、符号学空间的空间性——不是空间的空间性，不是空间性的空间性，而是符号学里面空间性一种符号学里面的拓扑性的那种空间性。他没有把握到，他是先用了。这个就是你会觉得不爽，我们会觉得不爽，因为他这个不是很精确。
+
+## Paragraph 12: 1218142–1394413 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=1218)
+
+Segments: `t2940:s160`, `t2940:s161`, `t2940:s162`, `t2940:s163`, `t2940:s164`, `t2940:s165`, `t2940:s166`, `t2940:s167`, `t2940:s168`, `t2940:s169`, `t2940:s170`, `t2940:s171`, `t2940:s172`, `t2940:s173`, `t2940:s174`, `t2940:s175`, `t2940:s176`
+
+Original: 他没有把握到，他是就先用了，这个就是你会觉得不爽啊，就是你会觉得我们会觉得不爽，因为他这个不是很精确。The first of the two activities assumed to be headed originally towards oppositeinfinite，这两种活动性的第一种呢，它被假定成啊被承认为或者设定假定成要怎么样，要原初的是会指向那个设定性的无限，但是呢在无限当中是没有方向可言的，因为方向是规定性啊，而规定性就等于否定，规定性等于negation啊，所谓的规定就是设限啊，任何的规定性都是设限制，都是对于设定性的一个否定啊，它们其实但是它是有无限的设定性啊，它设定性的无限，所以它是所有方向都有啊，没有一个具有优先性。那么这种设定性的活动性将因此呢，将不得不去在产物当中显现为作为一个活动性，它是内禀的缺乏方向性，quite lacking in direction。设定性的活动性在它的产物当中就会内禀的，固有的是一种缺乏方向性的一个活动性，并且呢，出于这么一个原因，就恰恰出于这么原因，它是指向所有的方向的，所以物质当中有一种设定性的活动性，它没有方向性可言的那种设定性的活动性啊。我举个例子，比如说这这这个红色可以向我显现，也可以向他显现，可以向所有人显现，任何一个人跑过来都能看到它，它没有方向性。那么这种公允的平等的主体间性认识论的发认识的发生可能性，就对不同的主体都可以发生，这种你就说它是一种设定性的活动性的一个体现。那么这必须被我们必须注意啊，再一次注意啊，就是说啊，但是啊但是我们必须注意什么？That'somnidirectional这个全向性的活动性，omnidirectional就是所有方向上都具备的这个活动性，is infact事实上只是它本身可以被区分出来，就是可以from the standpoint ofreflection啊，就是和反思性的立场，从从一个反思性的立场当中才可以区分出它是一种全向性的活动性。你要把握一个东西，它是全向的，你没有刻你你要专门刻意的去注意它，才发现它是全向，也就是说你得有一个有方向的东东西和这有方向的活动性和这么一个活动性做对比，发现哎这个是有方向，它是没方向的，也就是说要通过这种反思对比的方式才能把它区分出来。For in the moment of production's activities nowhere distinguished from its
+
+Edited: The first of the two activities assumed to be headed originally towards opposite infinite，这两种活动性的第一种呢，它被假定成、被承认为或者设定假定成要原初地会指向那个设定性的无限。但是呢，在无限当中是没有方向可言的，因为方向是规定性，而规定性就等于否定，规定性等于 negation；所谓的规定就是设限，任何的规定性都是设限制，都是对于设定性的一个否定。它们其实但是它是有无限的设定性，它设定性的无限，所以它是所有方向都有，没有一个具有优先性。那么这种设定性的活动性将因此不得不去在产物当中显现为作为一个活动性，它是内禀的缺乏方向性，quite lacking in direction。设定性的活动性在它的产物当中就会内禀的、固有的是一种缺乏方向性的一个活动性，并且出于这么一个原因，恰恰出于这么原因，它是指向所有的方向的，所以物质当中有一种设定性的活动性，它没有方向性可言的那种设定性的活动性。我举个例子，比如这个红色可以向我显现，也可以向他显现，可以向所有人显现，任何一个人跑过来都能看到它，它没有方向性。那么这种公允的、平等的主体间性认识论的发生可能性，对不同的主体都可以发生，这种你就说它是一种设定性的活动性的一个体现。那么这必须被我们注意，再一次注意，就是说，但是我们必须注意什么？That's omnidirectional，这个全向性的活动性，omnidirectional 就是所有方向上都具备的这个活动性，is in fact 事实上只是它本身可以被区分出来，就是可以 from the standpoint of reflection，从反思性的立场当中才可以区分出它是一种全向性的活动性。你要把握一个东西它是全向的，你没有、你要专门刻意地去注意它，才发现它是全向；也就是说你得有一个有方向的东西和这有方向的活动性和这么一个活动性做对比，发现哎这个是有方向，它是没方向的，也就是说要通过这种反思对比的方式才能把它区分出来。
+
+## Paragraph 13: 1394413–1576966 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=1394)
+
+Segments: `t2940:s177`, `t2940:s178`, `t2940:s179`, `t2940:s180`, `t2940:s181`, `t2940:s182`, `t2940:s183`, `t2940:s184`, `t2940:s185`, `t2940:s186`, `t2940:s187`, `t2940:s188`, `t2940:s189`, `t2940:s190`, `t2940:s191`, `t2940:s192`, `t2940:s193`, `t2940:s194`, `t2940:s195`, `t2940:s196`, `t2940:s197`, `t2940:s198`, `t2940:s199`
+
+Original: direction，因为在生产的环节过程当中啊，那一瞬间啊，这个活动性是没有地方可以啊从它的方向当中区分出来的，因为它没方向的，你并没有察觉到一个特殊的比较一个怪怪的东西，因为它根本没有方向的。And how the cell makes this distinction on its own account will be the topic of special of a special inquiry。那么这个自身它如何能够啊在它自己的on its ownaccount，出于它自己的原因来做出这种区分，将会是一个特别的研究的一个论题啊一个主题，就是我们要专门去研究为什么啊为什么自身能够去发现。它的这么一个产物当中，它的生产性直观的产物当中，会有一种无方向的或者说全向的一种活动性，它必须要通过一个方向才能把它区分出来，要通过一个有向的活动性才能把一个全向的活动性发生出来啊，所以我们要对它进行一个专门的一个研究，那么这个问题现在就产生出来，就是关于啊，to what direction distinguishes the activity in the product that is opposed tothe啊positive啊，就是在什么方向啊，就相对于一个什么方向，我们区分出来了那个啊distinguish in the the activity in theproduct啊as asto就关于what direction asto不是这里to不是跟后面的，这里是asto本身就是关于about相当于about asto其实about的意思就是什么方向区分出来的那个产物当中的那个活动性，这个活动性呢它是啊和这个那个积极的全向的无方向的活动性相对立的啊，就是那个否定活动性啊，否定性的活动性它是有一个什么样的方向啊，它能够让这个否定性的活动性和那个全向的设定性的活动性、积极的肯定的活动性相对立起来，那么我们应当啊我们可以提前期盼的，我们可以提前预料到的what we should expect inadvance，就是我们这里的should应该是翻译成能够，我们会啊我们会提前预料到啊namelythat啊即namely就是说名义上就是也就是也就是说namely相当于也就是如果这个设定性的活动性呢，它拥抱了它包含了所有的方向，那么另外一种活动性只会拥有一种方向啊，这是可以被严格的证明的啊，就可以被严格的证明的can berigorouslyproved，可以提前看到就可以严格证明，因为这边这个东西也是全向的，另外东西肯定是有个它的片面的方向啊，它在这个方向上
+
+Edited: For in the moment of production's activities nowhere distinguished from its direction，因为在生产的环节过程当中，那一瞬间，这个活动性是没有地方可以从它的方向当中区分出来的，因为它没方向的，你并没有察觉到一个特殊的、比较怪的东西，因为它根本没有方向的。And how the self makes this distinction on its own account will be the topic of special of a special inquiry。那么这个自身它如何能够在它自己的 on its own account，出于它自己的原因来做出这种区分，将会是一个特别的研究的一个论题、一个主题，就是我们要专门去研究为什么自身能够去发现：它的这么一个产物当中，它的生产性直观的产物当中，会有一种无方向的或者说全向的一种活动性，它必须要通过一个方向才能把它区分出来，要通过一个有向的活动性才能把一个全向的活动性发生出来。所以我们要对它进行一个专门的研究。那么这个问题现在产生出来，就是关于，to what direction distinguishes the activity in the product that is opposed to the positive，就是在什么方向，就相对于一个什么方向，我们区分出来了那个 distinguish in the activity in the product as to，就关于 what direction as to——不是这里 to 不是跟后面的，这里是 as to，as to 本身就是关于 about，相当于 about as to，其实 about 的意思——就是什么方向区分出来的那个产物当中的那个活动性。这个活动性呢它是和这个积极的全向的、无方向的活动性相对立的，就是那个否定活动性，否定性的活动性；它是有一个什么样的方向，它能够让这个否定性的活动性和那个全向的设定性的活动性、积极的肯定的活动性相对立起来。那么我们可以提前期盼的，我们可以提前预料到的 what we should expect in advance，就是我们这里的 should 应该是翻译成能够，我们会提前预料到，namely，即，namely 就是说名义上就是也就是也就是说，namely 相当于也就是：如果这个设定性的活动性拥抱了、包含了所有的方向，那么另外一种活动性只会拥有一种方向，这是可以被严格地证明的，就可以被严格地证明的，can be rigorously proved。可以提前看到就可以严格证明，因为这边这个东西也是全向的，另外东西肯定是有个它的片面的方向，它在这个方向上做对立的。
+
+## Paragraph 14: 1577046–1752383 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=1577)
+
+Segments: `t2940:s200`, `t2940:s201`, `t2940:s202`, `t2940:s203`, `t2940:s204`, `t2940:s205`, `t2940:s206`, `t2940:s207`, `t2940:s208`, `t2940:s209`, `t2940:s210`, `t2940:s211`, `t2940:s212`, `t2940:s213`, `t2940:s214`, `t2940:s215`, `t2940:s216`, `t2940:s217`, `t2940:s218`, `t2940:s219`
+
+Original: 做对立的the concept of expansiveness is contained in that ofdirection啊，扩张性的这个概念它是在包含在这个方向的这个概念当中的，没有扩张就没有方向，所以方向一定要包含扩张，所以那个全向的活动性啊全向的活动性怎么样，你可以看成是它是所有方向性都要用都要靠扩张性来设定的，因为说你有方向性就有一种就是推出去的那个力嘛，推出去，但是推出去这个力本身没有方向可言，所以说它是全向，它是无方向可言的。啊，那有方向的东西一定要以无方向的作为前提，或者方向性的概念一定要有扩张性的概念作为前提，expansiveness，这个扩张性expansiveness，你不要把它理解成是空内外的，就是你当然可以说内外的方向性的差别是原初方向性，那其他所有的方向性都依赖这个原初方向性当中的这个外部性往外扩张的向外性，因为没有向外性就没有方向性，而你们我们所说的呃向内性向内性这个东西是回溯性的被构造的，一开始只有向外性，一开始只有这个就是设定新的东西，设定那个东西把它做外部性来设定出来，啊，大致我们可以看到就是内外方向性它不是平等的，外向外的方向性是优先于回回来那个的，因为回来那个东西是靠它，它只是对于那个向外的方向性的一个否定，那么这样所有的方向性都依赖于向外的方向性，那么这个是得到严格证明的，这是很好的理解的，这很好理解，这是在概念发生学上，it's easy tounderstand，啊没有扩张性就没有方向，那么现在由于呢这个否定性的这个力呢是绝对的对立于这个扩张性的力的，所以它必须因此呢它必须显现成作为一个啊一个力它是施加在敌对的施加在所有的方向上面，a force operating against alldirections，就是施加在所有的力上面，它是那是一个敌对的against嘛，反对的一种方式施加在所有的方向上面，就是你要往这边跑，我偏要让你回来啊，那么which ifunrestricted would constitute an absolutenegation，如果如果这种回来的收回的这个力的contracting的contract啊，如果这么一个收缩的这种力呢，它能够是无限的话，它不受限制的话，那它就会建构起一个绝对的对于所有方向性产物的产物当中所有方
+
+Edited: The concept of expansiveness is contained in that of direction，扩张性的这个概念它是在包含在这个方向的这个概念当中的，没有扩张就没有方向，所以方向一定要包含扩张。所以那个全向的活动性，全向的活动性怎么样？你可以看成是它是所有方向性都要用、都要靠扩张性来设定的，因为说你有方向性就有一种就是推出去的那个力嘛，推出去；但是推出去这个力本身没有方向可言，所以说它是全向，它是无方向可言的。那有方向的东西一定要以无方向的作为前提，或者方向性的概念一定要有扩张性的概念作为前提，expansiveness。这个扩张性 expansiveness，你不要把它理解成是空内外的；当然可以说内外的方向性的差别是原初方向性，那其他所有的方向性都依赖这个原初方向性当中的这个外部性、往外扩张的向外性，因为没有向外性就没有方向性。而我们所说的向内性，向内性这个东西是回溯性地被构造的，一开始只有向外性，一开始只有这个就是设定新的东西，设定那个东西，把它做外部性来设定出来。大致我们可以看到，就是内外方向性它不是平等的，向外的方向性是优先于回来那个的，因为回来那个东西是靠它，它只是对于那个向外的方向性的一个否定。那么这样所有的方向性都依赖于向外的方向性，那么这个是得到严格证明的，这是很好理解的，这很好理解，这是在概念发生学上，it's easy to understand。没有扩张性就没有方向。那么现在由于这个否定性的力是绝对地对立于这个扩张性的力的，所以它必须因此显现成作为一个力，它是施加在敌对的、施加在所有的方向上面，a force operating against all directions，就是施加在所有的力上面，它是那是一个敌对的 against 嘛，反对的一种方式施加在所有的方向上面，就是你要往这边跑，我偏要让你回来。那么 which if unrestricted would constitute an absolute negation，如果这种回来的、收回的这个力的 contracting 的 contract，如果这么一个收缩的这种力，它能够是无限的话，它不受限制的话，那它就会建构起一个绝对的对于所有方向性产物的产物当中所有方向性的一个否定。
+
+## Paragraph 15: 1752383–1826435 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=1752)
+
+Segments: `t2940:s220`, `t2940:s221`, `t2940:s222`, `t2940:s223`, `t2940:s224`, `t2940:s225`, `t2940:s226`, `t2940:s227`, `t2940:s228`
+
+Original: 向性的一个否定，但是呢对于所有方向的这种否定呢，它是一个绝对的边界，the negation of all direction is absolute b o u n d a r y，t h e m e r e p o i n t啊，它就是一个它就是一个绝对的界限，就是一个点，收到最终它对所有方向都都否定就没有方向可言，那它就是个绝对的边界，一个绝对边界就不是什么左右边界内外它没有什么，它就是一个点，它只是一个点，只是一个点，谢林在这里这个演绎也是我们甚至可以直观到啊集合学上直观到啊这么种收缩的力量它对所有方向都否定掉了，就都彻底的完成这个否定的话，那它就是个绝对的边界，那么这个绝对边界不是一条线意义上的边界，它就是一个点。boundarythe mere point啊它就是一个它就是一个绝对的界限就是一个点收到最终它对所有方向都都否定就没有方向可言那它就是个绝对的边界一个绝对边界就不是什么左右边界内外它没有什么它就是一个点它只是一个点只是一个点谢林在这里这个演绎也是我们甚至可以直观到啊集合学上直观到啊这么种收缩的力量它对所有方向都否定掉了就都彻底的完成这个否定的话那它就是个绝对的边界那么这个绝对边界不是一条线意义上的边界它就是一个点就这个点，其他所有整个涌动的扩张性力量都没有办法实现它自己，那它就是一个对于所有方向上的扩张性力量的一个否定，那它就是点嘛，你这不能出这个点，就是一个没有没有内径的圆，它当然是一个绝对边界了，absoluteboundary，它没有内径，因为它已经对于所有方向加以否定了，所以它是一个一个点啊，the merepoint，所以这
+
+Edited: 但是呢，对于所有方向的这种否定呢，它是一个绝对的边界，the negation of all direction is absolute boundary, the mere point。它就是一个绝对的界限，就是一个点。收到最终它对所有方向都否定，就没有方向可言，那它就是个绝对的边界。一个绝对边界就不是什么左右边界、内外，它没有什么，它就是一个点，它只是一个点，只是一个点。谢林在这里这个演绎也是我们甚至可以直观到，几何学上直观到，这么种收缩的力量它对所有方向都否定掉了，就都彻底完成这个否定的话，那它就是个绝对的边界；那么这个绝对边界不是一条线意义上的边界，它就是一个点。就这个点，其他所有整个涌动的扩张性力量都没有办法实现它自己，那它就是一个对于所有方向上扩张性力量的一个否定，那它就是点嘛。你这不能出这个点，就是一个没有内径的圆，它当然是一个绝对边界了，absolute boundary，它没有内径，因为它已经对于所有方向加以否定了，所以它是一个点，the mere point。所以这……
+
+- 原文作‘集合学’，疑为‘几何学’; 几何学; t2940:s223
+
+## Paragraph 16: 1828115–2021188 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=1828)
+
+Segments: `t2940:s229`, `t2940:s230`, `t2940:s231`, `t2940:s232`, `t2940:s233`, `t2940:s234`, `t2940:s235`, `t2940:s236`, `t2940:s237`, `t2940:s238`, `t2940:s239`, `t2940:s240`, `t2940:s241`, `t2940:s242`, `t2940:s243`, `t2940:s244`, `t2940:s245`, `t2940:s246`, `t2940:s247`, `t2940:s248`, `t2940:s249`, `t2940:s250`, `t2940:s251`, `t2940:s252`, `t2940:s253`
+
+Original: 种活动性将会显现成这么一种活动性，它致力于去把所有的扩张都弄回来啊，把它变成一个点，把这样扩张全都要缩回来变成一个点啊，这种否定性，thispoint我这这个点呢将会啊indicates itsdirection，这个indicates这个词儿可以翻译成暗示着是吧，表明指出预示着隐，这里应该翻译成不管了，我们看and hence it will have but onedirection，这个点将会隐含着它自己的方向啊，它是这么个意思，这么一个收缩回来的点将隐含着它的方向，will indicate itsdirection，隐含着它的一个方向，就这个点，就从这个点出发，我们才会有方向的单一性，andhence，并且因此呢，它将会it will have but one directiondirection，它只会拥有一个方向啊，这个点哎应该是这个意思，这个点就是一个方向，就是你明白了吗？就是它是这个点本身有一个方向，就是到这个点本身，一个扩张就是方向direction是从哪里出来的？它是从方向的自我否定里面出来的，谢林的这个这个模型就非常的赖皮，实际上他告诉你方向性是怎么产生的，方向性就是对于就是一个全向性的否定，全向性就是扩张往外面扩张，好吧，扩张要把它否定回来，回到这一个点，回到这个点，那么既然都是回到这一个点，目标是指向这一个点，那么这个点本身就代表了一个唯一的一个方向啊，它就代表一种唯一的一个方向性，它就是唯一的方向，就是向这个点，它让这个方向具有一个具有一个唯一性，那么如果按四面八方的回到这个点，那不是不同的方向，哒哒哒哒哒哒哒哒不同的方向，但是它已经缩到这个点了，那么就是这个点到它自身，点到它自身，你可以你可以把它甚甚至可以把它设想成就是往里面缩，我操，透纸背，透过这个纸背了，我操，往里面缩了，你就想象成就是说呃这个点只往外面扩张了一点点，这个点啊往外面扩张了一点点，它那个内径无限小，那那这个无限小的所有的内径上的所有的点，你说有无数个点要回缩到这一个点，由于它们无限小，所以它们的差异也是无限小，所以就是可以看成是一个方向。那么这一个一个方向性这样被倒逼出来的，这里有极限思维，啊，实际上是赖皮啊，实际上是他妈赖皮，我们当时肯定他妈有差异的，是个圆，我操他妈外面是个圆，哪怕你这个说这个内径无限小也是个圆，那么圆它总归是一个连续的一个差异啊，但是谢林这不他妈的他们差异无限小，它是一个点，它就是一个方向，towards thispoint，它就indicate its direction and hence it will have but one direction towards thispoint，就只有一个点，pictures expansion force
+
+Edited: 这种活动性将会显现成这么一种活动性，它致力于去把所有的扩张都弄回来，把它变成一个点，把这样扩张全都要缩回来变成一个点。这种否定性，this point，我这个点将会 indicates its direction，这个 indicates 这个词儿可以翻译成暗示着，是吧，表明、指出、预示着，这里应该翻译成……不管了，我们看 and hence it will have but one direction。这个点将会隐含着它自己的方向，它是这么个意思：这么一个收缩回来的点将隐含着它的方向，will indicate its direction，隐含着它的一个方向。就这个点，就从这个点出发，我们才会有方向的单一性。and hence，并且因此呢，它将会 it will have but one direction，它只会拥有一个方向。这个点哎应该是这个意思，这个点就是一个方向。你明白了吗？就是它是这个点本身有一个方向，就是到这个点本身。一个扩张就是方向 direction，是从哪里出来的？它是从方向的自我否定里面出来的。谢林的这个模型就非常的赖皮，实际上他告诉你方向性是怎么产生的：方向性就是对于一个全向性的否定，全向性就是扩张往外面扩张，好吧，扩张要把它否定回来，回到这一个点，回到这个点。那么既然都是回到这一个点，目标是指向这一个点，那么这个点本身就代表了一个唯一的一个方向，它就代表一种唯一的一个方向性，它就是唯一的方向，就是向这个点。它让这个方向具有一个唯一性。那么如果按四面八方的回到这个点，那不是不同的方向，哒哒哒哒哒哒不同的方向；但是它已经缩到这个点了，那么就是这个点到它自身，点到它自身。你可以甚至可以把它设想成就是往里面缩，我操，透纸背，透过这个纸背了，我操，往里面缩了。你就想象成就是说这个点只往外面扩张了一点点，这个点往外面扩张了一点点，它那个内径无限小，那这个无限小的所有的内径上的所有的点，你说有无数个点要回缩到这一个点，由于它们无限小，所以它们的差异也是无限小，所以就是可以看成是一个方向。那么这一个方向性这样被倒逼出来的，这里有极限思维。啊，实际上是赖皮，实际上是他妈赖皮。我们当时肯定他妈有差异的，是个圆，我操他妈外面是个圆，哪怕你这个说这个内径无限小也是个圆，那么圆它总归是一个连续的一个差异；但是谢林这不他妈的，他们差异无限小，它是一个点，它就是一个方向，towards this point。它就 indicate its direction and hence it will have but one direction towards this point，就只有一个点，pictures expansion force。
+
+## Paragraph 17: 2021188–2105748 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2021)
+
+Segments: `t2940:s254`, `t2940:s255`, `t2940:s256`, `t2940:s257`, `t2940:s258`, `t2940:s259`, `t2940:s260`, `t2940:s261`, `t2940:s262`, `t2940:s263`, `t2940:s264`, `t2940:s265`, `t2940:s266`, `t2940:s267`, `t2940:s268`, `t2940:s269`
+
+Original: expensive，那么我们就可以我们可以想象啊，或者说描绘出这么一个扩张性的力量，把它看成什么，operating out from the common midpoint c in alldirections，它是从这么一个公共点c啊向所有点里面出发，这个c点，中间这个点是c点center嘛，要跑跑向所有一个点，啊，这个就是我刚讲那个东西的，就是谢林啊，他就他非要把他这个东西画出来，垃圾软件你妈逼能不能快一点，我操狗东西，浪费老子寿命，你们应该对这种东西保持愤怒，最愚蠢的这个世界，有时候你会觉得这愚蠢世界，中间这个点是c点啊，你说它这个扩张性的力量啊，它是a这个a这个b好吧，它就是等等等等等等，还有可以是d啊，可以是e啊，f啊，啊扩张性的，that incontrast，那么反过来呢，然后呢是咱们反过来就会有一个否定性的收缩性的力量将会push back from all direction towards the onepoint，将会啊回来都回到这个点c，都回到这个点c，你看都交汇到这个一个点c了，but here too it remains true of this d i r e c t i o n，w h a t w e r e c a l l c o n c e r n i n g t h e d i r e c t i o n s o f t h e p o s i t i v e f o r c e，但是在这里啊啊同样的还继续是正正确的，就是说这么一个方向，w h a t w e r e c a l l关于这么一个设定性的方向，i t r e m a i n s t r u e o f t h i s，t r u e，w h a t w e r e c a l l的，它是c o n c e r n i n g t h e d i r e c t i o n o f t h e p o s i t i v e f o r c e，它还是关于那个就是它还是我们前面所想到的这么一个方向啊啊它是h e r e t o i t，它是关于那个就是设定性的那个力量的那个方向，c o n c e r n i n g，r e c a l l c o n c e r n i n g t h e d i r e c t i o n，就是在这里i t r e m a i n s t r u e，它的意思就是说。
+
+Edited: expansive，那么我们就可以想象，或者说描绘出这么一个扩张性的力量，把它看成什么？operating out from the common midpoint c in all directions，它是从这么一个公共点 c 向所有点里面出发。这个 c 点，中间这个点是 c 点 center 嘛，要跑向所有一个点。这个就是我刚讲那个东西的，就是谢林，他非要把他这个东西画出来。垃圾软件你妈逼能不能快一点，我操狗东西，浪费老子寿命。你们应该对这种东西保持愤怒。最愚蠢的这个世界，有时候你会觉得这愚蠢世界，中间这个点是 c 点。你说它这个扩张性的力量，它是 a，这个 a，这个 b，好吧，它就是等等等等等等，还有可以是 d，可以是 e，f。啊，扩张性的，that in contrast，那么反过来呢，然后呢是咱们反过来就会有一个否定性的收缩性的力量将会 push back from all direction towards the one point，将会回来都回到这个点 c，都回到这个点 c。你看都交汇到这个一个点 c 了。but here too it remains true of this direction, what we recall concerning the directions of the positive force。但是在这里，同样的还继续是正确的，就是说这么一个方向，what we recall，关于这么一个设定性的方向，it remains true of this, true, what we recall 的，它是 concerning the direction of the positive force，它还是关于那个，就是它还是我们前面所想到的这么一个方向。它是 here to it，它是关于那个就是设定性的那个力量的那个方向，concerning, recall, concerning the direction。就是在这里 it remains true，它的意思就是说。
+
+## Paragraph 18: 2105748–2256046 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2105)
+
+Segments: `t2940:s270`, `t2940:s271`, `t2940:s272`, `t2940:s273`, `t2940:s274`, `t2940:s275`, `t2940:s276`, `t2940:s277`, `t2940:s278`, `t2940:s279`, `t2940:s280`, `t2940:s281`, `t2940:s282`, `t2940:s283`, `t2940:s284`, `t2940:s285`, `t2940:s286`, `t2940:s287`, `t2940:s288`, `t2940:s289`, `t2940:s290`, `t2940:s291`
+
+Original: directionwhat we recall concerning the directions of the positiveforce但是在这里啊啊同样的还继续是正正确的就是说这么一个方向what we recall关于这么一个设定性的方向itremains true of thistruewhatwe recall的它是concerning the direction of the positive force它还是关于那个就是它还是我们前面所想到的这么一个方向啊啊它是here to it它是关于那个就是设定性的那个力量的那个方向concerningrecall concerning the direction就是在这里it remains true它的意思就是说It remains true of this direction what we recall concerning the directions of the positive force\.这是英文翻译的，真他妈垃圾，我你妈的，巴子的。这是英文翻译的文字，他的意思就是在这里，那那那，我们还要预设啊，在这里it remains true true of this direction what we recall concerning the directions of the positive force\.Recall就是想起了，我们在这里唤起了。他用的这个词就翻译起来很挫，你知道吗？就是我们前面提到的，我们前面提到的，我们记起、想起、提到的啊，这么一个方向，关于这个设定性的活动性的它的那些方向啊，你看这个方向，这个方向，这个方向，这个方向，这个方向，它是好多个方向。那么关于这些的方向，会有一个方向，它要回，都会回到这个C的这么一个方向，都回到C的这么一个方向。那么对于这个方向，it remains true of它还是一个现实的方向，是吧？它是现实的。It remains trueof，这他妈这这句狗屁话是什么屌意思嘛？它没有多少意思的。他的意思就是说啊，这个方向它还是个真的方向。It remains true,but here too it remains true of this direction what we recall\.应该是这个意思，就是这个时候的这个方向，它还是依赖于那个设定性的力的方向，就是这个回来的方向，现在它还是附庸于依赖于这个方向的。
+
+Edited: direction, what we recall concerning the directions of the positive force。但是在这里，同样的还继续是正确的，就是说这么一个方向，what we recall，关于这么一个设定性的方向，it remains true of this, true, what we recall 的，它是 concerning the direction of the positive force，它还是关于那个，就是它还是我们前面所想到的这么一个方向。它是 here to it，它是关于那个就是设定性的那个力量的那个方向，concerning, recall, concerning the direction。就是在这里 it remains true，它的意思就是说：It remains true of this direction what we recall concerning the directions of the positive force。这是英文翻译的，真他妈垃圾，我你妈的，巴子的。这是英文翻译的文字，他的意思就是在这里，那那那，我们还要预设，在这里 it remains true, true of this direction what we recall concerning the directions of the positive force\. Recall 就是想起了，我们在这里唤起了。他用的这个词就翻译起来很挫，你知道吗？就是我们前面提到的，我们前面提到的，我们记起、想起、提到的，这么一个方向，关于这个设定性的活动性的它的那些方向。你看这个方向，这个方向，这个方向，这个方向，这个方向，它是好多个方向。那么关于这些的方向，会有一个方向，它要回，都会回到这个 C 的这么一个方向，都回到 C 的这么一个方向。那么对于这个方向，it remains true of，它还是一个现实的方向，是吧？它是现实的。It remains true of，这他妈这这句狗屁话是什么屌意思嘛？它没有多少意思的。他的意思就是说，这个方向它还是个真的方向。It remains true, but here too it remains true of this direction what we recall。应该是这个意思，就是这个时候的这个方向，它还是依赖于那个设定性的力的方向，就是这个回来的方向，现在它还是附庸于依赖于这个方向的。那么这个方向还不是个独立性的方向，对不对？
+
+## Paragraph 19: 2256046–2405967 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2256)
+
+Segments: `t2940:s292`, `t2940:s293`, `t2940:s294`, `t2940:s295`, `t2940:s296`, `t2940:s297`, `t2940:s298`, `t2940:s299`, `t2940:s300`, `t2940:s301`, `t2940:s302`, `t2940:s303`, `t2940:s304`, `t2940:s305`, `t2940:s306`, `t2940:s307`, `t2940:s308`, `t2940:s309`, `t2940:s310`, `t2940:s311`, `t2940:s312`, `t2940:s313`, `t2940:s314`, `t2940:s315`
+
+Original: 那么这个方向还不是个独立性的方向，对不对？Here too activity activity and directions are absolute one\.Absoluteone，在这里的活动性和方向，它就是绝对的就是一个同一个absolutely one\.The self itself does not distinguish them\.这个自身在这个时候还没有区分它们啊，还没有能力区分，把活动性和方向给它区分出来。好，自身没有区分出来啊，它还只能说通过活动性来把握，通过方向来把握这种活动性，通过这种收缩来把握这种活动性。大家觉得就是说，无非就是我现实的活动要出去变成某个东西，我比如这里要变成声，这里要变成光，这里要变成电啊，这里要变成磁，我出去要变成某个东西，然后有这个回来的力量不让你回来，所以它这个时候是没办法区分这种方向。我要出去演化，它不让他演化，消极的啊，否定性的活动性不让我出去演化，那无非它就是阻滞的这种这种方向或者这种自我收缩的这种运动的方向而已。但是正如这个积极的和否定的活动性的方向，它是不能够从这个活动性本身当中区分出来的，因为你你其实分不出来，youcan't，你没法分出来，你没办法分出来啊。哦，他这里意思就是说，activity and direction of absolute one。他这里，他这里的就是还是我说错了啊，在这里，他这里的意思就是说，activity and direction of absolute one。因为direction这里activity就等于那个ex omnidirectional expansive force啊，而这个direction啊direction就等于那个one啊directed就相当于one one sided的，就one direction就回到自身one directed啊attractive force啊，我已经写出来了，你听不懂就goodbye了啊。就这个东西就是那个positive activity的专指positive activity，这个这个direction就专指negativeactivity，好了吧？
+
+Edited: Here too activity activity and directions are absolute one\. Absolute one，在这里的活动性和方向，它就是绝对的，就是同一个，absolutely one\. The self itself does not distinguish them。这个自身在这个时候还没有区分它们，还没有能力区分，把活动性和方向给它区分出来。好，自身没有区分出来，它还只能说通过活动性来把握，通过方向来把握这种活动性，通过这种收缩来把握这种活动性。大家觉得就是说，无非就是我现实的活动要出去变成某个东西，我比如这里要变成声，这里要变成光，这里要变成电，这里要变成磁，我出去要变成某个东西，然后有这个回来的力量不让你回来，所以它这个时候是没办法区分这种方向。我要出去演化，它不让他演化，消极的、否定性的活动性不让我出去演化，那无非它就是阻滞的这种方向或者这种自我收缩的这种运动的方向而已。但是正如这个积极的和否定的活动性的方向，它是不能够从这个活动性本身当中区分出来的，因为你其实分不出来，you can't，你没法分出来，你没办法分出来。哦，他这里意思就是说，activity and direction of absolute one。他这里，他这里的就是还是我说错了，在这里，他这里的意思就是说，activity and direction of absolute one。因为 direction 这里 activity 就等于那个 ex omni directional expansive force，而这个 direction 啊 direction 就等于那个 one，directed 就相当于 one one sided 的，就 one direction 就回到自身 one directed，attractive force。啊，我已经写出来了，你听不懂就 goodbye 了。就这个东西就是那个 positive activity 的专指，positive activity，这个 direction 就专指 negative activity，好了吧？它专指否定性的，所以这两个东西的对立，实际上活动性和方向的对立，就是全向的扩张性的力和单向的收缩性的力的对立。
+
+## Paragraph 20: 2405967–2632651 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2405)
+
+Segments: `t2940:s316`, `t2940:s317`, `t2940:s318`, `t2940:s319`, `t2940:s320`, `t2940:s321`, `t2940:s322`, `t2940:s323`, `t2940:s324`, `t2940:s325`, `t2940:s326`, `t2940:s327`, `t2940:s328`, `t2940:s329`, `t2940:s330`, `t2940:s331`, `t2940:s332`, `t2940:s333`, `t2940:s334`, `t2940:s335`, `t2940:s336`, `t2940:s337`, `t2940:s338`, `t2940:s339`, `t2940:s340`, `t2940:s341`, `t2940:s342`, `t2940:s343`
+
+Original: 它专指否定性的，所以这两个东西的对立，实际上活动性和方向的对立，就是全向的扩张性的力和单向的收缩性的力的对立。这个时候还没法办区分它们，为什么没法区分它们呢？因为这个时候它是它是这这个回来的力还依赖于出去的力啊，全向出去，全向回来，不是有一个什么四面八方来，四面八方打吗？啊，就是那个有个禅宗的那个公案里面的，什么东边来东边打，西边来西边打，什么什么四面八方来，四面八方打，什么什么来什么廉价打是吧？有一个有一个公案啊，差不多这个意思。啊，就这个时候他们还是彼此就是你要有出去的力才有回来的力嘛，有出去的扩张性的运动才有回来的，所以它叫做那个方向啊，remains true of the direction这个方向它还是啊concerning the direction of theopposite，它仅仅是关于那个积极的扩张性的力的那么多方向啊那么多全向的啊关于它的全向的依附性的一个收缩的一个方向，这个方向还不是一个独立的方向，还没法区分出来，它是如影随形的依附于那个全向的往外收缩的那么一堆方向的一个自己尝试着要把自己设立为一个单向的，那发现这个单向又没法设立，就是我之前说的没办法设立，因为它这个还没有办法把自己设立成一个唯一的方向，其实在这里勉强说它是一个唯一的方向都是他妈错的。因为所以它这里不加冠词啊，所以它这里前面direction前面没有加冠词，因为它把它看成是一个概念啊，这里direction把它看成一个概念，射向性、定向性、意向性、定向的意向性。可以把它理解成这个东西，这里的activity可以不就是扩张的意向性，扩张的意向性尝试着它扩张的意向性是无向可言的，没有方向性可言的，这个是一个射向意向性，但这个射向的意向性现在只有个原初的一个方向，就是回到自身，啊，这很好理解吧？因为刚刚图已经都给你画出来了，你不理解你就不适合在这个课堂继续待下去，你适合先去好好看看，看点现象学入门呐，或者看一看，看点那个看点期刊呗，学点英语，好着或者说好好歹你好说歹说你先考个九八五大学，自己把这个应试的东西学学好，别跑过来学大人他妈学哲学，你这个智力水准不够，你也这个智力，我说了相当于玩三国三国三国志啊，要把握这个体系，你智力最起码七十五点以上啊，可以给一个小势力当狗头军师那个智力水准，你智力只有五六十的，甚至像那种垃圾武将智力只有五六的，他妈的高中都毕业不了的那种废物，你就不要待在这边了，赶紧滚，这个都是实事求是，实事求是，你不能出出于他妈虚荣心，你根本听不懂东西，你还赖着死赖在这边，相当于一个我靠，相当于一个就是长得丑的要死，非要跑到那个或者一个浑身都是赘肉的宅男，非要跑到对吧型男比赛现场去把跟人家比肌肉，你有个屁肌肉啊，你他妈的仰卧起坐都做不起几个的，就不要跑过来丢脸了，对不对？我实事求是来讲，那么我们继续来看嘛，正如这个设定性的和否定性的活动性的方向，它是不能够从活动性本身当中区分出来的，所以同
+
+Edited: 这个时候还没法区分它们，为什么没法区分它们呢？因为这个时候它是，这个回来的力还依赖于出去的力，全向出去，全向回来，不是有一个什么四面八方来、四面八方打吗？就是那个有个禅宗的那个公案里面的，什么东边来东边打，西边来西边打，什么什么四面八方来，四面八方打，什么什么来什么廉价打是吧？有一个公案，差不多这个意思。就这个时候他们还是彼此，就是你要有出去的力才有回来的力嘛，有出去的扩张性的运动才有回来的，所以它叫做那个方向，remains true of the direction。这个方向它还是 concerning the direction of the opposite，它仅仅是关于那个积极的扩张性的力的那么多方向，那么多全向的，关于它的全向的、依附性的一个收缩的一个方向。这个方向还不是一个独立的方向，还没法区分出来，它是如影随形地依附于那个全向的往外收缩的那么一堆方向的一个。自己尝试着要把自己设立为一个单向的，那发现这个单向又没法设立，就是我之前说的没办法设立，因为它这个还没有办法把自己设立成一个唯一的方向。其实在这里勉强说它是一个唯一的方向都是他妈错的。因为所以它这里不加冠词，所以它这里前面 direction 前面没有加冠词，因为它把它看成是一个概念，这里 direction 把它看成一个概念，指向性、定向性、意向性、定向的意向性。可以把它理解成这个东西，这里的 activity 可以不就是扩张的意向性，扩张的意向性尝试着它扩张的意向性是无向可言的，没有方向性可言的，这个是一个指向意向性，但这个指向的意向性现在只有个原初的一个方向，就是回到自身。啊，这很好理解吧？因为刚刚图已经都给你画出来了，你不理解你就不适合在这个课堂继续待下去，你适合先去好好看看，看点现象学入门呐，或者看一看，看点那个看点期刊呗，学点英语，或者说好好歹你好说歹说你先考个九八五大学，自己把这个应试的东西学学好，别跑过来学大人他妈学哲学。你这个智力水准不够，你也这个智力，我说了相当于玩三国三国志啊，要把握这个体系，你智力最起码七十五点以上啊，可以给一个小势力当狗头军师那个智力水准。你智力只有五六十的，甚至像那种垃圾武将智力只有五六的，他妈的高中都毕业不了的那种废物，你就不要待在这边了，赶紧滚。这个都是实事求是，实事求是。你不能出于他妈虚荣心，你根本听不懂东西，你还赖着死赖在这边，相当于一个我靠，相当于一个就是长得丑得要死，非要跑到那个，或者一个浑身都是赘肉的宅男，非要跑到对吧型男比赛现场去把跟人家比肌肉，你有个屁肌肉啊，你他妈的仰卧起坐都做不起几个的，就不要跑过来丢脸了，对不对？
+
+- 原文作‘射向’，疑为‘指向’; 指向; t2940:s330, t2940:s332
+
+## Paragraph 21: 2632651–2724897 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2632)
+
+Segments: `t2940:s344`, `t2940:s345`, `t2940:s346`, `t2940:s347`, `t2940:s348`, `t2940:s349`, `t2940:s350`, `t2940:s351`, `t2940:s352`, `t2940:s353`, `t2940:s354`, `t2940:s355`
+
+Original: 样的这些方向呢也不能相互区分出来，他们的方向不能相互区分出来啊。How the self strives at making this distinction？那这个自身如何能够获得这种区分？Whereby first singles out space and space？那么通过做出这种区分呢，它就可以singles out space asspace，作为空间的空间，空间性就被设立出来了啊，这里的single可以翻译成就是singleout，梳理出，应该可以翻译成啊甄拔出，其实是甄拔出啊，甄拔，拣选出，它就可以拣选出作为空间的空间以及作为时间的时间，把它拣选出来，把这两个东西给它分出来啊，Will be the subject of a later？啊，那么这是后面啊，这是我们后面要研究的一个论题啊，这是先放着，先放着啊，一种设定性的空间和否定性的空间，它如何啊能够和这些这里的应该是。这些方向性和活动性要区分出来，方向性和活动性区分出来啊，或者说活动的可能性和活动的现实性区分出来，那就空间啊，空间和时间就能够被梳理出来。那么我们在，但是这是后面要讨论问题。那么the most important question that now remains for us in regard to the relationship of two forces is。
+
+Edited: 我实事求是来讲，那么我们继续来看嘛。正如这个设定性的和否定性的活动性的方向，它是不能够从活动性本身当中区分出来的，所以同样的这些方向也不能相互区分出来，他们的方向不能相互区分出来。How the self strives at making this distinction？那这个自身如何能够获得这种区分？Whereby first singles out space and space？那么通过做出这种区分呢，它就可以 singles out space as space，作为空间的空间，空间性就被设立出来了。这里的 single 可以翻译成就是 single out，梳理出，应该可以翻译成甄拔出，其实是甄拔出啊，甄拔，拣选出。它就可以拣选出作为空间的空间以及作为时间的时间，把它拣选出来，把这两个东西给它分出来。Will be the subject of a later？啊，那么这是后面，这是我们后面要研究的一个论题，这是先放着，先放着。一种设定性的空间和否定性的空间，它如何能够和这些这里的应该是……这些方向性和活动性要区分出来，方向性和活动性区分出来，或者说活动的可能性和活动的现实性区分出来，那就空间啊，空间和时间就能够被梳理出来。
+
+## Paragraph 22: 2725377–2881537 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2725)
+
+Segments: `t2940:s356`, `t2940:s357`, `t2940:s358`, `t2940:s359`, `t2940:s360`, `t2940:s361`, `t2940:s362`, `t2940:s363`, `t2940:s364`, `t2940:s365`, `t2940:s366`, `t2940:s367`, `t2940:s368`, `t2940:s369`, `t2940:s370`, `t2940:s371`, `t2940:s372`, `t2940:s373`, `t2940:s374`, `t2940:s375`
+
+Original: 那么在这里啊，最重要的问题现在为我们剩下来的，我们我们现在要面对的最重要的问题啊，就是关于这两种力的关系的一个问题，是这样的一个问题。就事实上啊，对立的方向的活动性怎么能够在一个并且同一个这个主项当中啊，这个翻译成主体不太好，我说过这个东西翻译成主项啊啊，在同一个项里面，同一个主体的还还就反正是不管了，同一个subject里面它能够统一起来。那么两个力啊，它是emanating from different points啊，它从不同的点射出，它却能够啊，emanating from differentpoints，是是不同的点吗？啊不不管了，那它这里这里指的是啊不管怎么分，按照它的文本来看嘛，它以不同的方向啊canwork，从不同的点射出的两个力可以在不同的这个方向上起作用，施加施加影响了，这是怎么做到的？It ispossible，这这是很容易理解的，It's easy tounderstand，但是你没有办法理解到就是说这两个力是从同一点上出发的，却能够啊在不同的方向上起作用。It is less easy to see these of two forces e m a n a t i n g，e m a n a t i n g这个词e m a n a t e是e m a n a t i n g，e m a n a t i n g啊e m a n a t i n g，e m a n a t e f r o m o n e s i n g l e p o i n t，这个点从同一个点上射出来啊啊这个就很难l e s s e a s y啊就很难理解，就是难以理解，没有那么容易，相比之下就不那么容易去看到去理解啊t h e s e o f t w o f o r c e s，看到它是怎么运作的啊，从一个点上同一个点上冒出两个力，同时以不同的方向起作用。那么如果C A C B啊是啊一些线，在这些线上面或者在这些方向上那个设定性的力起作用，那么这种啊否定性的力呢将会以一个对立的意义啊起作用，也就是说啊在这个A C B C的方向上起作用，就这个就很简单A B啊这个是C啊出去设定性的力起作用，回来否定性的力起作用，那么emanatingemanating这个词emanate是emanatingemanating啊emanatingemanate from one single point这个点从同一个点上射出来啊啊这个就很难less easy啊就很难理解就是难以理解没有那么容易相比之下就不那么容易去看到去理解啊these of twoforces看到它是怎么运作的啊从一个点上同一个点上冒出两个力同时以不同的方向起作用那么如果C A C B啊是啊一些线在这些线上面或者在这些方向上那个设定性的力起作用那么这种啊否定性的力呢将会以一个对立的意义啊起作用也就是说啊在这个A C B C的方向上起作用就这个就很简单A B啊这个是C啊出去设定性的力起作用回来否定性的力起作用那么
+
+Edited: 那么我们在，但是这是后面要讨论问题。那么 the most important question that now remains for us in regard to the relationship of two forces is。那么在这里，最重要的问题现在为我们剩下来的，我们现在要面对的最重要的问题，就是关于这两种力的关系的一个问题，是这样的一个问题。就事实上，对立的方向的活动性怎么能够在一个并且同一个这个主项当中——这个翻译成主体不太好，我说过这个东西翻译成主项——在同一个项里面，同一个主体的还还就反正是不管了，同一个 subject 里面它能够统一起来。那么两个力，它是 emanating from different points，它从不同的点射出，它却能够，emanating from different points，是是不同的点吗？啊不不管了，那它这里这里指的是，不管怎么分，按照它的文本来看嘛，它以不同的方向 can work，从不同的点射出的两个力可以在不同的这个方向上起作用，施加施加影响了，这是怎么做到的？It is possible，这是很容易理解的，It's easy to understand，但是你没有办法理解到就是说这两个力是从同一点上出发的，却能够在不同的方向上起作用。It is less easy to see these of two forces emanating，emanating 这个词 emanate 是 emanating, emanating, emanating，emanate from one single point，这个点从同一个点上射出来，这个就很难 less easy，就很难理解，就是难以理解，没有那么容易，相比之下就不那么容易去看到、去理解 these of two forces，看到它是怎么运作的，从一个点上、同一个点上冒出两个力，同时以不同的方向起作用。那么如果 C A, C B 是一些线，在这些线上面或者在这些方向上那个设定性的力起作用，那么这种否定性的力将会以一个对立的意义起作用，也就是说在这个 A C, B C 的方向上起作用。就这个就很简单，A、B，这个是 C，出去设定性的力起作用，回来否定性的力起作用。那么 emanating，emanating 这个词 emanate 是 emanating, emanating，啊 emanating, emanate from one single point，这个点从同一个点上射出来。
+
+## Paragraph 23: 2885404–2966044 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2885)
+
+Segments: `t2940:s376`, `t2940:s377`, `t2940:s378`, `t2940:s379`, `t2940:s380`, `t2940:s381`, `t2940:s382`, `t2940:s383`, `t2940:s384`, `t2940:s385`, `t2940:s386`
+
+Original: 假设现在呢，设定性的力呢，它是被在A上面啊，是被限定的，在A上面得到了限定啊。设定性的力，the positiveforce在A这个点上达到了一个极致啊。比如说这这里它变成深了，或者在B点上变成光了，limited了，变成它的就是它的那个限定了，存在样态的一个限定了。呃，那么如果这个否定性的力啊，to operate at point A had first to travel traverse all the intermediate points between A C and A啊。所以这么一个回来的一个力啊，它要在这个A上面起作用，它要先穿过，它要先穿过啊，穿过C黑，它要穿过C黑C和A之间的所有的环节啊，所有的环节才能起作用。It would be absolutely indistinguishable from the expansive force,for it would be acting in exactly the same direction as later\.它就不会，它就不能够，它就是绝对不能够从从这个扩和扩张性的力啊区分出来啊，因为它将会变成就是以同样的方向aslater和和这个C到A CA的这个方向那个力一样的那种方式起作用啊。
+
+Edited: 假设现在呢，设定性的力是被在 A 上面，是被限定的，在 A 上面得到了限定。设定性的力，the positive force 在 A 这个点上达到了一个极致。比如说这里它变成深了，或者在 B 点上变成光了，limited 了，变成它的就是它的那个限定了，存在样态的一个限定了。那么如果这个否定性的力，to operate at point A had first to travel traverse all the intermediate points between A C and A。所以这么一个回来的一个力，它要在这个 A 上面起作用，它要先穿过，它要先穿过 C 黑，它要穿过 C 黑 C 和 A 之间的所有的环节，所有的环节才能起作用。It would be absolutely indistinguishable from the expansive force, for it would be acting in exactly the same direction as later。它就不会，它就不能够，它就是绝对不能够从从这个扩和扩张性的力区分出来，因为它将会变成就是以同样的方向 as later 和和这个 C 到 A C A 的这个方向那个力一样的那种方式起作用。
+
+## Paragraph 24: 2966524–3119879 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=2966)
+
+Segments: `t2940:s387`, `t2940:s388`, `t2940:s389`, `t2940:s390`, `t2940:s391`, `t2940:s392`, `t2940:s393`, `t2940:s394`, `t2940:s395`, `t2940:s396`, `t2940:s397`, `t2940:s398`, `t2940:s399`, `t2940:s400`, `t2940:s401`, `t2940:s402`, `t2940:s403`, `t2940:s404`, `t2940:s405`, `t2940:s406`, `t2940:s407`, `t2940:s408`, `t2940:s409`, `t2940:s410`, `t2940:s411`, `t2940:s412`, `t2940:s413`, `t2940:s414`
+
+Original: 你们，you understand？你们理解了什么意思吗？就是说，中心是这个C啊，它出去是这个AA这里你们说它的一个存在样态，比如说深深这么一个样态啊，这么一个物理样态吧啊，或是它的一个设定啊，它是limited就是深。好了，sound S O U ND，它是扩张性的力，就相当于把自身变成深，然后在这个在这个深的这个维度上受限定。这个时候这个self就是就是limitedas呃sound啊，或者说as thesoundness，不管了，limited as the sound。这个时候说AC回来，A和C是一个否定性的力回来。那我们知道AC这个东西是什么？它是看到一切环节嘛？你们这边是看到一切环节，相当于这个回来的否定性的这个力呢，它就是一个理智之观了，无限之观，把每一个样态都确证，这个确证就是回到自身。那么它要在这里面起作用，让它从A到C，那它就要看到CC可以把它看成是一个就是一个就是虚无的自身啊，虚无的一个自身，一个他妈的没有规定性的虚无的自身，纯粹的纯粹的思嘛。它回到这个C，那你要看到A，就不先看到，就是说你要看到A看到这个深，你是要穿穿越，你就是说先要穿越AC之间所有的环节的。你要穿越C A之间的所有环节，你才能看到A呀。也就是说，你要看到这个这么一个回来的这个力，它为什么能回来？因为所谓的回来力就是理智直观呀，就是观呐。回来的力，回来的那个力就是观看、观看、确证、确证的自、确证自我同一性啊，就通过看来，就相当于这个妈妈带小孩出去玩，总要看一看，哎，我小孩还在，这个就是回来的力。或者就相当于你这个你这个老流氓在你妈的在干什么事儿，龌龊的事儿。什么叫回来？哎，看一下，看到自己在做这个龌龊的事儿，反身自视，没什么神秘可言的。那你他要观看从这个A出发看，那你是不是先要看到A呀？那你看到A，它有是有一个A的这个一个A做一个生存的一个模态吧，存实存的一个模态，就是这个生的这么一个m o d e。M o d e就是啊啊t y p e o f o f b e i n g啊，我操，就是存在的一种模态了。那要看到A，它就等于说，它本来这个看是你妈的一个虚无的看，那要看到A，等于说它就是要经过所有的环节才能看的，它不能凭空看到A呀。这个理智直观不能凭空，那么这个意义上就是说，那你先要让这个这个理智直观回来个力抵达到A，那是不是先要先要经过这个C A这个过程？你看到这个A，那说在这个意义上讲，你这个就跟他无法区分了。你要是个A C回来的东西，你就先是个C A，那就没有办法区分了，因为它实际上就是a c t i n g e x a c t l y t h e s a m e d i r e c t i o n a s l a t e r。你要看清楚这个A是个什么A，也是要从C到抵达A。所谓的理智观要看清楚，其实要相当于说一个人做梦了，这个时候用梦境最好最好，或者说你被拐卖到，你被他妈的弄了迷药，或者说昏昏沉沉的，或喝醉酒了，忽然上了谁的床了，一觉醒来发现自己赤身裸体，裤裆里面还有一滩湿的，这个时候你想问，到底发生了什么？那你回忆的这个过程，你要按图索骥，对不对？或者抽丝剥茧。哦，我昨天先是叫了个车，到达了什么地方，什么什么什么，那这个方向不就和你昨天干的那个事儿，那个方向是一个方向吗？你看上去在回反身自视，但还是从C到A啊，还是从你家门，你这个C就理解成是你还是个清白状态，在家里面的没有玷污的一个状态。那么C到A是你这个行动状态，对不对？那你现在反身自视要回忆这整个过程，又是个C到A的过程，还不是个A到C的过程。A到C的过程是要回来啊，那么这个这个时候这两种方向就没办法区分了。这个例子很肮脏龌龊，但是为了让一些愚蠢的人能够理解。
+
+Edited: 你们，you understand？你们理解了什么意思吗？就是说，中心是这个 C，它出去是这个 A，A 这里你们说它的一个存在样态，比如说深这么一个样态，这么一个物理样态吧，或是它的一个设定，它是 limited 就是深。好了，sound, S O U N D，它是扩张性的力，就相当于把自身变成深，然后在这个深的这个维度上受限定。这个时候这个 self 就是 limited as 呃 sound，或者说 as the soundness，不管了，limited as the sound。这个时候说 A C 回来，A 和 C 是一个否定性的力回来。那我们知道 A C 这个东西是什么？它是看到一切环节嘛？你们这边是看到一切环节，相当于这个回来的否定性的这个力呢，它就是一个理智直观了，无限之观，把每一个样态都确证，这个确证就是回到自身。那么它要在这里面起作用，让它从 A 到 C，那它就要看到 C，C 可以把它看成是一个就是一个就是虚无的自身，虚无的一个自身，一个他妈的没有规定性的虚无的自身，纯粹的纯粹的思嘛。它回到这个 C，那你要看到 A，就不先看到，就是说你要看到 A 看到这个深，你是要穿越，你就是说先要穿越 A C 之间所有的环节的。你要穿越 C A 之间的所有环节，你才能看到 A 呀。也就是说，你要看到这个这么一个回来的这个力，它为什么能回来？因为所谓的回来力就是理智直观呀，就是观呐。回来的力，回来的那个力就是观看、观看、确证、确证的自、确证自我同一性，就通过看来。就相当于这个妈妈带小孩出去玩，总要看一看，哎，我小孩还在，这个就是回来的力。或者就相当于你这个你这个老流氓在你妈的在干什么事儿，龌龊的事儿。什么叫回来？哎，看一下，看到自己在做这个龌龊的事儿，反身自视，没什么神秘可言的。那你他要观看从这个 A 出发看，那你是不是先要看到 A 呀？那你看到 A，它有是有一个 A 的这个一个 A 做一个生存的一个模态吧，存实存的一个模态，就是这个生的这么一个 mode。Mode 就是 type of being，我操，就是存在的一种模态了。那要看到 A，它就等于说，它本来这个看是你妈的一个虚无的看，那要看到 A，等于说它就是要经过所有的环节才能看的，它不能凭空看到 A 呀。这个理智直观不能凭空。那么这个意义上就是说，那你先要让这个这个理智直观回来个力抵达到 A，那是不是先要先要经过这个 C A 这个过程？你看到这个 A，那说在这个意义上讲，你这个就跟他无法区分了。你要是个 A C 回来的东西，你就先是个 C A，那就没有办法区分了，因为它实际上就是 acting exactly the same direction as later。你要看清楚这个 A 是个什么 A，也是要从 C 到抵达 A。所谓的理智观要看清楚，其实要相当于说一个人做梦了，这个时候用梦境最好最好，或者说你被拐卖到，你被他妈的弄了迷药，或者说昏昏沉沉的，或喝醉酒了，忽然上了谁的床了，一觉醒来发现自己赤身裸体，裤裆里面还有一滩湿的，这个时候你想问，到底发生了什么？那你回忆的这个过程，你要按图索骥，对不对？或者抽丝剥茧。哦，我昨天先是叫了个车，到达了什么地方，什么什么什么，那这个方向不就和你昨天干的那个事儿，那个方向是一个方向吗？你看上去在回反身自视，但还是从 C 到 A 啊，还是从你家门，你这个 C 就理解成是你还是个清白状态，在家里面的没有玷污的一个状态。那么 C 到 A 是你这个行动状态，对不对？那你现在反身自视要回忆这整个过程，又是个 C 到 A 的过程，还不是个 A 到 C 的过程。A 到 C 的过程是要回来啊，那么这个这个时候这两种方向就没办法区分了。这个例子很肮脏龌龊，但是为了让一些愚蠢的人能够理解。
+
+## Paragraph 25: 3119879–3292260 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=3119)
+
+Segments: `t2940:s415`, `t2940:s416`, `t2940:s417`, `t2940:s418`, `t2940:s419`, `t2940:s420`, `t2940:s421`, `t2940:s422`, `t2940:s423`, `t2940:s424`, `t2940:s425`, `t2940:s426`, `t2940:s427`, `t2940:s428`, `t2940:s429`, `t2940:s430`, `t2940:s431`
+
+Original: modeMode就是啊啊type of of being啊我操就是存在的一种模态了那要看到A它就等于说它本来这个看是你妈的一个虚无的看那要看到A等于说它就是要经过所有的环节才能看的它不能凭空看到A呀这个理智直观不能凭空那么这个意义上就是说那你先要让这个这个理智直观回来个力抵达到A那是不是先要先要经过这个C A这个过程你看到这个A那说在这个意义上讲你这个就跟他无法区分了你要是个A C回来的东西你就先是个C A那就没有办法区分了因为它实际上就是acting exactly the same direction as later你要看清楚这个A是个什么A也是要从C到抵达A所谓的理智观要看清楚其实要相当于说一个人做梦了这个时候用梦境最好最好或者说你被拐卖到你被他妈的弄了迷药或者说昏昏沉沉的或喝醉酒了忽然上了谁的床了一觉醒来发现自己赤身裸体裤裆里面还有一滩湿的这个时候你想问到底发生了什么那你回忆的这个过程你要按图索骥对不对或者抽丝剥茧哦我昨天先是叫了个车到达了什么地方什么什么什么那这个方向不就和你昨天干的那个事儿那个方向是一个方向吗你看上去在回反身自视但还是从C到A啊还是从你家门你这个C就理解成是你还是个清白状态在家里面的没有玷污的一个状态那么C到A是你这个行动状态对不对那你现在反身自视要回忆这整个过程又是个C到A的过程还不是个A到C的过程A到C的过程是要回来啊那么这个这个时候这两种方向就没办法区分了这个例子很肮脏龌龊但是为了让一些愚蠢的人能够理解用一些肮脏龌龊的例子又怎么样？他们太蠢了，以至于以至于啊，或者说这些人不仅仅蠢了，而且是我说的就是你们的，我觉得你们就是说可能在这些东西里面投射了太多的玩意，没有把它看成，没有看到所有发生这些事件背后的那个鲜艳的架构啊。我之所以举这样例子，是希望你们在深陷这样的就是烈度比较强的生存的困境的时候，也能够去采采用一些这基本的理智直观啊，或者现现观念论里面这些基本的这种啊看的这种模式，还有一一线生机啊，我说。Now since it works counter to the positive force in the opposite
+
+Edited: Mode 就是 type of being，我操，就是存在的一种模态了。那要看到 A，它就等于说，它本来这个看是你妈的一个虚无的看，那要看到 A，等于说它就是要经过所有的环节才能看的，它不能凭空看到 A 呀。这个理智直观不能凭空。那么这个意义上就是说，那你先要让这个这个理智直观回来个力抵达到 A，那是不是先要先要经过这个 C A 这个过程？你看到这个 A，那说在这个意义上讲，你这个就跟他无法区分了。你要是个 A C 回来的东西，你就先是个 C A，那就没有办法区分了，因为它实际上就是 acting exactly the same direction as later。你要看清楚这个 A 是个什么 A，也是要从 C 到抵达 A。所谓的理智观要看清楚，其实要相当于说一个人做梦了，这个时候用梦境最好最好，或者说你被拐卖到，你被他妈的弄了迷药，或者说昏昏沉沉的，或喝醉酒了，忽然上了谁的床了，一觉醒来发现自己赤身裸体，裤裆里面还有一滩湿的，这个时候你想问，到底发生了什么？那你回忆的这个过程，你要按图索骥，对不对？或者抽丝剥茧。哦，我昨天先是叫了个车，到达了什么地方，什么什么什么，那这个方向不就和你昨天干的那个事儿，那个方向是一个方向吗？你看上去在回反身自视，但还是从 C 到 A 啊，还是从你家门，你这个 C 就理解成是你还是个清白状态，在家里面的没有玷污的一个状态。那么 C 到 A 是你这个行动状态，对不对？那你现在反身自视要回忆这整个过程，又是个 C 到 A 的过程，还不是个 A 到 C 的过程。A 到 C 的过程是要回来啊，那么这个这个时候这两种方向就没办法区分了。这个例子很肮脏龌龊，但是为了让一些愚蠢的人能够理解。用一些肮脏龌龊的例子又怎么样？他们太蠢了，以至于以至于啊，或者说这些人不仅仅蠢了，而且是我说的就是你们的，我觉得你们就是说可能在这些东西里面投射了太多的玩意，没有把它看成，没有看到所有发生这些事件背后的那个先验的架构啊。我之所以举这样例子，是希望你们在深陷这样的就是烈度比较强的生存的困境的时候，也能够去采用一些这基本的理智直观啊，或者现象观念论里面这些基本的这种看的这种模式，还有一线生机啊，我说。
+
+- 原文作‘鲜艳的架构’，疑为‘先验的架构’; 先验的架构; t2940:s429
+
+## Paragraph 26: 3292260–3515282 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=3292)
+
+Segments: `t2940:s432`, `t2940:s433`, `t2940:s434`, `t2940:s435`, `t2940:s436`, `t2940:s437`, `t2940:s438`, `t2940:s439`, `t2940:s440`, `t2940:s441`, `t2940:s442`, `t2940:s443`, `t2940:s444`, `t2940:s445`, `t2940:s446`, `t2940:s447`, `t2940:s448`, `t2940:s449`, `t2940:s450`, `t2940:s451`, `t2940:s452`, `t2940:s453`, `t2940:s454`, `t2940:s455`, `t2940:s456`, `t2940:s457`, `t2940:s458`, `t2940:s459`, `t2940:s460`, `t2940:s461`, `t2940:s462`, `t2940:s463`
+
+Original: direction，那么由于这种回来的力呢，它应该是反反过来的，对立于这个啊啊，就以反方向运行的这个设定性的力的。Thereverse will in fact hold of it，that is，it will act immediately and without traversing。所以呢，这么一个这个反面啊，将就是这个回归啊，将能够保持住它。In fact，then hold of it，will holdof，他妈的hold of什么屌意思？持有它啊，就把握住它，应该是这个返回的这个力啊，它应该是能把握住这个positiveforce，那个把握住它，也就是说it will actimmediately，它会直接起作用，然后不需要它and without traversing the individual points between C andA，它不需要经过C和A的那个环节。相当于说，如果你是个洁身自好的人，你发现你自己赤身裸体在一个酒店大房里面，昨天喝醉酒，反正头昏脑胀的，如果你有这么一种回来的力呢，你立刻你会立即啊，就是要回到那个清白的状态啊，你该报警报警，该拉黑删好友拉黑删好友，该保留证据保留证据，你不需要再去回想那个痛苦了一夜了，你越回想那个痛苦的夜，你越觉得自己是他妈自愿的，怎么差不多这个意思？我用这个例子，好了吧，够够够简明了吧？这他妈你都理解不了，那goodbye了啊。所以这种回来的力量它是直接起作用的，直接在C点上，啊直接在A点上直接起作用，它是upon point A and set limit to the line A啊。啊，它是直接起作用啊，它是对于你那个出去之后糟糕状态C到了A之后直接起作用，那个回溯性的力是直接做这里起作用的啊，直接在这里起作用的。然后是对于这条直线，是对于这个A C的这条射线加一个约束lineA，可以就是相当于做一个切线，滚，你跟老子回去，差不多这个意思啊，停住。因为你如果不让他停住呢，那就不是酒店大房醒来的下一步就是前卖身器做情妇了，或者做那个情夫了，或者做再下一步就是做他妈的什么乱七八糟的，不管了啊，you understand？再下一步做公共情妇或者公共情妇了，再下一步就是做什么是性病传播嫌疑人了，妈的，把子的，就变成这种东西了，啊，you understand？就是停，给我停住，你要回去，那么这个回去的力量是直接施加在A点上的，直接施加在一点上，直接把它这个局面本身，就相当于说你这一瞬间就是你的人生过了这么过了这么挫，什么宿宿醉被人捡尸，酒店大房里面醒醒来，啊，宿醉被人捡尸，然后这个时候相当于昨天的你已经死去了，今天醒来的那个你是另外一个玩家接手了，我操，你这个号怎么练的这么挫，加点都加错了，这个任务你都领了那个垃圾任务了，啊，你这个状态都都都全都玩错了，另外一个天降的另外一个意识接控了你的这个账号，所以他直接从A点出发就行了，他不需要去回忆什么CA那种东西，你前面那些点加错了就不管了，我将来有机会给你洗点洗掉吧，这样这个模型就懂了吧？我这种否定性的力量直接在A上面起啊起作用了。So while the expansive force acts only in continuous fashion,the attractive or retreating force by construct will operate immediately or at a distance。
+
+Edited: Now since it works counter to the positive force in the opposite direction，那么由于这种回来的力呢，它应该是反过来的，对立于这个，就以反方向运行的这个设定性的力的。The reverse will in fact hold of it, that is, it will act immediately and without traversing。所以呢，这么一个这个反面，将就是这个回归，将能够保持住它。In fact, then hold of it, will hold of，他妈的 hold of 什么屌意思？持有它，就把握住它，应该是这个返回的这个力，它应该是能把握住这个 positive force，那个把握住它，也就是说 it will act immediately，它会直接起作用，然后不需要它 and without traversing the individual points between C and A，它不需要经过 C 和 A 的那个环节。相当于说，如果你是个洁身自好的人，你发现你自己赤身裸体在一个酒店大房里面，昨天喝醉酒，反正头昏脑胀的，如果你有这么一种回来的力呢，你立刻你会立即，就是要回到那个清白的状态，你该报警报警，该拉黑删好友拉黑删好友，该保留证据保留证据，你不需要再去回想那个痛苦了一夜了，你越回想那个痛苦的夜，你越觉得自己是他妈自愿的，怎么差不多这个意思？我用这个例子，好了吧，够够够简明了吧？这他妈你都理解不了，那 goodbye 了啊。所以这种回来的力量它是直接起作用的，直接在 C 点上，直接在 A 点上直接起作用，它是 upon point A and set limit to the line A。啊，它是直接起作用，它是对于你那个出去之后糟糕状态 C 到了 A 之后直接起作用，那个回溯性的力是直接做这里起作用的，直接在这里起作用的。然后是对于这条直线，是对于这个 A C 的这条射线加一个约束 line A，可以就是相当于做一个切线，滚，你跟老子回去，差不多这个意思，停住。因为你如果不让他停住呢，那就不是酒店大房醒来的下一步就是前卖身器做情妇了，或者做那个情夫了，或者做再下一步就是做他妈的什么乱七八糟的，不管了，you understand？再下一步做公共情妇或者公共情妇了，再下一步就是做什么是性病传播嫌疑人了，妈的，把子的，就变成这种东西了，啊，you understand？就是停，给我停住，你要回去。那么这个回去的力量是直接施加在 A 点上的，直接施加在一点上，直接把它这个局面本身，就相当于说你这一瞬间就是你的人生过了这么过了这么挫，什么宿宿醉被人捡尸，酒店大房里面醒醒来，啊，宿醉被人捡尸，然后这个时候相当于昨天的你已经死去了，今天醒来的那个你是另外一个玩家接手了，我操，你这个号怎么练的这么挫，加点都加错了，这个任务你都领了那个垃圾任务了，啊，你这个状态都都都全都玩错了，另外一个天降的另外一个意识接控了你的这个账号，所以他直接从 A 点出发就行了，他不需要去回忆什么 C A 那种东西，你前面那些点加错了就不管了，我将来有机会给你洗点洗掉吧，这样这个模型就懂了吧？我这种否定性的力量直接在 A 上面起起作用了。So while the expansive force acts only in continuous fashion, the attractive or retreating force by construct will operate immediately or at a distance。
+
+## Paragraph 27: 3515362–3630715 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=3515)
+
+Segments: `t2940:s464`, `t2940:s465`, `t2940:s466`, `t2940:s467`, `t2940:s468`, `t2940:s469`, `t2940:s470`, `t2940:s471`, `t2940:s472`, `t2940:s473`, `t2940:s474`, `t2940:s475`, `t2940:s476`, `t2940:s477`
+
+Original: 所以呢，这种扩张性的力量它只会以一种连续的方式起作用，而那种收缩性的或者说那种回归性的那种力呢，将会反过来它将会直接起作用，或者说在一个距离上起作用啊，啊，它直接在这个A这个距离上，在这个点上施加这个力起作用，回去，回家，或者说把你裤裆洗干净啊，whatever啊，把你脑子弄干净啊，微信拉黑或者怎么样，把你那个什么某某那种乌烟瘴气酒吧的什么入场券撕了啊，和那狐朋狗友删了啊，还有某些这个违禁品的购买的那个渠道，把它举报了啊，自己去公安机关自首了啊，类似的，you know？洗心革面了，就立刻当下啊，不要他妈中介，想我怎么一路走来，我靠，你这样去回忆一下，看似午夜梦回在自我忏悔，你妈的吧，只会越陷越深啊，我靠，越看越觉得这是我自己的道路，那你越陷越深了，还有有一种断裂，他这里谢林道出个真理啊，否定性的这个力量施加的时候一定会有断裂啊，并且是这种断裂，反而是这种断裂使得它是直接的，断裂的并不意味着间接，断裂反而使得是直接的，断裂对于连续性的打断，对于中介性的打断，反而使它是直接的起作用的，断裂并不是跳跃。断裂也是一种降临，它不是跳跃，是降临。哪有什么东西跳上去放那狗屁？是那东西降下来，啊，是白嫖的一个啊，否定性降临的，不要抵抗这个降临，不要以一种虚假的跳跃来抵抗这种降临。你跳再高，你妈的，你顶不住这个东西。那么，the relationship of the two forces will be determined as follows。所以这两个力的它们的相互关系将会啊，以下面的方式得到规定。
+
+Edited: 所以呢，这种扩张性的力量它只会以一种连续的方式起作用，而那种收缩性的或者说那种回归性的那种力呢，将会反过来它将会直接起作用，或者说在一个距离上起作用。啊，它直接在这个 A 这个距离上，在这个点上施加这个力起作用，回去，回家，或者说把你裤裆洗干净啊，whatever 啊，把你脑子弄干净啊，微信拉黑或者怎么样，把你那个什么某某那种乌烟瘴气酒吧的什么入场券撕了啊，和那狐朋狗友删了啊，还有某些这个违禁品的购买的那个渠道，把它举报了啊，自己去公安机关自首了啊，类似的，you know？洗心革面了，就立刻当下啊，不要他妈中介，想我怎么一路走来，我靠，你这样去回忆一下，看似午夜梦回在自我忏悔，你妈的吧，只会越陷越深啊，我靠，越看越觉得这是我自己的道路，那你越陷越深了。还有有一种断裂，他这里谢林道出个真理啊，否定性的这个力量施加的时候一定会有断裂啊，并且是这种断裂，反而是这种断裂使得它是直接的，断裂的并不意味着间接，断裂反而使得是直接的，断裂对于连续性的打断，对于中介性的打断，反而使它是直接的起作用的，断裂并不是跳跃。断裂也是一种降临，它不是跳跃，是降临。哪有什么东西跳上去放那狗屁？是那东西降下来，啊，是白嫖的一个啊，否定性降临的，不要抵抗这个降临，不要以一种虚假的跳跃来抵抗这种降临。你跳再高，你妈的，你顶不住这个东西。那么，the relationship of the two forces will be determined as follows。所以这两个力的它们的相互关系将会，以下面的方式得到规定。
+
+## Paragraph 28: 3631275–3815831 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=3631)
+
+Segments: `t2940:s478`, `t2940:s479`, `t2940:s480`, `t2940:s481`, `t2940:s482`, `t2940:s483`, `t2940:s484`, `t2940:s485`, `t2940:s486`, `t2940:s487`, `t2940:s488`, `t2940:s489`, `t2940:s490`, `t2940:s491`, `t2940:s492`, `t2940:s493`, `t2940:s494`, `t2940:s495`, `t2940:s496`, `t2940:s497`, `t2940:s498`, `t2940:s499`, `t2940:s500`, `t2940:s501`, `t2940:s502`, `t2940:s503`, `t2940:s504`, `t2940:s505`, `t2940:s506`, `t2940:s507`
+
+Original: 如规定如下啊，由于这个否定性的力呢，它是直接的施加在这么一个界限的那个点上，射线的限制那个点上。There will be nothing within that point save the expansive force。所以没有东西，它里面没有东西，只有啊，这个点上没有东西，只有扩张性的力啊，就是在这个A点上没有东西，只有扩张性的力啊。在在这个A点上和它就是我们把它画成这样，这个A点上这个C点上，啊，AC它是一个扩张性的力，由于它是直接施加在这上面的，直接施加在这个上面的，所以在这个点上的时候，这个往往C方向这个力啊，这么一个力，这个点上的时候，它遭遇到的就只有这么一个力啊，遭遇到的就遭遇战遭遇到的敌人就是CA，就是我我这个AC要干掉你这个CA，我把你顶回去。But beyond that point,attractive force working a third。那么越过了这个点，这么一个收缩性的力呢，它就会和这个扩张性的力以一种对立的方式起作用，尽管是从来自于同一个来源啊。啊，albeitfrom这个albeit这个怎么念啊？我老是这个词我不会念啊。a l b e i t，a l b e i t，a l b e i t，a l b e i t。为什么英语会容许这么难听的单词出现在这个世界上？a l b e i t，二比也特。a l b e i t。我操的，真他妈难听，a l b e i t，二比也特，太他妈难听了。a l b e i t f r o m t h e s a m e s o u r c e w i l l n e c e s s a r i l y e x t e n d t o i t s o p e r a t i o n a t i n f i n i t y嘛，就直到无限啊。就是说在这个点上啊，这个点上这个点上只有一个，只有一个那个力啊，只有那么一个力，然后超出这个点上的时候，它就会和和这个尽管它是来自于同一个来源啊啊，a l b e i t f r o m t h e s a m e s o u r c e，尽管它来自于同一个来源，都来自于这个点A，都来自于点，w i l l n e c e s s a r i l y e x t e n d i t s o p e r a t i o n，它就会必然的啊要把它的这个操作，把它的这个影响施加到无限。albeitalbeitalbeitalbeit为什么英语会容许这么难听的单词出现在这个世界上albeit二比也特albeit我操的真他妈难听albeit二比也特太他妈难听了albeit from the same source will necessarily extendto its operation at infinity嘛就直到无限啊就是说在这个点上啊这个点上这个点上只有一个只有一个那个力啊只有那么一个力然后超出这个点上的时候它就会和和这个尽管它是来自于同一个来源啊啊albeit from thesame source尽管它来自于同一个来源都来自于这个点A都来自于点will necessarily extend itsoperation它就会必然的啊要把它的这个操作把它的这个影响施加到无限那么这个时候我们就会有一个问题，那你到底你妈的，你这个CA这个力它是它的施加点是是C呢还是A呢？你这样搞起来，你谢林你不是在放屁吗？你弄的好像这个CA这个力这个力是C是施力点，A是它的方向，哎，你又说的这个A点上只有这个只有这个A只有CA这个力，然后和这个AC这个力，我谢林在这里赖皮你知道吗？就这个体系在这里是他妈挺粗陋的。
+
+Edited: 如规定如下：由于这个否定性的力呢，它是直接地施加在这么一个界限的那个点上，射线的限制那个点上。There will be nothing within that point save the expansive force。所以没有东西，它里面没有东西，只有这个点上没有东西，只有扩张性的力，就是在这个 A 点上没有东西，只有扩张性的力。在这个 A 点上和它就是我们把它画成这样，这个 A 点上，这个 C 点上，AC 它是一个扩张性的力，由于它是直接施加在这上面的，直接施加在这个上面的，所以在这个点上的时候，这个往 C 方向这个力，这么一个力，这个点上的时候，它遭遇到的就只有这么一个力，遭遇到的就遭遇战，遭遇到的敌人就是 C A，就是我我这个 A C 要干掉你这个 C A，我把你顶回去。But beyond that point, attractive force working a third。那么越过了这个点，这么一个收缩性的力呢，它就会和这个扩张性的力以一种对立的方式起作用，尽管是从来自于同一个来源，啊，albeit from。这个 albeit 这个怎么念啊？我老是这个词我不会念啊。a l b e i t，a l b e i t，a l b e i t，a l b e i t。为什么英语会容许这么难听的单词出现在这个世界上？a l b e i t，二比也特。a l b e i t。我操的，真他妈难听，a l b e i t，二比也特，太他妈难听了。a l b e i t from the same source will necessarily extend to its operation at infinity 嘛，就直到无限啊。就是说在这个点上，这个点上，这个点上只有一个，只有一个那个力啊，只有那么一个力，然后超出这个点上的时候，它就会和和这个，尽管它是来自于同一个来源，albeit from the same source，尽管它来自于同一个来源，都来自于这个点 A，都来自于点，will necessarily extend its operation，它就会必然地要把它的这个操作，把它的这个影响施加到无限。那么这个时候我们就会有一个问题，那你到底你妈的，你这个 C A 这个力它是它的施加点是是 C 呢还是 A 呢？你这样搞起来，你谢林你不是在放屁吗？你弄的好像这个 C A 这个力这个力是 C 是施力点，A 是它的方向，哎，你又说的这个 A 点上只有这个只有这个 A，只有 C A 这个力，然后和这个 A C 这个力，我谢林在这里赖皮你知道吗？就这个体系在这里是他妈挺粗陋的。
+
+## Paragraph 29: 3817111–3959351 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=3817)
+
+Segments: `t2940:s508`, `t2940:s509`, `t2940:s510`, `t2940:s511`, `t2940:s512`, `t2940:s513`, `t2940:s514`, `t2940:s515`, `t2940:s516`, `t2940:s517`, `t2940:s518`, `t2940:s519`, `t2940:s520`, `t2940:s521`, `t2940:s522`
+
+Original: 那么由于啊这个力呢回来的这个力，收缩性的这个力，它是一个直接的一个起作用的啊，直接起作用的，直接行动的一个力，所以呢这么个距离啊is n o n\-e x i s t e n t f o r i t，对于它来说是不存在，t h a t d i s t a n c e i s啊n o n\-e x i s t e n t f o r i t，i t m u s t b e t h o u g h t o f a s a c t i n g f a r a n d w i d e a n d t h u s a t呃i n f i n i t e嘛，所以对于它来说这个距离并不是一个实存的一个距离，并不是一个实际存在的一个距离，并不是说它是一个要要穿越这些东西啊抵达这个C的一个距离，也就是说实际上实际上啊这个距离它是直接起作用，它是你相当于说我们画一个平面啊画一个平面啊它是然后这个平面上啊这个A这个C这个这个A返回C的那个力不是到这里来，而是到下面去，你你可以理解这，就是就是到到到这个就是说你幡然醒悟只要一瞬间，不需要经过什么中介可言的，就这么意思啊，幡然醒悟只要一瞬间，它是直接起作用的，对于它来说这个d i s t a n c e是不存在的，也呃你甚至可以说这个d i s t a n c e就是怎么说呢啊它是直接起作用，你可以说就是这个d i s t a n c e就是一个对于它来说d i s t a n c e不存在，就是这里的这个你考虑它有两种情况啊，一种情况不存在就是说就卡在A点上了，卡在A点上这个力啊收缩力使得这两个东西卡在A点上，卡在A点上就不存在距离了嘛，它就是一直卡住嘛，一直顶着你不让你回去啊不是一直顶着你不让你再再越雷池一步这个意义上卡在这个A点上，那么这个力那就是说它没有距离可言，第二种情况就是说它回到这个C回到这个C点，这个C点立刻就在A点旁边，就是说它所谓的回到C点并不是说穿过A C当中的中介回到C点，而是直接回到个虚无。nonexistent for it对于它来说是不存在that distance is啊nonexistent for itit must be thought of as acting far and wide and thus at呃infinite嘛所以对于它来说这个距离并不是一个实存的一个距离并不是一个实际存在的一个距离并不是说它是一个要要穿越这些东西啊抵达这个C的一个距离也就是说实际上实际上啊这个距离它是直接起作用它是你相当于说我们画一个平面啊画一个平面啊它是然后这个平面上啊这个A这个C这个这个A返回C的那个力不是到这里来而是到下面去你你可以理解这就是就是到到到这个就是说你幡然醒悟只要一瞬间不需要经过什么中介可言的就这么意思啊幡然醒悟只要一瞬间它是直接起作用的对于它来说这个distance是不存在的也呃你甚至可以说这个distance就是怎么说呢啊它是直接起作用你可以说就是这个distance就是一个对于它来说distance不存在就是这里的这个你考虑它有两种情况啊一种情况不存在就是说就卡在A点上了卡在A点上这个力啊收缩力使得这两个东西卡在A点上卡在A点上就不存在距离了嘛它就是一直卡住嘛一直顶着你不让你回去啊不是一直顶着你不让你再再越雷池一步这个意义上卡在这个A点上那么这个力那就是说它没有距离可言第二种情况就是说它回到这个C回到这个C点这个C点立刻就在A点旁边就是说它所谓的回到C点并不是说穿过A C当中的中介回到C点而是直接回到个虚无
+
+Edited: 那么，由于这个回来的力、收缩性的力，是一个直接起作用的、直接行动的力，所以这个距离“is nonexistent for it”，对于它来说是不存在的；“that distance is nonexistent for it”。它“must be thought of as acting far and wide and thus at infinity”，所以对于它来说，这个距离并不是一个实存的、实际存在的距离，并不是说它是一个要穿越这些东西抵达C的距离。实际上，这个距离是直接起作用的。相当于我们画一个平面：A返回C的那个力不是到这里来，而是到下面去。你可以理解成，幡然醒悟只要一瞬间，不需要经过什么中介，它是直接起作用的。对于它来说，这个distance是不存在的。你甚至可以说，这个distance——对于它来说distance不存在。这里你要考虑两种情况：一种情况是不存在，就是卡在A点上；卡在A点上，这个收缩力使得两个东西卡在A点上，卡在A点上就不存在距离了，它就是一直卡住、一直顶着你，不让你回去，不是一直顶着你让你再越雷池一步，在这个意义上卡在A点上，那么这个力就没有距离可言。第二种情况是它回到C点，这个C点立刻就在A点旁边；它所谓的回到C点，并不是穿过A、C当中的中介回到C点，而是直接回到虚无。
+
+## Paragraph 30: 3960379–4150433 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=3960)
+
+Segments: `t2940:s523`, `t2940:s524`, `t2940:s525`, `t2940:s526`, `t2940:s527`, `t2940:s528`, `t2940:s529`, `t2940:s530`, `t2940:s531`, `t2940:s532`, `t2940:s533`, `t2940:s534`, `t2940:s535`, `t2940:s536`, `t2940:s537`, `t2940:s538`, `t2940:s539`, `t2940:s540`, `t2940:s541`, `t2940:s542`, `t2940:s543`, `t2940:s544`
+
+Original: 直接回到个无，回到个虚无，回到个纯直观状态，纯直观状态，这个东西，先验观念论者也能够，也能够理解，什么叫在这个事态上，就是我不需要经历你的先验演绎啊，或者说这么一个本体论发生学机制，我操，啊，这么一个就是那个，里面这个CC是虚无，它怎么到达这个AA，比如说是声光电啊，比如说电的这个环节，你怎么到？我不需要回去再演绎一遍，我直接就白嫖一个纯粹虚无的，它是它是一个直接回到直接回到C点，它这个C点当上面啊，它这种呃理智之观的这种反射性的啊，或者是回到自身的这种反身自视的力量，它是一瞬间，它反身自视的，它不是说要穿越那些那些环节，它不穿越那些环节，它就直接回到一个纯粹主体性，纯粹否定，就是就是一下子空了，一下子虚了，明白？就相当于我再举个例子，就还是之前那个例子，你就是一下子就对于整个这个人生持一个否定否定姿态了，就相当于是你你你妈了，你是个做小三的，哪天就是啊被你那个金主给给那个什么抛弃了，或者怎么样给利用了，人家沦为公共情妇或者公共情夫了，那怎么样？一觉醒来，后悔不已，你开始反思了，好了，反思你就拉开距离吧，拉开所谓的距离啊，但是这个距离对于你来说并不是实存的一个距离，你只是拉开了一个距离，the is n o n\-e x i s t e n t f o r i t，啊，所以这个时候你拉开这个距离，就是说你一下子对于整个人生持一个否定姿态，大致可以这样明白，但是就是一个荒凉、悲凉、凄怆的一种状态，但是又不是说你要就是把他送你的名牌包包都还回去，把他和他的狐朋狗友在你身上所感传染的那些什么H P V病毒里吧的一个个再怎么这个让他再飞回去，不是这样的，只是说你一下子就是不是说让这些环节倒流啊，不是这样的，只不过这是我怎么说的，要把脱下来衣服一件件穿回去，那也不是这样的，而是说要一下子对于这整个就是没衣服可穿的这么状态持一个否定姿态嘛，就这么着，但这种否定就是个确证啊，就是说这是被我看到的，我看到他了，把握到他了，像有个写就这么，我并不不再盲目的沉溺于其中，我对他有一个有一个观看，有个把握，哪怕这个把握是创伤的，是赤裸裸的悲惨的，妈的可耻的。nonexistent for it啊所以这个时候你拉开这个距离就是说你一下子对于整个人生持一个否定姿态大致可以这样明白但是就是一个荒凉悲凉凄怆的一种状态但是又不是说你要就是把他送你的名牌包包都还回去把他和他的狐朋狗友在你身上所感传染的那些什么HPV病毒里吧的一个个再怎么这个让他再飞回去不是这样的只是说你一下子就是不是说让这些环节倒流啊不是这样的只不过这是我怎么说的要把脱下来衣服一件件穿回去那也不是这样的而是说要一下子对于这整个就是没衣服可穿的这么状态持一个否定姿态嘛就这么着但这种否定就是个确证啊就是说这是被我看到的我看到他了把握到他了像有个写就这么我并不不再盲目的沉溺于其中我对他有一个有一个观看有个把握哪怕这个把握是创伤的是赤裸裸的悲惨的妈的可耻的啊，肮脏泥泞的，whatever，whatever，咱们你看到，至少你看到的把握，这个叫回来啊，所以它这是个直接的回来，就这个这个这个直接性的个把握。
+
+Edited: 直接回到无，回到虚无，回到纯直观状态。纯直观状态这个东西，先验观念论者也能够理解：什么叫在这个事态上，我不需要经历你的先验演绎，或者说这么一个本体论发生学机制——里面这个C是虚无，它怎么到达A？A比如说是声光电，比如说电的环节，你怎么到？我不需要回去再演绎一遍，我直接就白嫖一个纯粹虚无的。它是直接回到C点，这个C点当上面，它这种理智直观的反射性的、回到自身的反身自视的力量，是一瞬间；它反身自视，不是说要穿越那些环节，它不穿越那些环节，它就直接回到一个纯粹主体性、纯粹否定，就是一下子空了，一下子虚了，明白？就相当于我再举个例子，还是之前那个例子：你一下子就对于整个人生持一个否定姿态。就相当于你，你妈了，你是个做小三的，哪天被你那个金主给抛弃了，或者怎么样给利用了，人家沦为公共情妇或者公共情夫了，那怎么样？一觉醒来，后悔不已，你开始反思了；好了，反思你就拉开距离吧，拉开所谓的距离，但是这个距离对于你来说并不是实存的距离，你只是拉开了一个距离，“the distance is nonexistent for it”。所以这个时候你拉开这个距离，就是说你一下子对于整个人生持一个否定姿态，大致可以这样明白，但是就是一个荒凉、悲凉、凄怆的状态。但是又不是说你要把他送你的名牌包包都还回去，把他和他的狐朋狗友在你身上所传染的那些什么HPV病毒一个个再怎么让他飞回去，不是这样的；只是说你一下子，不是说让这些环节倒流，不是这样的。只不过——我怎么说呢——要把脱下来的衣服一件件穿回去，那也不是这样的，而是说要一下子对于这整个没衣服可穿的状态持一个否定姿态，就这么着。但这种否定就是个确证，就是说这是被我看到的，我看到他了，把握到他了，像有个写就这么，我不再盲目地沉溺于其中，我对他有一个观看、有一个把握，哪怕这个把握是创伤的，是赤裸裸的悲惨的、妈的可耻的、肮脏泥泞的，whatever。whatever，你看到，至少你看到的把握，这个叫回来。所以它这是个直接的回来，就是这个直接性的把握。
+
+## Paragraph 31: 4150673–4227873 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4150)
+
+Segments: `t2940:s545`, `t2940:s546`, `t2940:s547`, `t2940:s548`, `t2940:s549`, `t2940:s550`, `t2940:s551`, `t2940:s552`, `t2940:s553`, `t2940:s554`, `t2940:s555`, `t2940:s556`
+
+Original: 谢林在这里讲的其实也是语焉不详，你看就两句话，实际上这是值得讨论。It must be thought of as acting far and wide and thus at infinity。你必须把它看成是一个，它是远又远又宽的起作用的，far andwide，在遥远的地方，然后在一个啊一个比较wide的，这个wide是什么意思呢？你又没有说，对不对？啊，又没有说，起作用。And thus atinfinity，因此它是一个到到达无限的啊，你是说它是一个白嫖的一个否定性嘛，就这么简单。我这样就far andwide你就可以理解成就是它可以far，你哪怕走的再远，就是成为那种什么，就是什么邓文迪那种人，whatever，或者说成成为，反正很凄惨那种人吧，或者是成为那个什么，是阿飞的老婆，不，也也也是这个什么小李飞刀的老婆，那叫什么名字啊？那个女的，啊，或者或者说成为什么一个什么，呃，那个什么什么马龙的情夫那种人，你可以很远，但是很远可以起作用，也可以很起作用，那无论这后面跑多远都可以起作用，然后wide，无论是哪种它都可以起作用。我大致是猜这么个意思吧，不管了吧。
+
+Edited: 谢林在这里讲的其实也是语焉不详，你看就两句话，实际上这是值得讨论的：“It must be thought of as acting far and wide and thus at infinity\.” 你必须把它看成是一个远又宽地起作用的，far and wide，在遥远的地方，然后在一个比较wide的——这个wide是什么意思呢？你也没有说，对不对？也没有说，起作用。“And thus at infinity”，因此它是一个到达无限的。你是说它是一个白嫖的否定性嘛，就这么简单。我这样就far and wide，你就可以理解成：它可以far，你哪怕走得再远，成为那种什么邓文迪那种人，whatever，或者说成为反正很凄惨那种人吧，或者是成为那个什么，是阿飞的老婆，不，也是小李飞刀的老婆，那叫什么名字啊？那个女的，啊，或者或者说成为什么一个什么，呃，那个什么什么马龙的情夫那种人。你可以很远，但是很远可以起作用，也可以很起作用，那无论这后面跑多远都可以起作用，然后wide，无论是哪种它都可以起作用。我大致是猜这么个意思吧，不管了吧。
+
+## Paragraph 32: 4228273–4317153 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4228)
+
+Segments: `t2940:s557`, `t2940:s558`, `t2940:s559`, `t2940:s560`, `t2940:s561`, `t2940:s562`, `t2940:s563`, `t2940:s564`, `t2940:s565`, `t2940:s566`, `t2940:s567`
+
+Original: 所以它是一个无限的一种啊回溯性的一种力量，回来的力量，它就是看呀。The relationship of the two forces now,uh,is thus now the same as that of the objective and subjective activities in abstraction from production。所以这两种力的关系呢，因此呢，现在是等同于啊啊啊，抽离于啊in abstraction fromproduction，或者说在对于这个生产活动本身的抽象的里面的那个客体性的和主体性的啊两种活动性啊抽象了，在在我们从那个生产当中，从这个生产活动当中抽象出来，它会有一种客体性的和主体性的啊两种活动性啊这个两种活动性的关系就等同于这个啊两种力的关系，就是in abstraction fromproduction，就是就是就是就是还比较前面的环节啊，在这个生产之前的这个abstractionfrom，我也不管了，反正它就这个这两种力的关系等于之前我们讨论的主体和客体的两种活动性的那个标准模型，那个标准模型不是也是被说成是，一个往外面跑，一个往里面收嘛，啊，它相当于是它相当于所有生产生产性直观的它的里面的主客体活动性的一个标准模型了，这么意思。Just as activity pent within the boundary,
+
+Edited: 所以它是一个无限的回溯性的力量，回来的力量，它就是看呀。“The relationship of the two forces now, uh, is thus now the same as that of the objective and subjective activities in abstraction from production\.” 所以这两种力的关系呢，因此呢，现在是等同于——抽离于，in abstraction from production，或者说在对于这个生产活动本身的抽象的里面的那个客体性的和主体性的两种活动性。抽象了，在我们从那个生产当中、从这个生产活动当中抽象出来，它会有一种客体性的和主体性的两种活动性；这个两种活动性的关系就等同于这个两种力的关系，就是in abstraction from production，就是就是还比较前面的环节啊，在这个生产之前的这个abstraction from，我也不管了。反正它就这个这两种力的关系等于之前我们讨论的主体和客体的两种活动性的那个标准模型；那个标准模型不是也是被说成是一个往外面跑、一个往里面收嘛。它相当于是所有生产性直观的里面的主客体活动性的一个标准模型了，这么意思。“Just as activity pent within the boundary,”
+
+## Paragraph 33: 4317713–4502333 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4317)
+
+Segments: `t2940:s568`, `t2940:s569`, `t2940:s570`, `t2940:s571`, `t2940:s572`, `t2940:s573`, `t2940:s574`, `t2940:s575`, `t2940:s576`, `t2940:s577`, `t2940:s578`, `t2940:s579`, `t2940:s580`, `t2940:s581`, `t2940:s582`, `t2940:s583`, `t2940:s584`, `t2940:s585`, `t2940:s586`, `t2940:s587`, `t2940:s588`, `t2940:s589`, `t2940:s590`, `t2940:s591`
+
+Original: pent就是折翼了。压在上面的，就是“p a n t”。“P a n t”是一个a n o t h e r t y p e o f p e n u p。这个词儿的，这个词儿的这个词根，这个词也是个是非常文文的一个词啊。压抑啊，抑郁，思维抑郁啊。英文单词主要做形容动词形容词。P a n t这个词不是个常见的词啊。哦，它是“p a n t”的过去式啊。P a n t的过去式。P a n t，p a n t，p a n t就是圈住。P a n t当然有铅有这个钢笔的意思，笔的意思了。但是p a n t另外一个意思就是把圈住，限制住。那么这里就是被限制在，圈在，圈在啊，圈养在，圈圈养在或者圈起来，圈在它的那个界限内部的活动性啊。A n d t h a t w h i c h r e a c h e s t o i n f i n i t y,a h,b e y o n d i t，以及啊，那么一个活动性呢，它是在这个界限内部的。P a n t w i t h i n t h e b o u n d a r y。还有一个活动性，它是要抵达无限的，要超这个界限的。它们只是生产性的直观的不同的要素啊。S o a l s o i t i s w i t h t h e r e p u l s i v e a n d。然后这么一个啊，压抑性的和这么啊，这个r e p u l s i v e，r e p u l s i v e就是b o o m，b o o m，b o o m，就是往外面去冲击的。R e p u l s i v e不是压抑啊。R e p u l s i v e就是往外面冲一样，冲破这个东西。R e p u l s e排斥，可以翻译成斥力啊，斥力。斥力和引力啊，这里就翻译成斥力和引力比较好。就同样就是斥力和引力之间的关系也是一样的。就黑格尔在讨论呃逻辑学里面的环节的时候，也喜欢用这个斥力和引力的关系啊。他讨论的时候就是在那个定量啊，在那个量的时候，他也会讨论到这个斥力和引力关系。这个模型都通用，现代观念论通用这个模型。那么这个斥力就是往外面往外面扩张的力量，而这个引力呢，就是往回收缩的一个力量。O f w h i c h o n e i s p a n t，啊，这两种力呢，其中一个就被限定在那个l i m i t i n g p o i n t啊，l i m i t i n g p o i n t就是那个A那个点。A那个点上，A这个点上就是l i m i t i n g p o i n t，施加界限的。那么具体界限是声光电、时间、空间、有机物、无机物的，具体哪个l i m i t不知道啊。呃，w h i l e t h e o t h e r g o e s t o i n f i n i t y，而另外一个力呢，它是要走向无限的，走向无限的。A l t h o u g h t h e c o m m o n b o u n d a r y b e t w e e n t h e m i s a b o u n d a r y f o r t h e l a t t e r o n l y i n r e l a t i o n t o t h e f o r m e r，那么尽管呢，它们的共同边界，两者之间的共同边界啊，是这么一个边界啊。对于后者，对于前者呢，它仅仅是。pantPant是一个another type of pen up这个词儿的这个词儿的这个词根这个词也是个是非常文文的一个词啊压抑啊抑郁思维抑郁啊英文单词主要做形容动词形容词Pant这个词不是个常见的词啊哦它是pant的过去式啊Pant的过去式Pantpantpant就是圈住Pant当然有铅有这个钢笔的意思笔的意思了但是pant另外一个意思就是把圈住限制住那么这里就是被限制在圈在圈在啊圈养在圈圈养在或者圈起来圈在它的那个界限内部的活动性啊And that which reaches to infinity ah beyond it以及啊那么一个活动性呢它是在这个界限内部的Pant within the boundary还有一个活动性它是要抵达无限的要超这个界限的它们只是生产性的直观的不同的要素啊So also it is with the repulsive and然后这么一个啊压抑性的和这么啊这个repulsiverepulsive就是boomboomboom就是往外面去冲击的Repulsive不是压抑啊Repulsive就是往外面冲一样冲破这个东西Repulse排斥可以翻译成斥力啊斥力斥力和引力啊这里就翻译成斥力和引力比较好就同样就是斥力和引力之间的关系也是一样的就黑格尔在讨论呃逻辑学里面的环节的时候也喜欢用这个斥力和引力的关系啊他讨论的时候就是在那个定量啊在那个量的时候他也会讨论到这个斥力和引力关系这个模型都通用现代观念论通用这个模型那么这个斥力就是往外面往外面扩张的力量而这个引力呢就是往回收缩的一个力量Of which one is pant啊这两种力呢其中一个就被限定在那个limiting point啊limiting point就是那个A那个点A那个点上A这个点上就是limiting point施加界限的那么具体界限是声光电时间空间有机物无机物的具体哪个limit不知道啊呃while the other goes to infinity而另外一个力呢它是要走向无限的走向无限的Althoughthe common boundary between them is a boundary for the latteronly in relation to the former那么尽管呢它们的共同边界两者之间的共同边界啊是这么一个边界啊
+
+Edited: “pent”就是折翼了，压在上面的，就是“pant”。“Pant”是“another type of pen up”。这个词儿的词根，这个词也是个非常文的词，压抑、抑郁、思维抑郁，英文单词主要作形容动词、形容词。Pant这个词不是个常见的词。哦，它是pant的过去式？Pant的过去式。Pant，pant，pant就是圈住。Pant当然有铅、有钢笔的意思，笔的意思了；但是pant另外一个意思就是把圈住、限制住。那么这里就是被限制在、圈在、圈养在或者圈起来，圈在它的那个界限内部的活动性。“And that which reaches to infinity, ah, beyond it”，以及那么一个活动性呢，它是在这个界限内部的，“Pant within the boundary”；还有一个活动性，它是要抵达无限的，要超这个界限的。它们只是生产性的直观的不同的要素。“So also it is with the repulsive and”，然后这么一个压抑性的和这么个repulsive——repulsive就是boom，boom，boom，就是往外面去冲击的。Repulsive不是压抑，Repulsive就是往外面冲一样，冲破这个东西。Repulse排斥，可以翻译成斥力，斥力。斥力和引力，这里就翻译成斥力和引力比较好。同样就是斥力和引力之间的关系也是一样的。黑格尔在讨论逻辑学里面的环节的时候，也喜欢用这个斥力和引力的关系；他讨论的时候就是在那个定量、在那个量的时候，他也会讨论到这个斥力和引力关系。这个模型都通用，现代观念论通用这个模型。那么这个斥力就是往外面扩张的力量，而这个引力呢，就是往回收缩的一个力量。“Of which one is pant”，这两种力呢，其中一个就被限定在那个limiting point，limiting point就是那个A那个点，A那个点上，A这个点上就是limiting point，施加界限的。那么具体界限是声光电、时间、空间、有机物、无机物的，具体哪个limit不知道。“while the other goes to infinity”，而另外一个力呢，它是要走向无限的，走向无限的。“Although the common boundary between them is a boundary for the latter only in relation to the former”，那么尽管它们的共同边界、两者之间的共同边界是这么一个边界；对于后者，对于前者呢，它仅仅是。
+
+- 原文转录为 pant，疑为 pent/penned；pen up 疑为 pent up; pent/pent up; t2940:s569, t2940:s571
+
+## Paragraph 34: 4502333–4599067 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4502)
+
+Segments: `t2940:s592`, `t2940:s593`, `t2940:s594`, `t2940:s595`, `t2940:s596`, `t2940:s597`, `t2940:s598`, `t2940:s599`, `t2940:s600`, `t2940:s601`
+
+Original: 对于后者对于前者呢它仅仅是它是这么一个边界，就是说，它们只是一个，只是对于它们的相互关系当中，一个和另外一个的相互关系而言，才有这么一个边界，才有这么一个边界啊。啊，尽管这个它们的共同边界只是它们的相互关系的一个表达，就是说，并不存在一个什么真正意义上的这么一个边界啊，你可以理解就是说，C到A这个点，你说有这个边界可言，只不过是因为这上面它有个回来的力量，其实它会进一步到什么A撇到A一撇A撇撇，它会进一步再往面外面去，只不过它会说有这个边界，只不过在这个边界上，这有个回来力量，这个边界这里又有个回来力量，我说有个边界只是在它们这个回来力量和出去力量之间有个相互关系啊，只是关联于一种力关联于另一种力的关系当中才有这个边界可言。然后所以它会在这个声的呃样态上啊，持久一段时间啊，在这个光的样态上持久一段时间，在这个电的样态上持久一段时间。You know，就这么意思。They are divided by commonboundary啊，他们是被他们的公共边界所分割开来的，当然分割开来了，一个还继续往外面跑，一个是回去了。Which is absolutely contingent toboth，然后它是绝对的啊，这么一个边界呢，它们的公共边界是对于它们来说，对两种力而言都是绝对偶然的，就他说的是绝对偶然的啊，对两种力而言都是绝对偶然的。
+
+Edited: 它是这么一个边界，就是说，它们只是对于它们的相互关系当中，一个和另外一个的相互关系而言，才有这么一个边界，才有这么一个边界。尽管它们的共同边界只是它们的相互关系的一个表达，就是说，并不存在一个什么真正意义上的这么一个边界。你可以理解就是说，C到A这个点，你说有这个边界可言，只不过是因为这上面它有个回来的力量；其实它会进一步到什么A撇、A一撇、A撇撇，它会进一步再往外面去，只不过它会说有这个边界，只不过在这个边界上，这有个回来力量，这个边界这里又有个回来力量。我说有个边界只是在它们这个回来力量和出去力量之间有个相互关系，只是关联于一种力、关联于另一种力的关系当中才有这个边界可言。然后所以它会在这个声的样态上持久一段时间，在这个光的样态上持久一段时间，在这个电的样态上持久一段时间。You know，就这么意思。“They are divided by common boundary”，他们是被他们的公共边界所分割开来的，当然分割开来了，一个还继续往外面跑，一个是回去了。“Which is absolutely contingent to both”，然后它是绝对的，这么一个边界呢，它们的公共边界是对于它们来说，对两种力而言都是绝对偶然的，就他说的是绝对偶然的，对两种力而言都是绝对偶然的。
+
+## Paragraph 35: 4599627–4657707 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4599)
+
+Segments: `t2940:s602`, `t2940:s603`, `t2940:s604`, `t2940:s605`, `t2940:s606`, `t2940:s607`, `t2940:s608`
+
+Original: 这个C要出去啊，C要出去在A这里，你可以在A这边A撇A AA撇A撇撇，每一个都会有回来的力，每一个都会有个回来力，你选哪个点都可以说，有一种力要出去，一种力要回来啊，所以这个边界是绝对偶然的，每一个点都会有，因为这个C是是他妈是s e l f\-c o n s c i o u s n e s s，是神的自身意识，它创造整个世界宇宙出来的，所以它每所以说它会穿到无限，从最基本的那个声光电啊，或者时间空间什么力啊物质啊什么物理现象啊，穿到无限，穿到无限，最后变成就是人人都成神，人人都是佛的这个他妈的现代观念论的极极限状态，它穿越到无限，所以你任选一点上面都会说，这里有个边界啊，这个边界会有一个C A的力，也会有一个回来力，会有一个出去力，也会有一个回来这个力啊。A n d a r e m e r e l y t h e f a c t o r s f o r t h e c o n s t r u c t i o n o f t h e m a t t e r，然后这两种力呢仅仅是物质的啊它的一个构造的要素，n o t t h e c o n s t r u c t i v e p r i n c i p l e i t s e l f，它们并不是这个构造的原理本身，它并不是一个构造性的原理，c o n s t r u c t i v e p r i n c i p l ei t s e l f，它只是这两个东西啊，它们这个力两个东西在这个selfconsciousness是神的自身意识它创造整个世界宇宙出来的所以它每所以说它会穿到无限从最基本的那个声光电啊或者时间空间什么力啊物质啊什么物理现象啊穿到无限穿到无限最后变成就是人人都成神人人都是佛的这个他妈的现代观念论的极极限状态它穿越到无限所以你任选一点上面都会说这里有个边界啊这个边界会有一个C A的力也会有一个回来力会有一个出去力也会有一个回来这个力
+
+Edited: 这个C要出去，C要出去在A这里，你可以在A这边A撇、A、A撇、A撇撇，每一个都会有回来的力，每一个都会有个回来力；你选哪个点都可以说，有一种力要出去，一种力要回来。所以这个边界是绝对偶然的，每一个点都会有。因为这个C是他妈self\-consciousness，是神的自身意识，它创造整个世界宇宙出来的，所以它会穿到无限，从最基本的那个声光电，或者时间空间、什么力、物质、什么物理现象，穿到无限，穿到无限，最后变成就是人人都成神、人人都是佛的这个他妈的现代观念论的极限状态。它穿越到无限，所以你任选一点上面都会说，这里有个边界，这个边界会有一个C、A的力，也会有一个回来力，会有一个出去力，也会有一个回来这个力。“And are merely the factors for the construction of the matter”，然后这两种力呢仅仅是物质的它的一个构造的要素，“not the constructive principle itself”，它们并不是这个构造的原理本身，它并不是一个构造性的原理，constructive principle itself。
+
+## Paragraph 36: 4659787–4793637 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4659)
+
+Segments: `t2940:s609`, `t2940:s610`, `t2940:s611`, `t2940:s612`, `t2940:s613`, `t2940:s614`, `t2940:s615`, `t2940:s616`, `t2940:s617`, `t2940:s618`, `t2940:s619`, `t2940:s620`, `t2940:s621`, `t2940:s622`, `t2940:s623`, `t2940:s624`, `t2940:s625`, `t2940:s626`
+
+Original: 啊And are merely the factors for the construction of the matter然后这两种力呢仅仅是物质的啊它的一个构造的要素not the constructive principle itself它们并不是这个构造的原理本身它并不是一个构造性的原理constructive principle itself它只是这两个东西啊它们这个力两个东西在这个比如说，在这个点上形成那个均势，他就把这个物质某种物质，比如说生呐生的现象，当然也可以说这种就是那种啊比较稳固的直观形式，就像他妈物质啊外部的直观形式，稳固的外在直观形式啊，那就物质，就生啊，他就这里啊就是把一个什么啊泥土无机质啊无机物啊无机物无机物就稳固在这上面，但是这两种力只是让这个无机物可以在这个点上形成一个均势的一个两个力量形成个均势两个力量而已，它并不是这让这个均势以你哪种样态形成的，因为无机物它肯定有它的复杂的规定性，肯定比较繁复的一些它的那些啊它的存在样态有相互关系，但这个东西不是由这个这两个力啊来构造的，不是由这两个力来构造出来的，这它设计图不靠这两个力啊，但是它的那个啊燃料啊或者说它的那个持存的一些就是冷却液啊，它的这他妈燃料和冷却剂啊靠这个啊不能让它烧起来烧烧掉嘛，所以要有冷却剂，冷却剂回来那个力，还有个燃料要让它烧起来，要让它发光发热，要让它显现啊。那theconstruct他们回来那个力是显现的啊回来那个是显现的theconstructive principle can only be a thirdforce，所以那种构造性的原理呢只能是个第三个力whichsynthesizes啊synsynthesizesboth这个第三个力呢，它就把这两个力都给它综合起来了，并且corresponds to the synthetic activity of the self inintuition，并且它就是和啊直观中的自身的那个综合性的活动相对应，就是第三个活动啊就是
+
+Edited: 它只是这两个东西啊，它们这个力，两个东西在这个比如在这个点上形成那个均势，他就把这个物质、某种物质，比如说声呐、声的现象，当然也可以说这种就是那种比较稳固的直观形式，就像他妈物质啊、外部的直观形式，稳固的外在直观形式，那就物质，就声。他就这里啊，就是把一个什么啊，泥土、无机质、无机物，无机物就稳固在这上面。但是这两种力只是让这个无机物可以在这个点上形成一个均势的两个力量、形成个均势两个力量而已，它并不是这让这个均势以你哪种样态形成的，因为无机物它肯定有它的复杂的规定性，肯定比较繁复的一些它的那些存在样态、有相互关系。但这个东西不是由这两个力来构造的，不是由这两个力来构造出来的。它的设计图不靠这两个力，但是它的那个燃料，或者说它的那个持存的一些就是冷却液，它的这他妈燃料和冷却剂啊靠这个。不能让它烧起来、烧掉嘛，所以要有冷却剂，冷却剂回来那个力；还有个燃料要让它烧起来，要让它发光发热，要让它显现。那“the construct”，他们回来那个力是显现的，回来那个是显现的。“the constructive principle can only be a third force”，所以那种构造性的原理呢只能是个第三个力，“which synthesizes both”。这个第三个力呢，它就把这两个力都给它综合起来了，并且“corresponds to the synthetic activity of the self in intuition”，并且它就是和直观中的自身的那个综合性的活动相对应，就是第三个活动。
+
+## Paragraph 37: 4795557–4860757 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4795)
+
+Segments: `t2940:s627`, `t2940:s628`, `t2940:s629`, `t2940:s630`, `t2940:s631`, `t2940:s632`, `t2940:s633`, `t2940:s634`
+
+Original: 你可以看成就是说啊就它的构造性原则C出去啊得得得得得AA一A二A三A四A五啊它它这个能够跑出去，然后能够又画一个边界线，说它回来啊跟它发生关系，就是被它看到被它把握到，能让它稳固的持存，这个回来的这个是让它稳固的持存的，出去这个力是让它能够外显的外显的光是就是能够让它突破界限，能够让发生出来，你光是外显不持存，那就不是拉屎嘛，你不是不就转瞬即逝放像放烟花一样嘛，那你这个事物也没有某种的，就是稳固性啊也没有稳固性，稳固性就意味着它要不停的维持自身，不停的维持自身怎么确证，不停的被看到，我昨天看一眼是这样，今天又看一眼又是这样，哎，我确证它比较稳固的啊，稳固性通过看来来维持。
+
+Edited: 你可以看成就是说，它的构造性原则C出去，得得得得得，A、A一、A二、A三、A四、A五，它这个能够跑出去，然后能够又画一个边界线，说它回来，跟它发生关系，就是被它看到、被它把握到，能让它稳固地持存。这个回来的是让它稳固地持存的；出去这个力是让它能够外显的，外显的光就是能够让它突破界限，能够让发生出来。你光是外显不持存，那就不是拉屎嘛，你不就转瞬即逝、像放烟花一样嘛，那你这个事物也没有某种稳固性，也没有稳固性。稳固性就意味着它要不停地维持自身，不停地维持自身怎么确证？不停地被看到。我昨天看一眼是这样，今天又看一眼又是这样，哎，我确证它比较稳固的，稳固性通过看来维持。
+
+## Paragraph 38: 4861429–4888469 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4861)
+
+Segments: `t2940:s635`, `t2940:s636`, `t2940:s637`, `t2940:s638`, `t2940:s639`
+
+Original: 回反身自视啊，为什么叫自视？因为这个自视就是看到的，把这个东西本身作为自身来看到啊，反身自视，并且看到这个对于这个东西本身的设定过程。这里用的视都是上帝的神的视，但是它也是视。这里用的这个视啊，这里用的这个看都是神的看啊，理智直观。
+
+Edited: 回、反身自视，为什么叫自视？因为这个自视就是看到的，把这个东西本身作为自身来看到，反身自视，并且看到这个对于这个东西本身的设定过程。这里用的视都是上帝的神的视，但是它也是视。这里用的这个视，这里用的这个看都是神的看，理智直观。
+
+## Paragraph 39: 4888789–5036389 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=4888)
+
+Segments: `t2940:s640`, `t2940:s641`, `t2940:s642`, `t2940:s643`, `t2940:s644`, `t2940:s645`, `t2940:s646`, `t2940:s647`, `t2940:s648`, `t2940:s649`, `t2940:s650`, `t2940:s651`, `t2940:s652`, `t2940:s653`, `t2940:s654`, `t2940:s655`, `t2940:s656`, `t2940:s657`, `t2940:s658`
+
+Original: 你们说你先验哲学家可以想象理智直观，我脑子里面想一个一个一二三四五六七，我真的把它想出来了。我I can do that，but partially，restrictedly啊，restrictedly啊，我只部分的有限的，我可以这样想象，我当然可以想象我有理智直观。你难道没有在脑子里面幻想出啊某种你的？我现在就可以想象我射了一一支箭，然后是然后那个箭飞出去了。这我通过看我就把它看出来的呀，就这个东西你们看不到而已，它不具有主体间性啊，对不对？啊，但是我可以把它稳固的储存在里面。I can do that，you can imagine t h a t。I f y o u l o s e t h a t a b i l i t y o f i m a g i n e啊，o f i m a g i n a t i o n，y o u a r e d o o m e d t o b e，你就注定要成为他妈的，我知道学阀资本家或者官僚的奴奴隶啊。我再强调一遍啊，我希望你们就是说啊，就哲学这这谢林哲学是以他的绝对自由主义作为前提的啊。那么这个绝对自由主义不是一个虚诞的绝对自由主义，是有它的根基的啊，有它的根据的。根据就是直观呢，或者就是自身啊的反思性啊，先验性啊。那么说先验性就是一种t r a n s c e n d e n t a l，t r a n s c e n d a n t，超越到上面去，超越到上面去一个观察者视角啊。T r a n s c e n d e n t a l，t r a n s c e n d a n t就是t r a n s c e n d是什么上升呀？T r a n s c e n d e n t a l的话就是要其实就上升性的，但是但这个上升是上升到一个看，上升到一个看啊，而不是上升到某种我操私信啊，就不是美不是美国的那种超验主义运动里面那种什么很蛇皮搂逼的那种东西，不是那种东西，它是个非常精致的非常精致的，它是每个人都可以白嫖的，每一个人都可以白嫖。但每个受过比较精致的古典教育的啊，古经典教育、经典哲学教育的人，没办法那t h e c o n s t r u c t，然后就是说第三种力啊，o n l y b y m e a n s o f t h e t h i r d s y n t h e t i c啊，只有通过这种第三种综合性的活动性呢啊，这才会变得可理解啊，就是为什么这两种活动性它作为绝对独对立于彼此的可以啊，在一个并且同一个。thatIf you lose that ability of imagine啊of imagination you are doomed to be你就注定要成为他妈的我知道学阀资本家或者官僚的奴奴隶啊我再强调一遍啊我希望你们就是说啊就哲学这这谢林哲学是以他的绝对自由主义作为前提的啊那么这个绝对自由主义不是一个虚诞的绝对自由主义是有它的根基的啊有它的根据的根据就是直观呢或者就是自身啊的反思性啊先验性啊那么说先验性就是一种transcendentaltranscendant超越到上面去超越到上面去一个观察者视角啊Transcendental transcendant就是transcend是什么上升呀Transcendental的话就是要其实就上升性的但是但这个上升是上升到一个看上升到一个看啊而不是上升到某种我操私信啊就不是美不是美国的那种超验主义运动里面那种什么很蛇皮搂逼的那种东西不是那种东西它是个非常精致的非常精致的它是每个人都可以白嫖的每一个人都可以白嫖但每个受过比较精致的古典教育的啊古经典教育经典哲学教育的人没办法那the construct然后就是说第三种力啊only by means of the third synthetic啊只有通过这种第三种综合性的活动性呢啊这才会变得可理解啊就是为什么这两种活动性它作为绝对独对立于彼此的可以啊在一个并且同
+
+Edited: 你们说，先验哲学家可以想象理智直观：我脑子里面想一个一二三四五六七，我真的把它想出来了。我“I can do that, but partially, restrictedly”，我只部分地、有限地，我可以这样想象，我当然可以想象我有理智直观。你难道没有在脑子里面幻想出某种你的？我现在就可以想象我射了一支箭，然后那个箭飞出去了。这我通过看我就把它看出来的呀，就这个东西你们看不到而已，它不具有主体间性啊，对不对？但是我可以把它稳固地储存在里面。“I can do that, you can imagine that\. If you lose that ability of imagination, you are doomed to be”，你就注定要成为他妈的——我知道——学阀、资本家或者官僚的奴隶。我再强调一遍，我希望你们就是说，哲学，这谢林哲学是以他的绝对自由主义作为前提的。那么这个绝对自由主义不是一个虚诞的绝对自由主义，是有它的根基的，有它的根据的。根据就是直观，或者就是自身的反思性、先验性。那么说先验性就是一种transcendental、transcendant，超越到上面去，超越到上面去一个观察者视角。Transcendental、transcendant就是transcend，是什么上升呀？Transcendental的话就是要其实就上升性的，但是但这个上升是上升到一个看，上升到一个看，而不是上升到某种我操私信啊，就不是美国的那种超验主义运动里面那种什么很蛇皮搂逼的那种东西，不是那种东西。它是个非常精致的，非常精致的，它是每个人都可以白嫖的，每一个人都可以白嫖。但每个受过比较精致的古典教育的，古经典教育、经典哲学教育的人，没办法。“the construct”，然后就是说第三种力啊，“only by means of the third synthetic”，只有通过这种第三种综合性的活动性呢，这才会变得可理解，就是为什么这两种活动性它作为绝对独、对立于彼此的可以，在一个并且同一个。
+
+- 原文作‘私信’，语义不明，疑为‘神性/神秘主义’等; 神性/神秘主义; t2940:s654
+
+## Paragraph 40: 5036389–5105561 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5036)
+
+Segments: `t2940:s659`, `t2940:s660`, `t2940:s661`, `t2940:s662`, `t2940:s663`, `t2940:s664`, `t2940:s665`, `t2940:s666`
+
+Original: 一个自身相等同的等同的一个呃一个subject当中一个主体当中啊被设立啊同一个这个subject就是同一个相等的那么一个环节了这个就是主项或者说一个主词当中被设立啊the forcecorresponding to this activity is the object where in the object where thus be that whereby these two absolute of opposite forces are posited in one and same identicalsubject这么一种力对应于这么一种活动的这种力啊对在这个在这个对象中啊对应于这么活动的这种种力将因此呢就会是这样一种力通过这种力这些这两个绝对对立的力就可以在一个就是又重新废话一下了就就重新废话一下在一个同一个等同的主词当中啊被设立出来就这个力啊它对应的那个它就对应那个就会有一个力第三个力对应那个第三个活动性啊对应那个自身的直观当中的那个综合的活动性啊来把这两个对立的力给它统一起来给它调和起来
+
+Edited: 一个自身相等同的、等同的一个subject，一个主体当中，被设立；同一个这个subject就是同一个相等的那么一个环节了，这个就是主项或者说一个主词当中被设立。“the force corresponding to this activity is the object whereby these two absolutely opposite forces are posited in one and same identical subject”，这么一种力对应于这么一种活动的这种力，在这个对象中，对应于这么活动的这种力，将因此呢就会是这样一种力：通过这种力，这些两个绝对对立的力就可以在一个——又重新废话一下了——在一个同一个等同的主词当中被设立出来。就这个力啊，它对应的那个，它就对应那个，就会有一个力，第三个力对应那个第三个活动性，对应那个自身的直观当中的那个综合的活动性，来把这两个对立的力给它统一起来、给它调和起来。
+
+## Paragraph 41: 5106761–5254730 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5106)
+
+Segments: `t2940:s667`, `t2940:s668`, `t2940:s669`, `t2940:s670`, `t2940:s671`, `t2940:s672`, `t2940:s673`, `t2940:s674`, `t2940:s675`, `t2940:s676`, `t2940:s677`, `t2940:s678`, `t2940:s679`, `t2940:s680`, `t2940:s681`, `t2940:s682`, `t2940:s683`, `t2940:s684`, `t2940:s685`
+
+Original: 那么康德在他的啊自然科学的或者自然学科了翻译成自然科学的第一原理啊形而上学第一原理当中他讨论了啊收缩引力啊收缩它是一个pervasive force滋漫性的一个力啊pervasive无孔不入的蔓延的一个力啊pervasive滋漫性力but this he does only because uh he already takes attraction to begravitation他会这样做的原因呢他这样做this he does是因为他已经把这个吸引力当成是引力了所以并不是在它的纯粹意义上的也就是说康德把握的这个attraction的这个力啊是物理学上的力了就是康德那个思维它是自然哲学那个思维不够纯粹他没有把这个gravitation的里面所包含的那个什么空间性啊物理关系啊运动啊运动的可计量性啊量化关系啊他没有把这些环节给它抽象掉所以康德这不在他思他思考的这个gravitation它它不是本体论意义上的attraction不是作为一个本体论发生学机制的attraction而是作为一个物理学现象的gravitation它然后他把这两个东西做类比所以它只是在隐喻的意义上说这个时候的康德的思想只是隐喻的文学的意义上进行的运词并不是精确的啊彻底的鲜艳鲜艳的一个演绎so that he only requires two forces for the construction of matter所以呢康德呢他只需要两种，但是尽管如此，但是这一招还管用嘛？就这么意思，还管用啊。康德只需要两种力来构造物物质啊，而我们会需要三种力，我们需要三种力啊。We deduce three of them to benecessary，我们需要三种力啊。你就就是说，向外的给他什么什么因啊，向外的那个力量给他动力因，回来的力量给他什么目的因，然后第三种力可以说给他形式因啊，可以给他形式因。哎呀。
+
+Edited: 那么康德在他的《自然科学的形而上学第一原理》——或者自然学科，翻译成自然科学的第一原理、形而上学第一原理——当中，他讨论了收缩、引力。收缩是一个pervasive force，滋漫性的一个力，pervasive，无孔不入的、蔓延的一个力，pervasive滋漫性力。但“this he does only because, uh, he already takes attraction to be gravitation”。他会这样做的原因呢，他这样做“this he does”是因为他已经把这个吸引力当成是引力了。所以并不是在它的纯粹意义上的，也就是说康德把握的这个attraction的这个力啊，是物理学上的力了；就是康德那个思维，它是自然哲学那个思维，不够纯粹。他没有把这个gravitation里面所包含的那个什么空间性啊、物理关系啊、运动啊、运动的可计量性啊、量化关系啊，他没有把这些环节给它抽象掉。所以康德这不——在他思考的这个gravitation，它不是本体论意义上的attraction，不是作为一个本体论发生学机制的attraction，而是作为一个物理学现象的gravitation。它然后他把这两个东西做类比，所以它只是在隐喻的意义上说。这个时候的康德的思想只是隐喻的、文学的意义上进行的运词，并不是精确的、彻底的先验的一个演绎。“so that he only requires two forces for the construction of matter”，所以呢康德呢他只需要两种，但是尽管如此，但是这一招还管用嘛？就这么意思，还管用啊。康德只需要两种力来构造物质啊，而我们会需要三种力，我们需要三种力啊。“We deduce three of them to be necessary”，我们需要三种力啊。你就就是说，向外的给他什么什么因啊，向外的那个力量给他动力因，回来的力量给他什么目的因，然后第三种力可以说给他形式因啊，可以给他形式因。哎呀。
+
+- 原文作‘运词’，疑为‘运思’; 运思; t2940:s677
+
+## Paragraph 42: 5267850–5403909 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5267)
+
+Segments: `t2940:s686`, `t2940:s687`, `t2940:s688`, `t2940:s689`, `t2940:s690`, `t2940:s691`, `t2940:s692`, `t2940:s693`, `t2940:s694`, `t2940:s695`, `t2940:s696`, `t2940:s697`, `t2940:s698`, `t2940:s699`, `t2940:s700`, `t2940:s701`, `t2940:s702`, `t2940:s703`
+
+Original: 回来的力量是给他质量因啊，回来回来力量是给他质量因，质量因，我说错了，回来收缩的力量是给他质量因，收缩力量持存的力量给他质量因啊，然后那个那个力量是给他一个，给他一个形式因和目的因啊，那个第三个thethird，如果我们用四因说来把握的话，attraction in the puresense，那么在纯粹意义上的这个啊收缩啊吸引啊，considered啊怎么考虑它啊，thatis，把它作为一个什么，把它作为这个构造过程当中的仅仅一个要素来考虑它，它包含了一个力，这个力呢会直接的啊以一个距离施加啊啊，就是说at adistance是个超距的一个力，这个力是个超距的一个力啊，but not pervasiveforce，它并不是一个弥漫性的弥散那个力啊，since where there is n o t h i n g，t h e r e i s n o t h i n g t o p e r v a d e，因为那个时候还没有东西可言，你没有东西可以弥漫它啊，没有以太啊，没有东西可言，那个时候还什么都没有啊，那个时候还什么都没有啊，这个本体论发生学的时候，这个时候生产性直观，神通过生产性直观，你要说啊，哦那个时候连东西都没有把它直观出来的，泥巴的就说这个力是个弥漫性的力，它弥漫在哪里啊？没有物质载体来弥漫啊，对不对？那么i t f i r s t a c q u i r e s t h e p r o p e r t y o f p e r v a s i v e n e s s o n b e i n g i n c o r p o r a t e d i n t o g r a v i t a t i o n，那它什么时候需要获得这么有弥漫性的这个属性的呢？啊，只有当它已经具身化变成啊这个重力的时候，它才需要这个属性，弥漫性的这个属性。你还没有变成重力的时候，你不需要这个p e r v a s i v e n e s s啊，就是弥漫性就是无处不在啊，这空间里面每个点都可以说有啊，每每个过程每个瞬间，这个重力的这种啊本身是不等同于这么一个a t t r a c t i o n的，尽管啊a t t r a c t i o n啊。nothingthere is nothing to pervade因为那个时候还没有东西可言你没有东西可以弥漫它啊没有以太啊没有东西可言那个时候还什么都没有啊那个时候还什么都没有啊这个本体论发生学的时候这个时候生产性直观神通过生产性直观你要说啊哦那个时候连东西都没有把它直观出来的泥巴的就说这个力是个弥漫性的力它弥漫在哪里啊没有物质载体来弥漫啊对不对那么itfirst acquires the property of pervasiveness on being incorporatedinto gravitation那它什么时候需要获得这么有弥漫性的这个属性的呢啊只有当它已经具身化变成啊这个重力的时候它才需要这个属性弥漫性的这个属性你还没有变成重力的时候你不需要这个pervasiveness啊就是弥漫性就是无处不在啊这空间里面每个点都可以说有啊每每个过程每个瞬间这个重力的这种啊本身是不等同于这么一个attraction的尽管啊attraction啊尽管吸引啊，它is necessarily included therein\.尽管这个attraction本体论上的这个一个环节，本体论上这个机制啊，attraction肯定是在包含在引力啊，包含在这个重力里面的。
+
+Edited: 回来的力量是给他质量因——我说错了——回来收缩的力量是给他质量因，收缩力量、持存的力量给他质量因。然后那个力量是给他一个形式因和目的因。那个第三个，“the third”。如果我们用四因说来把握的话，“attraction in the pure sense”，那么在纯粹意义上的这个收缩、吸引，considered，怎么考虑它啊，“that is”，把它作为这个构造过程当中的仅仅一个要素来考虑它，它包含了一个力，这个力呢会直接地以一个距离施加，“at a distance”，是个超距的一个力，这个力是个超距的一个力，“but not pervasive force”，它并不是一个弥漫性的、弥散那个力，“since where there is nothing, there is nothing to pervade”，因为那个时候还没有东西可言，你没有东西可以弥漫它啊，没有以太，没有东西可言，那个时候还什么都没有。这个本体论发生学的时候，这个时候生产性直观，神通过生产性直观，你要说，哦那个时候连东西都没有把它直观出来的，泥巴的，就说这个力是个弥漫性的力，它弥漫在哪里啊？没有物质载体来弥漫啊，对不对？那么“it first acquires the property of pervasiveness on being incorporated into gravitation”，那它什么时候需要获得这么有弥漫性的这个属性的呢？只有当它已经具身化变成这个重力的时候，它才需要这个属性，弥漫性的这个属性。你还没有变成重力的时候，你不需要这个pervasiveness，就是弥漫性就是无处不在，这空间里面每个点都可以说有，每个过程、每个瞬间。这个重力的这种啊本身是不等同于这么一个attraction的，尽管啊attraction啊，尽管吸引啊，“it is necessarily included therein”。尽管这个attraction，本体论上的这个一个环节，本体论上这个机制啊，attraction肯定是在包含在引力啊，包含在这个重力里面的。
+
+- ‘泥巴的’语义不明，保留原文; 泥巴的; t2940:s696
+
+## Paragraph 43: 5404229–5448309 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5404)
+
+Segments: `t2940:s704`, `t2940:s705`, `t2940:s706`, `t2940:s707`, `t2940:s708`, `t2940:s709`, `t2940:s710`, `t2940:s711`, `t2940:s712`, `t2940:s713`, `t2940:s714`
+
+Original: 但是重力是很后面的东西了。Nor is gravitation a simple force\.然后这个重力呢，也不是一个简单的一个力啊。正如这个attraction啊，也不是一个简单力啊。不，说错了啊。As它它不是一个简单的力。正如这个attraction这种吸引啊，本体论上这种吸引是一个简单力啊。就是说，你要知道，谢林或者黑格尔在讨论力的时候，我们讨论的力不是物理力啊，我们讨论的力是本体论机制啊，是本体的发生学机制。We are talking aboutontological机制。我操，mechanism啊啊，ontological forces。我们是说的讨论是本体论上的力，不是物理学意义上的力。
+
+Edited: 但是重力是很后面的东西了。“Nor is gravitation a simple force\.” 然后这个重力呢，也不是一个简单的一个力啊。正如这个attraction啊，也不是一个简单力啊。不，说错了啊。“As”——它它不是一个简单的力。正如这个attraction，这种吸引啊，本体论上这种吸引是一个简单力啊。就是说，你要知道，谢林或者黑格尔在讨论力的时候，我们讨论的力不是物理力啊，我们讨论的力是本体论机制啊，是本体的发生学机制。“We are talking about” ontological机制，我操，mechanism，ontological forces。我们是说的讨论是本体论上的力，不是物理学意义上的力。
+
+## Paragraph 44: 5448869–5615313 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5448)
+
+Segments: `t2940:s715`, `t2940:s716`, `t2940:s717`, `t2940:s718`, `t2940:s719`, `t2940:s720`, `t2940:s721`, `t2940:s722`, `t2940:s723`, `t2940:s724`, `t2940:s725`, `t2940:s726`, `t2940:s727`, `t2940:s728`, `t2940:s729`, `t2940:s730`, `t2940:s731`, `t2940:s732`, `t2940:s733`, `t2940:s734`, `t2940:s735`, `t2940:s736`, `t2940:s737`, `t2940:s738`, `t2940:s739`, `t2940:s740`, `t2940:s741`
+
+Original: 你物理学家不是自诩是头脑聪明的人吗？为什么你的抽象能力这么差呢？不把你那些物理学臭脚布先他妈撕掉，把你脚洗洗干净再进来呢？了解吧？啊，学习哲学不要你他妈的，就是初中初中那个憋脚，你那只会牛顿力学的那种物理老师教给你的三板斧，你现在还当个传家宝塞在这个怀里面，舍不得把那个臭馍馍给扔掉吗？对不对？啊，我我这这话是说给一些理工科的一些笨人听的啊。你们脑子里面那种初中初初中老师、高中老师、大学一些烂教材一些里面的那些物理学里面的所预设的一些自然哲学的偏见，你还把它当成千秋万代的千秋万代山珍海味他妈一张什么券放在口袋里面舍不得扔呢？都烂了，都臭了啊！也不该把它扔掉了。在这里我们讨论这个力啊，是形而上学的发生学的那个力，是形而上学发生学力啊，是本体论的意义上的力啊，并不是，并不是这个物理意义上的力啊。物理这个维度是很后面的，物理这个就physics这个东西就是很后面的，无机就是就是纯机械性的，然后在后面再慢慢慢就物理的各个层面才演演化出来。它是有有次第的，你并没有你想象那么原初，你是很后面的。你是这个小姑娘已经是出出就是后面干了好多乱七八糟事儿了，已经不是很纯洁的了啊。先验哲学它自诩是从一个很纯洁的，还是一个受精卵那个层面开始的。你不要就是直接把这个说这个受精卵就已经是在这个精子和卵子在发生性行为了，那不是的。你不要拿你一个已经很在后面的黄花。呃，黄花大闺女，或者说一个是什么黄脸婆的这么一个心态来描述这个受精卵的这个一个一个一个那个原始维度，不要这样，不应该这样，太蠢了，太笨了，你怎么这么笨呢，对吧？我这么，你现在就大致要感觉到为什么就是说，我经常喜欢说你们怎么这么笨呢？为什么就拿着这些臭胡脚布不放啊，对不对？啊，了解吗？我们没有在说很后面的东西，我们而且我们作为哲学家是很清楚的，知道你后面的东西也是从这前面东西慢慢慢慢演化出来的，和你们这些学自然科学的或者或者说只是会应用自然科学的一些笨人不一样的地方，我们会反思所有这些概念的发生学机制。
+
+Edited: 你物理学家不是自诩是头脑聪明的人吗？为什么你的抽象能力这么差呢？不把你那些物理学臭脚布先他妈撕掉，把你脚洗洗干净再进来呢？了解吧？学习哲学不要你他妈的，就是初中那个蹩脚、你那只会牛顿力学的那种物理老师教给你的三板斧，你现在还当个传家宝塞在这个怀里面，舍不得把那个臭馍馍给扔掉吗？对不对？我这话是说给一些理工科的一些笨人听的。你们脑子里面那种初中、初中老师、高中老师、大学一些烂教材里面的那些物理学里面所预设的一些自然哲学的偏见，你还把它当成千秋万代的，千秋万代山珍海味，他妈一张什么券放在口袋里面舍不得扔呢？都烂了，都臭了啊！也不该把它扔掉了。在这里我们讨论这个力啊，是形而上学的发生学的那个力，是形而上学发生学力啊，是本体论的意义上的力啊，并不是，并不是这个物理意义上的力啊。物理这个维度是很后面的，物理这个就physics，这个东西就是很后面的，无机就是纯机械性的，然后在后面再慢慢慢就物理的各个层面才演化出来。它是有次第的，你并没有你想象那么原初，你是很后面的。你是这个小姑娘已经是出出——就是后面干了好多乱七八糟事儿了，已经不是很纯洁的了啊。先验哲学它自诩是从一个很纯洁的，还是一个受精卵那个层面开始的。你不要就是直接把这个说这个受精卵就已经是在这个精子和卵子在发生性行为了，那不是的。你不要拿你一个已经很在后面的黄花——呃，黄花大闺女，或者说一个是什么黄脸婆的这么一个心态来描述这个受精卵的这个一个一个那个原始维度，不要这样，不应该这样，太蠢了，太笨了，你怎么这么笨呢，对吧？我这么，你现在就大致要感觉到为什么就是说，我经常喜欢说你们怎么这么笨呢？为什么就拿着这些臭胡脚布不放啊，对不对？啊，了解吗？我们没有在说很后面的东西，我们而且我们作为哲学家是很清楚的，知道你后面的东西也是从这前面东西慢慢慢慢演化出来的，和你们这些学自然科学的或者或者说只是会应用自然科学的一些笨人不一样的地方，我们会反思所有这些概念的发生学机制。
+
+## Paragraph 45: 5617633–5669473 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5617)
+
+Segments: `t2940:s742`, `t2940:s743`, `t2940:s744`, `t2940:s745`, `t2940:s746`, `t2940:s747`, `t2940:s748`, `t2940:s749`
+
+Original: 哦，这个这个吸引啊，它是非常纯粹的啊，是一个简单的一个力，but as will emerge from our啊deduction a compositeforce，但是呢这个力呢，我们就会这个attraction啊，它是一个简单力，但是它会哦，不不不不，这个说还是说的是gravitation，这gravitation呢就就正如我们将会呃演绎的啊，从我们我们的演绎当中会涌现出来，它会涌现出来，它是作为一个compositeforce啊一个组合的这个力啊，gravitation是composite是个复杂的力，而这个是一个复合力的，而这个attraction它是个简单力，它是个简单力啊，这个gravitation它会在后面的环节里面出现，但出来的时候它是个啊它是个比较矬的一个东西啊，比较矬的一个东西啊，这个
+
+Edited: 哦，这个吸引啊，它是非常纯粹的，是一个简单的一个力，“but as will emerge from our deduction a composite force”，但是呢这个力呢，我们就会——这个attraction啊，它是一个简单力，但是它会——哦，不不不不，这个说还是说的是gravitation，这gravitation呢就正如我们将会演绎的啊，从我们的演绎当中会涌现出来，它会涌现出来，它是作为一个composite force，一个组合的这个力。gravitation是composite，是个复杂的力，而这个是一个复合力的，而这个attraction它是个简单力，它是个简单力。这个gravitation它会在后面的环节里面出现，但出来的时候它是个比较矬的一个东西，比较矬的一个东西。
+
+## Paragraph 46: 5671553–5786005 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5671)
+
+Segments: `t2940:s750`, `t2940:s751`, `t2940:s752`, `t2940:s753`, `t2940:s754`, `t2940:s755`, `t2940:s756`, `t2940:s757`, `t2940:s758`, `t2940:s759`, `t2940:s760`, `t2940:s761`, `t2940:s762`, `t2940:s763`, `t2940:s764`
+
+Original: 这个attraction呢，我们现象学喜欢说的现象学或者说海德格尔存在论里面喜欢把它也把它叫重力，由由于海德格尔不承认回回到自身啊，海德格尔不承认回到自身，海德格尔会承认是回到大地，它这个重力也是往下的，往下掉的，understand呢？海德格尔也会说重力啊gravitation，但是它这个引力它是往下面掉的，是到无里面的无消散掉的啊，而不是回到自身，就自身没有那么屌，自身会会自身的无意识占上风，就差差不多这个意思，所以gravitation这个东西在海德格尔的一些文本里面也是被坐实的，或者有些现象学家，你会看到法国哲学里面有些文本讨论的时候也会讨论到gravitation，那个时候你要注意到，我们讨论这个gravitation是一个类似于这里的attraction的，但是它不是回到自身的，回到呃纯直观里面去的，它是回到什么？回到无里面去的，它是一个生存论里面的辩证法结构，生存论所用到的一个本体论结构，那个gravitation也不等同于物理学里面讨论的gravitation。You understand?那个东西也可以让事物变得有重量啊。那个东西也是一个收缩性的，半收缩性的力量。那东西也半收缩性的力量，它也可以让这个事物可以持存在时间当中持存。啊，它也可以让事物在时间中持存。就不是在时间中持存了，甚至在时间中这种表述也不对了。就是它可以相对独立于，就是要回来，但是回来就是让它稳固，让它稳固，不让它跑远啊，让它就是具有一定的可认识性。Whatever this kind of thing啊，就不管了。
+
+Edited: 这个attraction呢，我们现象学喜欢说的现象学，或者说海德格尔存在论里面喜欢把它也叫重力。由于海德格尔不承认回到自身，海德格尔不承认回到自身，海德格尔会承认是回到大地，它这个重力也是往下的，往下掉的，understand呢？海德格尔也会说重力啊gravitation，但是它这个引力它是往下面掉的，是到无里面的、无消散掉的，而不是回到自身，就自身没有那么屌，自身会会——自身的无意识占上风，就差差不多这个意思。所以gravitation这个东西在海德格尔的一些文本里面也是被坐实的，或者有些现象学家，你会看到法国哲学里面有些文本讨论的时候也会讨论到gravitation，那个时候你要注意到，我们讨论这个gravitation是一个类似于这里的attraction的，但是它不是回到自身的，回到纯直观里面去的，它是回到什么？回到无里面去的。它是一个生存论里面的辩证法结构，生存论所用到的一个本体论结构，那个gravitation也不等同于物理学里面讨论的gravitation。You understand? 那个东西也可以让事物变得有重量啊。那个东西也是一个收缩性的、半收缩性的力量。那东西也半收缩性的力量，它也可以让这个事物可以持存在时间当中持存，它也可以让事物在时间中持存。就不是在时间中持存了，甚至在时间中这种表述也不对了。就是它可以相对独立于，就是要回来，但是回来就是让它稳固，让它稳固，不让它跑远，让它就是具有一定的可认识性。Whatever this kind of thing啊，就不管了。
+
+## Paragraph 47: 5786005–5912085 ms
+
+[Watch](https://www.bilibili.com/video/BV18L4y1E7qs/?p=23&t=5786)
+
+Segments: `t2940:s765`, `t2940:s766`, `t2940:s767`, `t2940:s768`, `t2940:s769`, `t2940:s770`, `t2940:s771`, `t2940:s772`, `t2940:s773`, `t2940:s774`, `t2940:s775`, `t2940:s776`, `t2940:s777`, `t2940:s778`, `t2940:s779`, `t2940:s780`, `t2940:s781`, `t2940:s782`, `t2940:s783`
+
+Original: 反正我们还回到现在的文本啊，我们继续看这个。啊，然后这个基本就讲完了。Withgravitation,那么the truly productive and creative force,the construction of matter is firstcompleted\.那么随着这个重力的gravitation，那个真正的、真正的这种生产性的，它是一个真正的生产性的、创造性的一个力呢。Theconstruction of matter is first completed。好了吧，其实还这个，它，我相信它对于重力的讨论是肯定有谢林先验观念论体系的这个影子在里面的。但是它的那个重力是有另外一层含义了。我们继续看吧。那个这个物质的随着就是就抵达了gravitation，然后这个gravitation它是一个真正的生产性的、创造性的个力啊，它使得这个物质的这个构造了变变第一次被完成了。And it now merely remains for us to draw the main conclusion from thisconstruction\.然后这现在呢，仅仅就是要让我们剩下的一个问题啊，对于我们来说剩下的一个问题就是说要把这呃要从这一构造当中啊，要得出一些主要的一些结论出来啊，得出一些结论，主要结论出来，把它们摆出来，把它们摆出。那么谢林在这里也没有详细的演绎这个gravitation是怎么来的，gravitation怎么来的。然后他也没有把那个第三种力就命名为gravitation啊，他没有把第三种力就命名为这个重力，没有啊。这个模型我如果是我的话，我就会把它加加加维度啊，加维度，就是就是往下坠嘛，就不要不是回到这个C了，不是回到这个C，我把它往下坠，往下坠，每个每个往下坠的力量是让它暂时的维持在那边那个力量，我会把这个力命名为gravitation。啊，好的啊，这个就先讲到这边。
+
+Edited: 反正我们还回到现在的文本啊，我们继续看这个。然后这个基本就讲完了。“With gravitation,” 那么“the truly productive and creative force, the construction of matter is first completed\.” 那么随着这个重力、gravitation，那个真正的、真正的这种生产性的，它是一个真正的生产性的、创造性的一个力呢。“The construction of matter is first completed\.” 好了吧，其实还这个，它，我相信它对于重力的讨论是肯定有谢林先验观念论体系的这个影子在里面的。但是它的那个重力是有另外一层含义了。我们继续看吧。那个这个物质的随着就是就抵达了gravitation，然后这个gravitation它是一个真正的生产性的、创造性的个力啊，它使得这个物质的这个构造了变变第一次被完成了。“And it now merely remains for us to draw the main conclusion from this construction\.” 然后这现在呢，仅仅就是要让我们剩下的一个问题啊，对于我们来说剩下的一个问题就是说要把这呃要从这一构造当中啊，要得出一些主要的一些结论出来啊，得出一些结论，主要结论出来，把它们摆出来，把它们摆出。那么谢林在这里也没有详细地演绎这个gravitation是怎么来的，gravitation怎么来的。然后他也没有把那个第三种力就命名为gravitation啊，他没有把第三种力就命名为这个重力，没有啊。这个模型我如果是我的话，我就会把它加加加维度啊，加维度，就是就是往下坠嘛，就不要不是回到这个C了，不是回到这个C，我把它往下坠，往下坠，每个每个往下坠的力量是让它暂时地维持在那边那个力量，我会把这个力命名为gravitation。啊，好的啊，这个就先讲到这边。

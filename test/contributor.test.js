@@ -35,6 +35,26 @@ test("unknown or incomplete reference falls back to the entire safe document", (
   }
 });
 
+test("native v2 reference preserves anchors and maps exact edited prose to its watch link", () => {
+  const source = "# Verification reference\n\n## Paragraph 1: 480–19200 ms\n\n[Watch](https://example.com/video?t=0)\n\nSegments: `t1:s0`\n\nOriginal: 原句。\n\nEdited: 整理句子。\n\n## Appendix\n\nEdited: 附录原文。\n";
+  const review = prepareReviewDocument(source);
+  assert.equal(review.structured, true);
+  assert.deepEqual(review.blocks, prepareDocument(source).blocks);
+  assert.equal(review.passages.length, 1);
+  assert.equal(review.passages[0].sourceUrl, "https://example.com/video?t=0");
+  assert.equal(matchReviewPassages(review.passages, "整理句子。").length, 1);
+  assert.equal(matchReviewPassages(review.passages, "附录原文。").length, 0);
+  assert.match(review.body, /review-original/);
+  assert.match(review.body, /review-edited/);
+  for (const { id } of review.blocks) assert.ok(review.body.includes(`id="${id}"`));
+  for (const changed of [source.replace("Original: ", "Unknown: "), source.replace("[Watch]", "[Unknown]"), source.replace("Segments: ", "Unknown: ")]) {
+    const fallback = prepareReviewDocument(changed);
+    assert.equal(fallback.structured, false);
+    assert.equal(fallback.body, prepareDocument(changed).body);
+    assert.deepEqual(fallback.passages, []);
+  }
+});
+
 test("mapping normalizes only whitespace and refuses duplicate or changed wording", () => {
   const single = prepareReviewDocument(group(1, "第一句。\n第二句。")).passages;
   assert.equal(matchReviewPassages(single, " 第一\u53e5。 第二句。 ").length, 1);

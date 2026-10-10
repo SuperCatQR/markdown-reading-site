@@ -1,0 +1,159 @@
+# 【经典译读】康德《纯粹理性批判》（连载中）
+
+我们来看《先验演绎》。纯粹知性概念就是范畴，范畴是《先验演绎》的第二节，讨论经验发生的可能性之先天基础。经验会发生，人会有经验、会有经验体验，那么它的先天基础是什么？也就是论它的先天基础。
+
+在第一版里，这一节后面跟着的是《先验演绎》as it appeared。它在第一版里被分成第二、第三节；在第二版里，这两节并成了一节，也就是只有第二节，并分成十五到十七、二十七等小节。
+
+然后他说 it is entirely contradictory，这完全是自相矛盾，而且是不可能的。也就是说，一个概念既然能够先天地完整生成、产生出来，并且与一个对象关联起来，同时它自己又不属于可能经验的概念范围，也不是由可能经验构成的。康德在这里就说：
+
+如果一个概念既不是可能经验的概念，又不是由可能经验的要素构成的，那么……possible 这种词就是废话，因为 experience 写出来不就表明它是可能发生的吗？康德在这里就是在说废话、凑稿费。如果一个概念既不属于它自己，也不属于……
+
+可能经验的概念，即那些使经验得以可能的概念，concept of possible experience。它不属于关于可能经验、或可能经验形式的东西。如果它既不是可能经验的形式，又不是可能经验的材料组成部分，那么这才是完全自相矛盾、不可能的。也就是说，它既不是形式，也不是内容，却竟然能够先天地产生出来并与对象连接起来，那它就是 entirely contradictory and impossible。
+
+这一点很恶心。我不知道是翻译的问题还是什么，康德就是在写：it is entirely contradictory and impossible。如果你读到 although 之前，就会觉得：一个概念竟然可以先天地产生并与对象连接，这是完全自相矛盾和不可能的。你读到这里会觉得康德是不是疯了？他整本书到底在写什么？后面才跟着一个 although it neither belongs……for it would then have no content。
+
+如果真是这样的话，它就没有内容，没有直观性的内容可以与它对应，因为它既不是经验的形式、先天直观形式，也不是经验的组成部分或材料，所以它就没有内容了。经验形式本身可以当作概念的内容，也就是空间时间性的直观形式，即纯直观。如果它两不沾，就没有内容。尽管一般直观通过这种直观，对象可以被给予，并建构起整个可能经验的对象。
+
+Though 一个先天概念 that was not related to the latter would be only the logical form for concept。如果先天概念不与直观发生关系，那它就只是概念的逻辑形式，比如同一律、等于之类。But not the concept itself through which something would be thought。它自己就不是那种借以思考某物的概念，而只是一个框框、一个纯工具性的东西。它本身不能让你思考出内容，你去思考它时也能思考，但它是空的，没有东西。
+
+something is not the concept itself，something 就是没有东西可以被思考，否定词放在前面很烦。If there are pure……如果存在纯粹先天概念，那么它们肯定不包含经验性内容，因为它们必须是可能经验的严格先天条件。先天概念虽然不包含经验性内容，但必须成为经验可能的条件，as that alone on which the objective reality of experience can depend，也就是说，经验的客观现实性可以依附于这些纯粹先天概念。
+
+因此，如果一个人想要知道知性的纯粹概念如何可能、如何可能发生，也就是如何可能变得现实、变得存在、变得有效，那么他就必须研究经验发生的可能性所依赖的先天条件是什么，什么东西奠基了它。即便我们把表象中所有的经验性内容都抽掉，什么东西仍然使经验变得可能？也就是说，把经验里的经验性东西都抽掉之后，还剩下什么，使经验得以可能？
+
+如果一个概念表达了经验的形式和客观条件——经验要出现、要被体验到，必须有概念来表现它的形式和客观前提——并且以普遍且充分的方式表达出来，那么这种概念就被叫作纯粹知性概念。所谓普遍，就是任何经验都得有；所谓先天，就是总是得有。这就像电脑插 U 盘都得跑驱动程序，都得从资源管理器里打开，资源管理器就可以看作先天概念，你绕不过它。
+
+病毒跑过来，360 会弹窗，但 360 是可以卸载的，Windows Defender 也总会冒出来。所谓充分，就是只要有这个概念，它就足够让经验显现出来。这些概念就叫作纯粹概念，也就是你的软件、你的操作系统的软件，而且是操作系统驱动级的软件。你要体验外部东西，就一定得有这个东西，它是驱动级、接口性的。
+
+一旦我们拥有了知性的纯粹概念，我们就可以想出一些对象，它们可能是不可能的、不会发生、不会现实存在的对象，我们可以把它们幻想出来。All that are perhaps possible in themselves，这些东西也许自身是可能的，但它们不能在经验中被体验。
+
+比如说上帝，对康德来说，他自己确实是必然存在，但我没办法在经验中 cannot be given；或者说物自体，物自体自身确实可能存在，但我没办法体验它。因为在概念与它们的连接中，in the connection of their concepts, something may be omitted that yet necessarily belongs to the condition of possible experience。有某种东西可能被省略，但它必然属于可能经验的条件。比如灵魂这个概念：作为物质体的主体、作为物质体意识背后的本体性载体，它不能被主体通过本质直观看到。原文这里说叫 spirit。否则纯粹知性概念就会被 extended further than experience can grasp，被拓展到经验所不能把握的地方，比如上帝这个概念。用概念去把握它时，某个必然属于可能经验条件的东西就可能被删掉、忽视、省略、忘掉；可它对产生经验非常重要。Necessarily belongs to the condition of a possible experience：它要成为一种可能被体验的经验，就是一个必要条件，是必然属于经验可能发生的前提。
+
+对于所有先天认识，即便其中包含武断的、荒谬的幻想成分，那些要素也不能事实上从经验中获得，cannot be born from experience，否则它们就不是先天认识。你幻想的东西不能是可以从经验中获取的，but it must always contain the pure，它必须总是包含一个可能经验、或关于可能经验对象的先天条件，必须符合这些条件。否则的话，not only was nothing at all to be sought through，我们通过这些概念根本不能思考到任何东西；而且 without data they would not even be，它甚至在思想中都不会升起，因为它没有材料、没有素材。你不能从对象中借素材，不能从经验性对象中借素材，因为它是先天被认识的东西。现在这些概念先天包含着在每一个经验中都有的纯粹思考，the pure thinking。We find in the categories, and it is already a sufficient deduction of them and justification of their objective validity if we can prove that by means of them alone an object can be sought。也就是说，怎么证明这些范畴、这些概念具有客观有效性？怎么给它一个充分的先验演绎？
+
+充分的先验演绎就是要说明它有合法性、lawful，是客观有效的，是得到 justification 的。只要我们能够证明，只有通过这些概念，一个对象才能被思考，就表明范畴是不可或缺且充分的。纯粹概念就是我们的软件，是操作系统的基本软件；操作系统要读取文件、生成文件、打开文件，要把事物对象化，要把对象经验建构起来，这些概念不可或缺。By means of them alone，单单依靠它们，就能思考一个对象，只要证明这一点就行了。But since in such a source there is more at work than the single faculty of thinking。
+
+但是，在思想中起作用的并不只是思维这一种官能，还有其他能力。知性作为认识官能与对象连接起来，它也需要一种 elucidation，需要阐明这种关系，把它显现出来。我们需要说清楚知性与对象相联系的那种关系的可能性：为什么会有这种可能性，里面包含了什么，它到底是一种什么样的可能性。
+
+我们必须首先评价一些来自主体性来源的先验建构。先别管任务管理器怎么和 U 盘连接，你先试试看能不能打开自己的内存，先新建一个拟制的临时文件夹，看能不能把它打开。这个临时文件夹不是装满 QQ 糖和针织棒的那种，而是临时的。
+
+然后 that comprehends the a priori，它构成了经验可能性的先天基础。康德这里的操作完全就是空对空，他不看具体对象，或者认为没有必要依赖一个意志性他者。他认为这个驱动、这台电脑自己有电供电，所有操作都是内源性的，是思想、知性官能自己在搞，自己在铺设整个框架，不是意志性他者驱动的。所以我们可以撇开意志性他者，先去想这种来自主体性的东西：那些官能、结构、原理、内在概念是如何先验构建的，先验构建一个框架。这就像模拟器，自己先空对空模拟一下。就像当年在学校学 C 语言或 VB 时，老师让你先弄几个假按钮、假文件夹打开看看。虽然它没有素材，也不和素材发生关系，但为了表明这几个功能是必须要有的，你先自己假设一个目录、设一个空文件夹。这就是先验建构，它完全是一个主观的来源。
+
+康德说，如果每一个单独的表征都与其他表征完全不相干、foreign，仿佛它是孤立的，并与其他东西相分离，那就永远不会有任何东西像认识这样产生。因为这种表征都是裂开的、碎的，像一帧一帧的 PPT，而认识是一个由相互比较、相互对比并连接起来的表征构成的整体，which is a whole of compared and connected representations。因此我就会把直观中的东西做成一个 synopsis，也就是一个概要、梗概，拿出来比较。
+
+它应该不是框架的意思，这个玩意儿就是 synopsis。后面说，因为直观中包含一个多重性，不能叫杂多。这里的 synopsis，你就把它理解成一个摘要。如果因此，康德是把我们体验到的东西中比较粗的、摘要性的东西，也就是信息量比较低的东西，看作只是一个杂多，manifold，它里面没有真正意义上的信息关联。
+
+那些意义是靠知性把它连接起来的，所以你光是有这个感觉还不行。它赋予感觉、归因于感觉，也就是把一个直观的 synopsis——你看到的东西，大致这边是黑的、那边是红的、这边怎么样、那边怎么样——叫作 synopsis。康德直接提出一个 synopsis，却不告诉我们什么叫 synopsis，因为前面讨论先验感性论，到现在他已经不讨论了。这个 synopsis 其实是一个很有问题的概念。我不知道德文原文是什么，但我觉得康德在德文里肯定也就是用一两个词把这个事情遮掩过去了。他把感官提供梗概，可梗概又是个什么东西？
+
+他后来又说，因为直观中包含了一个 manifold，一个多重体，也就是各种类别。康德在这里实际上是把感官的分类学白嫖了：视觉是视觉，听觉是听觉，由这些不同感官的分类学构成一个 manifold，构成一个多重体。对于 sense 来说，它可能只有时空性的整理，所以这个整理是比较粗浅的整理。在这个意义上，他用了 synopsis。
+
+这里的意思其实很有问题，直接就是含糊不清。因为 sense 本身不能被看成一种先天先验官能，sense is not。但前面他又说了 transcendental sense。我觉得 transcendental sense 是康德哲学里一个很神经病的东西。空间性的直观，两个东西并列在一起，或者时间性直观相继升起，这些东西就叫 sense，那就是感官了。感官就算有内视觉、内听觉，也不可能光看个虚影，不可能光看个 synopsis 这种莫名其妙的东西。
+
+它也有细节，但细节很混乱，不可能是纯的。这里就像犯傻一样：你 ascribe to it，你把 ascribe 放在这里，我就觉得这很蠢，因为后面根本不构成“在直观中拥有一个多重性”，那就把它叫 synopsis 吗？我觉得这就是有问题。
+
+然后说，总会有一个综合与它对应，这种综合靠先验想象力 imagination。但这里又有一个问题：imagination 和 transcendental intuition 之间的关系又是什么？空间时间性的直观和你的 imagination，你要获得空间性、时间性的直观，特别是要获得共时性和相邻关系，这已经是有连接的，里面已经有先验想象力在起作用了。那你的先验想象力就可以和先验感性分开吗？这简直是神经病。
+
+他这里指的 synthesis 应该不仅仅是纯粹形状上、纯粹时序上的一种把握，而是把不同的属性，也就是 manifold，多重信息——颜色信息、听觉信息——综合到一块、连接起来，通过想象力。但这样做还没有使画面同时变成一个画面，变成 image；还是没有获得 unity，因为我们要把握哪些东西划在一块是一个东西、哪些划在另一块是另一个东西，这还要靠概念。但我要说，这样搞的话，你的先验想象力到底是个什么东西？康德就以为我们可以脱离他这里脑子有问题的地方。比如我看见达克林软膏，看到它的时空框架，好像这个时空框架不借助颜色、不借助光影，就能白嫖一个时空框架一样。你了解吗？他在这里就是语言不详、令人生厌。
+
+他不像黑格尔。黑格尔一开始就说，感性确定性里面没有边界，只有两极化，只有主体化和客体化两极。主体是常在的，时间性上只有一个持存性，其他什么都没有。康德这个结构就很有问题，因为这个结构完全已经是第三个阶段，即康德自己所说的第三个阶段，已经是概念性的，通通都是概念性的，根本没有什么自动之类的东西。你看《精神现象学》第一章最前面就会说，在感性确定性里面根本没有发生什么范畴表，或者一个载体和不同属性之间的连接，这种东西很后面才会发生。光是感性确定性是极贫乏的，就是一个 thisness。康德这个真是的。
+
+所以他把一个梗概，也就是前面比较粗浅的连接，归于感官，synopsis。因为在直观中它包含一个 manifold，manifold 被看成粗浅的连接；然后又包含一个 synthesis，就是稍微高级一点的连接，与它对应。And receptivity can make cognition possible only if combined with spontaneity。感受性要获得认识，只有当它与 spontaneity 结合到一块才行。如果这里不是 spontaneity，而是同时性 simultaneity，我觉得康德还有救；这里搞个自发性，我觉得他已经没得救了。感受性必须和自发性结合，也就是必须和思、知性官能结合。你的感觉、感性官能要获得认识，必须同时和自发性结合到一起，也就是必须要有 synthesis。一开始的那个综合过程，先验综合过程，左边是感觉的 synopsis，大大咧咧把大致的东西拼到一块，成一个梗概；右边是你的想象力，但它已经算是某种 spontaneity。我觉得康德只要他的体系搞出三分法，中间那一刀就切不干净，因为一开始三分法所建立的二分法本身就有问题。中间那个三分项，比如先验想象力，就是兜底的，屁用没有。
+
+他这个脑子里面就跟小朋友搭积木一样。This is now the ground of a free？那么就会有一种三重综合，which is necessarily found in all cognition，在所有的认识里面都会有一个三重综合。
+
+第一个是统觉，对于表征的一个统觉，as modification of the mind in intuition，相当于心灵在直观中进行的那些修正。第二个是 reproduction of them in imagination，在想象力中把它们再生产、再现出来。第三个是 and of their recognition in the concept，在概念里面把它们再认识、识别出来。
+
+Now this directs us towards three subjective sources of cognition，这引向认识的三个主观来源，which make possible even the understanding and through the latter all experiences as empirical product of understanding。这三个来源使知性变得可能，并且通过知性，使所有经验作为知性的经验性产物也变得可能。
+
+有三个过程，三重过程：apprehension，统觉，把那些表征统到一块、统摄到一起，它是直观中心灵的一个 modification，一个限制、一个修正。然后是 reproduction，在想象力中把它们再现、再组装出来、再生产出来、复制出来。最后是在概念中把它们再认识，recognition，把它们识别出来。
+
+这三个阶段、三个环节，apprehend……我们后面要讲这三个环节是什么。继续看。他先有一个导论性的提醒，一个预备性的提醒：在讲下面三个环节之前，先提醒你要注意哪些点。
+
+对于范畴的先验演绎，它和很多困难连接在一起。它使得一些深入的研究成为必要。对纯粹概念的先验演绎，也就是对电脑驱动——电脑要把东西显现出来、装配出来所必须有的那些范畴——讲来讲去，你知道什么是范畴了吧？
+
+就是说，我脑子里有一堆文件，操作系统里有一堆文件，其中一些是驱动或系统文件，是整个系统跑、整个电脑读取、生成图像、生成文件必备的。那我怎么来看它是不是必备的？到 C 盘系统盘，到 Windows 文件夹里面开始删。删掉一个，看能不能跑；能跑，再删；能跑，再删；不能跑了，那它就是先验范畴。就这么个技术含量，没什么意思。那个时代的人没玩过电脑。当然，这种思想也算启发了一些造电脑的人，但这个功劳不要扣到他头上去，因为他也不知道他的思想可以造电脑。
+
+它使得一些深入的研究变得必要：去研究我们一般认识的可能性的那些原始基础，需要 deep penetration，深入的洞察。这个工作太长了，long\-winded，太蜿蜒崎岖了。为了避免完整理论的长篇累牍，也为了在这个必然的研究探索过程中不损失任何东西，康德发现有一个更好的办法，it is more advisable：to prepare than to instruct the reader。更明智的做法是把读者准备好，而不是直接指导读者。他要用下面四个步骤把你准备好，告诉你方法，让你自己去干，而不是一步步 instruct you。然后只在紧接的第三节里，系统地呈现知性要素的阐明。
+
+干完这四个步骤，把你准备好了之后，他就在第三节把知性这些要素的阐明系统性地呈现给你，就在紧跟着这一节的第三节。A115，因为后面这个第三节在这个版本里不是直接跟着这些段落的，B 版里第二节被分成两节，所以它要把 B 版里分出来的两节跟在这个后面，跳过 B 版里更改的那部分，才会连到 A 版第三节。
+
+For this reason the reader should until then not be deterred by the obscurity that is initially unavoidable in the past that is thus far entirely unexplored, but which will as I hope be completely illuminated in that section。就是说，下面这四段你有可能看不懂，别怪我；但我希望在第三节时，会完整地、系统性地把整个都给你暴露出来、给你照亮。出于这个原因，不要被这些晦暗性阻碍。它一开始是没办法避免的，因为这条道路在人类历史上完全没有人探索过。我是第一个把我们的先验框架、范畴结构、意识的认识机能……我是第一个进入 Windows 文件夹的。
+
+康德相当于什么人？相当于我们小时候上电脑课时的那个小孩。C 盘里都是隐藏文件夹，你记得吗？康德是第一个发现“查看”里有隐藏项目的人。以前是右键文件夹属性，在文件夹选项里显示隐藏文件，Windows XP 或 Win7 时代还有，现在没有了。显示隐藏文件后就能看到一些东西。但 Windows 向来不是隐藏文件。我要说的是，康德可能是第一个发现可以显示隐藏文件的人。或者更准确地说，那些东西没办法显示隐藏文件，那康德怎么办？他就新建了一堆文件，比如新建一个覆盖性的文件。你可以想象，人类意识的操作系统里这些文件夹都被删光了、看不见了。康德怎么办呢？他就给你命名：这个叫 Totality，这个叫 Substance，这个叫 Community，各式各样的范畴他都命名好，把文件属性也写好。写好后，他相当于俘获了隐藏的那部分代码，写出了一个快捷方式。他在桌面给你新建了一堆快捷方式，这个快捷方式叫“纯粹范畴之总体性”，那个叫“纯粹范畴之现实性、可能性”，然后指向他根本不知道有没有的知性官能、思想官能的 Windows 系统里的某个位置。不管到底有没有，他再看：好，我写好了，我来删。如果没有它，我这个游戏能不能打开、能不能运行？再删一个，看能不能运行。就是这样一个套路。
+
+出于这个原因，这条路只有康德探索过，其他人没有探索过，所以他肯定很会。然后快速来讲一下。
+
+首先就是对于直观中的统觉的综合，论直观中统觉的综合。无论我们的直观从哪里升起，是通过外部事物对我们的影响，也就是通过感觉，还是通过内在原因的影响，也就是思想；无论它们是先天产生的，还是经验性地作为表象产生的，它们作为心智的 modification，作为心智对直观的修正，nevertheless belong to inner sense，都属于内在感官。无论表象从哪里产生，从里还是从外产生，心灵对它的修正都是从里面产生的。And as such all……因此，我们所有的认识最终都从属于内在感官的形式条件，也就是时间。这是第一版的先天统觉，第一版的先天统觉就是时间。
+
+这里就很糟糕，很让人烦。as that in which they must all be ordered，它们都必须在其中被安排。也就是说，我们的体验、经验、认识都必须在时间当中被组织起来、被联系起来，然后获得关系。康德在 A 版里用先天统觉等于时间，然后是内时间、内感官、内时间体验。所以这个时间和先验感性论里面的时间就有点怪怪的。因此在 B 版里它就全改掉了。This is a general remark on which one must ground everything that follows。这是一个一般说明，后续一切都建立在这个说明的基础上。
+
+Every intuition contains a manifold in itself。每一个直观都在它自己里面包含了一个多重性。Which, however, would not be represented as such if the mind did not distinguish time in the succession of impressions on one another。如果心智不能在印象的相继中区分时间，那么这种多重性就不能被如此表象。如果经验不能把这些对心智的印象……“印象”也是一个很垃圾的翻译。Impress 就是按上去，按了有痕迹，让你意识到。翻译成“印象”，就好像你给我第一印象很好，这是谈恋爱语境。我们日常使用的印象是什么？日常使用的印象是虚的。
+
+日常当中使用印象，就是那个人已经不在场了，他给我留下一个大致的气息、风格，或者我对他的喜好憎恶。这个“印象”的词义有问题，像“意象”，它的质重感没有了，来自外部的粗糙感觉、那种语义消失掉了。所以继续把它翻译成印象怪怪的。impression 可以翻译成……你只能得到 impression，不是说他本人在你面前不停地直接影响你，离开后残存一个印象。印象就像一拳打到脸上，然后凹陷进去，但你是盲人，看不到拳头，只能体验到脸上那个轮廓。impression 背后有白板说的比喻，是它对你造成的直接影响，在你的体验、直观当中造成的直接 effects，这才叫 impression。它就是你所体验到的直接的东西。这个词的语义是有点问题的，它是按进去，impress，按进去、摁进去。它兼具直接性和间接性：它是最直接的，但也是最不间接的，可它还是间接的。相比于物自体、那个 effect 不能体验到，这个东西已经能体验到了；但在康德认识论的等级里面，它算是最不间接的，它是最原始的，可它已经不原始了。最原初的是什么？我们体验不到。作为表征主义，这个印象已经是个二手玩意儿，但它是最不二手的二手。
+
+就相当于盲人被别人打了一下，他能体验到那个轮廓。我们有限的凡人就是盲的，不可能本质直观看到事物本身。这已经是最真的了。如果没有先验统觉、没有时间性的统觉，这种印象的接续、连续就没有办法在时间中被 distinguish time，没有办法把相继关系识别出来。相当于你没有给它附上时间函数。你只有一堆信息，但它没有被时间化的体验。
+
+所以先验统觉在康德那里，在第一版里就相当于一个解霸，给影片附上时间性，让它像风箱一样拉开，可以一层一层地看，而不是全部叠到一块。for as contained in one moment no representation can ever be anything other than absolute unity。如果它们只被包含在一个瞬间，就根本不会有表征成为任何东西，除了变成一个绝对统一体。必须通过 apprehension，通过领会，把它赋予时间性，把它这样拉开。
+
+Now, in order for unity of intuition to come from this manifold, as in the representation of space, it is necessary first to run through and then to take together this manifoldness, which action I call the synthesis of apprehension。所以第一步先是时间化。时间化之后，为了让直观的统一体产生出来，比如在空间的表征中产生出来，就有必要首先完全读取、遍历这个多重性，然后把它拼合到一块。我把这种行动叫作统觉的综合。它直接指向直观，直观当然提供一个多重性，but can never affect this as such，但它永远不能以把它变成统一体的方式影响它。如果没有这种综合发生，那么……这种统觉的综合就是让它空间化，而统觉本身是内时间意识。
+
+好吧，我觉得他也没有明说，字里行间也没有明说。这其实就是个命名问题。现在这种统觉的综合必须先天被实施，也就是说它不是被经验的、不是经验性的，而是不依赖经验就实施了。Without it we could have no representation of time or space a priori。如果没有这种先天实施的统觉综合，我们就无法先天获得对时间或空间的表征，因为这些只能通过对于多重体的综合才能产生。而这个多重体是原初感受性、感性在它的原初感受能力中提供的。因此我们就有一个纯粹统觉的综合。这里语言不行，这种内时间、内感官、时间性，namely time，内感官，好像没有明说统觉。这里面没有说 this is apprehension，但它明确告诉你，如果没有这个东西，光有空间的 unity 也不行。好，继续看。
+
+我们看第二节，On the synthesis of reproduction in imagination，想象力中再生的综合，也就是在想象力当中它的再生产、再产生的综合。
+
+那么很清楚：representations that often followed or accompanied one another are finally associated with each other and thereby placed in connection in accordance with a constant law, even without the presence of the object, one representation brings about the transition of the mind to the other in accordance with a constant law。那些彼此相继、相互伴随的表征，最终会相互联系起来，并因此被放进一个与法则相一致的关联中；即便对象不在场，其中一个表征也会使心智迁移、转换到另一个表征上去，依据一个比较恒常的法则，也就是联想法则。比如太阳升起了，你也可以想象有只鸡在那边喔喔叫。它符合一个一直发生的规则，但这仍然只是一个 merely empirical rule。所以这就是休谟的那个恒常性法则、恒常性的因果性。这是康德自己骂的，不是我骂的。This law of reproduction，这种再生的法则。
+
+However, principles that the appearances themselves are actually subject to such a rule。但是康德说，我的再生法则预设了现象本身实际上服从这样一条规则，是有内在必然性的，不像经验性的法则那样。And that in the manifold of their representations, an accompaniment or succession takes place according to certain rules。在它们的表征的多重性中，伴随关系或相继关系会依据某些规则发生。For without that, our empirical imagination would never get to do anything suitable to its capacity。如果没有这种法则，我们的经验性想象力就永远不能做任何配得上它能力的事情，它就变成垃圾了。
+
+这个能力用的是德文词，我就不搜了，没意思，因为我不敢打开浏览器。And would thus remain hidden in the interior of the mind like a dead and to us unknown faculty。那么想象力就会变成一种死的力量，隐藏在心智内部，对我们来说是一种死的、未知的能力。如果你做不到这一点，如果没有这种再生的法则，想象力就不能再生。你脑子里可以想一个东西出来，但如果没有这种能力，你的想象力就是隐藏在心智内部的一个隐藏能力。
+
+If cinnabar were now red, now black, now light, now heavy; if a human being sometimes took this animal form, sometimes that; if on the longest day the earth were now full of fruits, now full of ice and snow，那么我的经验性想象就永远没有机会。没有那种机会去设想一种很重的朱砂。on the occasion of the representation of the red color，在看到一个红颜色的时候，我们没有办法去设想一个很重的朱砂。或者如果某一个世界，一个词一会儿被指派给这个东西，一会儿被指派给另一个东西，同一个东西一会儿被叫作这个、一会儿被叫作那个，without the governance of certain rules，没有确定规则来管理、支配、统摄它，而现象自身已经服从这些规则。
+
+如果这些表象本身已经服从于特定的法则，那么就不会有经验性的综合再现。如果没有恒定的规则——也就是说，再现的规则已经预设了表象本身服从于这样一种规则——那么就不会有经验性的综合再现。在这个规则之下，在表征的杂多当中，一种相继关系或伴随关系会按照某些特定规则发生。如果没有这个，我们就无法想象。如果朱砂一会儿红、一会儿黑、一会儿亮、一会儿轻、一会儿重，如果世界本身不停变化，没有一个特定的法则，那你就没有办法去设想。康德这里的说法我也觉得怪怪的，我也可以设想啊。他这里的举例一点说服力都没有，至少对我没什么说服力。
+
+他说，如果一个朱砂不停在变颜色，那你就没有办法去设想一个经验性的想象力，没有机会去设想一个红颜色的表征。哦，我明白了，他这个意思没什么了不起：如果朱砂本身一会儿红、一会儿黑、一会儿轻、一会儿重，那你看到红色就不会联想到朱砂。其实这里的想象力根本不是什么了不起的想象力，这里的 imagination 可以看成不是那种凭空的想象力，而是一种很普通的联想力：你看见红色，可以联想到、想象出朱砂。但如果朱砂本身一会儿红、一会儿黑、一会儿白，一会儿轻、一会儿重，它的轻重变动不居，那你就没有办法看到红色就想到重的朱砂。要么红色朱砂就是重的，黑色朱砂就是轻的，那你看到红色也能联想到重的朱砂。但如果红的又可以轻又可以重，黑的又可以轻又可以重，它就变动不居，红色和重的朱砂在现实当中没有一个关联，那你单单看到红色，就没有办法联想到。这就相当于，如果一个东西没有一个特定的名字指派给它，今天这个名字指派给这个，明天指派给那个，那你听到这个名字的时候，就不能想象出那个东西。我也不举例子了，我举的例子都比较黄，那我就不举了。
+
+所以康德的想象力其实是一种激发力，是一种 reproduction，要通过一个影子来激发，通过一种联想规则来激发。他的 imagination 在这里至少在这个语境之下，就是联想力，对应休谟那种因果关系的联想。就是说，一定要有一个现实的、比较稳固的关联、关系在那边，然后我们才能联想。这种关系本身就会被我们继续把握。That no empirical synthesis of reproduction could take place，所以就不会有经验性的综合被产生出来。There must therefore be something that itself makes possible the reproduction of appearances by being a priori，所以他就把这种联想规则看成是先天的了。有没有意思啊？所以他的想象力就是一种先于经验本身发生的联结。比如说，我们内在把红色、朱砂、重这三个性质、三种画面联结起来，这样你看到红就可能联想到重的朱砂，看到重就可以猜里面是不是红色的朱砂。看到朱砂、听到朱砂这两个字，你就通感了，感到好重，感到红色，差不多就是这种东西，没什么技术含量。It must therefore be something that itself makes possible，就是有一种先天的东西，使得这种表象的再现——其实不是再现，而是连接——在连接过程中，一个表象使另一个表象再现了，凭空在脑子里面被想到了。它要有某种东西作为它的先天基础，必然的综合，来获得一个必然的综合统一体。不同红、朱砂、重这三个 appearances，当然我们说朱砂本身不一定是个 appearance，它的特定形状也可以是个 appearance。So one soon comes upon this if one recalls that appearances are not things in themselves。就是说，一个人很快就抵达这一点，如果他意识到表象本身并不是物自体，而仅仅是我们表征的表演 play、相互作用 interplay，就是我们表征的相互演戏，群魔乱舞。Which in the end，那么归根结底 come down to determinations，归根结底它是属于我们内在感官的规定性的，所以我们可以说它是先天的、必然的，因为我们就是导演，我们要演什么戏还不是我说了算。所以康德的意思就是，我们可以在表象的层面获得因果性、获得必然性。那么又说到，表象是这个超越性的大他者给我的，那就是我赖皮了：他给我的，他让我体验到它是必然，它就是必然，他让我体验到，除非他骗人，除非他是个垃圾大他者。那么康德又不说了：啊，那不是，他是至善的，他是圆融的。One if we can demonstrate that even our purest a priori intuitions provide no cognition except insofar as they contain the sort of combination of the manifold that makes possible a smoothly going system of reproduction。如果我们能够证明，哪怕是我们最纯的、最没有经验的那些先天直观，都不提供任何认识，只当它们包含着某种多重性的杂多的组合的时候，才能够提供某些认识；这种杂多的组合使得一个完全的再现的综合变得可能。那么如果是这样的话，最纯的先天直观里面也都必须包含杂多。
+
+必须包含多重性、外在的多样性、多重的感觉信息，你才能获得一个组合。那么这种想象力的综合，就 be grounded even，它是先于所有的经验的。它按照一些先天的原理，先于所有的经验，先于所有那些按照先天原理的经验，它在前面发生。这种想象性的综合就在前面发生。And one must assume a pure transcendental synthesis of this power。那么一个人必须要承认，这种能力有一种纯粹的先验综合，which grounds even the possibility of all experience。它奠基了所有经验的那种可能性、可能发生的前提。As that which the reproducibility of the appearance is necessarily reproduced。
+
+就是说，as that，正如…… As that which the…… 什么东西啊？这 as that 是什么东西啊？这句法骂得令人看了头疼。就是说，这个东西 as which 吧，应该是 as that，就是这个 which。哎呀，我真是醉了。Which grounds even the possibility，它奠基了所有……就是说，这个东西把你的想象力的综合抬得很高。它奠基了所有经验的基础，经验可能性的基础。然后呢，它就是作为这么一个东西，什么一个东西呢？这个 which，它是作为一个东西，后面这些都是定语从句修饰这个 that 的 as that，修饰这个作为那个。作为哪个啊？就是那个表象的再生产力必然所预设的那个。表象的再生产能力，不就是你的想象力吗？你直接说想象力不就行了？好吧，表象的再现能力，把你表象再换出来的那种能力。
+
+Now it is obvious that if I draw a line in thought, or think of time from one noon to the next, or even want to represent a certain number to myself, I must first grasp one of these manifold representations after another in my thought。如果我在思想里面画一条线，如果我在头脑里面画一条线，或者我想时间从一个中午到下一个中午，就是设想一段时间，或者脑子里面画一条线，或者向我自己呈现一个数字，脑子里面想一个数字，我必须首先在我的思维中一个接一个地把握这种多样的表征。I must necessarily first。我首先要去把握这些杂多的多重表征当中的一个。啊，这就是它的原因，康德就是它的原因。哦，不是它的原因，康德是得出一个结论：如果我脑子里面要想一条线，要想象一条线，或者我脑子里面要想象一段时间，我要说的是，你脑子里面根本不可以想象一段时间，你想象时间这种做法只是一种 discursive conceptual self，self speaking，自说自话带来的一个幻觉、一个感觉，你根本没有把它图像化。康德认为，我要脑子里面想一个空间性的东西，或者想一段时间，或者表现一个数，我必须先把握 grasp one of these，先把握一个对象。After another in my thoughts，先把握现实的杂多的对象，these manifold representations。先要把握一个现实的……我觉得他应该是这个意思，就是说，你脑子里面要想象出这些东西，先要在思维中唤起一个杂多，先去把握到一个有点感受性的那种东西。
+
+但是，But if I were always to lose the preceding representation, the first part of the line, the preceding parts of time, or the successfully represented units, from my thoughts and not to produce them when I proceed to the following ones。如果我总是注定要失去那个先行的表征——线的第一部分、时间的前面部分，或者那些被成功表征的单位——我脑子里面画一条线的时候，线画着画着，我总是注定，我脑子里面想象我画一条线，它前面部分总会失去，我只能盯着那条线在后面；然后我脑子里面想象一段时间，从今天中午到明天中午，这个时间我越这样想，我前面的那些想的东西都会失去。或者说 the successfully represented units，那些被接续着被表征的 units，这也该是指那些数位，比如我一千二百五十六，我脑子里面想一千二百五十六，我设想的时候，它那个前面的就会失掉，后面的才会…… from my thoughts and not to produce them when I proceed to the following ones。我总是会失去前行的那些表征，在我的头脑里面，但是 and not to reproduce，然后不会再产生它们。当我要进入到下一个，也就是说，在我的脑子里面要想象的时候，我先要去想象，比如你画一条线，你脑子里面画一条线，但是那条线是不停的，前面没了，后面才有。你如果不让前面没的话，不继续，如果你不停地再现它的话，你就是没有办法进入到后面。其实康德的想象力真的是很没有想象力。Then no whole representation and none of the previous mentioned thoughts, not even the purest and most fundamental representation of space and time, could ever arise。那么就不会有一个整体的表征，也不会有前面所提到的那些思想中的任何一个，甚至最纯的、最基础的空间和时间的表征，它都不会产生出来。
+
+也就是说，我在想象的时候，一开始依赖的那个 manifold，那个比较粗重的杂的东西，我越想越要把它们抛弃掉，它不会不停地再现，它要不停被舍弃掉。The synthesis of operation。那么他就说，因此这个统觉的想象、统觉的综合，和再现的综合是不可分的。再现的综合就是不断会被牺牲掉的，它是一种连结性的、动态的。And since the former constitutes the transcendental ground of the possibility of all cognition in general，因为前者构建了所有一般认识的可能性的先验基础，not only of empirical cognition but also of pure a priori cognition。就是说，因为统觉的综合就是时空综合，所以时空的连续性、相继性和空间的统一性，那种综合，不仅对于经验性的认识，而且对于纯粹的先天认识，都是必要的。
+
+所以，the reproductive synthesis of the imagination，想象力的那种再现的综合，就从属于心智的先验行动。前面这个东西是必须有的，总是要有的，是背景性的；而后面第二个经验想象力，它则是属于一个先验的动作，你可以有，可以没有。And with respect to this, we will also call this faculty。我们把这种能力叫做想象力的先验官能，把这种综合叫做想象力先验综合。Now, if we consider viewers, then the sensitive imagination was grounded even prior to all experience, and one must assume a transcendental, a pure transcendental synthesis of this power, which grounds even the possibility of all experience as that which the reproducibility of the appearance necessary\. Which then come down to myself in a sense\. Kant, I'm fucking drunk\. If a person wants to prove that our most purest innate intuition, if they provide no cognition, unless they contain some manifold, some multiplicity, this multiplicity makes a complete and thorough synthesis of the experience possible\. Then this synthesis\.\.\. 康德真是神经病啊！
+
+我要说的是，这些都是康德拍脑袋想出来的。From this new to the other new you can imagine？你根本没有 imagine，你只是假假的。你想象一条线，不能描述为一条线，你脑子里面想，这只是你的行动被命名为 line，你自己的第一人称话语把它命名为 line。你什么你脑子里面划了一条线啊？你第一人称焦点还在划线呢，你在开玩笑？从现象学上讲，第一人称意识的空间意向性那个焦点的划线，它动都动不了，你知道吗？它没有一个背景可以设定它是在动的。不是 draw a line in thought，这种东西是放屁。它跟眼动也有关系，它是眼动牵引着一种意向性。你在脑子里面想象“我 draw a line”，你眼睛是不是动一下？你眼动的这个行动、这个行为，导致神经系统会反馈给你一种……意向性是一个相互设定的，不是说意向性是一个完全主动的行动。不是的，意向性和感受性是纠缠在一块儿的。什么 draw a line in thought，前现象学小宝宝，像傻逼一样。这种东西都是那个时代的糟粕，很低智商，很不行。什么在脑子里面 draw a line，如果我 draw a line 的时候，我不先把前面的给忘掉，我就不能够 draw 后面的。还好像你正儿八经地在脑子里面做了个梦一样画了一条线呢。draw a line in thought，那个 thought 不会说它前面会在线就会消失，后面就没有了。如果前面不消失，后面就不会出现，根本不会有这种关系。这是康德强词夺理，他为了得到自己的结论，欺负别人。这个东西是很模糊的，什么在思维中画条线，整个心理学过程、整个意识活动的过程、这个结构，都是很模糊的，不是这几句话就能说清楚的，根本就是不够格的。我真的是觉得怪怪的。
+
+然后又说，如果先天直观当中必须要有杂多，必须要结合一部分的杂多，否则你不能够有再现，不能够有再现的综合，对于一种再现的一种综合，一个彻底的综合。不是啊，就是说一个再现的彻底的综合，是由把这个杂多组合起来才得以可能的。如果先天直观不包含……这到底是啥？That makes possible a thoroughgoing synthesis of reproduction。这个 that 你指的是什么呀？Of the manifold as they contain the sort of combination of the manifold。这个 that 应该是指这个 combination 吧？意思是，我们屡屡关系，就是说这个杂多的组合使得一个彻底的……你都已经组合起来了。你难道不是因为先有彻底的一个结合？这里的结合应该是和先天直观结合起来，和它结合就是认识。我真是醉了，这个关系要说清楚。这种东西最好用图表来把握。你康德说这些东西、讨论这些东西的时候，最好用图表来把握，不要用这一句话。就是先有先天直观，先天直观没有办法产生认识，它要产生认识，必须怎么样？它必须里面要包含 as they contain the sort of combination of the manifold。它必须要包含 the combination，来组合，包含杂多的组合。这句话已经语焉不详了：它里面要先天直观里面要包含杂多，那你还叫先天直观吗？你不是纯的吗？所以就是说，你必须包含着一种杂多的组合，要能够和它组合起来。所以先天直观要和能够和它组合，与组合组合起多重性。你叫什么先天直观能够组合起多重性啊？也是语焉不详的。这里的 manifold 到底是指的什么？这个多重性指的是什么多重性啊？指的是颜色、形状那种多重性吗？你这个 manifold 到底指的是什么多重性啊？这里的 manifold，你康德说清楚，指的是 manifold of sensation 还是指的是什么呢？没有呀，大哥，他根本没有说呀。这里就是很多语焉不详的。然后是这种组合起多重性的这个东西，使得什么变得可能呢？使得再现想象力的再现中的那种彻底的彻底的综合。
+
+也就是说，我们回过头去说，他认为先天直观——康德在这里又是语焉不详了。先天直观这里肯定是，康德之前说先天直观就是先天直观形式，就是先天直观内容，它不是形式和内容同一个东西。那在这里肯定是二分的，就是这个直观形式，这里指的就是直观形式。他这里康德的意思就是说，先天直观形式必须要能够和杂多的多重性结合起来、组合起来，它必须要有这种组合的可能、组合能力，它能够组合起来了之后，它才使得你的想象力的再现当中的彻底的综合才是可能的。应该是这么个因果关系吧？哦，不是这么一个关系，是这么一个因果关系，是说：他一定要先天直观当中一定要包含一种相当于包含接口，或者相当于一种包含一种结合力、结合能力，先天直观要有一种结合力，它能够和多重性结合起来、组合起来。如果它不能够组合起来，它是没办法获得认识的，这是一码事。好了，另外一方面就是说，这种多重性的组合和多重性的这种相组合，这种组合本身又是再现当中的彻底的综合所必要的。
+
+这其实是，我觉得是很有问题的。一方面就是说，那你到底是个多重性自己组合起来，它是自己组合起来 combination，还是它和直观形式组合起来？要打个大大的问号。多重性它到底是自己 combine with itself、with each other，是这个 manifold with each other 或者 with itself，还是这个 manifold combine with the intuitive form，和这个直观形式结合到一块？你如果说直观形式如果缺失了和多重性组合的那种能力，就不会有认识。我承认，我就承认，provided cognition。那这里的 cognition 可能就指经验性的认识或者现实的认识呗，可以吗？它顶多是指经验性的认识、现实的认识。然后另外一方面，但如果说，在这种组……如果说它是这个东西，多重性这种属性的多重性，属性在一个表象上的多重性信息，不同感官信息在一个表象上的多重性，它为什么凭什么成为再现当中彻底综合的一个前提啊？说它使得这个变得可能了，它凭什么呀？再现当中的彻底的综合，凭什么是这种组合的多重性变得可能啊？reproduction，哎呀，这种东西要结合起来，这种多重性要结合起来，使得再现当中彻底的综合变得可能。
+
+那又来了，这个再现当中的 throughly synthesis，这个 throughly synthesis，再现当中的综合是对什么的综合啊？你们还记得吗？比如说我看到一个红色，我就能想到一个重的朱砂，那是不是把这红色和这重的朱砂这两个东西给它综合起来？这个是一种综合，synthesis，连接起来了，关联起来了，对不对？那你要是说，如果没有这个多重性的组合，我就没有办法去设想这种连接。哎，我也承认，那是的，红色和这个重的朱砂它是自己相结合到一块去的，是的呀。但是你现在跟我说的是，多重性要和先天直观形式组合起来，多重性和先天直观形式的结合是先天直观可以获得认识的可能性。我承认，对，没错。但是你不能说它和先天直观形式的 combination 是再现的这种连接的前提，你只能说这种多重性自己的 combination，比如说红色和它的这个重 heavy 这两种 manifold，这两种 manifold 中间的两个 element、两个要素，它连接起来，它们之间的组合是我这种再现的彻底的综合。这不是一回事，不是一码事。那既然这一码事是不值得说到的，那好了，那康德的意思就是说，多重性和先天直观形式、时间和空间的这种组合是再现的必要的一个东西。那你就等于说，多重性和什么？多重性和那一些和统觉的，就是前面的统觉，时间和空间嘛，时间和空间的连接就是统觉和统觉的一个结合，在统觉意义上的 combination，在统觉上的一个结合，manifold 在统觉意义上的一个结合，就是它时间和空间上的一个结合，是对于再现是不可避免的、不可或缺的。
+
+这个东西就值得说道了，因为你说的再现的彻底的综合是不可或缺的，但再现的综合反而是跳跃的，它反而是脱离这个东西的。这里面是 reproduction 的时候的综合，是红不红？我只看见红，其他两个东西不在场，我可以想到重的朱砂，其他两个东西不在场。这种彻底的综合，你说的是综合，而不是再现本身的出现。你说的是 synthesis of production，也就是说，你说的是这种 production、再现的它的一个先天条件。也就是说，不同属性之间的连接，必须依赖于时空统觉，对不对？就这么个意思嘛，就必须依赖于时空的统觉。如果没有时空统觉，不同属性间就无法连接。这个实际上就怪怪的。好，那你的意思就是这样，就是这一句话，就是你得出结论：不同属性的，就是 manifold 之间的一个连接，或者就叫做 reproduction 的它的综合。那这种综合跟 reproduction 有什么关系？Then this synthesis of imagination would be grounded even。所以它要先于所有的经验，按照先天的原理，也就是按照这个先天原理、时空原理、时空统觉，要得到奠基。那对了，所以这句话我们的意思就懂了，这是一个虚话空话。那么接下来看吧，And one must assume a pure transcendental synthesis of this power。所以我们必须要设想一个纯粹的、先验的一个综合，这种能力是一种纯粹的先验综合。也就是说，所有的想象性的综合，它都是要有一个这么一个把戏的，都是要归到先天统觉上去了。想象力的综合要归到先天统觉，which grounds even the possibility of all experiences。当然了，这个东西就是先天统觉。
+
+Now it is obvious if I draw a line in thought, or think of time from one noon to the next, or even want to represent a certain number to myself, I must first grasp one of the manifold representations after another in my thought。我必须先把握一个，先把握这个杂多表象当中一个，然后再一个接一个地把握。But if I always lose the preceding。如果我总是注定要失去前面一个表征，从我的思想中，并且当我要去进展到下一个的时候，没有办法不…… That no whole representations and none of the previous mentioned thoughts, not even the purest and most fundamental representation of space and time, could ever arise。康德的意思就是说，在我在想象脑子里面画一条线的时候，我不能够失去前面的表征，我一定要维持它们的持存，我一定要维持它们的连接。在我的思想中，比如说我脑子里面画一条线，我前面的部分我画完了，它还得在那边，然后我再画后面部分，否则我就不能够把握一整个线。然后我在脑子里面想一段时间，这就像傻逼一样。The preceding part of time，你脑子里面设想一段时间，想象一段时间，你可以说我想象到后面的时间的时候，前面的时间还可以在那边告诉我它在哪里。但这个时候它不是时间了，它被空间化地把握了，它还是时间吗？除了你叫它时间，它还是时间吗？我读到这边我就觉得这个人是不是有点神经病、犯魔怔了？他为了让他这个先验想象力的结构要有一个完整性，已经完全不讲道理了。什么我在脑子里面思考一段时间的时候，我要把握这整段时间，那我肯定比如说……你在脑子里面想象一段时间，这本身就是不合法的。你的那个先验想象力，你想 intuit some time，在脑子里面设想一种时间，直观一段时间，这本身是不可能的，时间是不可以被直观的。因为它不可能满足你这个要求：你不可能说我进一步去体验下一段时间的时候，还能够继续维持着前一段时间它不消逝。你能做到这一点？请问你指向的这个对象还是时间吗？你就像个傻逼一样。康德这样搞的，你的时间这个 time 还是 time，还 pass of time 一样。我真的是醉了。我以为康德是有点人性的，我以为康德还是有点基本的常识的，有点反思力的。在这里已经完全是为了获得这个 whole representation，为了获得一个什么 purest and most fundamental representation of space and time，他已经是厚颜无耻了。
+
+这个时候他已经是魔怔人了，已经是为了搭他那个积木，已经是不管牛顿力学在搭积木了。为了搭他心里面想象的积木，他已经是把一个积木搭到另一个积木里面去了。他已经做这种东西了。这里的讨论，就是他对时间的把握，怎么像傻逼一样？我是觉得怪怪的。我觉得这里面这段话，整个就有点怪怪的。这就奠定了所谓的想象力的先验性。想象力、想象要被先验地联结，但是想象力本身是不停地缺失的、不停地断裂的。他就觉得想象力就是要有一个必然的、什么东西都要有的一个综合，然后想象力就是一种可以主导、可以主动拿来用的一种能力。我真是醉了，真的醉了。我真是觉得挺恶心的。你们要对这样的错误有一种恶感，否则你是……当然你可以说，他那个时代受缚受限，但是他这里真眼瞎。他看上去好像自己神目如电地看到了真理，其实他真眼瞎，他在说胡话，在骗人，在骗自己，在很残忍地做一件非常邪恶的事情。哲学活动这样搞的话，实际上是很下作的一种事情。我不知道你们能不能体验到这种感觉，就是你学哲学的时候，你就能体验到这种……
+
+他的意思就是说，我们在脑子里把握一段线的时候，想象一条线的时候，必须先前画一条线。他说的是 draw a line，我在意识当中用我的那个意识焦点，那个其实是眼动、视动觉的视线运动觉的那个焦点，那个中心化的那个焦点，它在动，其实不停地在差分、在差异化。但是康德就以为我画出前面一段，我后面再画的时候，其实这是个意向性，这是一个和符号性、符号学概念相联动的一个意向性。他不是真的画出一条线，好像真的有个内在视域里面可以有一个东西存在在那边一样的。康德的意识结构的理论也都是一个残次品，这个前现代残次品真的以为有个内在意识空间、内在感、内在 sensation 的一个场，然后一个沙盘一样可以把它画出来一样的。然后他说是想象力在维持着这个东西一直是同一个东西。你把这个东西命名为想象力而已，并不存在一个具体的、真的那个官能。它不是的，它只是一个符号学理智，它都不能算一个能力，因为这个场的不存在。他说我为了不失去后面，我为了进展到后面不失去前面，我一定要有这么一个能力，使得它维持它的在场，至少维持在我心智当中、在我的思想当中的一个符号学理智的一个共同的状态。
+
+但是这个机制和你在现实生活当中体验到事物的连接、它的这些杂多的连接的那种力量，彻彻底底不是同一种力量，它们绝对不是同一种力量，它们甚至是反面关系。先就是这种 transcendental imagination，它绝对和 empirical imagination 绝对不是同一种东西，绝不是同一种东西。后者是有真实性的，有 factuality，它是真的，它就是在场的，它有一个真正敞开的、共识性铭刻在那边。你看一条线，你画一条线出来，它就是在那边，不是你意识扫过在你的心智当中扫过，然后你说它是一条线。其实你脑子里面根本不可能想象一条线出来。你不可能什么内感官看见你画的那条线，你只能把握一种差异，它不是一个点，也不是一个……你只能把握一种差异。哎呀，我只觉得这不能用这种软硬件什么把一个软件加载在一个硬件上，那个硬件就活了，然后就产生出一个实在的东西，不能用这种方法去思维这个东西。这里他做的都是非法的，我一定要说清楚，就是说这边搞的这一套通通是非法，通通是很糟糕的，这种思维方式就是很糟糕的一个东西。
+
+然后就不能有 whole representation，不能有一个 whole、完整的一个 representation，因为它要靠想象力把这些不断失去的部分维持在那边。但是这个时候康德你有没有意识到，你已经预设了这种流逝、这种消逝是必然的，因为这就是时间。内时间意识会不停地让你的这种想象性的理智流逝，前面的不停地会消失掉，到一个次本体性的地位上，会降下去、沉下去。它不是说你维持它就能维持它的，不是的。它是一种意向性，假装它能够把其他所有的前面消失的部分也注册在一起，它是一个突出来的东西。它不是横在那边。就是说，你脑子里面画一条线的时候，那条线不是横着，然后把这个时间域给它铺展在那边，横着的就一条线。这个时间域空间化变成一个内在的空间的一个框框，在里面画。它不是的，它是这个视觉的运动觉的那个焦点画出的这个痕迹，在你的意识的那个体验当中画出的那个痕迹。那条线，它是一个点，就是这个点，但是这个点不停地有一个时间沉下去的、嵌套的意向性，不停有。这个意向性是很丰富的，它是一个一阶两阶三阶四阶五阶六阶不停阶次化了的线，它是个很丰富的意向性。然后为什么我们会把这个一个点上的意向性能够就感觉到它就是一条线呢？我们能够有一种感觉，我们感觉它就是一条线，我们可以想象到它是一条线，其实不是，我们根本想象不到它是一条线。就是因为这个意向性是一个很复杂的装配的意向性，它里面包含了一个时间性。就是我们再去花一段时间体验到这条线的时候，就是我们脑子里面画这条线出来，其实是画了一个点出来。这个点是我们在不朝向它的时候，我们不朝向这个点的意识焦点的时候，它就引到那边去。我们把它做成一个观念就放在那边的时候，它就是一个点，它就是一种意识运动的一种方式。就是说，你要能够再看见这条线，你脑子里面想象你画了一条线，这个时候你歇一会儿，然后你去想想点别的东西，然后我说你再去想你刚刚想那条线，这个时候你要 you have to pay some time，你要把这条线再拉出来。那么为什么这个时候你觉得你被你拉出来那条线就是你刚刚那条线？因为其实你没有拉出这条线，你只是继续在进行了一个反向运动而已。前面那条线，你画出那条线的过程是一个运动；你后面再说我又看到那条线了，我脑子想象那条线，它是一个反向运动，它是一种意识活动，它要花时间的。它要不停地把它那个拧到一个点上的那个差异，那个眼睛的运动觉的那个视运动觉的那个差异，它要把它在时间里面再体验一遍，再把它一阶一阶地给它分开来，哦它是连续的相续关系。比如说，你在脑子里面想象画一个三角形，你好像能看见一个三角形，对不对？其实不是你看见一个三角形，实际上是你的它不停地哒哒哒哒，不停的这样的。不停的是要你的意识是不停地要确认他们的关系，他们上下关系，他们的什么什么关系。这好像是一个共识的，好像你把它画出来了，其实是你的意识这个过程要花时间的。我再说一遍，这个过程你是要花时间的。
+
+这个东西和你看到的东西是完全不一样的，甚至和你的那个置换、这种想象力和你的置换是完全不一样的。我要再扯远一点，就是说这种想象力，this kind of imagination is totally different from 这个 delusion，它和你看到幻觉 illusion 是不一样的。你脑子里面想象一条线，这是个活动，你要再复展出这条线，再真的 reproduce 这条线的话，它是需要你去动的，你要主动地去动的，你要去动着去维持着这条线的。但是这个机制很复杂，不是说就这么简单的。康德在说，然后你产生置换成了幻觉，看到那个东西，那就是真的看到那个东西，真的是看到那个东西，它走的通路就是外部感觉的通路是一样的，几乎是一样的一个通路。这里面是有严重的一个分类学差异的。然后这个想象力不能够直接就运用到这种，就是你不能够把先天直观里面想象空间性的东西，想象一个线啊，想象一段时间，你不能这样去把这个东西说它是先验想象力。这里面用的先验想象力。然后你就说这个先验想象力它就是一种理性的官能，这种官能使得我们建构外部客体的时候，它也是调用同样的这个东西。不是的，它们完全是不一样的，绝对是不一样的。这种综合是完全不一样的，要分清楚，一定要分清楚，它们的机制是有极端的差异的。你不能这样搞的，这样搞的话是让人变成傻逼的吧？这让人变得很蠢的。这里面是有一个……哎呀，但是说我只能表明这一点，我只能要说清楚，我的义务就是我要说清楚这一点。我没有一个，我也不指望你就是说继续去看什么观念，还有看这个胡塞尔写的那些自然的那些现象学，那些包括研究视觉啊听觉这东西。但是他们是有极端的差异的，你不能这样去搞啊。什么还什么 the preceding part of time，我操，就是康德这里露馅了。什么时间也可以，就是你之前说时间直观，只是直观共识性，只是直观相继关系，时间的直观性，只是这种东西我承认。但是你不能跟我扯的是什么：你可以直观一段时间，这种东西，这太流氓了。这个太下作了，这个对于一个哲学家来说，这种做法太懵了，太厚颜无耻了。好了，我就讲到这边。
+
+Source: [bilibili / BV1aU4y1b7mX / P43](https://www.bilibili.com/video/BV1aU4y1b7mX/?p=43)
+
+Source published at: unknown
+
+Body preserved from a legacy AI-assisted manuscript; no new AI inference during import.
+
+Imported edition requires human review. The reference is the historical AI baseline.
