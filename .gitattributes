@@ -1,3 +1,2 @@
-# Export manifests identify the exact UTF-8 bytes; do not normalize snapshots.
-content/** -text
-draft-content/** -text
+# Export fixture bytes participate in the producer's snapshot hashes.
+test/fixtures/universal-origin-v1/** -text
