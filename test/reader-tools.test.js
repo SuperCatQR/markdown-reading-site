@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readerToolsMarkup, readingToolPosition, restoreReadingToolPosition } from "../src/reader-tools.js";
 import { readerMarkup } from "../src/reader-view.js";
 import { continuousPartMarkup } from "../src/continuous-reader.js";
+import { partsListMarkup } from "../src/reading-layout.js";
 
 const entry = (partIndex, patch = {}) => ({
   manuscriptType: "publication-draft", contentVersion: 2, platform: "bilibili", externalVideoId: "BVexample", partIndex, videoPartId: partIndex + 1,
@@ -16,7 +17,7 @@ const entry = (partIndex, patch = {}) => ({
 test("reading tools keep real numeric parts and manuscript category while preserving scoped queries", () => {
   const first = entry(0), tenth = entry(9), published = entry(1, { manuscriptType: "publication", editionId: "e".repeat(32) });
   const route = { kind: "article", entry: first, view: "drafts", mode: "review", videoSearch: { query: "海德格尔", mode: "phrase", view: "all" } };
-  const markup = readerToolsMarkup(route, { entries: [tenth, published, first], returnView: "all" });
+  const markup = readerToolsMarkup(route, { entries: [tenth, published, first], returnView: "all" }) + partsListMarkup(route, [tenth, published, first]);
   assert.match(markup, /返回全部内容目录/);
   assert.match(markup, /P10/);
   assert.doesNotMatch(markup, />P2</);
@@ -30,11 +31,12 @@ test("reading tools keep real numeric parts and manuscript category while preser
 
 test("continuous tools target exact P and category without creating a merged publication", () => {
   const first = entry(0), tenth = entry(9);
-  const markup = readerToolsMarkup({ kind: "continuous", view: "drafts", entry: tenth }, { entries: [first, tenth] });
+  const route = { kind: "continuous", view: "drafts", entry: tenth };
+  const markup = partsListMarkup(route, [first, tenth]);
   assert.match(markup, /flow=continuous/);
   assert.match(markup, new RegExp(`part=${first.editionId}`));
   assert.doesNotMatch(markup.split('</ol>')[0], /read=|review=/);
-  assert.match(markup, new RegExp(`class="reader-mode-link" href="\\?review=${tenth.editionId}"`));
+  assert.match(readerToolsMarkup(route, { entries: [first, tenth] }), new RegExp(`data-reader-mode="review" href="\\?review=${tenth.editionId}"`));
 });
 
 test("reader folds detailed provenance but keeps accurate state, immutable body and explorable source tags", () => {
@@ -44,12 +46,13 @@ test("reader folds detailed provenance but keeps accurate state, immutable body 
   const markup = readerMarkup(manuscript, "body", source, options);
   assert.match(markup, /待审核 · 未发布/);
   assert.match(markup, /未经正式发布，信息待核验/);
-  assert.match(markup, /<details class="provenance"/);
-  assert.doesNotMatch(markup, /<details class="provenance"[^>]* open/);
+  assert.match(markup, /data-reader-panel="source"[^>]* hidden/);
+  assert.match(markup, /<section class="provenance"/);
+  assert.doesNotMatch(markup, /<details class="reading-information"|<details class="provenance"/);
   for (const text of [manuscript.attribution, manuscript.editorNote, manuscript.contentSha256, "建议修改", "原始正文，逐字保持。", "冻结标题"]) assert.ok(markup.includes(text));
   assert.match(markup, /tag=%E5%93%B2%E5%AD%A6\+%26\+%E7%8E%B0%E8%B1%A1%E5%AD%A6/);
   assert.match(markup, /探索原视频主题标签/);
-  assert.match(markup, /<details class="table-of-contents"><summary>本文目录/);
+  assert.match(markup, /<section class="table-of-contents"><h3>本文目录/);
   const reference = readerMarkup(manuscript, "review", source, options);
   assert.match(reference, /AI 初稿的固定校验参照/);
   assert.match(reference, /不构成人工审核记录/);
@@ -60,7 +63,7 @@ test("continuous part preserves the version and review facts when details are fo
   const manuscript = entry(0);
   const markup = continuousPartMarkup(manuscript, "# 标题\n\n冻结正文。\n");
   assert.match(markup, /待审核 · 未发布/);
-  assert.match(markup, /<details class="provenance"/);
+  assert.match(markup, /data-reader-panel="source"[^>]* hidden/);
   assert.ok(markup.includes(manuscript.editionId) && markup.includes(manuscript.contentSha256));
   assert.match(markup, /冻结正文。/);
 });

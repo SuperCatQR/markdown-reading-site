@@ -1,7 +1,11 @@
 import { partIndex } from "./source-identity.js";
 import { escapeHtml } from "./ui.js";
 
-export function readingOutlineMarkup({ headings, blocks = [] }, label = "本文目录") {
+export function readingOutlineMarkup({ headings, blocks = [] }, label = "本文目录", { panel = false } = {}) {
+  if (panel) {
+    const markup = readingOutlineMarkup({ headings, blocks }, label);
+    return markup.replace(/^<details/, '<section').replace(/<summary>(.*?)<\/summary>/, '<h3>$1</h3>').replace(/<\/details>$/, '</section>');
+  }
   const toc = headings.filter(({ level }) => level > 1);
   if (toc.length) return `<details class="table-of-contents"><summary>${label}</summary><nav aria-label="文章目录"><ol>${toc.map(({ id, text, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(id)}">${escapeHtml(text)}</a></li>`).join("")}</ol></nav></details>`;
   if (blocks.length < 2) return "";

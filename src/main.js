@@ -24,6 +24,7 @@ import "./directory-experience.css";
 import "./followup-reading.css";
 import "./contributor-experience.css";
 import "./visitor-experience.css";
+import "./reading-layout.css";
 
 const bodyFiles = {
   ...import.meta.glob("../content/articles/part-*/publish.md", { eager: true, query: "?url", import: "default" }),
@@ -122,8 +123,8 @@ function pageHeader(options = {}) {
   const route = state.route;
   const returnView = Object.hasOwn(viewLabels, history.state?.directory?.view) ? history.state.directory.view : route?.view;
   const tools = route?.entry && ["article", "continuous"].includes(route.kind)
-    ? readerToolsMarkup(route, { entries: entriesByView.all, returnView }) : "";
-  return header({ view: route?.view, theme: state.theme, counts, siteRoot, readerTools: tools, ...options }) + (tools ? readingPreferencesMarkup() : "");
+    ? readerToolsMarkup(route, { entries: entriesByView.all, returnView, returnSection: history.state?.directory?.section, searchOrigin: sanitizeSearchOrigin(history.state?.searchOrigin, workKey(route.entry)) }) : "";
+  return header({ view: route?.view, theme: state.theme, counts, siteRoot, readerTools: tools, section: location.hash.slice(1), ...options }) + (tools ? readingPreferencesMarkup() : "");
 }
 
 function tagsForView(view) {
@@ -138,7 +139,7 @@ function saveDirectory() {
   if (!isSearchPage() || !state.directory) return;
   state.directory.scroll = window.scrollY;
   directories.write(directoryKey(), state.directory);
-  history.replaceState({ ...history.state, directory: { ...state.directory, view: state.route.view, videoKey: state.route.videoKey } }, "", searchRoute({ ...state.directory, view: state.route.view, videoKey: state.route.videoKey }) + location.hash);
+  history.replaceState({ ...history.state, directory: { ...state.directory, view: state.route.view, videoKey: state.route.videoKey, section: location.hash === "#recent-reading" ? "recent-reading" : "" } }, "", searchRoute({ ...state.directory, view: state.route.view, videoKey: state.route.videoKey }) + location.hash);
 }
 
 function saveLocation() {
@@ -244,6 +245,13 @@ function renderDirectory() {
   state.directory = saved?.view === view && saved.videoKey === state.route.videoKey ? sanitizeDirectoryState(saved, tags) : directories.read(directoryKey(), tags);
   if (state.route.searchState) state.directory = sanitizeDirectoryState({ ...state.directory, ...state.route.searchState }, tags);
   state.composingSearch = false;
+  if (location.hash === "#recent-reading") {
+    app.innerHTML = pageHeader({ directory: true }) + `<main id="main-content" class="page-shell recent-page" tabindex="-1"><div class="page-heading"><h1>最近阅读</h1><p class="intro">继续当前浏览器保存的正文位置。这里仅展示阅读记录。</p></div><div id="recent-reading" data-recent-view="full"></div>${footer("最近阅读")}</main>`;
+    readingHistory.renderRecent(app.querySelector("#recent-reading"));
+    document.title = "最近阅读 · 档案室";
+    window.scrollTo({ top: 0, behavior: "instant" });
+    return;
+  }
   const scroll = state.directory.scroll;
   const options = {
     ...state.directory, view, tags, counts, tagStats: sourceTagStats(entriesByView[view]), videoCount: new Set(entriesByView[view].map((entry) => workKey(entry))).size,
@@ -360,9 +368,9 @@ async function renderCurrentRoute({ focus = false } = {}) {
     document.querySelector('meta[name="description"]').content = "按来源顺序连续阅读视频整理稿，逐篇查看来源与审核状态。";
     await continuousReader.render();
     if (version !== renderVersion) return;
-    readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
+    readerTools = bindReaderTools({ app, route, entries: entriesByView.all, onCurrent: (entry) => continuousReader.setCurrent(entry) });
     contributionPanel = contributors.bindContributionPanel({ app, route, entries: entriesByView.all, issueUrl });
-    const localPosition = readingHistory.ready({ historyRestored: continuousReader.didRestore() });
+    const localPosition = readingHistory.ready({ historyRestored: continuousReader.didRestore() || new URLSearchParams(location.search).has("part") });
     const historyScroll = continuousReader.didRestore() ? savedContinuous.scroll : null;
     if (route.entry && app.querySelector(".reader-video-search")) {
       const { bindReaderVideo } = await import("./reader-video.js");
@@ -375,6 +383,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
         persistSearch: (value) => { currentReader.setSearch(value); saveLocation(); },
       });
       activeReaderVideo = videoSearchReady;
+      readerTools.update();
       finishReadingLayout(videoSearchReady, version, () => {
         if (localPosition) localPosition.restore();
         else if (Number.isFinite(historyScroll)) {
@@ -483,6 +492,13 @@ function directoryAction(target) {
   }
   if (target.closest("#clear-search, #cancel-search, #reset-filters")) {
     if (target.closest("#reset-filters")) {
+      state.directory.mode = "general";
+      state.directory.sort = "body";
+      state.directory.passages = [];
+      state.directory.expanded = [];
+      app.querySelectorAll('[name="search-mode"]').forEach((radio) => { radio.checked = radio.value === "general"; });
+      app.querySelector("#search-help").textContent = searchHelp("general");
+      app.querySelector("#advanced-search").open = false;
       state.directory.tag = "全部";
       app.querySelector(".filter-current").textContent = "全部";
       app.querySelectorAll(".tag-option").forEach((option) => {
@@ -517,6 +533,11 @@ function navigateWithoutReload(event) {
   if (url.hash && url.search === location.search) {
     event.preventDefault();
     saveLocation();
+    if (state.route?.kind === "directory" && ["#recent-reading", "#topics"].includes(url.hash)) {
+      history.pushState({ ...history.state }, "", `${url.pathname}${url.search}${url.hash}`);
+      renderCurrentRoute({ focus: true });
+      return;
+    }
     const nextState = { ...history.state };
     delete nextState.articleScroll;
     if (nextState.continuous) {
@@ -555,8 +576,10 @@ function navigateWithoutReload(event) {
       view: state.route.view, directory: state.directory }, workKey(destination.entry));
   } else if (link.hasAttribute("data-return-global") && previousOrigin && destination.kind === "directory") {
     returnDirectory = { ...previousOrigin.directory, view: previousOrigin.view };
+  } else if (link.hasAttribute("data-preserve-search") && state.directory) {
+    returnDirectory = { ...state.directory, view: destination.view, scroll: 0 };
   } else if (previousOrigin && destination.entry && workKey(destination.entry) === previousOrigin.videoKey
-      && link.matches(".search-hit-step, #video-results a, .parts-navigation a, .reader-part-menu a, .document-tabs a, .video-return, .reader-mode-link, .review-return")) {
+      && link.matches(".search-hit-step, #video-results a, .parts-navigation a, [data-reader-part], [data-reader-format], .document-tabs a, .reader-mode-link, .review-return")) {
     searchOrigin = previousOrigin;
   }
   history.pushState({ ...(returnDirectory ? { directory: returnDirectory } : {}), ...(continuous ? { continuous } : {}),

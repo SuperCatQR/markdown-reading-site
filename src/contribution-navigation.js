@@ -1,9 +1,9 @@
 import { contributionVersion, matchReviewPassages } from "./review-document.js";
-import { readingToolPosition, restoreReadingToolPosition } from "./reader-tools.js";
+import { readingToolPosition, restoreReadingToolPosition } from "./reading-position.js";
 import { parseMatchHash } from "./search.js";
 import { focusDocumentHash } from "./browser-document.js";
 
-export function readingOffset(app) { return Math.max(0, ...[...app.querySelectorAll(".site-header, #reader-search-navigation:not([hidden]), .review-search-tools:not([hidden])")].map((node) => node.getBoundingClientRect().bottom)) + 12; }
+export function readingOffset(app) { return Math.max(0, ...[...app.querySelectorAll(".site-header, #reader-search-navigation:not([hidden])")].map((node) => node.getBoundingClientRect().bottom)) + 12; }
 
 export function captureReviewContext(app, route, destination) {
   if (destination.mode !== "review" || route.mode === "review" || !destination.entry) return null;
@@ -41,7 +41,7 @@ export function applyReviewArrival(app, entry, reference, context, { scroll = tr
   try { url = new URL(context.bodyUrl); } catch { return false; }
   if (url.origin !== location.origin || url.pathname !== location.pathname) return false;
   back.href = url.href; back.className = "review-return"; back.textContent = "返回刚才正文";
-  app.querySelectorAll('.document-tabs a:not([aria-current]), .reader-mode-link').forEach((link) => { link.href = url.href; });
+  app.querySelectorAll('[data-reader-mode="body"]').forEach((link) => { link.href = url.href; link.dataset.reviewReturn = ""; });
   host.replaceChildren(back);
   const notice = document.createElement("p");
   notice.textContent = matches.length === 1 ? "已定位与正文完全一致的整理稿。" : matches.length > 1

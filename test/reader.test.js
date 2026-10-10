@@ -37,7 +37,7 @@ test("home exposes previews without treating them as releases and explicit publi
   assert.match(home, /正式发布内容暂为空/);
   assert.match(home, /公开预览不代表审核通过/);
   const empty = directoryResults([], { view: "published", query: "", counts }, {}).html;
-  assert.match(empty, /href="\?view=drafts"/);
+  assert.match(empty, /href="\?view=drafts&amp;q="/);
   for (const invalid of ["?view=all&view=drafts", "?view=all&draft=" + "1".repeat(32), "?view=unknown"]) {
     assert.equal(resolveReaderRoute(invalid, [], []).kind, "missing");
   }
@@ -127,7 +127,7 @@ test("reader displays source, editorial notes and review scope with navigation a
   for (const value of [first.attribution, first.editorNote, "待审核 · 未发布", "不代表对视频中全部观点的学术认证", "完整正文，不能改写。", "返回全部内容目录"]) assert.ok(html.includes(value));
   assert.ok(html.includes(`href="${entryRoute(second)}"`));
   assert.equal(html.match(/<h1/g).length, 1);
-  assert.match(html, /从此 P 连续阅读/);
+  assert.match(html, /同视频分 P 目录/);
   assert.match(html, /在此视频中查找/);
   assert.doesNotMatch(html, /视频总览/);
   const single = readerMarkup(first, "body", source, { entries: [first], returnView: "all", pageUrl: "https://site.example/", issueUrl: "https://github.com/example/site/issues/new" });
