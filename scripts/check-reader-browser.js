@@ -8,6 +8,7 @@ async (page) => {
   const ready = (target) => target.waitForFunction(() => document.querySelector("#directory-results")?.getAttribute("aria-busy") === "false");
   const requests = [];
   const isDocument = (url) => /\.md(?:\?|$)/.test(url) && !/[?&](?:url|import)(?:[=&]|$)/.test(url);
+  const isSearchResource = (url) => /search-(?:(?:drafts|published)|(?:video-(?:drafts|published))|(?:candidates-(?:drafts|published))).*\.json(?:\?|$)/.test(url);
   const browser = await context.newPage();
   browser.on("pageerror", (error) => errors.push(error.message));
   browser.on("request", (request) => requests.push(request.url()));
@@ -17,7 +18,7 @@ async (page) => {
     await browser.getByRole("button", { name: "切换深浅主题" }).click();
   }
   assert(await browser.getByRole("heading", { name: "视频讲解，慢慢读。" }).count() === 1, "Home introduction missing");
-  assert(!requests.some((url) => isDocument(url) || /search-(?:drafts|published).*\.json/.test(url)), "Home fetched documents or full search index");
+  assert(!requests.some((url) => isDocument(url) || isSearchResource(url)), "Home fetched documents or search resources");
   const initialVideos = await browser.locator(".video-group").count();
   if (await browser.locator("#load-more").count()) {
     await browser.locator("#load-more").click();
@@ -28,7 +29,7 @@ async (page) => {
   await ready(browser);
   await browser.getByRole("searchbox", { name: "搜索全部内容", exact: true }).fill("克尔凯郭尔");
   await browser.waitForFunction(() => document.querySelector(".passage-link mark")?.textContent === "克尔凯郭尔");
-  assert(requests.some((url) => /search-drafts.*\.json/.test(url)), "Search index was not requested");
+  assert(requests.some(isSearchResource), "Search resource was not requested");
   assert(!requests.some(isDocument), "Search fetched article bodies");
   const hit = browser.locator('.part-link[href*="#hit="]').first();
   await hit.scrollIntoViewIfNeeded();

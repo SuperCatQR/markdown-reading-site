@@ -29,12 +29,15 @@ async (page) => {
   }
   async function assertReturned(position) {
     await target.waitForFunction(({ id }) => document.activeElement?.id === id, position);
+    await target.waitForFunction(() => document.querySelector("#app").style.overflowAnchor === "");
     await target.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     const returned = await target.evaluate(({ id, fraction }) => {
       const rect = document.getElementById(id).getBoundingClientRect();
       const offset = document.querySelector(".site-header").getBoundingClientRect().bottom + 12;
       return { error: Math.abs(rect.top + rect.height * fraction - offset), focus: document.activeElement?.id,
-        fraction, top: rect.top, height: rect.height, offset, searchHidden: document.querySelector('#reader-search-navigation')?.hidden };
+        fraction, top: rect.top, height: rect.height, offset, searchHidden: document.querySelector('#reader-search-navigation')?.hidden,
+        searchToolsHeight: getComputedStyle(document.documentElement).getPropertyValue('--search-tools-height'),
+        shellPadding: getComputedStyle(document.querySelector('.reading-shell')).paddingTop };
     }, position);
     assert(returned.error < 5, `Tool close lost paragraph-relative position: ${JSON.stringify({ returned, position })}`);
     assert(returned.focus === position.id, "Tool return did not focus original prose paragraph");
