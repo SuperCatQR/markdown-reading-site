@@ -10,7 +10,7 @@ export function readerToolsMarkup(route, { entries, returnView = route.view }) {
     : readerSearchRoute(part, route.videoSearch || {}, route.mode === "review");
   return `<nav class="reader-tools" aria-label="阅读工具"><a class="reader-directory-link" href="${directoryRoute(returnView)}" aria-label="返回${viewLabels[returnView]}目录">← 目录</a>
     ${parts.length > 1 ? `<details class="reader-part-menu"><summary aria-label="切换分 P"><span class="reader-current-label">P${entry.pageIndex + 1}</span><span aria-hidden="true">⌄</span></summary><ol>${parts.map((part) => `<li><a data-edition="${part.editionId}" href="${escapeHtml(partHref(part))}"${part.editionId === entry.editionId ? ' aria-current="page"' : ""}>P${part.pageIndex + 1}</a></li>`).join("")}</ol></details>` : `<span class="reader-current-label">P${entry.pageIndex + 1}</span>`}
-    <button id="reader-find" type="button" aria-label="打开视频内查找">查找</button><button id="reader-outline" type="button" aria-label="打开本文目录" hidden>本文</button></nav>`;
+    <button id="reader-find" type="button" aria-label="${route.mode === 'review' ? '查找当前校验参照' : '打开视频内查找'}">查找</button><button id="reader-outline" type="button" aria-label="打开本文目录" hidden>本文</button><a class="reader-mode-link" href="${escapeHtml(readerSearchRoute(entry, route.videoSearch || {}, route.mode !== 'review'))}">${route.mode === 'review' ? '正文' : '核对'}</a><button type="button" data-feedback aria-label="反馈当前段落">纠错</button></nav>`;
 }
 
 export function visibleReadingEntry(app, entries, topOffset) {
@@ -24,6 +24,9 @@ export function visibleReadingEntry(app, entries, topOffset) {
 
 export function readingToolPosition(app, offset) {
   for (const block of app.querySelectorAll(".prose [id]")) {
+    // Closed disclosures may still report cached descendant rectangles. Their
+    // paragraphs cannot be a reading position until the disclosure is opened.
+    if (block.closest("details:not([open])")) continue;
     const rect = block.getBoundingClientRect();
     if (rect.height > 0 && rect.bottom > offset && rect.top < window.innerHeight) {
       return { target: block, fraction: Math.max(0, Math.min(1, (offset - rect.top) / rect.height)) };
@@ -81,6 +84,7 @@ export function bindReaderTools({ app, route, entries }) {
       else link.removeAttribute("aria-current");
     });
     header.querySelector("#reader-outline").hidden = !currentArticle()?.querySelector(".table-of-contents");
+    if (route.mode !== "review") header.querySelector(".reader-mode-link").href = readerSearchRoute(current, route.videoSearch || {}, true);
   }
 
   function openAndFocus(disclosure, target) {
@@ -162,6 +166,7 @@ export function bindReaderTools({ app, route, entries }) {
 
   header.addEventListener("click", (event) => {
     if (event.target.closest("#reader-find")) {
+      if (route.mode === "review") return;
       const disclosure = app.querySelector(".reader-video-search");
       if (disclosure) openAndFocus(disclosure, disclosure.querySelector("#video-query"));
     }

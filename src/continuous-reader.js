@@ -14,7 +14,7 @@ export function continuousPartMarkup(entry, source) {
   const { title, body, headings } = prepareDocument(source, { idPrefix: `${partId(entry)}-`, titleLevel: 2 });
   const toc = headings.filter(({ level }) => level > 1);
   return `<article class="continuous-part" id="${partId(entry)}" tabindex="-1" data-edition="${entry.editionId}"><header class="reading-heading"><div class="reading-status"><span class="current-part">P${entry.pageIndex + 1}</span>${statusBadge(entry)}</div>${title || `<h2>${escapeHtml(entry.title)}</h2>`}
-    <div class="reading-meta"><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">原视频 · P${entry.pageIndex + 1} ↗</a><a href="${entryRoute(entry)}">单篇正文</a><a href="${reviewRoute(entry)}">校验参照稿件</a><button class="copy-markdown" type="button">复制 Markdown</button></div>${provenanceMarkup(entry, { includeVersion: true })}</header>
+    <div class="reading-meta"><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">原视频 · P${entry.pageIndex + 1} ↗</a><a href="${entryRoute(entry)}">单篇正文</a><a href="${reviewRoute(entry)}">校验参照稿件</a><button class="copy-markdown" type="button">复制 Markdown</button><button type="button" data-feedback>反馈这一段</button></div>${provenanceMarkup(entry, { includeVersion: true })}</header>
     ${toc.length ? `<details class="table-of-contents"><summary>本部分目录</summary><ol>${toc.map(({ id, text }) => `<li><a href="#${encodeURIComponent(id)}">${escapeHtml(text)}</a></li>`).join("")}</ol></details>` : ""}<div class="prose">${body}</div></article>`;
 }
 

@@ -1,6 +1,6 @@
 import { markdown } from "./markdown.js";
 
-function inlineText(token) {
+export function inlineText(token) {
   if (!token.children) return token.content || "";
   return token.children.map((child) => {
     if (child.type === "softbreak" || child.type === "hardbreak") return " ";
@@ -50,5 +50,5 @@ export function prepareDocument(source, { idPrefix = "", titleLevel = 1 } = {}) 
   }
   const title = hasOpeningTitle ? markdown.renderer.render(tokens.slice(0, 3), markdown.options, {}) : "";
   const body = markdown.renderer.render(hasOpeningTitle ? tokens.slice(3) : tokens, markdown.options, {});
-  return { title, body, headings, blocks };
+  return { title, body, headings, blocks, tokens };
 }

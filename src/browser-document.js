@@ -51,6 +51,9 @@ export function focusDocumentHash(hash, { scroll = true } = {}) {
     return;
   }
   pauseScrollAnchoring(target.closest(".reading-shell"));
+  for (let parent = target.parentElement; parent; parent = parent.parentElement) {
+    if (parent.tagName === "DETAILS") parent.open = true;
+  }
   let arrival;
   if (match) {
     for (const notice of document.querySelectorAll(".search-arrival")) notice.remove();
@@ -106,7 +109,7 @@ export function focusDocumentHash(hash, { scroll = true } = {}) {
   if (!scroll) return;
   // Locate the confirmation and passage together, using the actual fixed tools
   // rather than assuming their height. Large text can make the notice wrap.
-  const fixedBottom = Math.max(...[...document.querySelectorAll(".site-header, #reader-search-navigation:not([hidden])")]
+  const fixedBottom = Math.max(...[...document.querySelectorAll(".site-header, #reader-search-navigation:not([hidden]), .review-search-tools:not([hidden])")]
     .map((node) => node.getBoundingClientRect().bottom), 0);
   const top = (arrival || target).getBoundingClientRect().top;
   window.scrollTo({ top: Math.max(0, window.scrollY + top - fixedBottom - 12), behavior: "instant" });

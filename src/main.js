@@ -12,10 +12,12 @@ import { directoryMarkup, directoryResults, searchHelp } from "./directory-view.
 import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
 import { readerToolsMarkup, bindReaderTools } from "./reader-tools.js";
 import { createReadingHistoryBrowser } from "./reading-history-browser.js";
+import { contributionVersion } from "./contribution-version.js";
 import "./site.css";
 import "./reader-experience.css";
 import "./directory-experience.css";
 import "./followup-reading.css";
+import "./contributor-experience.css";
 
 const bodyFiles = {
   ...import.meta.glob("../content/articles/part-*/publish.md", { eager: true, query: "?url", import: "default" }),
@@ -55,6 +57,9 @@ let continuousScrollTimer;
 let readerTools;
 let layoutRestoreEvents;
 let activeReaderVideo;
+let contributionPanel;
+let reviewSearch;
+let contributors;
 let searchToolsObserver;
 let readingToolScroll = null;
 const readingHistory = createReadingHistoryBrowser({ app, entries: entriesByView.all, getRoute: () => state.route,
@@ -273,6 +278,8 @@ async function renderCurrentRoute({ focus = false } = {}) {
   readerTools = null;
   activeReaderVideo?.destroy();
   activeReaderVideo = null;
+  contributionPanel?.destroy(); contributionPanel = null;
+  reviewSearch?.destroy(); reviewSearch = null;
   searchToolsObserver?.disconnect();
   document.documentElement.style.setProperty("--search-tools-height", "0px");
   layoutRestoreEvents?.abort();
@@ -304,6 +311,12 @@ async function renderCurrentRoute({ focus = false } = {}) {
     return;
   }
   state.directory = null;
+  try { contributors = await import("./contributor-browser.js"); }
+  catch {
+    if (version === renderVersion) messagePage("阅读工具加载失败", "请检查网络后重试。", { retry: true });
+    return;
+  }
+  if (version !== renderVersion) return;
   if (route.kind === "continuous") {
     let createContinuousReader;
     try { ({ createContinuousReader } = await import("./continuous-reader.js")); }
@@ -329,6 +342,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     await continuousReader.render();
     if (version !== renderVersion) return;
     readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
+    contributionPanel = contributors.bindContributionPanel({ app, route, entries: entriesByView.all, issueUrl });
     const localPosition = readingHistory.ready({ historyRestored: continuousReader.didRestore() });
     const historyScroll = continuousReader.didRestore() ? savedContinuous.scroll : null;
     if (route.entry && app.querySelector(".reader-video-search")) {
@@ -368,8 +382,9 @@ async function renderCurrentRoute({ focus = false } = {}) {
     const [source, { readerMarkup }] = await Promise.all([loadDocument(url), import("./reader-view.js")]);
     if (version !== renderVersion) return;
     const returnView = Object.hasOwn(viewLabels, history.state?.directory?.view) ? history.state.directory.view : route.view;
+    const reviewDocument = route.mode === "review" ? contributors.prepareReviewDocument(source) : null;
     app.innerHTML = pageHeader() + readerMarkup(entry, route.mode, source, {
-      entries: entriesByView[route.view], videoEntries: entriesByView.all, videoSearch: route.videoSearch, returnView, pageUrl: location.href, issueUrl, series: seriesSnapshots[route.view] || [],
+      entries: entriesByView[route.view], videoEntries: entriesByView.all, videoSearch: route.videoSearch, returnView, pageUrl: location.href, issueUrl, series: seriesSnapshots[route.view] || [], preparedReview: reviewDocument,
       returnContinuous: history.state?.continuous?.bvid === entry.bvid && history.state.continuous.view === route.view
         ? continuousRoute(entry.bvid, route.view, history.state.continuous.current) : null,
     });
@@ -378,7 +393,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
     const { bindReaderVideo } = await import("./reader-video.js");
     if (version !== renderVersion) return;
-    const videoSearchReady = bindReaderVideo({ app, route, entries: entriesByView.all.filter((candidate) => candidate.bvid === entry.bvid), summaries, loadSearchData, isCurrent: () => version === renderVersion });
+    const videoSearchReady = bindReaderVideo({ app, route: route.mode === "review" ? { ...route, videoSearch: undefined } : route, entries: entriesByView.all.filter((candidate) => candidate.bvid === entry.bvid), summaries, loadSearchData, isCurrent: () => version === renderVersion });
     activeReaderVideo = videoSearchReady;
     if (focus) app.querySelector("main").focus({ preventScroll: true });
     if (Number.isFinite(history.state?.articleScroll)) {
@@ -386,15 +401,26 @@ async function renderCurrentRoute({ focus = false } = {}) {
       window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
     }
     else if (location.hash) focusDocumentHash(location.hash);
+    const context = history.state?.reviewContext;
+    const restoreContribution = () => {
+      if (route.mode === "review") {
+        return contributors.applyReviewArrival(app, entry, reviewDocument, context, { scroll: !location.hash && !Number.isFinite(history.state?.articleScroll) });
+      }
+      if (Number.isFinite(history.state?.articleScroll)) return false;
+      return contributors.restoreContributionPosition(app, entry, context);
+    };
+    const contributionRestored = restoreContribution();
+    if (reviewDocument) reviewSearch = contributors.bindReviewSearch(app, context?.version === contributionVersion(entry) ? context.quote : "");
+    contributionPanel = contributors.bindContributionPanel({ app, route, entries: entriesByView.all, issueUrl, passages: reviewDocument?.passages || [] });
     readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
-    const localPosition = readingHistory.ready({ historyRestored: Number.isFinite(history.state?.articleScroll) });
+    const localPosition = readingHistory.ready({ historyRestored: Number.isFinite(history.state?.articleScroll) || contributionRestored });
     finishReadingLayout(videoSearchReady, version, () => {
       if (localPosition) localPosition.restore();
       else if (Number.isFinite(history.state?.articleScroll)) {
         if (location.hash) focusDocumentHash(location.hash, { scroll: false });
         window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
       }
-      else if (location.hash) focusDocumentHash(location.hash);
+      else if (!restoreContribution() && location.hash) focusDocumentHash(location.hash);
     });
     updateReadingProgress();
   } catch {
@@ -497,6 +523,9 @@ function navigateWithoutReload(event) {
   const continuous = history.state?.continuous;
   const videoSearch = history.state?.videoSearch;
   const destination = resolveReaderRoute(url.search, catalog.articles, draftCatalog.articles);
+  const capturedContext = contributors?.captureReviewContext(app, state.route, destination);
+  const priorContext = history.state?.reviewContext;
+  const reviewContext = capturedContext || (destination.entry && priorContext?.version === contributionVersion(destination.entry) ? priorContext : null);
   const previousOrigin = sanitizeSearchOrigin(history.state?.searchOrigin, state.route?.entry?.bvid);
   let searchOrigin = null;
   let returnDirectory = directory;
@@ -508,11 +537,11 @@ function navigateWithoutReload(event) {
   } else if (link.hasAttribute("data-return-global") && previousOrigin && destination.kind === "directory") {
     returnDirectory = { ...previousOrigin.directory, view: previousOrigin.view };
   } else if (previousOrigin && destination.entry?.bvid === previousOrigin.bvid
-      && link.matches(".search-hit-step, #video-results a, .parts-navigation a, .reader-part-menu a, .document-tabs a, .video-return")) {
+      && link.matches(".search-hit-step, #video-results a, .parts-navigation a, .reader-part-menu a, .document-tabs a, .video-return, .reader-mode-link, .review-return")) {
     searchOrigin = previousOrigin;
   }
   history.pushState({ ...(returnDirectory ? { directory: returnDirectory } : {}), ...(continuous ? { continuous } : {}),
-    ...(videoSearch ? { videoSearch } : {}), ...(searchOrigin ? { searchOrigin } : {}) }, "", `${url.pathname}${url.search}${url.hash}`);
+    ...(videoSearch ? { videoSearch } : {}), ...(searchOrigin ? { searchOrigin } : {}), ...(reviewContext ? { reviewContext } : {}) }, "", `${url.pathname}${url.search}${url.hash}`);
   renderCurrentRoute({ focus: true });
 }
 
@@ -550,7 +579,7 @@ window.addEventListener("resize", updateReadingProgress);
 document.addEventListener("keydown", (event) => {
   const active = document.activeElement;
   const editable = active?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "SUMMARY", "BUTTON"].includes(active?.tagName);
-  if (event.key === "/" && !editable && app.querySelector("#search, #video-query")) {
+  if (event.key === "/" && !editable && !app.querySelector('dialog[open]') && app.querySelector("#search, #video-query")) {
     event.preventDefault();
     if (app.querySelector("#reader-find")) app.querySelector("#reader-find").click();
     else app.querySelector("#search, #video-query").focus();

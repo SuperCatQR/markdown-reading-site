@@ -25,7 +25,7 @@ test("reading tools keep real numeric parts and manuscript category while preser
   assert.match(markup, /vview=all/);
   const single = readerToolsMarkup(route, { entries: [first] });
   assert.doesNotMatch(single, /reader-part-menu/);
-  assert.match(single, /打开视频内查找/);
+  assert.match(single, /查找当前校验参照/);
 });
 
 test("continuous tools target exact P and category without creating a merged publication", () => {
@@ -33,7 +33,8 @@ test("continuous tools target exact P and category without creating a merged pub
   const markup = readerToolsMarkup({ kind: "continuous", view: "drafts", entry: tenth }, { entries: [first, tenth] });
   assert.match(markup, /flow=continuous/);
   assert.match(markup, new RegExp(`part=${first.editionId}`));
-  assert.doesNotMatch(markup, /read=|review=/);
+  assert.doesNotMatch(markup.split('</ol>')[0], /read=|review=/);
+  assert.match(markup, new RegExp(`class="reader-mode-link" href="\\?review=${tenth.editionId}"`));
 });
 
 test("reader folds detailed provenance but keeps accurate state, immutable body and explorable source tags", () => {
@@ -69,11 +70,13 @@ test("temporary tools return to the same paragraph fraction after disclosure lay
   let scrollTarget;
   let focused = false;
   let rect = { top: 20, height: 200, bottom: 220 };
-  const target = { isConnected: true, getBoundingClientRect: () => rect, hasAttribute: () => true,
+  const target = { isConnected: true, closest: () => null, getBoundingClientRect: () => rect, hasAttribute: () => true,
     focus: (options) => { focused = options.preventScroll; } };
   globalThis.window = { innerHeight: 844, scrollY: 600, scrollTo: (options) => { scrollTarget = options.top; } };
   try {
-    const position = readingToolPosition({ querySelectorAll: () => [target] }, 100);
+    const hidden = { closest: () => ({}), getBoundingClientRect: () => ({ top: 0, height: 300, bottom: 300 }) };
+    const position = readingToolPosition({ querySelectorAll: () => [hidden, target] }, 100);
+    assert.equal(position.target, target, "Closed details must not become a reading position");
     assert.equal(position.fraction, 0.4);
     // Tool results change layout and a later viewport has a different paragraph height.
     rect = { top: -200, height: 300, bottom: 100 };
