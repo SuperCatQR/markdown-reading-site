@@ -1,6 +1,7 @@
 import { entryRoute, isDraft, readerSearchRoute } from "./manuscripts.js";
 import { searchEntries, searchModes, parseMatchHash } from "./search.js";
 import { createSearchNavigation } from "./search-navigation.js";
+import { visibleQuery } from "./query-state.js";
 import { measureSearchStage, showSearchWaiting } from "./search-loader.js";
 import { searchHelp } from "./directory-view.js";
 import { videoResults } from "./video-view.js";
@@ -95,7 +96,8 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   function update() {
     ++version;
     navigation.pending();
-    current.query = input.value;
+    current.query = visibleQuery(input.value);
+    if (!composing && !input.value.trim()) input.value = "";
     current.passages = [];
     clearTimeout(timer);
     if (!composing) {

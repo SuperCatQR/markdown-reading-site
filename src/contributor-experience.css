@@ -48,8 +48,3 @@
   .review-search-tools output { flex-basis: 100%; }
   .contribution-dialog { padding: 14px; }
 }
-@media (max-width: 350px) {
-  :root[data-reading="true"] { --header-height: 108px; }
-  .reader-header { height: 108px; align-items: start; padding-top: 8px; grid-template-columns: minmax(0, 1fr) 44px; }
-  .reader-tools { flex-wrap: wrap; }
-}

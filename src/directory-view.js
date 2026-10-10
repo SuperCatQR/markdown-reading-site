@@ -1,11 +1,13 @@
+import { tagOptionsMarkup } from "./discovery-controls.js";
+import { visibleQuery } from "./query-state.js";
 import { entryKey, entryRoute, readerSearchRoute, groupVideos } from "./manuscripts.js";
 import { contextSnippet, matchHash, searchModes, searchTerms, sortingHelp } from "./search.js";
 import { escapeHtml, highlightText, statusBadge, viewLabels, footer } from "./ui.js";
 
 export function searchControls({ mode = "general", sort = "body", directory = false }) {
-  return `<details class="advanced-search" id="advanced-search"${mode !== "general" || (directory && sort !== "body") ? " open" : ""}><summary>高级查找<span class="search-mode-current">${searchModes[mode] || searchModes.general}</span>${directory ? `<span class="search-sort-current"${sort === "body" || mode !== "general" ? " hidden" : ""}>标题相关优先</span>` : ""}</summary>
+  return `<details class="advanced-search" id="advanced-search"${mode !== "general" ? " open" : ""}><summary>高级查找<span class="search-mode-current">${searchModes[mode] || searchModes.general}</span>${directory ? `<span class="search-sort-current"${sort === "body" || mode !== "general" ? " hidden" : ""}>标题相关优先</span>` : ""}</summary>
     <fieldset class="search-modes"><legend>查找方式</legend>${Object.entries(searchModes).map(([value, label]) => `<label><input type="radio" name="search-mode" value="${value}"${mode === value ? " checked" : ""}><span>${label}</span></label>`).join("")}</fieldset><p class="search-help" id="search-help">${searchHelp(mode)}</p>
-    ${directory ? `<label class="search-sort" for="search-sort">结果排序<select id="search-sort" aria-describedby="sort-help"${mode !== "general" ? " disabled" : ""}><option value="body"${sort === "body" ? " selected" : ""}>正文证据优先</option><option value="title"${sort === "title" ? " selected" : ""}>标题相关优先</option></select></label>` : ""}</details>`;
+    </details>`;
 }
 
 export function searchHelp(mode) {
@@ -14,7 +16,7 @@ export function searchHelp(mode) {
     : "查找标题、摘要、原视频标签和正文；正文命中可直接打开对应段落。";
 }
 
-export function directoryMarkup({ view, query, tag, tags, counts, videoCount, mode, sort = "body" }) {
+export function directoryMarkup({ view, query, tag, tags, counts, videoCount, mode, sort = "body", tagStats = tags.filter((tag) => tag !== "全部").map((tag) => ({ tag, count: 0 })) }) {
   const intro = view === "all" ? "视频讲解的文字资料，供阅读、查找与复习。"
     : view === "drafts" ? "公开预览的编辑版本，未经正式发布，信息待核验。" : "经过准确版本审核并正式发布的文字资料。";
   const status = counts.all === 0 ? "暂无公开内容"
@@ -24,12 +26,12 @@ export function directoryMarkup({ view, query, tag, tags, counts, videoCount, mo
     <div class="page-heading"><h1>${view === "all" ? "视频讲解，慢慢读。" : viewLabels[view]}</h1><p class="intro">${intro}</p></div>
     <div class="library-overview"><p><strong>${videoCount}</strong> 个视频 · <strong>${counts[view]}</strong> 篇稿件</p><details class="library-status"><summary>${status}<span aria-hidden="true"> ⌄</span></summary><div class="library-status-body"><p>${counts.published === 0 ? "正式发布内容暂为空。" : `正式发布 ${counts.published} 篇。`}${counts.drafts ? `公开预览 ${counts.drafts} 篇；未发布稿逐篇标注审核状态，公开预览不代表审核通过。审核通过与正式发布分别记录。` : ""}</p><p>按视频聚合，分 P 保留来源顺序；来源与整理说明在各篇稿件中核验。</p></div></details></div>
     <section class="directory-tools" aria-label="稿件筛选">
-      <div class="search-box"><label class="search-label" for="search">搜索${viewLabels[view]}</label><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" maxlength="300" placeholder="搜索概念、标题或正文" value="${escapeHtml(query)}" autocomplete="off" /><button id="clear-search" type="button" class="clear-search" aria-label="清空搜索"${query ? "" : " hidden"}>×</button><kbd>/</kbd></div>
+      <div class="search-box"><label class="search-label" for="search">搜索${viewLabels[view]}</label><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" maxlength="300" placeholder="搜索概念、标题或正文" value="${escapeHtml(visibleQuery(query))}" autocomplete="off" /><button id="clear-search" type="button" class="clear-search" aria-label="清空搜索"${visibleQuery(query) ? "" : " hidden"}>×</button><kbd>/</kbd></div>
       <details class="filter-menu" id="tag-filter-menu"><summary aria-label="按主题筛选" aria-controls="tag-filter-popover" aria-expanded="false"><span class="filter-label">按主题筛选</span><span class="filter-current">${escapeHtml(tag)}</span><span class="filter-chevron" aria-hidden="true">⌄</span></summary>
-      <div class="filter-popover" id="tag-filter-popover"><label class="filter-search"><span class="search-label">搜索主题</span><span aria-hidden="true">⌕</span><input id="tag-search" type="search" placeholder="搜索主题标签" autocomplete="off" /></label><div class="filter-options">${tags.map((item) => `<button class="tag-option${tag === item ? " selected" : ""}" type="button" aria-pressed="${tag === item}" data-tag="${escapeHtml(item)}">${escapeHtml(item)}</button>`).join("")}</div><p class="filter-hint">主题来自原视频标签，保留源名称，不推断分类。</p></div></details>
+      <div class="filter-popover" id="tag-filter-popover"><label class="filter-search"><span class="search-label">搜索主题</span><span aria-hidden="true">⌕</span><input id="tag-search" type="search" placeholder="搜索全部 ${tags.length - 1} 个源标签" autocomplete="off" /></label><p class="tag-options-label">常用源标签 · 按视频数量</p><div class="filter-options">${tagOptionsMarkup(tagStats, tag)}</div><p class="filter-hint">主题来自原视频标签，保留源名称，不推断分类。</p></div></details>
       <p class="result-count" id="result-count" role="status"></p>
     </section>
-    ${searchControls({ mode, sort, directory: true })}<p class="search-help directory-order" id="sort-help">${sortingHelp(mode, sort, query)}</p><div id="directory-results" aria-busy="true"></div>${footer(viewLabels[view])}</main>`;
+    <div class="directory-search-options">${searchControls({ mode, sort, directory: true })}<label class="publication-filter" for="publication-filter"><span class="search-label">稿件发布状态</span><select id="publication-filter">${Object.entries(viewLabels).map(([key, label]) => `<option value="${key}"${view === key ? " selected" : ""}>${label} · ${counts[key]}</option>`).join("")}</select></label><label class="search-sort" for="search-sort"${query.trim() ? "" : " hidden"}>结果排序<select id="search-sort" aria-describedby="sort-help"${mode !== "general" ? " disabled" : ""}><option value="body"${sort === "body" ? " selected" : ""}>正文证据优先</option><option value="title"${sort === "title" ? " selected" : ""}>标题相关优先</option></select></label></div><details class="sorting-explanation"${query.trim() ? "" : " hidden"}><summary>排序说明</summary><p class="search-help directory-order" id="sort-help">${sortingHelp(mode, sort, query)}</p></details><div id="directory-results" aria-busy="true"></div>${footer(viewLabels[view])}</main>`;
 }
 
 function resultRoute(entry, match, request) {
@@ -38,7 +40,7 @@ function resultRoute(entry, match, request) {
 
 function passageMarkup(entry, match, query, mode, view, directory) {
   const terms = mode === "keywords" ? match.terms : [query];
-  const snippets = [...new Set(terms.map((term) => contextSnippet(match.text, term)))];
+  const snippets = [...new Set(terms.map((term) => contextSnippet(match.text, term, 42)))];
   return `<li><a class="passage-link"${directory ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(entry, match, { query, mode, view }))}">${snippets.map((snippet) => `<span>${highlightText(snippet, terms)}</span>`).join("")}<span class="passage-action">阅读命中段落 →</span></a></li>`;
 }
 
@@ -49,7 +51,7 @@ export function partMarkup({ entry, match, matches = [] }, { query = "", mode = 
   const evidence = matches.map((hit) => passageMarkup(entry, hit, query, mode, view, directory));
   const firstBody = matches.find((hit) => hit.id) || (match?.id ? match : null);
   return `<li class="video-part"><div class="part-heading"><a class="part-link"${directory && query.trim() ? " data-directory-search" : ""} href="${escapeHtml(resultRoute(entry, firstBody, { query, mode, view }))}"><span class="part-number">P${entry.pageIndex + 1}</span><span>${match ? `阅读命中${match.id ? "段落" : "稿件"}` : "阅读正文"} →</span></a>${statusBadge(entry)}<span class="part-minutes">${summary.minutes} 分钟阅读</span></div>
-    ${evidence.length ? `<p class="match-summary">${mode === "keywords" ? "全部关键词命中" : mode === "phrase" ? "原句匹配" : "正文命中"} · ${evidence.length} 个段落</p><ul class="passage-list">${evidence.slice(0, 2).join("")}</ul>${evidence.length > 2 ? `<details class="passage-disclosure" data-entry="${entryKey(entry)}"${passages.includes(entryKey(entry)) ? " open" : ""}><summary>其余 ${evidence.length - 2} 个命中段落</summary><ul class="passage-list">${evidence.slice(2).join("")}</ul></details>` : ""}` : excerpt ? `<p class="part-excerpt"><span class="excerpt-label">${label}</span>${highlightText(excerpt, searchTerms(query, mode))}</p>` : ""}</li>`;
+    ${evidence.length ? `<p class="match-summary">${mode === "keywords" ? "全部关键词命中" : mode === "phrase" ? "原句匹配" : "正文命中"} · ${evidence.length} 个段落</p><ul class="passage-list">${evidence.slice(0, 1).join("")}</ul>${evidence.length > 1 ? `<details class="passage-disclosure" data-entry="${entryKey(entry)}"${passages.includes(entryKey(entry)) ? " open" : ""}><summary>其余 ${evidence.length - 1} 个命中段落</summary><ul class="passage-list">${evidence.slice(1).join("")}</ul></details>` : ""}` : excerpt ? `<p class="part-excerpt"><span class="excerpt-label">${label}</span>${highlightText(excerpt, searchTerms(query, mode))}</p>` : ""}</li>`;
 }
 
 export function directoryResults(matches, { view, query, visibleCount, expanded, counts, mode, passages }, summaries) {

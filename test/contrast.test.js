@@ -70,5 +70,7 @@ for (const [theme, selector] of [["light", ":root"], ["dark", ':root[data-theme=
     }
     const highlight = contrast(tokenColor(declaration("mark", "color"), tokens), tokenColor(declaration("mark", "background"), tokens));
     assert.ok(highlight >= 4.5, `${theme} search highlight contrast: ${highlight.toFixed(2)}:1`);
+    const currentNavigation = contrast(tokenColor(declaration(".top-nav a[aria-current]", "color"), tokens), tokenColor(declaration(".top-nav a[aria-current]", "background"), tokens));
+    assert.ok(currentNavigation >= 4.5, `${theme} current navigation contrast: ${currentNavigation.toFixed(2)}:1`);
   });
 }

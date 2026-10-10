@@ -32,9 +32,13 @@ test("advanced search keeps an accessible current mode and reveals nondefault sh
     const advanced = searchControls({ mode, directory: true });
     assert.match(advanced, /id="advanced-search" open/);
     assert.match(advanced, new RegExp(`value="${mode}" checked`));
-    assert.match(advanced, /id="search-sort" aria-describedby="sort-help" disabled/);
+    assert.doesNotMatch(advanced, /id="search-sort"/);
+    assert.match(home({ all: 1, published: 0, drafts: 1 }, { mode, query: "概念" }), /id="search-sort" aria-describedby="sort-help" disabled/);
   }
-  assert.match(searchControls({ directory: true, sort: "title" }), /id="advanced-search" open/);
+  assert.doesNotMatch(searchControls({ directory: true, sort: "title" }), /id="advanced-search" open/);
+  const sorted = home({ all: 1, published: 0, drafts: 1 }, { query: "概念", sort: "title" });
+  assert.match(sorted, /value="title" selected/);
+  assert.ok(sorted.indexOf('id="search-sort"') > sorted.indexOf('</details>', sorted.indexOf('id="advanced-search"')));
   assert.doesNotMatch(searchControls({ mode: "phrase" }), /id="search-sort"/);
 });
 
