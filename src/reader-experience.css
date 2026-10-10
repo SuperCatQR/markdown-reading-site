@@ -92,3 +92,11 @@
   .top-nav .nav-count { display: none; }
   .reader-site-popover .nav-count { display: inline; }
 }
+.origin-notice {
+  margin: 12px 0;
+  padding: 8px 0 8px 12px;
+  border-left: 3px solid currentColor;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}

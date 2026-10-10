@@ -1,3 +1,4 @@
+import { workKey, partIndex } from "./source-identity.js";
 import { continuousRoute, entryRoute } from "./manuscripts.js";
 import { escapeHtml } from "./ui.js";
 import {
@@ -34,7 +35,7 @@ export function visibleReadingPosition(app, entries, { topOffset = 0, viewportHe
 export function readingRecordHref(record, entry) {
   const continuous = record.readingMode === "continuous";
   const route = continuous
-    ? continuousRoute(entry.bvid, entry.manuscriptType === "publication" ? "published" : "drafts", entry.editionId)
+    ? continuousRoute(workKey(entry), entry.manuscriptType === "publication" ? "published" : "drafts", entry.editionId)
     : entryRoute(entry);
   return `${route}#${encodeURIComponent(`${continuous ? partPrefix(entry.editionId) : ""}${record.anchor}`)}`;
 }
@@ -52,7 +53,7 @@ export function recentReadingMarkup({ records, status }, entries) {
     const action = current.status === "available" && status === "ok"
       ? `<a href="${escapeHtml(readingRecordHref(record, current.entry))}" data-reading-resume="${escapeHtml(record.id)}">继续阅读 →</a>`
       : current.status === "updated" ? `<a href="${escapeHtml(entryRoute(current.entry))}">从新版开始 →</a>` : "";
-    return `<${primary ? 'div class="recent-reading-primary"' : "li"}><div><span class="recent-reading-part">${primary ? "上次读到 · " : ""}P${record.pageIndex + 1} · ${record.manuscriptType === "publication" ? "已发布" : "公开预览"}</span>${titleMarkup}${current.status !== "available" ? `<p>${detail}</p>` : ""}${primary ? "" : action}</div>${primary ? action : `<button type="button" class="reset-button" data-reading-delete="${escapeHtml(record.id)}" aria-label="删除 ${escapeHtml(record.title)} 的阅读记录">删除</button>`}</${primary ? "div" : "li"}>`;
+    return `<${primary ? 'div class="recent-reading-primary"' : "li"}><div><span class="recent-reading-part">${primary ? "上次读到 · " : ""}P${partIndex(record) + 1} · ${record.manuscriptType === "publication" ? "已发布" : "公开预览"}</span>${titleMarkup}${current.status !== "available" ? `<p>${detail}</p>` : ""}${primary ? "" : action}</div>${primary ? action : `<button type="button" class="reset-button" data-reading-delete="${escapeHtml(record.id)}" aria-label="删除 ${escapeHtml(record.title)} 的阅读记录">删除</button>`}</${primary ? "div" : "li"}>`;
   };
   // The latest record stays visible, including its invalidation state. Do not
   // silently promote an older valid record when the reader's latest has changed.

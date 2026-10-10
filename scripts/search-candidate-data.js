@@ -1,3 +1,4 @@
+import { workKey } from "../src/source-identity.js";
 import { normalizeSearch } from "../src/search.js";
 import { candidatePartitionCount, candidatePartition } from "../src/search-candidates.js";
 import { entryKey } from "../src/manuscripts.js";
@@ -7,7 +8,7 @@ export function buildCandidateData(entries, index) {
   const byKey = new Map(entries.map((entry) => [entryKey(entry), entry]));
   const keys = Object.keys(index);
   const fingerprint = sha256(JSON.stringify(index));
-  const manifest = { version: 1, fingerprint, entries: keys.map((key) => [key, byKey.get(key).bvid]) };
+  const manifest = { version: 1, fingerprint, entries: keys.map((key) => [key, workKey(byKey.get(key))]) };
   const partitions = Array.from({ length: candidatePartitionCount }, () => ({ version: 1, fingerprint, postings: Object.create(null) }));
   for (const [id, key] of keys.entries()) {
     const grams = new Set();

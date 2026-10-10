@@ -1,3 +1,4 @@
+import { workKey, partIndex, validWorkKey } from "./source-identity.js";
 export const REVIEW_LABELS = Object.freeze({
   "pending-review": "待审核", "in-review": "审核中", "changes-requested": "待修改",
   rejected: "未采用", approved: "已审核 · 未发布",
@@ -21,8 +22,8 @@ export function readerSearchRoute(entry, { query = "", mode = "general", view } 
 }
 
 export function videoEntry(entries, bvid, view = "all") {
-  return entries.filter((entry) => entry.bvid === bvid && (view === "all" || isDraft(entry) === (view === "drafts")))
-    .sort((a, b) => a.pageIndex - b.pageIndex || Number(isDraft(a)) - Number(isDraft(b)))[0];
+  return entries.filter((entry) => workKey(entry) === bvid && (view === "all" || isDraft(entry) === (view === "drafts")))
+    .sort((a, b) => partIndex(a) - partIndex(b) || Number(isDraft(a)) - Number(isDraft(b)))[0];
 }
 
 export function searchRoute({ view, bvid, query = "", mode = "general", tag = "全部", sort = "body" }) {
@@ -41,18 +42,18 @@ export function groupVideos(matches) {
   const groups = new Map();
   for (const match of matches) {
     const { entry } = match;
-    if (!groups.has(entry.bvid)) groups.set(entry.bvid, { bvid: entry.bvid, title: entry.title, parts: [] });
-    groups.get(entry.bvid).parts.push(match);
+    if (!groups.has(workKey(entry))) groups.set(workKey(entry), { bvid: workKey(entry), title: entry.title, parts: [] });
+    groups.get(workKey(entry)).parts.push(match);
   }
   for (const group of groups.values()) {
-    group.parts.sort((a, b) => a.entry.pageIndex - b.entry.pageIndex || Number(isDraft(a.entry)) - Number(isDraft(b.entry)));
+    group.parts.sort((a, b) => partIndex(a.entry) - partIndex(b.entry) || Number(isDraft(a.entry)) - Number(isDraft(b.entry)));
   }
   return [...groups.values()];
 }
 
 export function adjacentParts(entry, entries) {
-  const parts = entries.filter((candidate) => candidate.bvid === entry.bvid && candidate.manuscriptType === entry.manuscriptType)
-    .sort((a, b) => a.pageIndex - b.pageIndex);
+  const parts = entries.filter((candidate) => workKey(candidate) === workKey(entry) && candidate.manuscriptType === entry.manuscriptType)
+    .sort((a, b) => partIndex(a) - partIndex(b));
   const index = parts.findIndex((candidate) => entryKey(candidate) === entryKey(entry));
   return { parts, previous: parts[index - 1], next: parts[index + 1] };
 }
@@ -101,11 +102,11 @@ export function resolveReaderRoute(search, publication, drafts) {
   if (params.has("read")) return { kind: "article", view: "published", mode: "body", entry: publication.find((entry) => entry.slug === params.get("read")), ...videoSearch };
   const view = params.get("view") || "all";
   const bvid = params.get("video");
-  if (params.has("video") && (!/^[\w-]{1,80}$/.test(bvid) || ![...publication, ...drafts].some((entry) => entry.bvid === bvid))) return { kind: "missing" };
+  if (params.has("video") && (!validWorkKey(bvid) || ![...publication, ...drafts].some((entry) => workKey(entry) === bvid))) return { kind: "missing" };
   if (params.has("flow") || params.has("part")) {
     if (params.get("flow") !== "continuous" || !bvid || !["published", "drafts"].includes(view)
         || ["q", "mode", "tag", "sort"].some((key) => params.has(key))) return { kind: "missing" };
-    const entries = (view === "drafts" ? drafts : publication).filter((entry) => entry.bvid === bvid).sort((a, b) => a.pageIndex - b.pageIndex);
+    const entries = (view === "drafts" ? drafts : publication).filter((entry) => workKey(entry) === bvid).sort((a, b) => partIndex(a) - partIndex(b));
     const id = params.get("part");
     if (params.has("part") && (!/^[0-9a-f]{32}$/.test(id) || !entries.some((entry) => entry.editionId === id))) return { kind: "missing" };
     return { kind: "continuous", bvid, view, entries, entry: id ? entries.find((entry) => entry.editionId === id) : entries[0] };

@@ -1,7 +1,9 @@
+import { workKey, partIndex } from "./source-identity.js";
 import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
 import summaries from "virtual:reader-summaries";
 import searchUrls from "virtual:reader-search-urls";
+import originSnapshots from "virtual:reader-origins";
 import { seriesSnapshots } from "virtual:reader-series";
 import { isDraft, sortReaderEntries, sourceTagsByFrequency, resolveReaderRoute, directoryRoute, searchRoute, readerSearchRoute, videoEntry, continuousRoute } from "./manuscripts.js";
 import { searchEntries, sortingHelp, searchModes } from "./search.js";
@@ -29,10 +31,16 @@ const reviewFiles = {
 };
 const loadSearchData = createSearchLoader(searchUrls);
 const documentCache = new Map();
+const withOrigins = (catalog, origins) => {
+  const indexed = new Map((origins?.entries || []).map((origin) => [origin.editionId, origin]));
+  return catalog.articles.map((entry) => indexed.has(entry.editionId) ? { ...entry, origin: indexed.get(entry.editionId) } : entry);
+};
+const publicationEntries = withOrigins(catalog, originSnapshots.published);
+const draftEntries = withOrigins(draftCatalog, originSnapshots.drafts);
 const entriesByView = {
-  all: sortReaderEntries([...catalog.articles, ...draftCatalog.articles]),
-  published: sortReaderEntries(catalog.articles),
-  drafts: sortReaderEntries(draftCatalog.articles),
+  all: sortReaderEntries([...publicationEntries, ...draftEntries]),
+  published: sortReaderEntries(publicationEntries),
+  drafts: sortReaderEntries(draftEntries),
 };
 const counts = Object.fromEntries(Object.entries(entriesByView).map(([view, entries]) => [view, entries.length]));
 const app = document.querySelector("#app");
@@ -227,7 +235,7 @@ function renderDirectory() {
   state.composingSearch = false;
   const scroll = state.directory.scroll;
   const options = {
-    ...state.directory, view, tags, counts, videoCount: new Set(entriesByView[view].map((entry) => entry.bvid)).size,
+    ...state.directory, view, tags, counts, videoCount: new Set(entriesByView[view].map((entry) => workKey(entry))).size,
   };
   app.innerHTML = pageHeader({ directory: true }) + directoryMarkup(options);
   const recentHost = document.createElement("div");
@@ -289,13 +297,13 @@ async function renderCurrentRoute({ focus = false } = {}) {
   continuousReader = null;
   ++resultsVersion;
   clearTimeout(searchTimer);
-  state.route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
+  state.route = resolveReaderRoute(location.search, publicationEntries, draftEntries);
   // Old video links open the first matching manuscript with the original search scope.
   if (state.route.kind === "video") {
     const legacy = state.route;
     const entry = videoEntry(entriesByView.all, legacy.bvid, legacy.view) || videoEntry(entriesByView.all, legacy.bvid);
     history.replaceState(history.state, "", `${readerSearchRoute(entry, { ...legacy.searchState, view: legacy.view })}${location.hash}`);
-    state.route = resolveReaderRoute(location.search, catalog.articles, draftCatalog.articles);
+    state.route = resolveReaderRoute(location.search, publicationEntries, draftEntries);
   }
   const route = state.route;
   document.documentElement.dataset.reading = String(!!route.entry && ["article", "continuous"].includes(route.kind));
@@ -328,7 +336,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     const savedContinuous = history.state?.continuous;
     continuousReader = createContinuousReader({
       app, route, pageHeader, saved: savedContinuous, focus, series: seriesSnapshots[route.view] || [], seriesEntries: entriesByView[route.view],
-      videoEntries: entriesByView.all.filter((entry) => entry.bvid === route.bvid),
+      videoEntries: entriesByView.all.filter((entry) => workKey(entry) === route.bvid),
       isCurrent: () => version === renderVersion,
       loadBody: (entry) => {
         const url = bodyFiles[`../${isDraft(entry) ? "draft-content" : "content"}/${entry.file}`];
@@ -351,7 +359,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
       const currentReader = continuousReader;
       const videoSearchReady = bindReaderVideo({
         app, route: { ...route, mode: "continuous", videoSearch: currentReader.searchState() },
-        entries: entriesByView.all.filter((entry) => entry.bvid === route.bvid), summaries, loadSearchData,
+        entries: entriesByView.all.filter((entry) => workKey(entry) === route.bvid), summaries, loadSearchData,
         isCurrent: () => version === renderVersion,
         persistSearch: (value) => { currentReader.setSearch(value); saveLocation(); },
       });
@@ -376,7 +384,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     messagePage("没有找到这篇稿件", "对应文件未包含在当前快照中。", { missing: true });
     return;
   }
-  app.innerHTML = pageHeader() + `<main id="main-content" class="reading-shell" tabindex="-1"><div class="document-loading" role="status" aria-busy="true"><p>正在加载 P${entry.pageIndex + 1}${route.mode === "review" ? "校验参照" : "正文"}…</p><div class="loading-line"></div><div class="loading-line"></div><div class="loading-line"></div></div></main>`;
+  app.innerHTML = pageHeader() + `<main id="main-content" class="reading-shell" tabindex="-1"><div class="document-loading" role="status" aria-busy="true"><p>正在加载 P${partIndex(entry) + 1}${route.mode === "review" ? "校验参照" : "正文"}…</p><div class="loading-line"></div><div class="loading-line"></div><div class="loading-line"></div></div></main>`;
   window.scrollTo({ top: 0, behavior: "instant" });
   try {
     const [source, { readerMarkup }] = await Promise.all([loadDocument(url), import("./reader-view.js")]);
@@ -385,15 +393,15 @@ async function renderCurrentRoute({ focus = false } = {}) {
     const reviewDocument = route.mode === "review" ? contributors.prepareReviewDocument(source) : null;
     app.innerHTML = pageHeader() + readerMarkup(entry, route.mode, source, {
       entries: entriesByView[route.view], videoEntries: entriesByView.all, videoSearch: route.videoSearch, returnView, pageUrl: location.href, issueUrl, series: seriesSnapshots[route.view] || [], preparedReview: reviewDocument,
-      returnContinuous: history.state?.continuous?.bvid === entry.bvid && history.state.continuous.view === route.view
-        ? continuousRoute(entry.bvid, route.view, history.state.continuous.current) : null,
+      returnContinuous: history.state?.continuous?.bvid === workKey(entry) && history.state.continuous.view === route.view
+        ? continuousRoute(workKey(entry), route.view, history.state.continuous.current) : null,
     });
-    document.title = `${entry.title} · P${entry.pageIndex + 1}${route.mode === "review" ? " · 校验参照" : ""} · 档案室`;
-    document.querySelector('meta[name="description"]').content = entry.summary || `${entry.title}，P${entry.pageIndex + 1}。${entry.attribution}`;
+    document.title = `${entry.title} · P${partIndex(entry) + 1}${route.mode === "review" ? " · 校验参照" : ""} · 档案室`;
+    document.querySelector('meta[name="description"]').content = entry.summary || `${entry.title}，P${partIndex(entry) + 1}。${entry.attribution}`;
     app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
     const { bindReaderVideo } = await import("./reader-video.js");
     if (version !== renderVersion) return;
-    const videoSearchReady = bindReaderVideo({ app, route: route.mode === "review" ? { ...route, videoSearch: undefined } : route, entries: entriesByView.all.filter((candidate) => candidate.bvid === entry.bvid), summaries, loadSearchData, isCurrent: () => version === renderVersion });
+    const videoSearchReady = bindReaderVideo({ app, route: route.mode === "review" ? { ...route, videoSearch: undefined } : route, entries: entriesByView.all.filter((candidate) => workKey(candidate) === workKey(entry)), summaries, loadSearchData, isCurrent: () => version === renderVersion });
     activeReaderVideo = videoSearchReady;
     if (focus) app.querySelector("main").focus({ preventScroll: true });
     if (Number.isFinite(history.state?.articleScroll)) {
@@ -522,21 +530,21 @@ function navigateWithoutReload(event) {
   const directory = history.state?.directory;
   const continuous = history.state?.continuous;
   const videoSearch = history.state?.videoSearch;
-  const destination = resolveReaderRoute(url.search, catalog.articles, draftCatalog.articles);
+  const destination = resolveReaderRoute(url.search, publicationEntries, draftEntries);
   const capturedContext = contributors?.captureReviewContext(app, state.route, destination);
   const priorContext = history.state?.reviewContext;
   const reviewContext = capturedContext || (destination.entry && priorContext?.version === contributionVersion(destination.entry) ? priorContext : null);
-  const previousOrigin = sanitizeSearchOrigin(history.state?.searchOrigin, state.route?.entry?.bvid);
+  const previousOrigin = sanitizeSearchOrigin(history.state?.searchOrigin, state.route?.entry ? workKey(state.route.entry) : null);
   let searchOrigin = null;
   let returnDirectory = directory;
   if (isSearchPage() && state.directory?.query.trim() && link.hasAttribute("data-directory-search") && destination.entry
       && destination.videoSearch?.query === state.directory.query && destination.videoSearch.mode === state.directory.mode
       && destination.videoSearch.view === state.route.view) {
-    searchOrigin = sanitizeSearchOrigin({ kind: "directory-search", bvid: destination.entry.bvid,
-      view: state.route.view, directory: state.directory }, destination.entry.bvid);
+    searchOrigin = sanitizeSearchOrigin({ kind: "directory-search", bvid: workKey(destination.entry),
+      view: state.route.view, directory: state.directory }, workKey(destination.entry));
   } else if (link.hasAttribute("data-return-global") && previousOrigin && destination.kind === "directory") {
     returnDirectory = { ...previousOrigin.directory, view: previousOrigin.view };
-  } else if (previousOrigin && destination.entry?.bvid === previousOrigin.bvid
+  } else if (previousOrigin && destination.entry && workKey(destination.entry) === previousOrigin.bvid
       && link.matches(".search-hit-step, #video-results a, .parts-navigation a, .reader-part-menu a, .document-tabs a, .video-return, .reader-mode-link, .review-return")) {
     searchOrigin = previousOrigin;
   }

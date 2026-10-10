@@ -1,3 +1,4 @@
+import { workKey } from "../src/source-identity.js";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { validateSiteSnapshots } from "./validate-catalog.mjs";
@@ -9,7 +10,7 @@ import { buildCandidateData } from "./search-candidate-data.js";
 
 // Derived presentation data lives outside the immutable input snapshots.
 export async function buildReaderData(root, watch = () => {}) {
-  const catalogs = await validateSiteSnapshots(root);
+  const catalogs = await validateSiteSnapshots(root, { includeOrigins: true });
   const summaries = {};
   const search = { published: {}, drafts: {} };
   const videos = { published: {}, drafts: {} };
@@ -18,6 +19,7 @@ export async function buildReaderData(root, watch = () => {}) {
     const folder = path.join(root, view === "drafts" ? "draft-content" : "content");
     watch(path.join(folder, "catalog.json"));
     watch(path.join(folder, view === "drafts" ? "publication-draft-export-manifest.json" : "publication-export-manifest.json"));
+    watch(path.join(folder, "origins.json"));
     const documents = await Promise.all(catalog.articles.map(async (entry) => {
       watch(path.join(folder, entry.file));
       watch(path.join(folder, entry.reviewFile));
@@ -29,12 +31,12 @@ export async function buildReaderData(root, watch = () => {}) {
     }));
     for (const { entry, blocks, minutes } of documents) {
       search[view][entryKey(entry)] = blocks;
-      (videos[view][entry.bvid] ||= {})[entryKey(entry)] = blocks;
+      (videos[view][workKey(entry)] ||= {})[entryKey(entry)] = blocks;
       summaries[entryKey(entry)] = { minutes };
     }
     candidates[view] = buildCandidateData(catalog.articles, search[view]);
   }));
-  return { summaries, search, videos, candidates };
+  return { summaries, search, videos, candidates, origins: catalogs.origins };
 }
 
 export function readerContentPlugin(root) {
@@ -42,6 +44,7 @@ export function readerContentPlugin(root) {
   const modules = new Map([
     [`${prefix}summaries`, "summaries"],
     [`${prefix}search-urls`, "search-urls"],
+    [`${prefix}origins`, "origins"],
   ]);
   let generated;
   let command;
@@ -58,6 +61,7 @@ export function readerContentPlugin(root) {
       const name = modules.get(id.slice(1));
       if (!name) return;
       if (name === "summaries") return `export default ${JSON.stringify(generated.summaries)};`;
+      if (name === "origins") return `export default ${JSON.stringify(generated.origins)};`;
       const assetUrl = (name, index) => command === "serve" ? JSON.stringify(`${base}__reader/${name}.json`)
         : `import.meta.ROLLUP_FILE_URL_${this.emitFile({ type: "asset", name: `${name}.json`, source: JSON.stringify(index) })}`;
       const urls = Object.keys(generated.search).map((view) => `${JSON.stringify(view)}: ${assetUrl(`search-${view}`, generated.search[view])}`);
@@ -75,7 +79,7 @@ export function readerContentPlugin(root) {
       server.middlewares.use((request, response, next) => {
         const pathname = new URL(request.url, "http://reader.local").pathname;
         const view = ["published", "drafts"].find((kind) => pathname === `${base}__reader/search-${kind}.json`);
-        const local = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-video-(published|drafts)-([\w-]{1,80})\.json$/) : null;
+        const local = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-video-(published|drafts)-([\w.-]{1,140})\.json$/) : null;
         const manifest = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-candidates-(published|drafts)\.json$/) : null;
         const pairs = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-pairs-(published|drafts)-(\d+)\.json$/) : null;
         const index = view ? generated.search[view] : local ? generated.videos[local[1]][local[2]]

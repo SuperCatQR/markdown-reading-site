@@ -1,3 +1,5 @@
+import { validWorkKey } from "./source-identity.js";
+
 export function browserStorage(name) {
   return {
     getItem(key) { try { return window[name].getItem(key); } catch { return null; } },
@@ -14,7 +16,7 @@ export function sanitizeDirectoryState(value, tags) {
     tag: tags.includes(saved.tag) ? saved.tag : "全部",
     scroll: Number.isFinite(saved.scroll) ? Math.max(0, saved.scroll) : 0,
     visibleCount: Number.isInteger(saved.visibleCount) ? Math.max(24, Math.min(100000, saved.visibleCount)) : 24,
-    expanded: Array.isArray(saved.expanded) ? saved.expanded.filter((id) => typeof id === "string" && /^[\w-]{1,80}$/.test(id)) : [],
+    expanded: Array.isArray(saved.expanded) ? saved.expanded.filter(validWorkKey) : [],
     passages: Array.isArray(saved.passages) ? saved.passages.filter((id) => typeof id === "string" && /^[\w:-]{1,100}$/.test(id)) : [],
   };
 }
@@ -22,7 +24,7 @@ export function sanitizeDirectoryState(value, tags) {
 // A search origin describes an actual directory-to-reader navigation. A cached
 // directory alone cannot establish that the reader came from its results.
 export function sanitizeSearchOrigin(value, bvid) {
-  if (typeof bvid !== "string" || !/^[\w-]{1,80}$/.test(bvid)
+  if (!validWorkKey(bvid)
       || value?.kind !== "directory-search" || value.bvid !== bvid
       || !["all", "published", "drafts"].includes(value.view)
       || typeof value.directory?.query !== "string" || !value.directory.query.trim()

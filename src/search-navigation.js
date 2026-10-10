@@ -1,3 +1,4 @@
+import { partIndex, workKey } from "./source-identity.js";
 import { entryKey, isDraft, readerSearchRoute, searchRoute } from "./manuscripts.js";
 import { sanitizeSearchOrigin } from "./directory-state.js";
 import { matchHash, parseMatchHash, normalizeSearch } from "./search.js";
@@ -8,7 +9,7 @@ import { escapeHtml } from "./ui.js";
 export function passageNavigation(matches, manuscriptType) {
   const seen = new Set();
   return matches.filter(({ entry }) => entry.manuscriptType === manuscriptType)
-    .sort((a, b) => a.entry.pageIndex - b.entry.pageIndex)
+    .sort((a, b) => partIndex(a.entry) - partIndex(b.entry))
     .flatMap(({ entry, matches: blocks = [] }) => blocks.flatMap((match) => {
       const key = `${entryKey(entry)}:${match.id}`;
       if (!match.id || seen.has(key)) return [];
@@ -28,7 +29,7 @@ export function passageNavigationState(passages, entry, hash) {
 
 export function passageNavigationMarkup(state, request, origin = null) {
   const link = (passage, label, direction) => passage
-    ? `<a class="search-hit-step" data-search-hit="${direction}" href="${escapeHtml(`${readerSearchRoute(passage.entry, request)}${matchHash(passage.match, request.query, request.mode)}`)}" aria-label="${label}：P${passage.entry.pageIndex + 1} 正文命中">${label}</a>`
+    ? `<a class="search-hit-step" data-search-hit="${direction}" href="${escapeHtml(`${readerSearchRoute(passage.entry, request)}${matchHash(passage.match, request.query, request.mode)}`)}" aria-label="${label}：P${partIndex(passage.entry) + 1} 正文命中">${label}</a>`
     : `<span class="search-hit-boundary" aria-disabled="true">${label}</span>`;
   const global = origin ? `<a data-return-global href="${escapeHtml(searchRoute({ ...origin.directory, view: origin.view }))}">返回全站搜索结果</a>`
     : `<a href="${escapeHtml(searchRoute({ query: request.query, mode: request.mode, view: request.view }))}">重新全站搜索</a>`;
@@ -51,7 +52,7 @@ export function createSearchNavigation({ app, route, getRequest, isCurrent }) {
     const active = ready && route.mode !== "review" && state.current >= 0 && expected
       && normalizeSearch(hit.query) === normalizeSearch(expected.query);
     host.hidden = !active;
-    host.innerHTML = active ? passageNavigationMarkup(state, { ...getRequest(), manuscriptType: route.entry.manuscriptType }, sanitizeSearchOrigin(history.state?.searchOrigin, route.entry.bvid)) : "";
+    host.innerHTML = active ? passageNavigationMarkup(state, { ...getRequest(), manuscriptType: route.entry.manuscriptType }, sanitizeSearchOrigin(history.state?.searchOrigin, workKey(route.entry))) : "";
     app.dispatchEvent(new CustomEvent("search-navigation-change", { detail: { active }, bubbles: true }));
   }
   function clearHighlights() {
