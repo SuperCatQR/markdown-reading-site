@@ -1,4 +1,4 @@
-import { sourceLabel, partIndex } from "./source-identity.js";
+import { sourceLabel, partLabel } from "./source-identity.js";
 import { isDraft, buildIssueUrl } from "./manuscripts.js";
 import { escapeHtml, statusBadge, draftNotice, reviewNotice } from "./ui.js";
 
@@ -11,8 +11,11 @@ function observedTime(value) {
 export function provenanceMarkup(entry, { review = false, pageUrl, issueUrl, includeVersion = false } = {}) {
   return `<details class="provenance" aria-label="来源与整理说明"><summary>来源与整理说明</summary><div class="provenance-content"><div><span>当前稿件</span>${statusBadge(entry)}</div>
     ${review ? reviewNotice() : ""}${isDraft(entry) ? draftNotice() : ""}
-    <p><strong>视频来源</strong><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(sourceLabel(entry))} / P${partIndex(entry) + 1} ↗</a></p>
-    ${entry.contentVersion === 2 ? `<p><strong>视频发布于</strong>${escapeHtml(entry.sourcePublishedAt || "未知")}</p><p><strong>来源采集时间</strong>${escapeHtml(observedTime(entry.sourceMetadata.metadataObservedAt))}</p>` : ""}
+    <p><strong>视频来源</strong><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(sourceLabel(entry))} / ${escapeHtml(partLabel(entry))} ↗</a></p>
+    <p><strong>来源原标题</strong>${escapeHtml(entry.sourceMetadata.title)}</p>
+    ${entry.sourceMetadata.partTitle ? `<p><strong>来源分段标题</strong>${escapeHtml(entry.sourceMetadata.partTitle)}</p>` : ""}
+    <p><strong>来源创作者</strong>${escapeHtml(entry.sourceMetadata.creatorName || "未知")}${entry.sourceMetadata.creatorId ? ` · ${escapeHtml(entry.sourceMetadata.creatorId)}` : ""}</p>
+    <p><strong>视频发布于（UTC）</strong>${escapeHtml(entry.sourcePublishedAt || "未知")}</p><p><strong>元数据观察时间（UTC）</strong>${escapeHtml(observedTime(entry.sourceMetadata.metadataObservedAt))}</p>
     <p><strong>整理方式</strong>${escapeHtml(entry.attribution)}</p>${entry.editorNote ? `<p><strong>编辑说明</strong>${escapeHtml(entry.editorNote)}</p>` : ""}
     <p class="verification-scope">审核与发布说明稿件的处理状态，不代表对视频中全部观点的学术认证。</p>
     ${includeVersion ? versionDetailsMarkup(entry, review) : ""}

@@ -8,7 +8,7 @@ import { visibleReadingPosition, recentReadingMarkup, readingRecordHref } from "
 import { resolveReaderRoute } from "../src/manuscripts.js";
 
 const entry = (part = 1, manuscriptType = "publication-draft") => ({
-  manuscriptType, videoPartId: part, pageIndex: part - 1, bvid: "BVexample", slug: `part-${part}`,
+  manuscriptType, videoPartId: part, partIndex: part - 1, contentVersion: 2, platform: "bilibili", externalVideoId: "BVexample", slug: `part-${part}`,
   editionId: part.toString(16).padStart(32, "0"), contentSha256: "b".repeat(64), artifactSha256: "c".repeat(64),
   releaseId: "d".repeat(64), title: `长讲解 P${part}`,
 });
@@ -35,7 +35,7 @@ test("restoration requires every frozen identity including category, edition, re
   const saved = recordFromEntry(original, { anchor: "passage-1", lastReadAt: 1000 });
   assert.equal(reconcileReadingRecord(saved, [original]).status, "available");
   for (const [field, value] of Object.entries({ editionId: "f".repeat(32), contentSha256: "f".repeat(64),
-    artifactSha256: "f".repeat(64), releaseId: "f".repeat(64), bvid: "BVchanged", pageIndex: 4 })) {
+    artifactSha256: "f".repeat(64), releaseId: "f".repeat(64), contentVersion: 1, platform: "youtube", externalVideoId: "BVchanged", partIndex: 4 })) {
     assert.equal(reconcileReadingRecord(saved, [{ ...original, [field]: value }]).status, "updated", field);
   }
   assert.equal(reconcileReadingRecord(saved, []).status, "missing");
@@ -74,7 +74,7 @@ test("unavailable, full, corrupt and unknown storage fails visibly and preserves
   const quota = createReadingHistoryStore({ getItem: () => null, setItem() { throw new Error("full"); } }, { now: () => 2000 });
   assert.equal(quota.write(record()).ok, false);
   for (const [raw, expected] of [["{broken", "corrupt"], ['{"schemaVersion":99}', "unsupported"],
-    ['{"schemaVersion":1,"records":[],"deleted":{},"clearedAt":"wrong"}', "corrupt"]]) {
+    ['{"schemaVersion":2,"records":[],"deleted":{},"clearedAt":"wrong"}', "corrupt"]]) {
     const storage = memoryStorage(); storage.setItem(READING_HISTORY_KEY, raw);
     const store = createReadingHistoryStore(storage, { now: () => 2000 });
     assert.equal(store.read().status, expected);

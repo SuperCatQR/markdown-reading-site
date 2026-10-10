@@ -1,3 +1,4 @@
+import { universalEntry, signSnapshot } from "./support/universal-fixture.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { sha256, validateCatalog, validateSnapshot } from "../scripts/catalog.js";
@@ -27,22 +28,22 @@ AI 合成稿件，未经人工复核。
 [不安全链接](javascript:alert(1))
 `;
 const body = "# 人工编辑后正文\n\n正文独有青竹。\n";
-const published = {
-  manuscriptType: "publication", slug: "part-1", title: "合成稿件", summary: "", tags: [],
+const published = universalEntry({
+  manuscriptType: "publication", slug: "part-1", title: "合成稿件", summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [],
   attribution: "合成测试数据", editorNote: "", releaseId: "f".repeat(64), editionId: "a".repeat(32),
-  aiRevisionId: "c".repeat(64), videoPartId: 1, bvid: "BVtest", pageIndex: 0,
+  aiRevisionId: "c".repeat(64), videoPartId: 1, contentVersion: 2, platform: "bilibili", externalVideoId: "BVtest", partIndex: 0,
   sourceUrl: "https://www.bilibili.com/video/BVtest/?p=1", contentSha256: "d".repeat(64),
-  artifactSha256: sha256(body), templateVersion: "publish-v1", publishedAt: 1791417600,
+  artifactSha256: sha256(body), templateVersion: "publish-v2", publishedAt: 1791417600,
   file: "articles/part-1/publish.md", reviewFile: "articles/part-1/review.md", reviewArtifactSha256: sha256(reference),
-};
+});
 const { releaseId, publishedAt, templateVersion, ...reader } = published;
-const draft = { ...reader, manuscriptType: "publication-draft", editionId: "b".repeat(32),
+const draft = universalEntry({ ...reader, manuscriptType: "publication-draft", editionId: "b".repeat(32),
   slug: "edition-" + "b".repeat(32), createdAt: 1791417600, reviewStatus: "pending-review",
   file: "drafts/edition-" + "b".repeat(32) + "/preview.md",
   reviewFile: "drafts/edition-" + "b".repeat(32) + "/review.md",
-};
+});
 const entries = [published, draft];
-const envelope = (entry, schemaVersion = 2) => ({ schemaVersion, manuscriptType: entry.manuscriptType, articles: [entry] });
+const envelope = (entry, schemaVersion = 3) => ({ schemaVersion, manuscriptType: entry.manuscriptType, articles: [entry] });
 const manifestName = (entry) => entry.manuscriptType === "publication" ? "publication-export-manifest.json" : "publication-draft-export-manifest.json";
 
 function snapshot(entry, reviewBytes = Buffer.from(reference)) {
@@ -53,14 +54,10 @@ function snapshot(entry, reviewBytes = Buffer.from(reference)) {
 }
 
 function setManifest(files, entry, omit = []) {
-  const managed = [...files].filter(([name]) => name !== manifestName(entry) && !omit.includes(name))
-    .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
-    .map(([name, bytes]) => ({ path: name, sha256: sha256(bytes) }));
-  files.set(manifestName(entry), Buffer.from(JSON.stringify({ schemaVersion: 1,
-    manuscriptType: entry.manuscriptType + "-export", snapshotId: sha256(JSON.stringify(managed)), files: managed })));
+  signSnapshot(files, entry.manuscriptType, { omit });
 }
 
-test("both catalogs require v2 paired reference fields while manifests stay v1", () => {
+test("both v3 catalogs require paired references and the origin-profile v2 manifest", () => {
   for (const entry of entries) {
     assert.deepEqual(validateSnapshot(snapshot(entry), entry.manuscriptType).errors, []);
     assert.ok(validateCatalog(envelope(entry, 1), [entry.file, entry.reviewFile], entry.manuscriptType).length);
@@ -69,9 +66,9 @@ test("both catalogs require v2 paired reference fields while manifests stay v1",
       assert.ok(validateCatalog(envelope(incomplete), [entry.file, entry.reviewFile], entry.manuscriptType).length);
     }
     const files = snapshot(entry);
-    const manifest = JSON.parse(files.get(manifestName(entry))); manifest.schemaVersion = 2;
+    const manifest = JSON.parse(files.get(manifestName(entry))); manifest.schemaVersion = 1;
     files.set(manifestName(entry), Buffer.from(JSON.stringify(manifest)));
-    assert.ok(validateSnapshot(files, entry.manuscriptType).errors.some((error) => error.includes("v1")));
+    assert.ok(validateSnapshot(files, entry.manuscriptType).errors.some((error) => error.includes("v2")));
   }
 });
 

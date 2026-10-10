@@ -1,5 +1,5 @@
 import { entryRoute } from "./manuscripts.js";
-import { bilibiliId, partIndex } from "./source-identity.js";
+import { bilibiliId, partLabel } from "./source-identity.js";
 import { escapeHtml } from "./ui.js";
 
 const positionsOf = (item) => [...item.members.map((member) => ({ ...member, missing: false })), ...item.knownMissing.map((member) => ({ ...member, missing: true }))].sort((a, b) => a.ordinal - b.ordinal);
@@ -28,7 +28,7 @@ export function seriesMarkup(entry, series = [], entries = []) {
     const rows = positions.map((member) => {
       if (member.missing) return `<li class="series-missing"><span>第 ${member.ordinal} 部 · ${escapeHtml(member.label)}</span><p>编辑确认缺失：${escapeHtml(member.note)}</p></li>`;
       const available = availableParts(member, entry, entries);
-      return `<li${member.bvid === bilibiliId(entry) ? ' aria-current="true"' : ""}><span>第 ${member.ordinal} 部 · ${escapeHtml(member.label)}${member.bvid === bilibiliId(entry) ? " · 当前视频" : ""}</span>${available.length ? `<div class="series-parts">${available.map((part) => `<a href="${escapeHtml(entryRoute(part))}"${part.editionId === entry.editionId ? ' aria-current="page"' : ""}>P${partIndex(part) + 1}</a>`).join("")}</div>` : '<p>当前稿件类别暂无收录，系列顺序保留。</p>'}</li>`;
+      return `<li${member.bvid === bilibiliId(entry) ? ' aria-current="true"' : ""}><span>第 ${member.ordinal} 部 · ${escapeHtml(member.label)}${member.bvid === bilibiliId(entry) ? " · 当前视频" : ""}</span>${available.length ? `<div class="series-parts">${available.map((part) => `<a href="${escapeHtml(entryRoute(part))}"${part.editionId === entry.editionId ? ' aria-current="page"' : ""}>${partLabel(part)}</a>`).join("")}</div>` : '<p>当前稿件类别暂无收录，系列顺序保留。</p>'}</li>`;
     }).join("");
     return `<details class="reading-series"><summary>系列 · ${escapeHtml(item.title)} · 第 ${current.ordinal} 部</summary><p>系列关系与阅读顺序已经编辑确认。<a href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">查看依据 ↗</a></p><p>${escapeHtml(item.evidence)}</p><nav aria-label="${escapeHtml(item.title)}系列阅读顺序"><ol>${rows}</ol></nav></details>`;
   }).join("");

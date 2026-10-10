@@ -1,3 +1,4 @@
+import { workKey } from "../src/source-identity.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildCandidateData } from "../scripts/search-candidate-data.js";
@@ -6,14 +7,14 @@ import { createSearchLoader } from "../src/search-loader.js";
 import { searchEntries } from "../src/search.js";
 import { entryKey } from "../src/manuscripts.js";
 
-const entries = Array.from({ length: 30 }, (_, id) => ({ manuscriptType: "publication-draft", editionId: `${id}`, bvid: `BV${id}`, title: id === 0 ? "仅标题秘密概念" : "无关标题", summary: "", tags: id === 1 ? ["标签索引"] : [] }));
+const entries = Array.from({ length: 30 }, (_, id) => ({ manuscriptType: "publication-draft", editionId: `${id}`, contentVersion: 2, platform: "bilibili", externalVideoId: `BV${id}`, title: id === 0 ? "仅标题秘密概念" : "无关标题", summary: "", sourceMetadata: {tags: id === 1 ? ["标签索引"] : []}, tags: [] }));
 const index = Object.fromEntries(entries.map((entry, id) => [entryKey(entry), [
   { id: "passage-1", text: id === 2 ? "海德格尔 CAFÉ 😺xyz Foo\n  Bar 中文。" : "普通文本，没有特别概念。" },
   { id: "passage-2", text: id === 2 ? "另一段痛苦，海洋德性格局尔雅只是字符误报。" : "另一段。" },
 ]]));
 const data = buildCandidateData(entries, index);
-const urls = { drafts: "/full.json", published: "/published.json", candidates: { drafts: { manifest: "/manifest.json", partitions: data.partitions.map((_, id) => `/pairs-${id}.json`) } }, videos: { drafts: Object.fromEntries(entries.map((entry) => [entry.bvid, `/${entry.bvid}.json`])) } };
-const bodies = Object.fromEntries(entries.map((entry) => [`/${entry.bvid}.json`, { [entryKey(entry)]: index[entryKey(entry)] }]));
+const urls = { drafts: "/full.json", published: "/published.json", candidates: { drafts: { manifest: "/manifest.json", partitions: data.partitions.map((_, id) => `/pairs-${id}.json`) } }, videos: { drafts: Object.fromEntries(entries.map((entry) => [workKey(entry), `/${entry.externalVideoId}.json`])) } };
+const bodies = Object.fromEntries(entries.map((entry) => [`/${entry.externalVideoId}.json`, { [entryKey(entry)]: index[entryKey(entry)] }]));
 const resources = { ...bodies, "/full.json": index, "/published.json": {}, "/manifest.json": data.manifest, ...Object.fromEntries(data.partitions.map((value, id) => [`/pairs-${id}.json`, value])) };
 function fixture(change = (url, value) => value) {
   const requests = [];
@@ -83,7 +84,7 @@ test("candidate body downloads are bounded, stop queuing after cancellation, and
   const candidateData = buildCandidateData(entries, bodyIndex);
   const bodyResources = { ...resources, "/manifest.json": candidateData.manifest,
     ...Object.fromEntries(candidateData.partitions.map((value, id) => [`/pairs-${id}.json`, value])),
-    ...Object.fromEntries(entries.map((entry) => [`/${entry.bvid}.json`, { [entryKey(entry)]: bodyIndex[entryKey(entry)] }])) };
+    ...Object.fromEntries(entries.map((entry) => [`/${entry.externalVideoId}.json`, { [entryKey(entry)]: bodyIndex[entryKey(entry)] }])) };
   let active = 0;
   let peak = 0;
   let bodyRequests = 0;

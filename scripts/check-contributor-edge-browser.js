@@ -1,7 +1,7 @@
 // playwright-cli -s=contributor-fix run-code --filename=scripts/check-contributor-edge-browser.js
 async (page) => {
   const base = await page.evaluate(() => `${location.origin}${location.pathname}`);
-  const edition = "18e76d4ae0464b0fa478507531463970";
+  const edition = "20b3456f06f64577850122410d980c81";
   const browser = await page.context().newPage();
   const errors = [];
   browser.on("pageerror", (error) => errors.push(error.message));
@@ -63,7 +63,7 @@ async (page) => {
     await browser.keyboard.press("Escape");
 
     // A continuous part has its own exact edition and prefixed body anchor.
-    await browser.goto(`${base}?video=BV1dA411T7xD&view=all`); await ready();
+    await browser.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=all`); await ready();
     const continuousEdition = await browser.locator('.reading-article').getAttribute('data-edition');
     quote = await browser.locator('#passage-2').textContent();
     await browser.unroute(sourceRoute);

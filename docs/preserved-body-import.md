@@ -6,7 +6,7 @@
 新入口接受生产者显式导出的 `universal-origin-v1`：两份 catalog 均为 v3，
 manifest 为 v2，受管文件包含 `catalog.json`、`origins.json` 和正文/参照配对。
 每篇稿件必须是 content v2；不接受将 content v1 加几个字段作为通用稿件。
-已有 catalog v2/manifest v1 仍按完整原契约验证；两个根目录不能混用目录版本。
+当前 reader 只接受上述 profile；catalog v2、manifest v1 和 legacy article 全部拒绝，两个目录均须使用完整新契约。
 
 ```powershell
 bili-asr publication export-drafts --archive-root ARCHIVE_COPY --out NEW_DRAFTS --contract-profile universal-origin-v1 --edition-id IMPORTED_EDITION_ID
@@ -44,7 +44,7 @@ BVID。分组用的 `platform.externalVideoId` 只存在于派生索引与导航
 空公开目录和明确审核发布的迁移稿。测试包含语义篡改、旧 manifest 降级、遗漏/重复
 来源、错误参照、非法来源元数据、平台路由、分片搜索和阅读记录恢复。
 
-现有 583 篇快照的验证、全站测试和生产构建通过；桌面 1440x1000 与手机 390x844
+PR #75 阶段的 583 篇旧快照验证属于历史证据；PR #77 已切换为 1,228 篇新快照。该阶段全站测试和生产构建通过；桌面 1440x1000 与手机 390x844
 浏览器验证正文、参照、迁移后编辑、视频内查找、全站搜索及连续阅读。三个真实旧稿
 在隔离数据库副本导入后可正常阅读，旧正文哈希相等，AI 与工作流计数保持不变。
 这些验证不表示已经切换生产数据库、批准迁移稿或部署网站。

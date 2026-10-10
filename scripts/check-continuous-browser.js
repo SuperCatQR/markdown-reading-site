@@ -10,7 +10,7 @@ async (page) => {
   target.on("pageerror", (error) => errors.push(error.message));
   const ready = () => target.waitForFunction(() => !!document.querySelector(".continuous-part") && !document.querySelector("#retry-document") && document.querySelector(".continuous-feedback")?.getAttribute("aria-busy") !== "true" && (!new URL(location.href).searchParams.has("part") || history.state?.continuous?.current === new URL(location.href).searchParams.get("part")));
   try {
-    await target.goto(`${base}?video=BV1dA411T7xD&view=all`);
+    await target.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=all`);
     await target.locator(".reading-parts > summary").click();
     await target.locator(".parts-navigation").first().getByRole("link", { name: "从此 P 连续阅读 →" }).click();
     await ready();
@@ -73,10 +73,10 @@ async (page) => {
     await target.locator(".reader-site-menu > summary").click();
     await target.getByRole("button", { name: "切换深浅主题" }).click();
     await target.screenshot({ path: "artifacts/continuous-mobile-dark.png", fullPage: false });
-    await target.goto(`${base}?video=BV1dA411T7xD&view=published&flow=continuous`);
+    await target.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=published&flow=continuous`);
     await target.getByText("此类别暂无收录稿件，可返回单篇阅读切换查找类别。").waitFor();
     assert(await target.locator(".continuous-part").count() === 0, "Empty release flow mixed in drafts");
-    await target.goto(`${base}?video=BV1dA411T7xD&view=drafts&flow=continuous&part=${firstId}#%ZZ`);
+    await target.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=drafts&flow=continuous&part=${firstId}#%ZZ`);
     await ready();
     await target.route(/\.md$/, (route) => route.fulfill({ status: 503, body: "unavailable" }));
     await target.getByRole("link", { name: /加载下一部分 · P2/ }).click();

@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { validSourceIdentity } from "../src/source-identity.js";
 
 export const ORIGIN_PROFILE = "universal-origin-v1";
 const object = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
@@ -26,13 +27,21 @@ function sourceTime(value) {
   return date.toISOString().replace(".000Z", "Z");
 }
 
+function validCover(value) {
+  if (!text(value, 2048) || /[\s\\?#]/u.test(value) || !/^https:\/\/[^/]/i.test(value)
+      || value.split("/")[2].includes("@")) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && !url.username && !url.password
+      && (!url.port || url.port === "443")
+      && /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+hdslb\.com$/i.test(url.hostname);
+  } catch { return false; }
+}
+
 export function validateUniversalSource(entry) {
   const errors = [];
   const source = entry.sourceMetadata;
-  const validIdentity = ["bilibili", "youtube"].includes(entry.platform)
-    && typeof entry.externalVideoId === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(entry.externalVideoId)
-    && (entry.platform !== "youtube" || /^[A-Za-z0-9_-]{11}$/.test(entry.externalVideoId))
-    && integer(entry.partIndex);
+  const validIdentity = validSourceIdentity(entry);
   const url = entry.platform === "bilibili" ? `https://www.bilibili.com/video/${entry.externalVideoId}/?p=${entry.partIndex + 1}`
     : `https://www.youtube.com/watch?v=${entry.externalVideoId}`;
   if (!validIdentity || entry.sourceUrl !== url || entry.contentVersion !== 2) errors.push("平台、来源 URL 或 contentVersion 不一致");
@@ -52,8 +61,7 @@ export function validateUniversalSource(entry) {
   if (source.sourcePublishedAt !== sourceTime(source.pubdateUnix)) errors.push("源视频发布时间不能由创建或导入时间替代");
   if (!Array.isArray(source.tags) || source.tags.length > 256 || new Set(source.tags).size !== source.tags.length
       || source.tags.some((tag) => !text(tag, 256) || !tag.trim())) errors.push("冻结来源标签无效");
-  if (source.coverUrl !== null && (!text(source.coverUrl, 2048)
-      || !/^https:\/\/(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+hdslb\.com(?::443)?(?:\/[^\s\\?#]*)?$/.test(source.coverUrl))) errors.push("冻结封面来源无效");
+  if (source.coverUrl !== null && !validCover(source.coverUrl)) errors.push("冻结封面来源无效");
   return errors;
 }
 

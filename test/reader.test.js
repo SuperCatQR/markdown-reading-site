@@ -9,8 +9,8 @@ import { readerMarkup } from "../src/reader-view.js";
 
 function entry(part, kind = "publication-draft", patch = {}) {
   return {
-    manuscriptType: kind, bvid: "BVexample", pageIndex: part - 1, videoPartId: part,
-    title: "同一视频的讲解", summary: "", tags: ["哲学"], attribution: "根据视频转录整理，经 AI 合成。",
+    manuscriptType: kind, contentVersion: 2, platform: "bilibili", externalVideoId: "BVexample", partIndex: part - 1, videoPartId: part,
+    title: "同一视频的讲解", summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["哲学"] }, tags: ["哲学"], attribution: "根据视频转录整理，经 AI 合成。",
     editorNote: "人工复核情况见审核状态。", editionId: `${part}`.padStart(32, "0"),
     slug: `part-${part}`, sourceUrl: `https://www.bilibili.com/video/BVexample/?p=${part}`,
     contentSha256: "a".repeat(64), aiRevisionId: "b".repeat(64), releaseId: "c".repeat(64),
@@ -20,7 +20,7 @@ function entry(part, kind = "publication-draft", patch = {}) {
 }
 
 test("source tag options rank frequent tags first and preserve first appearance for ties", () => {
-  const entries = [{ tags: ["低频", "并列甲", "常见"] }, { tags: ["常见", "并列乙"] }, { tags: ["并列乙", "常见", "并列甲"] }];
+  const entries = [{ sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["低频", "并列甲", "常见"] }, tags: ["低频", "并列甲", "常见"] }, { sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["常见", "并列乙"] }, tags: ["常见", "并列乙"] }, { sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["并列乙", "常见", "并列甲"] }, tags: ["并列乙", "常见", "并列甲"] }];
   const before = structuredClone(entries);
   assert.deepEqual(sourceTagsByFrequency(entries), ["常见", "并列甲", "并列乙", "低频"]);
   assert.deepEqual(sourceTagsByFrequency(entries.slice(0, 1)), entries[0].tags);
@@ -33,7 +33,7 @@ test("home exposes previews without treating them as releases and explicit publi
   assert.deepEqual(resolveReaderRoute("?view=all", [], []), { kind: "directory", view: "all" });
   assert.deepEqual(resolveReaderRoute("?view=published", [], []), { kind: "directory", view: "published" });
   const counts = { all: 3, published: 0, drafts: 3 };
-  const home = directoryMarkup({ view: "all", query: "", tag: "全部", tags: ["全部"], counts, videoCount: 1 });
+  const home = directoryMarkup({ view: "all", query: "", tag: "全部", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["全部"] }, tags: ["全部"], counts, videoCount: 1 });
   assert.match(home, /正式发布内容暂为空/);
   assert.match(home, /公开预览不代表审核通过/);
   const empty = directoryResults([], { view: "published", query: "", counts }, {}).html;
@@ -49,11 +49,11 @@ test("video grouping orders numeric parts and preserves publication/draft versio
   const matches = [entry(13), draft, entry(1), published, entry(10)].map((entry) => ({ entry, match: null }));
   const grouped = groupVideos(matches);
   assert.equal(grouped.length, 1);
-  assert.deepEqual(grouped[0].parts.map(({ entry }) => entry.pageIndex + 1), [1, 2, 2, 10, 13]);
+  assert.deepEqual(grouped[0].parts.map(({ entry }) => entry.partIndex + 1), [1, 2, 2, 10, 13]);
   assert.equal(grouped[0].parts[1].entry, published);
   const navigation = adjacentParts(draft, matches.map(({ entry }) => entry));
-  assert.equal(navigation.previous.pageIndex + 1, 1);
-  assert.equal(navigation.next.pageIndex + 1, 10);
+  assert.equal(navigation.previous.partIndex + 1, 1);
+  assert.equal(navigation.next.partIndex + 1, 10);
   assert.ok(navigation.parts.every((part) => part.manuscriptType === "publication-draft"));
   assert.equal(adjacentParts(published, matches.map(({ entry }) => entry)).next, undefined);
   assert.equal(statusLabel({ ...draft, reviewStatus: "approved" }), "已审核 · 未发布");
@@ -105,7 +105,7 @@ test("directory state survives return and session restoration, rejects corrupt v
   const values = new Map();
   const storage = { getItem: (key) => values.get(key), setItem: (key, value) => values.set(key, value) };
   const store = createDirectoryStore(storage);
-  const saved = { query: "努斯", mode: "keywords", tag: "哲学", scroll: 860, visibleCount: 48, expanded: ["BVexample"], passages: [entryKey(entry(1))] };
+  const saved = { query: "努斯", mode: "keywords", tag: "哲学", scroll: 860, visibleCount: 48, expanded: ["bilibili.BVexample"], passages: [entryKey(entry(1))] };
   store.write("all", saved);
   saved.query = "changed";
   assert.equal(store.read("all", ["全部", "哲学"]).query, "努斯");

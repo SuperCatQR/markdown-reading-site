@@ -22,7 +22,7 @@ test("whitespace-only shared searches are empty while intentional multiword spac
 });
 
 test("topic popularity counts unique source videos, with full exact tags still discoverable", () => {
-  const entries = [{ bvid: "BV1", tags: ["哲学", "哲学", "原名 & <标签>"] }, { bvid: "BV1", tags: ["哲学"] }, { bvid: "BV2", tags: ["哲学", "逻辑"] }];
+  const entries = [{ contentVersion: 2, platform: "bilibili", externalVideoId: "BV1", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["哲学", "哲学", "原名 & <标签>"] }, tags: ["哲学", "哲学", "原名 & <标签>"] }, { contentVersion: 2, platform: "bilibili", externalVideoId: "BV1", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["哲学"] }, tags: ["哲学"] }, { contentVersion: 2, platform: "bilibili", externalVideoId: "BV2", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["哲学", "逻辑"] }, tags: ["哲学", "逻辑"] }];
   const stats = sourceTagStats(entries);
   assert.deepEqual(stats, [{ tag: "哲学", count: 2 }, { tag: "原名 & <标签>", count: 1 }, { tag: "逻辑", count: 1 }]);
   const many = Array.from({ length: 875 }, (_, i) => ({ tag: `原标签${i}`, count: 875 - i }));
@@ -54,11 +54,11 @@ test("paragraph guide uses immutable body anchors and source excerpts; genuine h
 });
 
 test("source gaps describe only missing local parts, including the first recorded part", () => {
-  const entries = [14, 6, 10, 6].map((pageIndex) => ({ pageIndex }));
+  const entries = [14, 6, 10, 6].map((partIndex) => ({ partIndex }));
   assert.deepEqual(missingPartRanges(entries), [[1, 6], [8, 10], [12, 14]]);
   assert.match(partGapsMarkup(entries), /本站尚未收录 P1–P6、P8–P10、P12–P14/);
   assert.match(partGapsMarkup(entries), /不代表原视频缺失/);
-  assert.equal(partGapsMarkup([{ pageIndex: 0 }, { pageIndex: 1 }]), "");
+  assert.equal(partGapsMarkup([{ partIndex: 0 }, { partIndex: 1 }]), "");
 });
 
 test("reading layout only accepts supported values and truthfully reports unavailable persistence", () => {
@@ -71,7 +71,7 @@ test("reading layout only accepts supported values and truthfully reports unavai
 });
 
 test("compact results retain every evidence target behind the disclosure", () => {
-  const entry = { manuscriptType: "publication-draft", editionId: "a".repeat(32), pageIndex: 0, reviewStatus: "pending-review", tags: [] };
+  const entry = { manuscriptType: "publication-draft", editionId: "a".repeat(32), partIndex: 0, reviewStatus: "pending-review", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [] };
   const hits = [1, 2, 3].map((n) => ({ id: `passage-${n}`, text: `原文${n}概念${"后续上下文".repeat(20)}` }));
   const markup = partMarkup({ entry, match: hits[0], matches: hits }, { query: "概念", mode: "general", view: "all", directory: true }, { [`publication-draft:${entry.editionId}`]: { minutes: 3 } });
   assert.match(markup, /其余 2 个命中段落/);

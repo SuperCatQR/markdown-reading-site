@@ -27,7 +27,7 @@
 .search-sort { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .search-sort select { min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: var(--surface); }
 .search-sort select:disabled { color: var(--muted); }
-.source-bvid { margin-left: 8px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.source-id { margin-left: 8px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .directory-shell .video-meta { gap: 4px 14px; }
 .directory-shell .video-heading h2 { text-wrap: pretty; }
 

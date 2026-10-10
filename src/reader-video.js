@@ -28,7 +28,7 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
     if (current.mode !== "general") root.querySelector("#advanced-search").open = true;
   }
   const saved = history.state?.videoSearch;
-  if ((saved?.bvid === workKey(route.entry) || saved?.editionId === route.entry.editionId) && saved.query === current.query && saved.mode === current.mode && saved.view === current.view && Array.isArray(saved.passages)) current.passages = saved.passages;
+  if ((saved?.videoKey === workKey(route.entry) || saved?.editionId === route.entry.editionId) && saved.query === current.query && saved.mode === current.mode && saved.view === current.view && Array.isArray(saved.passages)) current.passages = saved.passages;
   let version = 0;
   let timer;
   let composing = false;
@@ -36,7 +36,7 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
 
   function save() {
     if (persistSearch) persistSearch({ ...current });
-    else history.replaceState({ ...history.state, videoSearch: { bvid: workKey(route.entry), editionId: route.entry.editionId, query: current.query, mode: current.mode, view: current.view, passages: current.passages } }, "", `${readerSearchRoute(route.entry, current, route.mode === "review")}${location.hash}`);
+    else history.replaceState({ ...history.state, videoSearch: { videoKey: workKey(route.entry), editionId: route.entry.editionId, query: current.query, mode: current.mode, view: current.view, passages: current.passages } }, "", `${readerSearchRoute(route.entry, current, route.mode === "review")}${location.hash}`);
     app.querySelectorAll(".parts-navigation a:not(.continuous-link), .reader-part-menu a, .document-tabs a").forEach((link) => {
       const params = new URLSearchParams(new URL(link.href).search);
       const entry = entries.find((entry) => params.get("draft") === entry.editionId || params.get("read") === entry.slug || params.get("review") === entry.editionId);

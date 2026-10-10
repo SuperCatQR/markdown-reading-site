@@ -1,4 +1,4 @@
-import { workKey, partIndex } from "./source-identity.js";
+import { workKey, partLabel } from "./source-identity.js";
 import { sourceTagStats, bindDirectoryDiscovery, bindDirectoryPopovers, openDirectorySection } from "./discovery-controls.js";
 import { visibleQuery } from "./query-state.js";
 import { bindReadingPreferences, readingPreferencesMarkup } from "./reading-preferences.js";
@@ -138,7 +138,7 @@ function saveDirectory() {
   if (!isSearchPage() || !state.directory) return;
   state.directory.scroll = window.scrollY;
   directories.write(directoryKey(), state.directory);
-  history.replaceState({ ...history.state, directory: { ...state.directory, view: state.route.view, bvid: state.route.bvid } }, "", searchRoute({ ...state.directory, view: state.route.view, bvid: state.route.bvid }) + location.hash);
+  history.replaceState({ ...history.state, directory: { ...state.directory, view: state.route.view, videoKey: state.route.videoKey } }, "", searchRoute({ ...state.directory, view: state.route.view, videoKey: state.route.videoKey }) + location.hash);
 }
 
 function saveLocation() {
@@ -241,7 +241,7 @@ function renderDirectory() {
   const queryTag = state.route.searchState?.tag;
   if (queryTag && !tags.includes(queryTag)) tags.push(queryTag);
   const saved = history.state?.directory;
-  state.directory = saved?.view === view && saved.bvid === state.route.bvid ? sanitizeDirectoryState(saved, tags) : directories.read(directoryKey(), tags);
+  state.directory = saved?.view === view && saved.videoKey === state.route.videoKey ? sanitizeDirectoryState(saved, tags) : directories.read(directoryKey(), tags);
   if (state.route.searchState) state.directory = sanitizeDirectoryState({ ...state.directory, ...state.route.searchState }, tags);
   state.composingSearch = false;
   const scroll = state.directory.scroll;
@@ -309,11 +309,11 @@ async function renderCurrentRoute({ focus = false } = {}) {
   ++resultsVersion;
   clearTimeout(searchTimer);
   state.route = resolveReaderRoute(location.search, publicationEntries, draftEntries);
-  // Old video links open the first matching manuscript with the original search scope.
+  // A validated provider scope opens its first manuscript directly.
   if (state.route.kind === "video") {
-    const legacy = state.route;
-    const entry = videoEntry(entriesByView.all, legacy.bvid, legacy.view) || videoEntry(entriesByView.all, legacy.bvid);
-    history.replaceState(history.state, "", `${readerSearchRoute(entry, { ...legacy.searchState, view: legacy.view })}${location.hash}`);
+    const scoped = state.route;
+    const entry = videoEntry(entriesByView.all, scoped.videoKey, scoped.view) || videoEntry(entriesByView.all, scoped.videoKey);
+    history.replaceState(history.state, "", `${readerSearchRoute(entry, { ...scoped.searchState, view: scoped.view })}${location.hash}`);
     state.route = resolveReaderRoute(location.search, publicationEntries, draftEntries);
   }
   const route = state.route;
@@ -347,7 +347,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     const savedContinuous = history.state?.continuous;
     continuousReader = createContinuousReader({
       app, route, pageHeader, saved: savedContinuous, focus, series: seriesSnapshots[route.view] || [], seriesEntries: entriesByView[route.view],
-      videoEntries: entriesByView.all.filter((entry) => workKey(entry) === route.bvid),
+      videoEntries: entriesByView.all.filter((entry) => workKey(entry) === route.videoKey),
       isCurrent: () => version === renderVersion,
       loadBody: (entry) => {
         const url = bodyFiles[`../${isDraft(entry) ? "draft-content" : "content"}/${entry.file}`];
@@ -356,8 +356,8 @@ async function renderCurrentRoute({ focus = false } = {}) {
       },
       onReady: () => { saveLocation(); updateReadingProgress(); },
     });
-    document.title = `${route.entries[0]?.title || route.bvid} · 连续阅读 · 档案室`;
-    document.querySelector('meta[name="description"]').content = "按分 P 连续阅读视频整理稿，逐篇查看来源与审核状态。";
+    document.title = `${route.entries[0]?.title || route.videoKey} · 连续阅读 · 档案室`;
+    document.querySelector('meta[name="description"]').content = "按来源顺序连续阅读视频整理稿，逐篇查看来源与审核状态。";
     await continuousReader.render();
     if (version !== renderVersion) return;
     readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
@@ -370,7 +370,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
       const currentReader = continuousReader;
       const videoSearchReady = bindReaderVideo({
         app, route: { ...route, mode: "continuous", videoSearch: currentReader.searchState() },
-        entries: entriesByView.all.filter((entry) => workKey(entry) === route.bvid), summaries, loadSearchData,
+        entries: entriesByView.all.filter((entry) => workKey(entry) === route.videoKey), summaries, loadSearchData,
         isCurrent: () => version === renderVersion,
         persistSearch: (value) => { currentReader.setSearch(value); saveLocation(); },
       });
@@ -395,7 +395,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     messagePage("没有找到这篇稿件", "对应文件未包含在当前快照中。", { missing: true });
     return;
   }
-  app.innerHTML = pageHeader() + `<main id="main-content" class="reading-shell" tabindex="-1"><div class="document-loading" role="status" aria-busy="true"><p>正在加载 P${partIndex(entry) + 1}${route.mode === "review" ? "校验参照" : "正文"}…</p><div class="loading-line"></div><div class="loading-line"></div><div class="loading-line"></div></div></main>`;
+  app.innerHTML = pageHeader() + `<main id="main-content" class="reading-shell" tabindex="-1"><div class="document-loading" role="status" aria-busy="true"><p>正在加载 ${partLabel(entry)}${route.mode === "review" ? "校验参照" : "正文"}…</p><div class="loading-line"></div><div class="loading-line"></div><div class="loading-line"></div></div></main>`;
   window.scrollTo({ top: 0, behavior: "instant" });
   try {
     const [source, { readerMarkup }] = await Promise.all([loadDocument(url), import("./reader-view.js")]);
@@ -404,11 +404,11 @@ async function renderCurrentRoute({ focus = false } = {}) {
     const reviewDocument = route.mode === "review" ? contributors.prepareReviewDocument(source) : null;
     app.innerHTML = pageHeader() + readerMarkup(entry, route.mode, source, {
       entries: entriesByView[route.view], videoEntries: entriesByView.all, videoSearch: route.videoSearch, returnView, pageUrl: location.href, issueUrl, series: seriesSnapshots[route.view] || [], preparedReview: reviewDocument,
-      returnContinuous: history.state?.continuous?.bvid === workKey(entry) && history.state.continuous.view === route.view
+      returnContinuous: history.state?.continuous?.videoKey === workKey(entry) && history.state.continuous.view === route.view
         ? continuousRoute(workKey(entry), route.view, history.state.continuous.current) : null,
     });
-    document.title = `${entry.title} · P${partIndex(entry) + 1}${route.mode === "review" ? " · 校验参照" : ""} · 档案室`;
-    document.querySelector('meta[name="description"]').content = entry.summary || `${entry.title}，P${partIndex(entry) + 1}。${entry.attribution}`;
+    document.title = `${entry.title} · ${partLabel(entry)}${route.mode === "review" ? " · 校验参照" : ""} · 档案室`;
+    document.querySelector('meta[name="description"]').content = entry.summary || `${entry.title}，${partLabel(entry)}。${entry.attribution}`;
     app.querySelector(".copy-markdown").addEventListener("click", (event) => copyMarkdown(source, event.currentTarget));
     const { bindReaderVideo } = await import("./reader-video.js");
     if (version !== renderVersion) return;
@@ -551,11 +551,11 @@ function navigateWithoutReload(event) {
   if (isSearchPage() && state.directory?.query.trim() && link.hasAttribute("data-directory-search") && destination.entry
       && destination.videoSearch?.query === state.directory.query && destination.videoSearch.mode === state.directory.mode
       && destination.videoSearch.view === state.route.view) {
-    searchOrigin = sanitizeSearchOrigin({ kind: "directory-search", bvid: workKey(destination.entry),
+    searchOrigin = sanitizeSearchOrigin({ kind: "directory-search", videoKey: workKey(destination.entry),
       view: state.route.view, directory: state.directory }, workKey(destination.entry));
   } else if (link.hasAttribute("data-return-global") && previousOrigin && destination.kind === "directory") {
     returnDirectory = { ...previousOrigin.directory, view: previousOrigin.view };
-  } else if (previousOrigin && destination.entry && workKey(destination.entry) === previousOrigin.bvid
+  } else if (previousOrigin && destination.entry && workKey(destination.entry) === previousOrigin.videoKey
       && link.matches(".search-hit-step, #video-results a, .parts-navigation a, .reader-part-menu a, .document-tabs a, .video-return, .reader-mode-link, .review-return")) {
     searchOrigin = previousOrigin;
   }

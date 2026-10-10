@@ -4,9 +4,9 @@ async page => {
   const baseline = page.url().includes(':4184/');
   const base = await page.evaluate(() => `${location.origin}${location.pathname}`);
   const samples = [
-    { id: '29fcc4b3cc2045c1abecaad159d95420', label: 'long-single' },
-    { id: '2a87e9367e0c4ceeb79eb0339580c07a', label: 'multipart' },
-    { id: '18e76d4ae0464b0fa478507531463970', label: 'unconscious-middle' },
+    { id: '1a8e79034ff148c78e7df5a6f1859b90', label: 'long-single' },
+    { id: 'b8f430d510ab42d8a5298db0e4c98ebe', label: 'multipart' },
+    { id: '20b3456f06f64577850122410d980c81', label: 'unconscious-middle' },
   ];
   const contexts = [];
   const metrics = [];
@@ -89,7 +89,7 @@ async page => {
     contexts.push(context);
     const target = await context.newPage();
     stage = 'scoped arrival';
-    await target.goto(`${base}?draft=18e76d4ae0464b0fa478507531463970&vq=${encodeURIComponent('无意识')}&vview=drafts#hit=passage-2&q=${encodeURIComponent('无意识')}`);
+    await target.goto(`${base}?draft=20b3456f06f64577850122410d980c81&vq=${encodeURIComponent('无意识')}&vview=drafts#hit=passage-2&q=${encodeURIComponent('无意识')}`);
     await target.locator('.search-arrival').waitFor();
     await target.locator('#video-results[aria-busy="false"]').waitFor({ state: 'attached' });
     const arrivalMetrics = async target => target.evaluate(() => ({ top: document.querySelector('.search-arrival').getBoundingClientRect().top, bottom: document.querySelector('.search-arrival').getBoundingClientRect().bottom,
@@ -109,7 +109,7 @@ async page => {
       assertArrival(await arrivalMetrics(target));
       for (const route of ['direct', 'global']) {
         stage = `${route} arrival`;
-        await target.goto(`${base}?draft=18e76d4ae0464b0fa478507531463970${route === 'global' ? '&vq=' + encodeURIComponent('无意识') + '&vview=drafts' : ''}#hit=passage-2&q=${encodeURIComponent('无意识')}`);
+        await target.goto(`${base}?draft=20b3456f06f64577850122410d980c81${route === 'global' ? '&vq=' + encodeURIComponent('无意识') + '&vview=drafts' : ''}#hit=passage-2&q=${encodeURIComponent('无意识')}`);
         await target.locator('.search-arrival').waitFor();
         if (route === 'global') await target.locator('#reader-search-navigation:not([hidden])').waitFor();
         const result = await arrivalMetrics(target);
@@ -132,7 +132,7 @@ async page => {
       arrivals.push({ route: '200%-text', ...reflowArrival });
       // Reflow at 200% text without changing the viewport width. Body, controls
       // and wrapping arrival notice all use their actual computed font sizes.
-      await target.goto(`${base}?draft=2a87e9367e0c4ceeb79eb0339580c07a`);
+      await target.goto(`${base}?draft=b8f430d510ab42d8a5298db0e4c98ebe`);
       stage = '200% reflow';
       await ready(target);
       await target.evaluate(() => {
@@ -146,7 +146,7 @@ async page => {
       assert(await target.locator('.reading-parts .continuous-link').isVisible(), '200% text loses multipart reading control');
       const flow = await target.locator('.reading-parts .continuous-link').getAttribute('href');
       stage = 'continuous arrival';
-      await target.goto(`${base}${flow}#hit=part-2a87e9367e0c4ceeb79eb0339580c07a-passage-1&q=${encodeURIComponent('胡塞尔')}`);
+      await target.goto(`${base}${flow}#hit=part-b8f430d510ab42d8a5298db0e4c98ebe-passage-1&q=${encodeURIComponent('胡塞尔')}`);
       await target.locator('.search-arrival').waitFor();
       await target.locator('#reader-search-navigation:not([hidden])').waitFor();
       const continuous = await arrivalMetrics(target);
@@ -154,12 +154,12 @@ async page => {
       arrivals.push({ route: 'continuous', ...continuous });
       await target.screenshot({ path: 'artifacts/followup-arrival-continuous.png', animations: 'disabled' });
       stage = 'later P continuous arrival';
-      await target.goto(`${base}?video=BV1KK4y1g7TA&view=drafts&flow=continuous&part=983ec588a94f4f218f11d66edae2c322#hit=part-983ec588a94f4f218f11d66edae2c322-passage-1&q=${encodeURIComponent('场域')}`);
+      await target.goto(`${base}?platform=bilibili&video=BV1KK4y1g7TA&view=drafts&flow=continuous&part=ce914a6683254132b62e57d0ca2a0871#hit=part-ce914a6683254132b62e57d0ca2a0871-passage-1&q=${encodeURIComponent('场域')}`);
       await target.locator('.search-arrival').waitFor();
       await target.locator('#reader-search-navigation:not([hidden])').waitFor();
       const laterPart = await arrivalMetrics(target);
       assertArrival(laterPart);
-      assert(await target.locator('.search-passage').evaluate(node => node.closest('article').dataset.edition) === '983ec588a94f4f218f11d66edae2c322', 'Later P landed in the wrong source');
+      assert(await target.locator('.search-passage').evaluate(node => node.closest('article').dataset.edition) === 'ce914a6683254132b62e57d0ca2a0871', 'Later P landed in the wrong source');
       arrivals.push({ route: 'continuous-P2', ...laterPart });
     }
     assert(errors.length === 0, `Browser errors: ${errors.join('\n')}`);

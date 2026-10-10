@@ -128,7 +128,7 @@ async (page) => {
     assert(await target.locator('.filter-current').textContent() === tag, 'Theme exploration lost when returning to directory');
 
     // Reading tools stay available in the middle and identify actual visible P.
-    await target.goto(`${base}?video=BV1dA411T7xD&view=drafts`);
+    await target.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=drafts`);
     await articleReady(target);
     await target.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }));
     await target.locator('#reader-find').click();
@@ -156,7 +156,7 @@ async (page) => {
     // Text enlargement uses a snapshot of computed sizes, so inherited sizes
     // do not compound. This checks 200% text reflow, not a device zoom claim.
     const zoomMetrics = [];
-    for (const [route, width] of [[base, 390], [`${base}${longHref}`, 390], [`${base}?video=BV1dA411T7xD&view=drafts`, 320]]) {
+    for (const [route, width] of [[base, 390], [`${base}${longHref}`, 390], [`${base}?platform=bilibili&video=BV1dA411T7xD&view=drafts`, 320]]) {
       await target.goto(route);
       if (route === base) await directoryReady(target); else await articleReady(target);
       await target.setViewportSize({ width, height: 844 });

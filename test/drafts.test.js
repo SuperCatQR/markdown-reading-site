@@ -1,3 +1,4 @@
+import { universalEntry, signSnapshot } from "./support/universal-fixture.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, writeFile, rm, symlink } from "node:fs/promises";
@@ -11,36 +12,30 @@ import { searchEntries } from "../src/search.js";
 
 const document = "# 未发布版本 B\n\n红杉星辰只在草稿中。\n";
 const review = "# 合成数据校验参照\n\nAI 初稿基线，未经人工复核。\n";
-const draft = {
+const draft = universalEntry({
   manuscriptType: "publication-draft", slug: "edition-" + "b".repeat(32),
-  title: "未发布版本 B", summary: "尚未发布", tags: ["合成测试"], attribution: "合成数据", editorNote: "",
-  editionId: "b".repeat(32), aiRevisionId: "c".repeat(64), videoPartId: 1, bvid: "BVtest", pageIndex: 0,
+  title: "未发布版本 B", summary: "尚未发布", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["合成测试"] }, tags: ["合成测试"], attribution: "合成数据", editorNote: "",
+  editionId: "b".repeat(32), aiRevisionId: "c".repeat(64), videoPartId: 1, contentVersion: 2, platform: "bilibili", externalVideoId: "BVtest", partIndex: 0,
   sourceUrl: "https://www.bilibili.com/video/BVtest/?p=1", contentSha256: "d".repeat(64),
   artifactSha256: sha256(document), reviewStatus: "pending-review", createdAt: 1791417600,
   file: "drafts/edition-" + "b".repeat(32) + "/preview.md",
   reviewFile: "drafts/edition-" + "b".repeat(32) + "/review.md", reviewArtifactSha256: sha256(review),
-};
-const publication = {
-  manuscriptType: "publication", slug: "part-1", title: "已发布版本 A", summary: "", tags: [],
+});
+const publication = universalEntry({
+  manuscriptType: "publication", slug: "part-1", title: "已发布版本 A", summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [],
   attribution: "合成数据", editorNote: "", editionId: "a".repeat(32), aiRevisionId: "c".repeat(64),
-  videoPartId: 1, bvid: "BVtest", pageIndex: 0, sourceUrl: draft.sourceUrl, contentSha256: "e".repeat(64),
-  artifactSha256: sha256("# 已发布版本 A\n\n青竹溪流。\n"), releaseId: "f".repeat(64), templateVersion: "publish-v1",
+  videoPartId: 1, contentVersion: 2, platform: "bilibili", externalVideoId: "BVtest", partIndex: 0, sourceUrl: draft.sourceUrl, contentSha256: "e".repeat(64),
+  artifactSha256: sha256("# 已发布版本 A\n\n青竹溪流。\n"), releaseId: "f".repeat(64), templateVersion: "publish-v2",
   publishedAt: 1791417600, file: "articles/part-1/publish.md",
   reviewFile: "articles/part-1/review.md", reviewArtifactSha256: sha256(review),
-};
-const envelope = (entries = [draft], kind = "publication-draft") => ({ schemaVersion: 2, manuscriptType: kind, articles: entries });
+});
+const envelope = (entries = [draft], kind = "publication-draft") => ({ schemaVersion: 3, manuscriptType: kind, articles: entries });
 
 function snapshot(entries = [draft], kind = "publication-draft") {
   const files = new Map(entries.map((entry) => [entry.file, Buffer.from(entry.manuscriptType === "publication-draft" ? document : "# 已发布版本 A\n\n青竹溪流。\n")]));
   for (const entry of entries) files.set(entry.reviewFile, Buffer.from(review));
   files.set("catalog.json", Buffer.from(JSON.stringify(envelope(entries, kind)) + "\n"));
-  const managed = [...files].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
-    .map(([name, bytes]) => ({ path: name, sha256: sha256(bytes) }));
-  const manifestKind = kind === "publication" ? "publication-export" : "publication-draft-export";
-  files.set(manifestKind + "-manifest.json", Buffer.from(JSON.stringify({
-    schemaVersion: 1, manuscriptType: manifestKind, snapshotId: sha256(JSON.stringify(managed)), files: managed,
-  }) + "\n"));
-  return files;
+  return signSnapshot(files, kind);
 }
 
 async function writeSnapshot(root, files) {
@@ -64,7 +59,7 @@ test("accepts exact draft snapshots, empty roots and every review status", () =>
 });
 
 test("rejects private context, release claims and unsupported draft statuses", () => {
-  for (const patch of [{ releaseId: "f".repeat(64) }, { publishedAt: draft.createdAt }, { templateVersion: "publish-v1" },
+  for (const patch of [{ releaseId: "f".repeat(64) }, { publishedAt: draft.createdAt }, { templateVersion: "publish-v2" },
     { reviews: [] }, { events: [] }, { ai: {} }, { reviewStatus: "published" }, { reviewStatus: "withdrawn" }]) {
     assert.ok(validateCatalog(envelope([{ ...draft, ...patch }]), [draft.file], "publication-draft").length, JSON.stringify(patch));
   }
@@ -76,7 +71,7 @@ test("binds draft paths and video source to exact edition identity", () => {
   for (const patch of [{ editionId: "b".repeat(64) }, { editionId: "a".repeat(32) }, { slug: "part-1" },
     { file: "drafts/../preview.md" }, { file: draft.file.toUpperCase() }, { videoPartId: 0 },
     { sourceUrl: "javascript:alert(1)" }, { sourceUrl: "https://www.bilibili.com/video/BVtest/?p=2" },
-    { aiRevisionId: "" }, { contentSha256: "" }, { createdAt: "2026-10-08" }, { tags: ["dup", "dup"] }]) {
+    { aiRevisionId: "" }, { contentSha256: "" }, { createdAt: "2026-10-08" }, { sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["dup", "dup"] }, tags: ["dup", "dup"] }]) {
     assert.ok(validateCatalog(envelope([{ ...draft, ...patch }]), [draft.file], "publication-draft").length, JSON.stringify(patch));
   }
   assert.ok(validateCatalog(envelope([draft, draft]), [draft.file], "publication-draft").some((error) => error.includes("重复")));

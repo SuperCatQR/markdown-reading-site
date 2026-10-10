@@ -1,3 +1,4 @@
+import { universalEntry, signSnapshot } from "./support/universal-fixture.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, writeFile, rm, symlink } from "node:fs/promises";
@@ -8,27 +9,22 @@ import { validateContentDirectory } from "../scripts/validate-catalog.mjs";
 
 const document = "# 合成发布稿\n\n经过明确审核的测试正文。\n";
 const review = "# 合成发布稿：校验参照稿件\n\nAI 初稿校验参照，未经人工复核。\n";
-const validEntry = {
-  manuscriptType: "publication", slug: "part-1", title: "合成发布稿", summary: "测试摘要", tags: [],
+const validEntry = universalEntry({
+  manuscriptType: "publication", slug: "part-1", title: "合成发布稿", summary: "测试摘要", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [],
   attribution: "根据视频口述整理", editorNote: "", releaseId: "a".repeat(64), editionId: "b".repeat(32),
-  aiRevisionId: "c".repeat(64), videoPartId: 1, bvid: "BV1haEB66Eg1", pageIndex: 0,
+  aiRevisionId: "c".repeat(64), videoPartId: 1, contentVersion: 2, platform: "bilibili", externalVideoId: "BV1haEB66Eg1", partIndex: 0,
   sourceUrl: "https://www.bilibili.com/video/BV1haEB66Eg1/?p=1", contentSha256: "d".repeat(64),
-  artifactSha256: sha256(document), templateVersion: "publish-v1", publishedAt: 1791417600,
+  artifactSha256: sha256(document), templateVersion: "publish-v2", publishedAt: 1791417600,
   file: "articles/part-1/publish.md", reviewFile: "articles/part-1/review.md", reviewArtifactSha256: sha256(review),
-};
-const envelope = (articles) => ({ schemaVersion: 2, manuscriptType: "publication", articles });
+});
+const envelope = (articles) => ({ schemaVersion: 3, manuscriptType: "publication", articles });
 const available = [validEntry.file, validEntry.reviewFile];
 
 function snapshot(articles = [validEntry], documents = new Map([[validEntry.file, Buffer.from(document)]])) {
   const files = new Map(documents);
   for (const entry of articles) files.set(entry.reviewFile, Buffer.from(review));
   files.set("catalog.json", Buffer.from(JSON.stringify(envelope(articles)) + "\n"));
-  const managed = [...files].sort(([a], [b]) => a.localeCompare(b))
-    .map(([name, value]) => ({ path: name, sha256: sha256(value) }));
-  files.set("publication-export-manifest.json", Buffer.from(JSON.stringify({
-    schemaVersion: 1, manuscriptType: "publication-export", snapshotId: sha256(JSON.stringify(managed)), files: managed,
-  })));
-  return files;
+  return signSnapshot(files, "publication");
 }
 
 test("accepts empty and complete exact public catalog envelopes", () => {
@@ -36,7 +32,6 @@ test("accepts empty and complete exact public catalog envelopes", () => {
   assert.deepEqual(validateCatalog(envelope([validEntry]), available), []);
   assert.deepEqual(validateSnapshot(snapshot()).errors, []);
   assert.deepEqual(validateSnapshot(snapshot([], new Map())).errors, []);
-  assert.deepEqual(validateCatalog(envelope([{ ...validEntry, bvid: "BV_test-1", sourceUrl: "https://www.bilibili.com/video/BV_test-1/?p=1" }]), available), []);
 });
 
 test("rejects legacy arrays, editorial envelope, draft fields and wrong templates", () => {
@@ -56,8 +51,8 @@ test("rejects path traversal, duplicate parts, missing releases and residual fil
 
 test("requires correct full-content hashes, frozen source identity and Unix dates", () => {
   for (const patch of [{ editionId: "b".repeat(64) }, { artifactSha256: "abc" }, { videoPartId: 2 },
-    { sourceUrl: "javascript:alert(1)" }, { pageIndex: -1 }, { publishedAt: "2026-10-08" },
-    { tags: ["重复", "重复"] }, { title: "" }, { attribution: "" }]) {
+    { sourceUrl: "javascript:alert(1)" }, { partIndex: -1 }, { publishedAt: "2026-10-08" },
+    { sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["重复", "重复"] }, tags: ["重复", "重复"] }, { title: "" }, { attribution: "" }]) {
     assert.ok(validateCatalog(envelope([{ ...validEntry, ...patch }]), [validEntry.file]).length, JSON.stringify(patch));
   }
 });

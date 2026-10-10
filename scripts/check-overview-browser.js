@@ -42,15 +42,15 @@ async (page) => {
     assert(await target.locator(".reading-article .prose").isVisible(), "Empty category removed open article");
     await target.locator("#video-search-view").selectOption("drafts");
     await target.waitForFunction(() => document.querySelector("#video-results")?.textContent === "");
-    await target.goto(`${base}?video=BV115411T7GZ&view=published`);
+    await target.goto(`${base}?platform=bilibili&video=BV115411T7GZ&view=published`);
     await target.getByRole("heading", { name: "此类别暂无收录稿件" }).waitFor();
     assert(await target.evaluate(() => !new URL(location.href).searchParams.has("video")), "Legacy overview URL did not resolve to reader");
     assert(await target.locator("#video-search-view").inputValue() === "published", "Legacy empty category silently changed scope");
-    await target.goto(`${base}?draft=29fcc4b3cc2045c1abecaad159d95420`);
+    await target.goto(`${base}?draft=1a8e79034ff148c78e7df5a6f1859b90`);
     await target.locator(".reader-video-search").waitFor();
     await target.setViewportSize({ width: 1440, height: 900 });
     await target.screenshot({ path: "artifacts/direct-reader-desktop.png" });
     assert(errors.length === 0, errors.join("\n"));
-    return { passed: true, gaps, checks: ["direct title", "single-part simplicity", "legacy URLs", "empty category recovery", "keyboard search", "lazy loading", "responsive themes", "requested reader URL"] };
+    return { passed: true, gaps, checks: ["direct title", "single-part simplicity", "explicit platform URLs", "empty category recovery", "keyboard search", "lazy loading", "responsive themes", "requested reader URL"] };
   } finally { await context.close(); }
 }

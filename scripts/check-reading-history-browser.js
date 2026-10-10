@@ -7,11 +7,11 @@ async (page) => {
   const errors = [];
   target.on("pageerror", (error) => errors.push(error.message));
   const assert = (value, message) => { if (!value) throw new Error(message); };
-  const key = "reader-history-v1";
+  const key = "reader-history-v2";
   const absoluteUrl = (href) => target.evaluate(({ href, base }) => new URL(href, base).href, { href, base });
   const read = (tab) => tab.evaluate((key) => JSON.parse(localStorage.getItem(key) || '{"records":[]}').records, key);
   const setRecords = (tab, records) => tab.evaluate(({ key, records }) => localStorage.setItem(key,
-    JSON.stringify({ schemaVersion: 1, records, deleted: {}, clearedAt: 0 })), { key, records });
+    JSON.stringify({ schemaVersion: 2, records, deleted: {}, clearedAt: 0 })), { key, records });
   const readyBody = (tab) => tab.locator(".reading-article .prose").waitFor();
   const openRecent = async (tab) => {
     const recent = tab.locator("#recent-reading details.recent-reading-management");
@@ -27,6 +27,11 @@ async (page) => {
       scrollTo({ top: scrollY + block.getBoundingClientRect().top - top + block.getBoundingClientRect().height * 0.3, behavior: "instant" });
       return { id: block.id, editionId: article.dataset.edition };
     });
+    // Active body reading must leave the temporary tool excursion; a purely
+    // programmatic scroll intentionally keeps the pre-tool history position.
+    await tab.mouse.move(900, 700);
+    await tab.mouse.wheel(0, 1);
+    await tab.waitForTimeout(600);
     await tab.waitForFunction(({ key, editionId }) => {
       const records = JSON.parse(localStorage.getItem(key) || '{"records":[]}').records;
       return records.some((record) => record.editionId === editionId);
@@ -40,7 +45,7 @@ async (page) => {
     await target.locator(".video-heading h2 a").first().waitFor();
     // Use the existing long-body fixture; newly imported first items may fit
     // entirely in one viewport and cannot exercise a nonzero paragraph offset.
-    bodyUrl = await absoluteUrl("?draft=29fcc4b3cc2045c1abecaad159d95420");
+    bodyUrl = await absoluteUrl("?draft=1a8e79034ff148c78e7df5a6f1859b90");
     await target.goto(bodyUrl);
     await readyBody(target);
     const position = await scrollToProse(target);
@@ -74,7 +79,7 @@ async (page) => {
     }, saved.anchor);
     await fresh.evaluate(() => scrollTo(0, 1500));
     const beforeHistory = await fresh.evaluate(() => scrollY);
-    await fresh.locator(".reading-navigation .back-link").evaluate((link) => link.click());
+    await fresh.locator(".reader-directory-link").evaluate((link) => link.click());
     await openRecent(fresh);
     await fresh.locator("#recent-reading [data-reading-resume]").first().waitFor();
     await fresh.goBack();
@@ -85,6 +90,7 @@ async (page) => {
     stage = "reference isolation";
     await fresh.goto(`${base}?review=${saved.editionId}`);
     await readyBody(fresh);
+    await fresh.locator(".reading-information > summary").click();
     await fresh.locator(".provenance > summary").click();
     await fresh.locator(".review-reference-notice").waitFor();
     const beforeReviewScroll = (await read(fresh)).find((record) => record.id === saved.id);
@@ -136,8 +142,8 @@ async (page) => {
     stage = "continuous visible part";
     await target.locator(".video-group:has(.parts-disclosure) .video-heading h2 a").first().click();
     await readyBody(target);
-    await target.locator(".reading-article .reading-parts > summary").first().click();
-    await target.locator(".reading-article .continuous-link").first().click();
+    await target.locator(".reader-part-menu > summary").first().click();
+    await target.locator(".reader-flow-link").first().click();
     await target.locator(".continuous-part .prose").first().waitFor();
     const firstEdition = await target.locator(".continuous-part").first().getAttribute("data-edition");
     await target.locator(".continuous-feedback a[rel=next]").evaluate((link) => link.click());
@@ -146,7 +152,7 @@ async (page) => {
     const selectedEdition = await target.evaluate(() => new URL(location.href).searchParams.get("part"));
     assert(selectedEdition !== firstEdition, "Continuous test did not select a later route P");
     stage = "continuous search history layout";
-    await target.locator(".reader-video-search > summary").click();
+    await target.locator("#reader-find").evaluate(button => button.click());
     await target.locator("#video-query").fill("哲学");
     await target.waitForFunction(() => document.querySelector("#video-results")?.getAttribute("aria-busy") === "false"
       && document.querySelector("#video-result-count")?.textContent.includes("篇稿件"));

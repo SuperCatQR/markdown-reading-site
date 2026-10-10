@@ -8,7 +8,7 @@ async (page) => {
   let release = () => {};
   try {
     await target.route(/search-video-drafts-BV1dA411T7xD.*\.json/, (route) => route.fulfill({ status: 503, body: "unavailable" }));
-    await target.goto(`${base}?video=BV1dA411T7xD&view=drafts&q=${encodeURIComponent("审美 痛苦")}&mode=keywords`);
+    await target.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=drafts&q=${encodeURIComponent("审美 痛苦")}&mode=keywords`);
     await target.getByRole("button", { name: "重新搜索", exact: true }).waitFor();
     assert(await target.locator(".reading-article .prose").count() === 1, "Failed index removed body");
     await target.unroute(/search-video-drafts-BV1dA411T7xD.*\.json/);
@@ -43,7 +43,7 @@ async (page) => {
     late.on("pageerror", (error) => errors.push(error.message));
     const hold = new Promise((resolve) => { release = resolve; });
     await late.route(/search-video-drafts-BV1dA411T7xD.*\.json/, async (route) => { await hold; await route.continue(); });
-    await late.goto(`${base}?video=BV1dA411T7xD&view=drafts`);
+    await late.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=drafts`);
     await late.locator(".reader-video-search > summary").click();
     await late.locator("#video-query").fill("审美");
     await late.locator("#video-results .search-feedback").waitFor();
@@ -57,7 +57,7 @@ async (page) => {
     const leaving = await context.newPage();
     const leavingHold = new Promise((resolve) => { release = resolve; });
     await leaving.route(/search-video-drafts-BV1dA411T7xD.*\.json/, async (route) => { await leavingHold; await route.continue(); });
-    await leaving.goto(`${base}?video=BV1dA411T7xD&view=drafts&q=${encodeURIComponent("审美")}`);
+    await leaving.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=drafts&q=${encodeURIComponent("审美")}`);
     await leaving.locator("#video-results .search-feedback").waitFor();
     await leaving.locator(".reading-navigation .back-link").evaluate((link) => link.click());
     await leaving.locator(".video-group").first().waitFor();

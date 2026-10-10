@@ -4,7 +4,7 @@ import { directoryMarkup, directoryResults, searchControls } from "../src/direct
 import { entryKey } from "../src/manuscripts.js";
 
 function home(counts, patch = {}) {
-  return directoryMarkup({ view: "all", query: "", mode: "general", tag: "全部", tags: ["全部"], counts, videoCount: counts.all ? 1 : 0, ...patch });
+  return directoryMarkup({ view: "all", query: "", mode: "general", tag: "全部", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["全部"] }, tags: ["全部"], counts, videoCount: counts.all ? 1 : 0, ...patch });
 }
 
 test("compact home represents empty, preview, released and mixed libraries without claiming preview approval", () => {
@@ -44,7 +44,7 @@ test("advanced search keeps an accessible current mode and reveals nondefault sh
 
 test("theme filtering preserves exact source tag text and safe attributes", () => {
   const tag = '概念 & "原名" <讨论>';
-  const markup = home({ all: 1, published: 0, drafts: 1 }, { tag, tags: ["全部", tag] });
+  const markup = home({ all: 1, published: 0, drafts: 1 }, { tag, sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["全部", tag] }, tags: ["全部", tag] });
   assert.match(markup, /<span class="filter-label">按主题筛选<\/span>/);
   assert.match(markup, /主题来自原视频标签/);
   assert.match(markup, /data-tag="概念 &amp; &quot;原名&quot; &lt;讨论&gt;"/);
@@ -53,17 +53,17 @@ test("theme filtering preserves exact source tag text and safe attributes", () =
 
 test("directory keeps full long titles and distinguishes two versions from two parts", () => {
   const title = "完整长标题：" + "哲学讲解与概念辨析".repeat(10);
-  const draft = { manuscriptType: "publication-draft", videoPartId: 1, pageIndex: 0, bvid: "BVexample", editionId: "a".repeat(32), title, tags: [], summary: "", reviewStatus: "pending-review", sourceUrl: "https://www.bilibili.com/video/BVexample/?p=1" };
+  const draft = { manuscriptType: "publication-draft", videoPartId: 1, partIndex: 0, contentVersion: 2, platform: "bilibili", externalVideoId: "BVexample", editionId: "a".repeat(32), title, sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [], summary: "", reviewStatus: "pending-review", sourceUrl: "https://www.bilibili.com/video/BVexample/?p=1" };
   const published = { ...draft, manuscriptType: "publication", slug: "part-1", editionId: "b".repeat(32) };
-  const third = { ...draft, pageIndex: 2, videoPartId: 3, editionId: "c".repeat(32) };
+  const third = { ...draft, partIndex: 2, videoPartId: 3, editionId: "c".repeat(32) };
   const summaries = Object.fromEntries([draft, published, third].map((entry) => [entryKey(entry), { minutes: 3 }]));
   const options = { view: "all", query: "", mode: "general", visibleCount: 24, expanded: [], passages: [], counts: { all: 3 } };
   const single = directoryResults([{ entry: draft }], options, summaries).html;
   assert.ok(single.includes(title));
-  assert.match(single, /原视频<span class="source-bvid">BVexample/);
+  assert.match(single, /原视频<span class="source-id">哔哩哔哩 · BVexample/);
   assert.doesNotMatch(single, /已收录 1 个分 P|1 篇稿件|class="parts-disclosure"/);
   const versions = directoryResults([{ entry: draft }, { entry: published }], options, summaries).html;
-  assert.match(versions, /同一分 P · 2 个版本/);
+  assert.match(versions, /P1 · 2 个版本/);
   assert.match(versions, /查看 2 个版本与稿件状态/);
   assert.doesNotMatch(versions, /2 个分 P/);
   const parts = directoryResults([{ entry: draft }, { entry: third }], options, summaries).html;

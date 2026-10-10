@@ -8,11 +8,11 @@ async (page) => {
   const latest = ordered[0], older = ordered.find((entry) => entry.videoPartId !== latest.videoPartId);
   const record = (entry, ago = 0) => ({
     id: `${entry.manuscriptType}:${entry.videoPartId}`, manuscriptType: entry.manuscriptType, videoPartId: entry.videoPartId,
-    bvid: entry.bvid, pageIndex: entry.pageIndex, editionId: entry.editionId, contentSha256: entry.contentSha256,
+    contentVersion: 2, platform: entry.platform, externalVideoId: entry.externalVideoId, partIndex: entry.partIndex, editionId: entry.editionId, contentSha256: entry.contentSha256,
     artifactSha256: entry.artifactSha256, releaseId: null, title: entry.title, readingMode: "single", documentMode: "body",
     anchor: "passage-1", offset: 0, text: "", lastReadAt: Date.now() - ago,
   });
-  const seed = (records) => ({ schemaVersion: 1, records, deleted: {}, clearedAt: 0 });
+  const seed = (records) => ({ schemaVersion: 2, records, deleted: {}, clearedAt: 0 });
   const base = await page.evaluate(() => `${location.origin}${location.pathname}`);
   const context = await page.context().browser().newContext({ viewport: { width: 390, height: 844 }, colorScheme: "light" });
   const target = await context.newPage(), errors = [];
@@ -20,7 +20,7 @@ async (page) => {
   const assert = (condition, message) => { if (!condition) throw Error(message); };
   const load = async (value) => {
     await target.goto(`${base}?view=all`);
-    await target.evaluate((value) => localStorage.setItem("reader-history-v1", typeof value === "string" ? value : JSON.stringify(value)), value);
+    await target.evaluate((value) => localStorage.setItem("reader-history-v2", typeof value === "string" ? value : JSON.stringify(value)), value);
     await target.reload();
     await target.locator(".recent-reading").waitFor();
   };

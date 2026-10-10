@@ -26,7 +26,7 @@ async (page) => {
       const documentUrl = target.url();
       const bvid = await target.locator("article .reading-actions a").getAttribute("href");
       const videoId = bvid.split("/video/")[1].split("/")[0];
-      await target.goto(`${base}?video=${videoId}&view=${view}&flow=continuous`);
+      await target.goto(`${base}?platform=bilibili&video=${videoId}&view=${view}&flow=continuous`);
       await target.locator(".continuous-part .prose").waitFor();
       await target.locator(".reading-series > summary").click();
       assert(await target.locator(".reading-series .series-parts a").count() === (view === "drafts" ? 2 : 1), "Continuous series entries missing");

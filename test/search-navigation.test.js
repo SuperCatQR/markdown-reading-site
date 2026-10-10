@@ -4,8 +4,8 @@ import { passageNavigation, passageNavigationState, passageNavigationMarkup } fr
 import { parseMatchHash } from "../src/search.js";
 import { resolveReaderRoute } from "../src/manuscripts.js";
 
-const entry = (pageIndex, kind = "publication-draft") => ({ pageIndex, bvid: "BVone", manuscriptType: kind,
-  editionId: `${pageIndex + 1}`.padStart(32, kind === "publication" ? "f" : "0"), slug: `part-${pageIndex}`, tags: [], title: "标题" });
+const entry = (partIndex, kind = "publication-draft") => ({ partIndex, contentVersion: 2, platform: "bilibili", externalVideoId: "BVone", manuscriptType: kind,
+  editionId: `${partIndex + 1}`.padStart(32, kind === "publication" ? "f" : "0"), slug: `part-${partIndex}`, sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [], title: "标题" });
 const block = (id) => ({ id, text: "自由原句", terms: ["自由"] });
 
 test("reading hits traverse actual body order within one category, exclude metadata, and keep clear boundaries", () => {

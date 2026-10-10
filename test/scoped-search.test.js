@@ -1,3 +1,5 @@
+import { workKey } from "../src/source-identity.js";
+import { universalEntry, signSnapshot } from "./support/universal-fixture.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildReaderData } from "../scripts/reader-content.js";
@@ -11,7 +13,7 @@ import { sha256 } from "../scripts/catalog.js";
 
 test("video search never requests the full library and category caches and retries stay independent", async () => {
   const urls = { published: "/all-published.json", drafts: "/all-drafts.json", videos: {
-    published: { BVone: "/one-published.json" }, drafts: { BVone: "/one-drafts.json", BVtwo: "/two-drafts.json" },
+    published: { "bilibili.BVone": "/one-published.json" }, drafts: { "bilibili.BVone": "/one-drafts.json", "bilibili.BVtwo": "/two-drafts.json" },
   } };
   const requests = [];
   let failed = false;
@@ -20,17 +22,17 @@ test("video search never requests the full library and category caches and retri
     if (url === "/one-drafts.json" && !failed) { failed = true; throw Error("offline"); }
     return { ok: true, text: async () => JSON.stringify({ [url]: [] }) };
   } });
-  await assert.rejects(loader("all", "BVone"));
-  assert.deepEqual(await loader("all", "BVone"), { "/one-published.json": [], "/one-drafts.json": [] });
+  await assert.rejects(loader("all", "bilibili.BVone"));
+  assert.deepEqual(await loader("all", "bilibili.BVone"), { "/one-published.json": [], "/one-drafts.json": [] });
   const before = requests.length;
-  assert.equal(await loader("all", "BVone"), await loader("all", "BVone"));
-  assert.deepEqual(await loader("published", "BVtwo"), {});
+  assert.equal(await loader("all", "bilibili.BVone"), await loader("all", "bilibili.BVone"));
+  assert.deepEqual(await loader("published", "bilibili.BVtwo"), {});
   assert.equal(requests.length, before);
-  assert.deepEqual(await loader("drafts", "BVtwo"), { "/two-drafts.json": [] });
+  assert.deepEqual(await loader("drafts", "bilibili.BVtwo"), { "/two-drafts.json": [] });
   assert.ok(!requests.some((url) => url.startsWith("/all-")));
   await loader("drafts");
   assert.equal(requests.at(-1), "/all-drafts.json");
-  for (const [view, bvid] of [["unknown", "BVone"], ["drafts", "../escape"], ["drafts", ""]]) await assert.rejects(loader(view, bvid));
+  for (const [view, videoKey] of [["unknown", "bilibili.BVone"], ["drafts", "../escape"], ["drafts", ""]]) await assert.rejects(loader(view, videoKey));
 });
 
 test("derived video shards equal global body blocks without reference content and preserve phrase and keyword semantics", async (t) => {
@@ -40,30 +42,28 @@ test("derived video shards equal global body blocks without reference content an
   const review = "# 校验参照\n\n仅参照中存在的紫色树木。\n";
   const entries = [1, 2].map((part) => {
     const editionId = String(part).padStart(32, "0");
-    return { manuscriptType: "publication-draft", slug: `edition-${editionId}`, title: "合成稿件", summary: "", tags: [], attribution: "合成测试", editorNote: "",
-      editionId, aiRevisionId: "a".repeat(64), videoPartId: part, bvid: part === 1 ? "BVone" : "BVtwo", pageIndex: 0,
+    return universalEntry({ manuscriptType: "publication-draft", slug: `edition-${editionId}`, title: "合成稿件", summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [], attribution: "合成测试", editorNote: "",
+      editionId, aiRevisionId: "a".repeat(64), videoPartId: part, contentVersion: 2, platform: "bilibili", externalVideoId: part === 1 ? "BVone" : "BVtwo", partIndex: 0,
       sourceUrl: `https://www.bilibili.com/video/${part === 1 ? "BVone" : "BVtwo"}/?p=1`, contentSha256: "b".repeat(64), artifactSha256: sha256(document),
-      reviewStatus: "pending-review", createdAt: 1791417600, file: `drafts/edition-${editionId}/preview.md`, reviewFile: `drafts/edition-${editionId}/review.md`, reviewArtifactSha256: sha256(review) };
+      reviewStatus: "pending-review", createdAt: 1791417600, file: `drafts/edition-${editionId}/preview.md`, reviewFile: `drafts/edition-${editionId}/review.md`, reviewArtifactSha256: sha256(review) });
   });
   for (const [folder, kind, records] of [["content", "publication", []], ["draft-content", "publication-draft", entries]]) {
-    const files = new Map([["catalog.json", Buffer.from(JSON.stringify({ schemaVersion: 2, manuscriptType: kind, articles: records }))]]);
+    const files = new Map([["catalog.json", Buffer.from(JSON.stringify({ schemaVersion: 3, manuscriptType: kind, articles: records }))]]);
     for (const entry of records) { files.set(entry.file, Buffer.from(document)); files.set(entry.reviewFile, Buffer.from(review)); }
-    const managed = [...files].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([name, bytes]) => ({ path: name, sha256: sha256(bytes) }));
-    const manifestKind = kind === "publication" ? "publication-export" : "publication-draft-export";
-    files.set(`${manifestKind}-manifest.json`, Buffer.from(JSON.stringify({ schemaVersion: 1, manuscriptType: manifestKind, snapshotId: sha256(JSON.stringify(managed)), files: managed })));
+    signSnapshot(files, kind);
     for (const [name, bytes] of files) { const filename = path.join(root, folder, name); await mkdir(path.dirname(filename), { recursive: true }); await writeFile(filename, bytes); }
   }
   const { search, videos } = await buildReaderData(root);
-  const bvid = "BVone";
-  const candidates = entries.filter((entry) => entry.bvid === bvid);
+  const videoKey = "bilibili.BVone";
+  const candidates = entries.filter((entry) => workKey(entry) === videoKey);
   assert.ok(candidates.length > 0);
-  assert.deepEqual(Object.keys(videos.drafts[bvid]).sort(), candidates.map(entryKey).sort());
-  for (const entry of candidates) assert.deepEqual(videos.drafts[bvid][entryKey(entry)], search.drafts[entryKey(entry)]);
+  assert.deepEqual(Object.keys(videos.drafts[videoKey]).sort(), candidates.map(entryKey).sort());
+  for (const entry of candidates) assert.deepEqual(videos.drafts[videoKey][entryKey(entry)], search.drafts[entryKey(entry)]);
   for (const [query, mode] of [["胡塞尔", "general"], ["先验直觉主义", "phrase"], ["胡塞尔 直觉", "keywords"]]) {
     const request = { query, mode, tag: "全部" };
-    assert.deepEqual(searchEntries(candidates, request, videos.drafts[bvid]), searchEntries(candidates, request, search.drafts));
-    assert.ok(searchEntries(candidates, request, videos.drafts[bvid]).length > 0);
+    assert.deepEqual(searchEntries(candidates, request, videos.drafts[videoKey]), searchEntries(candidates, request, search.drafts));
+    assert.ok(searchEntries(candidates, request, videos.drafts[videoKey]).length > 0);
   }
   assert.equal(Object.keys(videos.published).length, 0);
-  assert.equal(searchEntries(candidates, { query: "紫色树木", mode: "phrase", tag: "全部" }, videos.drafts[bvid]).length, 0);
+  assert.equal(searchEntries(candidates, { query: "紫色树木", mode: "phrase", tag: "全部" }, videos.drafts[videoKey]).length, 0);
 });

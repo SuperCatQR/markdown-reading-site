@@ -1,3 +1,4 @@
+import { sourceTags } from "./source-identity.js";
 import { entryKey } from "./manuscripts.js";
 
 export const normalizeSearch = (value) => value.trim().replace(/\s+/gu, " ").toLocaleLowerCase("zh-Hans");
@@ -46,7 +47,7 @@ function entryMatches(entry, terms, blocks, mode, sort) {
     return { match: matches[0], matches, score: (titleFirst ? 200 : 100) + together / terms.length };
   }
   if (mode !== "general") return null;
-  for (const [label, text] of [["标题", entry.title], ["摘要", entry.summary], ["来源标签", entry.tags.join(" · ")]]) {
+  for (const [label, text] of [["标题", entry.title], ["摘要", entry.summary], ["来源标签", sourceTags(entry).join(" · ")]]) {
     if (normalizeSearch(text).includes(terms[0])) return { match: { label, text, id: null }, matches: [], score: titleFirst ? 200 : 1 };
   }
   return null;
@@ -55,7 +56,7 @@ function entryMatches(entry, terms, blocks, mode, sort) {
 export function searchEntries(entries, { query, tag, mode = "general", sort = "body" }, index = {}) {
   const terms = searchTerms(query, mode);
   return entries.flatMap((entry) => {
-    if (tag !== "全部" && !entry.tags.includes(tag)) return [];
+    if (tag !== "全部" && !sourceTags(entry).includes(tag)) return [];
     const result = entryMatches(entry, terms, index[entryKey(entry)] || [], mode, sort);
     return result ? [{ entry, ...result }] : [];
   }).sort((a, b) => b.score - a.score);

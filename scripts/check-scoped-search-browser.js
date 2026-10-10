@@ -40,7 +40,7 @@ async (page) => {
     const target = await fresh(390);
     const requests = [];
     target.on("request", (request) => { if (/search-.*\.json/.test(request.url())) requests.push(request.url()); });
-    await target.goto(`${base}?draft=29fcc4b3cc2045c1abecaad159d95420`);
+    await target.goto(`${base}?draft=1a8e79034ff148c78e7df5a6f1859b90`);
     await target.locator(".prose [id]").first().waitFor();
     assert(await target.locator("#reader-search-navigation").isHidden(), "Ordinary reading shows search navigation");
     await target.locator("#reader-find").click();
@@ -100,7 +100,7 @@ async (page) => {
     assert(await target.locator(".search-passage mark").count() === 0, "End kept search-only highlights");
     assert(await target.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "Search navigation overflows phone");
 
-    await target.goto(`${base}?video=BV1dA411T7xD&view=drafts&q=${encodeURIComponent("审美")}`);
+    await target.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=drafts&q=${encodeURIComponent("审美")}`);
     await target.locator(".match-summary").first().waitFor();
     await ready(target);
     const first = target.locator("#video-results .video-part").first();
@@ -169,7 +169,7 @@ async (page) => {
 
     for (const width of [320, 390]) {
       const enlarged = await fresh(width);
-      await enlarged.goto(`${base}?draft=29fcc4b3cc2045c1abecaad159d95420&vq=${encodeURIComponent("胡塞尔")}&vview=drafts#hit=passage-1&q=${encodeURIComponent("胡塞尔")}`);
+      await enlarged.goto(`${base}?draft=1a8e79034ff148c78e7df5a6f1859b90&vq=${encodeURIComponent("胡塞尔")}&vview=drafts#hit=passage-1&q=${encodeURIComponent("胡塞尔")}`);
       await enlarged.locator(".search-hit-position").waitFor();
       await ready(enlarged);
       // Keep the doubled typography rule active when hash navigation replaces
@@ -193,7 +193,7 @@ async (page) => {
       await cdp.send("Network.enable");
       await cdp.send("Network.setCacheDisabled", { cacheDisabled: true });
       if (network === "limited") await cdp.send("Network.emulateNetworkConditions", { offline: false, latency: 150, downloadThroughput: 125000, uploadThroughput: 125000 });
-      await measured.goto(`${base}?draft=18e76d4ae0464b0fa478507531463970&vq=${encodeURIComponent("无意识")}&vview=drafts`);
+      await measured.goto(`${base}?draft=20b3456f06f64577850122410d980c81&vq=${encodeURIComponent("无意识")}&vview=drafts`);
       await measured.locator(".match-summary").first().waitFor();
       await ready(measured);
       const cold = await metrics(measured);

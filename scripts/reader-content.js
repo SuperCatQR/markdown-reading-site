@@ -50,11 +50,21 @@ export function readerContentPlugin(root) {
   let command;
   let base;
   let reloadTimer;
+  const videoAssets = new Map();
+  function indexVideoAssets() {
+    videoAssets.clear();
+    for (const [view, indices] of Object.entries(generated.videos)) for (const [key, index] of Object.entries(indices)) {
+      const name = `search-video-${view}-${sha256(key)}`;
+      if (videoAssets.has(name)) throw new Error("Search video asset collision");
+      videoAssets.set(name, index);
+    }
+  }
   return {
     name: "validated-reader-content",
     configResolved(config) { command = config.command; base = config.base; },
     async buildStart() {
       generated = await buildReaderData(root, (file) => this.addWatchFile(file));
+      indexVideoAssets();
     },
     resolveId(id) { if (modules.has(id)) return `\0${id}`; },
     load(id) {
@@ -66,7 +76,7 @@ export function readerContentPlugin(root) {
         : `import.meta.ROLLUP_FILE_URL_${this.emitFile({ type: "asset", name: `${name}.json`, source: JSON.stringify(index) })}`;
       const urls = Object.keys(generated.search).map((view) => `${JSON.stringify(view)}: ${assetUrl(`search-${view}`, generated.search[view])}`);
       const videos = Object.entries(generated.videos).map(([view, indices]) => {
-        const records = Object.entries(indices).map(([bvid, index]) => `${JSON.stringify(bvid)}: ${assetUrl(`search-video-${view}-${bvid}`, index)}`);
+        const records = Object.entries(indices).map(([videoKey, index]) => `${JSON.stringify(videoKey)}: ${assetUrl(`search-video-${view}-${sha256(videoKey)}`, index)}`);
         return `${JSON.stringify(view)}: {${records.join(",")}}`;
       });
       const candidates = Object.entries(generated.candidates).map(([view, data]) => `${JSON.stringify(view)}: {
@@ -79,10 +89,10 @@ export function readerContentPlugin(root) {
       server.middlewares.use((request, response, next) => {
         const pathname = new URL(request.url, "http://reader.local").pathname;
         const view = ["published", "drafts"].find((kind) => pathname === `${base}__reader/search-${kind}.json`);
-        const local = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-video-(published|drafts)-([\w.-]{1,140})\.json$/) : null;
+        const local = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^(search-video-(?:published|drafts)-[0-9a-f]{64})\.json$/) : null;
         const manifest = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-candidates-(published|drafts)\.json$/) : null;
         const pairs = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-pairs-(published|drafts)-(\d+)\.json$/) : null;
-        const index = view ? generated.search[view] : local ? generated.videos[local[1]][local[2]]
+        const index = view ? generated.search[view] : local ? videoAssets.get(local[1])
           : manifest ? generated.candidates[manifest[1]].manifest : pairs ? generated.candidates[pairs[1]].partitions[Number(pairs[2])] : null;
         if (!index) return next();
         response.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -95,6 +105,7 @@ export function readerContentPlugin(root) {
         reloadTimer = setTimeout(async () => {
           try {
             generated = await buildReaderData(root);
+            indexVideoAssets();
             for (const id of modules.keys()) {
               const module = server.moduleGraph.getModuleById(`\0${id}`);
               if (module) server.moduleGraph.invalidateModule(module);
