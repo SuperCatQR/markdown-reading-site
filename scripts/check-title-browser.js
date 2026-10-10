@@ -6,7 +6,7 @@ async (page) => {
   const metrics = [];
   try {
     for (const mode of ["draft", "review"]) {
-      await target.goto(`${base}?${mode}=29fcc4b3cc2045c1abecaad159d95420`);
+      await target.goto(`${base}?${mode}=1a8e79034ff148c78e7df5a6f1859b90`);
       await target.locator(".reading-article .prose").waitFor();
       await target.evaluate(() => document.fonts.ready);
       for (const width of [1920, 1440, 1024, 768, 375]) {

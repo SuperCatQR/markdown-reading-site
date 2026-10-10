@@ -4,7 +4,7 @@ async (page) => {
   const context = await page.context().browser().newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
   const target = await context.newPage();
   const assert = (condition, message) => { if (!condition) throw Error(message); };
-  const key = "reader-history-v1";
+  const key = "reader-history-v2";
   const errors = [];
   target.on("pageerror", (error) => errors.push(error.message));
   const records = () => target.evaluate((key) => JSON.parse(localStorage.getItem(key) || '{"records":[]}').records, key);
@@ -46,9 +46,9 @@ async (page) => {
   try {
     await target.goto(`${base}?view=all`);
     await target.locator(".video-heading h2 a").first().waitFor();
-    // Use the exact issue fixture; a title-only legacy video link can resolve to
+    // Use the exact issue fixture; a directory title link can resolve to
     // a short current draft and cannot expose a true within-paragraph position.
-    await target.goto(`${base}?draft=29fcc4b3cc2045c1abecaad159d95420`);
+    await target.goto(`${base}?draft=1a8e79034ff148c78e7df5a6f1859b90`);
     await ready();
     const bodyUrl = target.url();
     for (const waitForSave of [true, false]) {
@@ -75,16 +75,7 @@ async (page) => {
     }
 
     stage = "outline and tool switching";
-    // Current production prose has no section headings. Add only the native
-    // disclosure fixture here to exercise the existing TOC tool lifecycle.
-    await target.evaluate(() => {
-      const prose = document.querySelector('.reading-article .prose');
-      const disclosure = document.createElement('details');
-      disclosure.className = 'table-of-contents';
-      disclosure.innerHTML = '<summary>本文目录</summary><nav><a href="#passage-20">真实正文段落</a></nav>';
-      prose.before(disclosure);
-      dispatchEvent(new Event('scroll'));
-    });
+    // Exercise the existing paragraph outline generated from frozen prose.
     const outlinePosition = await bodyPosition();
     await target.locator("#reader-outline").waitFor({ state: "visible" });
     await toolClick("#reader-find");
@@ -146,7 +137,7 @@ async (page) => {
     await assertReturned(cancelPosition);
 
     stage = "continuous tool return";
-    await target.goto(`${base}?draft=35435e4288ea4113999758bfdb6daddb`);
+    await target.goto(`${base}?draft=57aefc47492b4166bd52d7d247c45d73`);
     await ready();
     await target.locator(".continuous-link").first().evaluate((link) => link.click());
     await ready();

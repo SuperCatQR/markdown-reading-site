@@ -1,3 +1,4 @@
+import { workKey } from "../src/source-identity.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { searchEntries, prepareSearchIndex } from "../src/search.js";
@@ -5,11 +6,11 @@ import { entryKey, groupVideos, resolveReaderRoute, searchRoute } from "../src/m
 import { createDirectoryStore, sanitizeDirectoryState } from "../src/directory-state.js";
 
 const draft = (id, title, patch = {}) => ({ manuscriptType: "publication-draft", editionId: String(id).padStart(32, "0"),
-  bvid: `BV${id}`, pageIndex: 0, title, summary: "", tags: ["哲学"], ...patch });
+  contentVersion: 2, platform: "bilibili", externalVideoId: `BV${id}`, partIndex: 0, title, summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["哲学"] }, tags: ["哲学"], ...patch });
 
 test("title relevance is optional, keeps body evidence and ranks videos by their strongest part", () => {
-  const entries = [draft(1, "其他题目"), draft(2, "自由专题", { bvid: "BVseries", pageIndex: 10 }),
-    draft(3, "自由专题", { bvid: "BVseries", pageIndex: 1 }), draft(4, "自由讲解"), draft(5, "第五讲")];
+  const entries = [draft(1, "其他题目"), draft(2, "自由专题", { contentVersion: 2, platform: "bilibili", externalVideoId: "BVseries", partIndex: 10 }),
+    draft(3, "自由专题", { contentVersion: 2, platform: "bilibili", externalVideoId: "BVseries", partIndex: 1 }), draft(4, "自由讲解"), draft(5, "第五讲")];
   const index = Object.fromEntries(entries.map((entry, i) => [entryKey(entry), [{ id: "passage-1", text: ["自由在正文中出现。", "讨论自由。", "不同内容。", "不同内容。", "自由再现。"][i] }]]));
   const options = { query: "自由", tag: "全部" };
   assert.deepEqual(searchEntries(entries, options, index).map(({ entry }) => entry.editionId), [entries[0], entries[1], entries[4], entries[2], entries[3]].map((entry) => entry.editionId));
@@ -18,8 +19,8 @@ test("title relevance is optional, keeps body evidence and ranks videos by their
   assert.equal(title[0].match.label, "正文命中");
   assert.equal(title[0].matches[0].id, "passage-1");
   const groups = groupVideos(title);
-  assert.equal(groups[0].bvid, "BVseries");
-  assert.deepEqual(groups[0].parts.map(({ entry }) => entry.pageIndex), [1, 10]);
+  assert.equal(groups[0].videoKey, "bilibili.BVseries");
+  assert.deepEqual(groups[0].parts.map(({ entry }) => entry.partIndex), [1, 10]);
   for (const mode of ["phrase", "keywords"]) {
     assert.deepEqual(searchEntries(entries, { ...options, mode, sort: "title" }, index), searchEntries(entries, { ...options, mode }, index));
   }
@@ -47,7 +48,7 @@ test("sort links and directory persistence round-trip while strict routing rejec
   assert.equal(resolveReaderRoute("?view=all&sort=title", [], [entry]).searchState.sort, "title");
   assert.equal(resolveReaderRoute("?view=all&q=自由", [], [entry]).searchState.sort, "body", "Default shared search must override a previously saved title sort");
   for (const url of ["?sort=unknown", "?sort=title&sort=body", `?draft=${entry.editionId}&sort=title`,
-    `?video=${entry.bvid}&view=drafts&sort=title`, `?video=${entry.bvid}&view=drafts&flow=continuous&sort=title`]) {
+    `?video=${workKey(entry)}&view=drafts&sort=title`, `?video=${workKey(entry)}&view=drafts&flow=continuous&sort=title`]) {
     assert.equal(resolveReaderRoute(url, [], [entry]).kind, "missing", url);
   }
   const values = new Map();

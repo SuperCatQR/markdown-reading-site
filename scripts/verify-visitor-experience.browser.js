@@ -119,10 +119,10 @@ async page => {
     await p.goto(`${base}/?view=all&q=`);
     const catalogue = await p.evaluate(async () => (await (await fetch("/draft-content/catalog.json")).json()).articles);
     const grouped = new Map();
-    for (const entry of catalogue) { if (!grouped.has(entry.bvid)) grouped.set(entry.bvid, []); grouped.get(entry.bvid).push(entry); }
-    const sparse = [...grouped.values()].find((entries) => entries.length > 1 && Math.min(...entries.map((e) => e.pageIndex)) > 0);
+    for (const entry of catalogue) { if (!grouped.has(`${entry.platform}.${entry.externalVideoId}`)) grouped.set(`${entry.platform}.${entry.externalVideoId}`, []); grouped.get(`${entry.platform}.${entry.externalVideoId}`).push(entry); }
+    const sparse = [...grouped.values()].find((entries) => entries.length > 1 && Math.min(...entries.map((e) => e.partIndex)) > 0);
     check(!!sparse, "Fixture needs real sparse source parts");
-    sparse.sort((a, b) => a.pageIndex - b.pageIndex);
+    sparse.sort((a, b) => a.partIndex - b.partIndex);
     await p.goto(`${base}/?draft=${sparse[0].editionId}`);
     await p.locator(".prose").waitFor();
     await p.locator(".reader-part-menu summary").click();
@@ -137,7 +137,7 @@ async page => {
     await p.locator(".continuous-part").nth(1).waitFor();
     await p.locator(".continuous-part").nth(1).locator(".prose > [id]").first().evaluate((el) => window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 76, behavior: "instant" }));
     await settle();
-    check((await p.locator(".reader-tools .reader-current-label").innerText()) === `P${sparse[1].pageIndex + 1}`, "Sticky identity must follow the visible continuous part");
+    check((await p.locator(".reader-tools .reader-current-label").innerText()) === `P${sparse[1].partIndex + 1}`, "Sticky identity must follow the visible continuous part");
     await tapTool("#reader-outline");
     check(await p.locator(".continuous-part").nth(1).locator(".table-of-contents").evaluate((el) => el.open), "Continuous outline must target the visible part");
     await p.locator("[data-reading-tool-return]").click();

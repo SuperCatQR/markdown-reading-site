@@ -23,13 +23,13 @@ export function sanitizeDirectoryState(value, tags) {
 
 // A search origin describes an actual directory-to-reader navigation. A cached
 // directory alone cannot establish that the reader came from its results.
-export function sanitizeSearchOrigin(value, bvid) {
-  if (!validWorkKey(bvid)
-      || value?.kind !== "directory-search" || value.bvid !== bvid
+export function sanitizeSearchOrigin(value, videoKey) {
+  if (!validWorkKey(videoKey)
+      || value?.kind !== "directory-search" || value.videoKey !== videoKey
       || !["all", "published", "drafts"].includes(value.view)
       || typeof value.directory?.query !== "string" || !value.directory.query.trim()
       || typeof value.directory?.tag !== "string" || value.directory.tag.length > 300) return null;
-  return { kind: "directory-search", bvid, view: value.view,
+  return { kind: "directory-search", videoKey, view: value.view,
     directory: sanitizeDirectoryState(value.directory, ["全部", value.directory.tag]) };
 }
 

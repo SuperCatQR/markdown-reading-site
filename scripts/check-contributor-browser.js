@@ -2,7 +2,7 @@
 async (page) => {
   const base = await page.evaluate(() => `${location.origin}${location.pathname}`);
   const browser = await page.context().newPage();
-  const edition = "18e76d4ae0464b0fa478507531463970";
+  const edition = "20b3456f06f64577850122410d980c81";
   const errors = [], requests = [], measurements = [];
   browser.on("pageerror", (error) => errors.push(error.message));
   browser.on("request", (request) => requests.push(request.url()));

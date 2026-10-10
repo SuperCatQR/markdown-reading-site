@@ -4,13 +4,13 @@ import { readerToolsMarkup, readingToolPosition, restoreReadingToolPosition } fr
 import { readerMarkup } from "../src/reader-view.js";
 import { continuousPartMarkup } from "../src/continuous-reader.js";
 
-const entry = (pageIndex, patch = {}) => ({
-  manuscriptType: "publication-draft", bvid: "BVexample", pageIndex, videoPartId: pageIndex + 1,
-  editionId: String(pageIndex + 1).padStart(32, "0"), title: "原始长标题", summary: "", tags: ["哲学 & 现象学"],
+const entry = (partIndex, patch = {}) => ({
+  manuscriptType: "publication-draft", contentVersion: 2, platform: "bilibili", externalVideoId: "BVexample", partIndex, videoPartId: partIndex + 1,
+  editionId: String(partIndex + 1).padStart(32, "0"), title: "原始长标题", summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["哲学 & 现象学"] }, tags: ["哲学 & 现象学"],
   attribution: "视频转录，AI 整理", editorNote: "编辑说明原文", reviewStatus: "pending-review",
   createdAt: 1791417600, contentSha256: "a".repeat(64), aiRevisionId: "b".repeat(64),
-  reviewArtifactSha256: "c".repeat(64), sourceUrl: `https://www.bilibili.com/video/BVexample/?p=${pageIndex + 1}`,
-  slug: `part-${pageIndex + 1}`, ...patch,
+  reviewArtifactSha256: "c".repeat(64), sourceUrl: `https://www.bilibili.com/video/BVexample/?p=${partIndex + 1}`,
+  slug: `part-${partIndex + 1}`, ...patch,
 });
 
 test("reading tools keep real numeric parts and manuscript category while preserving scoped queries", () => {

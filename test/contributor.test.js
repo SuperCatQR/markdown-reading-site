@@ -7,7 +7,7 @@ import { feedbackText, feedbackIssueUrl, createFeedbackStore, feedbackKey } from
 
 const entry = { manuscriptType: "publication-draft", editionId: "a".repeat(32), aiRevisionId: "b".repeat(64),
   contentSha256: "c".repeat(64), artifactSha256: "d".repeat(64), reviewArtifactSha256: "e".repeat(64),
-  reviewStatus: "pending-review", title: "测试", slug: "edition-test", sourceUrl: "https://example.com/source?p=1", pageIndex: 0 };
+  reviewStatus: "pending-review", title: "测试", slug: "edition-test", sourceUrl: "https://example.com/source?p=1", partIndex: 0 };
 const group = (n, quote = "整理句子。") => `## 段落 ${n}：00:00:00 — 00:00:18\n\n来源：\`t1:s0\`；[回看](https://example.com/source?p=1&t=0)\n\n原文：原句。\n\n整理稿：${quote}\n\n- 疑点：词语；候选：字词；依据：t1:s0\n\n`;
 const reference = `# 标题：校验参照稿件\n\n修订：\`revision\`\n\n${group(1)}## 未识别的附录\n\n保留全部尾部。\n\n<script>alert(1)</script>\n`;
 

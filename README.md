@@ -16,9 +16,9 @@
 ```mermaid
 flowchart LR
   db[(SQLite publication heads)] -->|验证有效 release、edition、approval| exporter[bili-asr publication export]
-  exporter --> content[公开 catalog + publish.md + review.md + manifest]
+  exporter --> content[公开 catalog + origins + publish.md + review.md + manifest]
   db -->|选择当前且从未发布的 edition| draftExporter[bili-asr publication export-drafts]
-  draftExporter --> drafts[未发布 catalog + preview.md + review.md + manifest]
+  draftExporter --> drafts[未发布 catalog + origins + preview.md + review.md + manifest]
   content --> validate[结构、文件集合、SHA-256 和 snapshotId 校验]
   drafts --> validate
   validate --> vite[Vite 静态构建]
@@ -37,113 +37,79 @@ pnpm dev
 ```
 
 默认地址为 `http://127.0.0.1:5173`。开发服务器启动及生产构建均校验两份公开快照。
-仓库初始快照是合法空目录，查看未发布稿件不会产生审核或正式发布事实。
+当前生产快照为 0 篇已发布、1,228 篇未发布；查看未发布稿件不会产生审核或正式发布事实。
 
-## 导入已发布稿
+## 唯一内容契约与导入
 
-先在 `bilibili-asr-archive` 中按新稿件契约创建 edition、审核准确内容哈希并显式发布，然后导出：
+本站只接受生产者显式导出的 `universal-origin-v1`：**catalog v3、content v2、source metadata v1、origins v1、manifest v2**。这些是独立版本。拒绝旧 catalog v1/v2、legacy article、混合新旧条目、publish-v1 和旧 manifest v1；不推断字段、不转换旧快照、不修改冻结 Markdown 或哈希。
+
+上游契约固定于 [producer b584f6a](https://github.com/SuperCatQR/bilibili-asr-archive/blob/b584f6ac29b9e6acf598496c255ee73753063074/docs/preserved-body-import.md)。这是 PR #304 实现、PR #75/#77 已接入的来源交付策略，替代早期 issues #64/#68 提议的 manifest v1。导入步骤及来源说明见 [保留旧正文的迁移导入](docs/preserved-body-import.md)。
+
+当前读取架构、#64–#68 修复映射、快照身份与验收/部署边界见 [通用契约修复交付](docs/universal-reader-delivery.md)。
+
+在主项目生成完整的新格式公开和草稿目录：
 
 ```powershell
-bili-asr publication export --archive-root C:\Archive\new-contract --out C:\Sites\markdown-reading-site\content
+bili-asr publication export --archive-root C:\Archive\new-contract --out C:\Sites\markdown-reading-site\content --contract-profile universal-origin-v1
+bili-asr publication export-drafts --archive-root C:\Archive\new-contract --out C:\Sites\markdown-reading-site\draft-content --contract-profile universal-origin-v1
 ```
 
-输出目录必须与源归档及产物根互不重叠。命令读取有效发布指针，只导出当前 release 的
-`publish.md` 及该编辑版本对应 AI 修订的原始 `review.md`；创建 B 草稿或批准未发布的 B 时，
-公开目录继续呈现 A。明确发布 B 后切换 B，
-撤回当前版本后该分 P 从新快照中移除。审核与编辑命令详见主项目
-[publication.md](https://github.com/SuperCatQR/bilibili-asr-archive/blob/main/docs/publication.md)。
-后端契约实现与审核流程见 [主项目 PR #264](https://github.com/SuperCatQR/bilibili-asr-archive/pull/264)。
-公开未发布预览的后端导出实现见 [主项目 PR #265](https://github.com/SuperCatQR/bilibili-asr-archive/pull/265)。
-
-本仓库按准确版本接受两组公开快照契约：下述已有 catalog v2/manifest v1，及
-显式 `universal-origin-v1` 的 catalog v3/manifest v2。新入口每篇必须为 content v2，
-受管 `origins.json` 绑定生成或迁移来源，不自动转换旧输入。迁移步骤、来源展示与
-跨仓库测试见 [保留旧正文的迁移导入](docs/preserved-body-import.md)。
-
-2026-10-10 的生产导入已将本站两份输入切换至 `universal-origin-v1`：未发布目录共
-1,228 篇，其中 1,103 篇保留旧正文迁移，125 篇来自原生 ai-draft-v2。全部待审核，
-正式发布目录为零篇。导入依据与验证见 [生产迁移记录](docs/production-preserved-import-20261010.md)。
-下述 catalog v2/manifest v1 说明记录已有入口规则，当前受管快照采用新入口。
+输出根须与归档和产物互不重叠。默认导出完整范围；上游遇到范围内旧条目会整体失败，不能静默过滤。显式 `--release-id` / `--edition-id` 或 `--empty-scope` 只用于确实要公开的选择范围，不能用空目录替代未完成的内容交付。
 
 ```text
 content/
   catalog.json
+  origins.json
   publication-export-manifest.json
   articles/part-<videoPartId>/publish.md
   articles/part-<videoPartId>/review.md
-```
-
-catalog 为 `{ "schemaVersion": 2, "manuscriptType": "publication", "articles": [...] }`。
-两类快照可额外包含上游 `--series-file` 导出的 `series.json`；其路径和字节哈希必须登记在原 manifest 并参与 snapshotId。系列 v1 包含编辑源版本、确认依据、阅读顺序、准确绑定本类别目录及版本的成员，以及显式确认的缺失位置。构建拒绝陈旧、错类别、漏项、乱序和未登记关联。可选文件不改变 catalog 字段、正文、edition 或发布事实。维护格式见 [上游系列文档](https://github.com/SuperCatQR/bilibili-asr-archive/blob/main/docs/publication-series.md)。当前生产内容没有录入系列关联，不能从标题或标签推断。
-每条记录冻结读者可见标题、摘要、标签、整理属性、编辑说明和来源，携带 edition/release/revision
-标识、完整内容哈希、发布文件哈希、模板 `publish-v1` 与 Unix 秒发布时间。必需的 `reviewFile`
-绑定同一分 P 的 `review.md`，`reviewArtifactSha256` 对应原始校验参照文件字节。manifest 仍使用
-`schemaVersion: 1`，包含准确受管文件集合、每个文件的 SHA-256 及快照身份；构建核验正文与
-校验参照都与 catalog、manifest 配对，且全文为有效 UTF-8。
-32 位十六进制 edition ID 与 64 位 SHA-256/release/revision ID 区分校验。
-
-旧数组或 v1 catalog、旧 manifest、旧正文命名、任何 `reviews/` 内部目录、未登记或残留文件、
-缺失正文或校验参照、错误哈希、符号链接及路径逃逸都会拒绝。没有 v1 回退或兼容转换。
-数据库、edition 与 release 无需迁移，也不需要重新批准或发布。旧 v1 受管输出目录不能原地
-重新导出；请使用全新输出目录生成并验证 v2 快照，将旧快照保留在站点输入目录之外的备份中，
-再整体替换 `content/` 和 `draft-content/` 两个根目录。
-
-## 导入未发布稿件
-
-在主项目中把当前且从未产生 release 的编辑版本导出到站点独立的 `draft-content/`：
-
-```powershell
-bili-asr publication export-drafts --archive-root C:\Archive\new-contract --out C:\Sites\markdown-reading-site\draft-content
-```
-
-该命令只读取稿件与审核状态，不批准或发布稿件。每个分 P 最多导出当前 edition；历史版本、
-曾经发布的版本、已替换或撤回的 release 不会通过未发布入口重新公开。
-已发布 A 与当前草稿 B 可以并存；审核 B 不会改变正式发布目录中的 A。
-审核状态分别显示为“待审核”“审核中”“待修改”“未采用”“已审核 · 未发布”。
-预览公开需要显式执行导出并提交快照；后端工作流生成或编辑稿件不会自动把它放到网站。
-Pages 的生产构建读取 `draft-content/`，因此明确导入的 `pending-review` 稿件也可以在公开网站阅读。
-
-```text
 draft-content/
   catalog.json
+  origins.json
   publication-draft-export-manifest.json
   drafts/edition-<editionId>/preview.md
   drafts/edition-<editionId>/review.md
 ```
 
-草稿 catalog 使用 `{ "schemaVersion": 2, "manuscriptType": "publication-draft", "articles": [...] }`。
-主题 `tags` 只使用源视频元数据中已采集的标签名称（主项目 `video_tags.tag_name`），按 BVID 对应稿件，
-去重后保留原名称。不得从标题、编号或正文推断主题，也不得使用 AI 生成的分类；缺少标签时先补采
-源视频元数据，获取失败时保留空值，不填入替代分类。
-每条记录冻结读者元数据和来源，携带 edition/revision 标识、内容哈希、预览文件哈希、审核状态与
-Unix 秒创建时间；`reviewFile` 固定为同一 edition 目录的 `review.md`，`reviewArtifactSha256`
-校验原始参照字节。没有 release ID、发布时间或发布模板声明。manifest 保持 v1，类型为
-`publication-draft-export`，对准确文件集合、SHA-256 与快照身份执行同样的严格验证。
-已发布和未发布快照不可同时声明同一个 edition；内部 `editorial export` 包不能放入任一输入目录。
+两份 catalog 只有 `schemaVersion: 3`、`manuscriptType` 和 `articles`。类型分别为 `publication` / `publication-draft`；空目录仍有 v3 catalog、空 origins 和 v2 manifest。每篇都包含完整 contentVersion=2 来源与编辑字段；允许 null 的字段也必须存在，未知字段拒绝。
 
-未发布正文和配对的校验参照都会进入公开站点的生产构建及部署文件。只导入已决定公开的内容；
-校验参照保留原始 AI 基线说明、模型与规则标识。完整模型请求响应、审核演员、审计事件、
-独立 AI 合成稿和补丁保持在内部审阅包中。
+稿件编辑字段 `title/summary/tags/attribution/editorNote` 与冻结的 `sourceMetadata` 分开。来源有 `platform/externalVideoId/partIndex`，视频身份为平台和大小写敏感外部 ID 的元组，分段按零基 partIndex 排序。Bilibili 来源 URL 必须准确绑定视频与 P；YouTube 使用规范 watch URL，当前 partIndex=0。来源 metadata 的 17 个字段、文本/标签边界、规范 URL、UTC 发布时间派生及身份相等均校验。未知源视频发布时间保持 null，不用创建、导入或观察时间补充；封面只允许安全 HTTPS hdslb.com 子域，其他未知封面为 null。
+
+reader 数值范围采用 JavaScript 安全整数子集。原始 JSON 数字必须为无小数、无指数的十进制安全整数，越界值在使用前拒绝，不能舍入后通过校验。producer 的 int64 范围更宽；导入前应按 reader 校验预检，越界快照无法构建。
+
+公开记录使用准确 release/edition/AI revision、content/artifact/review 哈希、publish-v2 与 Unix 秒正式发布时间。草稿有 edition 创建时间与五种审核状态，禁止 release、发布模板及发布时间。edition 是 32 位小写十六进制，其余 SHA-256 身份是 64 位；videoPartId 为正安全整数。`contentSha256` 对应完整冻结内容对象，不能从 catalog 投影重算；artifact/review 哈希对应原始文件字节。
+
+manifest v2 只有 schemaVersion、manuscriptType、contractProfile、snapshotId、files；类型分别为 publication-export / publication-draft-export。files 按路径排序，准确登记 catalog、origins、正文和参照，不登记自身。snapshotId 是包含版本、类型、profile 和 files 的 canonical JSON 的 SHA-256，不再使用旧 v1 的仅 files 算法。所有原始文件哈希、有效 UTF-8、重复 JSON key、文件集合、路径、符号链接和残留目录在开发/构建前验证；内部 review.json、数据库、actors、audit、模型响应、凭据及未知目录不能进入快照。
+
+origins 每篇唯一绑定准确 edition、revision、内容和 sourceMetadata 哈希，并区分原生 ai-generated-v2、保留旧正文 preserved-legacy-body 与迁移后编辑 edited-after-preservation。PR #77 导入的 1,228 篇均未发布、待审核，其中 1,103 篇保留旧正文，125 篇为原生 v2；生产内容清单、实际快照身份与保留证据见 [生产迁移记录](docs/production-preserved-import-20261010.md)。迁移不等于重新生成、审核或发布，历史 AI 参照保持真实 ai-draft-v1。
+
+公开只包含有效当前 release，草稿只包含当前且从未发布的 edition。公开 A 与同 part 的新草稿 B 可以并存；相同 edition 不得跨两目录。批准 B 不改变 A；明确发布 B 后更新公开目录，撤回版不通过草稿重新公开。参照是对应 AI revision 的原始基线，不能当作后来人工 edition 的批准凭据。
+
+两类快照可包含生产者 `--series-file` 导出的 series.json，必须登记 manifest 并参与 snapshotId。系列 v1 仍是编辑确认的 Bilibili 系列；其 BVID 成员明确匹配新文章的 bilibili/externalVideoId，并绑定当前类别完整版本与 partIndex 顺序。构建拒绝陈旧、错类别、漏项、乱序和未登记关联；不从标题或标签推断系列，当前生产输入没有录入系列。
+
+两份导出命令不天然原子。使用同一归档读取边界或确认期间发布状态无变化，成对全量验证并整体替换受管目录；有状态变化就重新导出。备份、暂存、锁和恢复 journal 放在输入目录之外。部署失败保留上一有效站点，回退整份代码、双快照和静态产物，不让新代码消费旧快照。
 
 ## 阅读与修改建议
 
 首页默认展示“全部内容”，说明文字资料库的用途、视频与稿件数量，并按视频聚合分 P。
+来源主题筛选、正文标签入口和元数据搜索全部使用冻结 sourceMetadata.tags，entry.tags 为稿件编辑字段，来源标签为空时不回退编辑标签。
 “全部内容”“已发布”和“未发布”各自搜索标题、摘要、正文和源视频标签，支持标签筛选与深浅主题。
 正式发布目录为空时，提供明确的公开预览入口；预览稿始终保留真实审核状态。
 目录页页头提供“全部内容、主题、最近阅读”，发布状态通过筛选框切换。主题入口先展示 12 个常用源标签与不同视频数量，支持搜索全部源标签和分批展开；Escape 关闭并恢复焦点。
 阅读页固定工具栏提供返回目录、当前 P、查找、导览与排版；篇目入口显示完整标题及核对、纠错工具，站点导航与深浅主题集中在“更多”。
+视频范围链接明确包含 platform 和 video；连续模式额外包含 flow 与准确 edition。旧无平台视频 URL 和旧来源会话不迁移，文章/review 仍按 slug/edition 定位，已撤回或替换的旧 edition 没有自动映射。构建搜索分片以来源键摘要命名，外部 ID 不直接拼资产路径。
 同一视频按分 P 数字顺序组织；同一分 P 的发布版与草稿分别显示。顶部 P 菜单与正文末尾提供同稿件类别的导航及连续阅读入口；跳跃编号明确说明本站尚未收录的范围，不推断原视频缺失或跨视频系列。
 若快照包含编辑确认的系列，阅读页另提供系列说明、完整确认顺序及前后视频入口。经确认缺失或本类别暂无稿件的相邻位置显示说明，不生成跨类别链接。
 
 搜索结果展示命中上下文与关键词高亮；正文命中链接使用 URL fragment 定位相应段落，打开后
-高亮命中词。目录不展示自动首段摘录，保留已有编辑摘要；BV 号可直接打开原视频。
+高亮命中词。目录不展示自动首段摘录，保留已有编辑摘要；来源链接可直接打开对应平台原视频。
 目录分批显示视频。返回目录与浏览器后退会恢复关键词、标签、展开的分 P 列表、已显示数量和
 滚动位置；同一标签页刷新后继续保留。该状态通过 history 与 sessionStorage 保存，存储禁用时
 当前页面的内存状态仍支持往返。默认综合搜索保持正文证据优先；输入查询后，可直接选择标题相关优先，无需展开高级查找。原句和全部关键词保持正文准入规则。结果默认显示一段短证据，其余命中按需展开；全部命中锚点保留。纯空白查询（含不换行空格）按空查询处理。查找方式和排序支持分享与恢复，当前生效方式及排序依据可见。加载索引期间移除旧结果，长等待可清空取消，失败可重新请求。
 
 阅读排版提供 17/19/21px 字号、三档行距、620/760/920px 桌面行宽与宋体/黑体风格，手机宽度受屏幕限制。设置仅保存在当前浏览器，存储失败会明确提示；调整排版保持当前正文块及段内位置。正文有真实小标题时提供原文目录，没有时按原文正文块与摘录提供段落导览，不生成章节或改写快照。字体使用系统回退，不要求外部字体服务完成加载。实现依据与复测见 [访客体验修复说明](docs/visitor-experience-fixes.md)。
 
-正文阅读位置独立保存到当前浏览器的 localStorage；目录直接显示最近一篇的标题、P 和继续入口，其余记录、删除、清空与存储说明在次级管理区域。最多保留 20 篇，180 天后到期。记录绑定稿件类别、分 P、edition、正文内容及文件哈希，发布稿另绑定 release；使用段落锚点和段内相对位置恢复。连续阅读记录实际可见的 P，重开只请求该篇。内容更新时从新版开始，撤回时不恢复旧位置。校验参照不覆盖正文记录；显式链接锚点与页面历史优先，本地恢复由读者选择。打开查找或本文目录前保留正文位置，关闭、取消或返回可继续原处，工具滚动不覆盖进度；明确选择命中或主动回到正文阅读后恢复保存。存储不可用或记录损坏不阻止阅读，也不宣称保存成功；不提供跨设备同步。
+正文阅读位置独立保存到当前浏览器的 localStorage（reader-history-v2 / schemaVersion=2）；目录直接显示最近一篇的标题、P 和继续入口，其余记录、删除、清空与存储说明在次级管理区域。最多保留 20 篇，180 天后到期。记录绑定稿件类别、videoPartId、contentVersion、完整平台/外部 ID/partIndex、edition、正文内容及文件哈希，发布稿另绑定 release；使用段落锚点和段内相对位置恢复。连续阅读记录实际可见的 P，重开只请求该篇。内容更新时从新版开始，撤回时不恢复旧位置。校验参照不覆盖正文记录；显式链接锚点与页面历史优先，本地恢复由读者选择。打开查找或本文目录前保留正文位置，关闭、取消或返回可继续原处，工具滚动不覆盖进度；明确选择命中或主动回到正文阅读后恢复保存。存储不可用或记录损坏不阻止阅读，也不宣称保存成功；不提供跨设备同步。旧 reader-history-v1 不读取、不迁移，也不在初始化或新记录清空时自动删除。
 
 构建插件先验证两份输入快照，再派生阅读时间与两类独立的 JSON 搜索索引。派生数据
 不写入 `content/` 或 `draft-content/`。首页只加载目录元数据、阅读时间和文档 URL；首次输入搜索词时

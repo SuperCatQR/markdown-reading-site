@@ -68,11 +68,11 @@ export function createSearchLoader(urls, { fetchIndex = (...args) => fetch(...ar
     // When most documents remain, prefer the compressed full index. Never
     // display provisional counts: searchEntries receives all required bodies.
     if (ids.size > manifest.entries.length * 0.6) return load(view);
-    const bvids = [...new Set([...ids].map((id) => manifest.entries[id][1]))];
-    const indices = await boundedMap(bvids, async (bvid) => {
+    const videoKeys = [...new Set([...ids].map((id) => manifest.entries[id][1]))];
+    const indices = await boundedMap(videoKeys, async (videoKey) => {
       current(request);
-      if (!urls.videos?.[view]?.[bvid]) throw Error("Search body unavailable");
-      return load(view, bvid);
+      if (!urls.videos?.[view]?.[videoKey]) throw Error("Search body unavailable");
+      return load(view, videoKey);
     });
     current(request);
     return Object.assign({}, ...indices);
@@ -90,25 +90,25 @@ export function createSearchLoader(urls, { fetchIndex = (...args) => fetch(...ar
     }));
     return results;
   }
-  function load(view, bvid = null, request = null) {
-    if (!["all", "published", "drafts"].includes(view) || (bvid !== null && !validWorkKey(bvid))) return Promise.reject(new Error("Unknown search scope"));
-    if (bvid === null && request?.query?.trim()) return loadCandidates(view, request);
-    const key = `${view}:${bvid || "*"}`;
-    const scope = bvid ? "video" : "global";
+  function load(view, videoKey = null, request = null) {
+    if (!["all", "published", "drafts"].includes(view) || (videoKey !== null && !validWorkKey(videoKey))) return Promise.reject(new Error("Unknown search scope"));
+    if (videoKey === null && request?.query?.trim()) return loadCandidates(view, request);
+    const key = `${view}:${videoKey || "*"}`;
+    const scope = videoKey ? "video" : "global";
     if (cache.has(key)) {
-      measure("memory-cache", clock.now(), { view, scope, ...(bvid ? { bvid } : {}) }, clock);
+      measure("memory-cache", clock.now(), { view, scope, ...(videoKey ? { videoKey } : {}) }, clock);
       return cache.get(key);
     }
     const promise = (async () => {
-      if (view === "all") return Object.assign({}, ...await Promise.all([load("published", bvid), load("drafts", bvid)]));
+      if (view === "all") return Object.assign({}, ...await Promise.all([load("published", videoKey), load("drafts", videoKey)]));
       // A video absent from a category has no searchable body. Never fall back
       // to a full-library download for a scoped query.
-      const url = bvid ? urls.videos?.[view]?.[bvid] : urls[view];
-      if (bvid && !url) return {};
+      const url = videoKey ? urls.videos?.[view]?.[videoKey] : urls[view];
+      if (videoKey && !url) return {};
       if (!url) throw new Error("Unknown search category");
       let start = clock.now();
       const response = await fetchIndex(url);
-      const detail = { view, scope, url, ...(bvid ? { bvid } : {}) };
+      const detail = { view, scope, url, ...(videoKey ? { videoKey } : {}) };
       measure("response", start, detail, clock);
       if (!response.ok) throw new Error("Search index unavailable");
       start = clock.now();

@@ -1,9 +1,10 @@
+import { sourceTags } from "./source-identity.js";
 import { workKey } from "./source-identity.js";
 import { escapeHtml } from "./ui.js";
 
 export function sourceTagStats(entries) {
   const videos = new Map();
-  for (const entry of entries) for (const tag of entry.tags) {
+  for (const entry of entries) for (const tag of sourceTags(entry)) {
     if (!videos.has(tag)) videos.set(tag, new Set());
     videos.get(tag).add(workKey(entry));
   }

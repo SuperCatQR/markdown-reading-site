@@ -12,7 +12,7 @@
 .tag-more { min-height: 44px; color: var(--accent-strong); background: transparent; border: 0; cursor: pointer; text-align: left; padding: 8px; }
 .tag-empty, .recent-empty { color: var(--muted); font-size: 14px; line-height: 1.8; }
 #recent-reading { scroll-margin-top: calc(var(--header-height) + 12px); }
-.directory-shell .source-bvid { display: none; }
+.directory-shell .source-id { display: none; }
 mark { text-decoration: underline; text-decoration-color: var(--accent-strong); text-underline-offset: 3px; font-weight: 600; }
 .passage-link { padding: 8px 12px; }
 

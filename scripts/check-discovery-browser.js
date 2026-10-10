@@ -7,7 +7,7 @@ async (page) => {
   const errors = [];
   target.on("pageerror", (error) => errors.push(error.message));
   try {
-    await target.goto(`${base}?video=BV1dA411T7xD&view=all`);
+    await target.goto(`${base}?platform=bilibili&video=BV1dA411T7xD&view=all`);
     await target.locator(".reader-video-search").waitFor();
     const navigation = target.getByRole("navigation", { name: "同视频分 P 导航" }).first();
     assert(await navigation.locator("ol a").allTextContents().then((parts) => parts.join(",")) === Array.from({ length: 13 }, (_, i) => `P${i + 1}`).join(","), "Numeric part order wrong");

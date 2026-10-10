@@ -8,10 +8,11 @@ import { partGapsMarkup } from "./reading-outline.js";
 export function readerVideoMarkup(entries, { query = "", mode = "general", view }) {
   const counts = { all: entries.length, published: entries.filter((entry) => !isDraft(entry)).length, drafts: entries.filter(isDraft).length };
   const indices = [...new Set(entries.map((entry) => partIndex(entry)))].sort((a, b) => a - b);
+  const sourceScope = entries[0]?.platform === "youtube" ? "单视频来源。" : `已收录 ${indices.length} 个分 P，不代表视频完整目录。`;
   return `<details class="reader-video-search"${query.trim() || mode !== "general" || !counts[view] ? " open" : ""}><summary>在此视频中查找</summary>
     <div class="search-box"><label class="search-label" for="video-query">在此视频中查找</label><input id="video-query" type="search" maxlength="300" value="${escapeHtml(visibleQuery(query))}" placeholder="在此视频中查找" autocomplete="off" aria-describedby="search-help"><button class="clear-search" id="clear-video-query" type="button" aria-label="清空视频内搜索"${visibleQuery(query) ? "" : " hidden"}>×</button></div>
     <label class="video-search-category">稿件类别<select id="video-search-view">${Object.entries(viewLabels).map(([kind, label]) => `<option value="${kind}"${view === kind ? " selected" : ""}>${label} · ${counts[kind]}</option>`).join("")}</select></label>
-    ${searchControls({ mode })}<p class="search-help">仅查找本视频已收录稿件的正文与元数据，校验参照不参与搜索。已收录 ${indices.length} 个分 P，不代表视频完整目录。</p>${partGapsMarkup(entries)}
+    ${searchControls({ mode })}<p class="search-help">仅查找本视频已收录稿件的正文与元数据，校验参照不参与搜索。${sourceScope}</p>${partGapsMarkup(entries)}
     <p id="video-result-count" class="result-count" role="status" hidden></p><div id="video-results" aria-busy="false"></div></details>`;
 }
 

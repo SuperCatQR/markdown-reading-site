@@ -1,3 +1,5 @@
+import { universalEntry, signSnapshot } from "./support/universal-fixture.js";
+import { canonicalDigest } from "../scripts/universal-contract.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { sha256, validateSnapshot } from "../scripts/catalog.js";
@@ -6,15 +8,15 @@ import { seriesMarkup, seriesAdjacentMarkup } from "../src/series-view.js";
 import { readerMarkup } from "../src/reader-view.js";
 
 const doc = "# 合成系列\n\n明确确认的测试正文。\n", review = "# 合成参照\n\n固定AI基线。\n";
-const article = (id, bvid = "BV0000000001", pageIndex = 0) => ({
-  manuscriptType: "publication-draft", slug: `edition-${String(id).padStart(32, "0")}`, title: "合成系列稿件", summary: "", tags: [], attribution: "合成测试", editorNote: "",
-  editionId: String(id).padStart(32, "0"), aiRevisionId: "a".repeat(64), videoPartId: id, bvid, pageIndex,
-  sourceUrl: `https://www.bilibili.com/video/${bvid}/?p=${pageIndex + 1}`, contentSha256: "b".repeat(64), artifactSha256: sha256(doc),
+const article = (id, bvid = "BV0000000001", partIndex = 0) => universalEntry({
+  manuscriptType: "publication-draft", slug: `edition-${String(id).padStart(32, "0")}`, title: "合成系列稿件", summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [], attribution: "合成测试", editorNote: "",
+  editionId: String(id).padStart(32, "0"), aiRevisionId: "a".repeat(64), videoPartId: id, contentVersion: 2, platform: "bilibili", externalVideoId: bvid, partIndex,
+  sourceUrl: `https://www.bilibili.com/video/${bvid}/?p=${partIndex + 1}`, contentSha256: "b".repeat(64), artifactSha256: sha256(doc),
   reviewStatus: "pending-review", createdAt: 1791417600,
   file: `drafts/edition-${String(id).padStart(32, "0")}/preview.md`, reviewFile: `drafts/edition-${String(id).padStart(32, "0")}/review.md`, reviewArtifactSha256: sha256(review),
 });
 const entries = [article(2, "BV0000000001", 1), article(1), article(3, "BV0000000002")];
-const catalog = { schemaVersion: 2, manuscriptType: "publication-draft", articles: entries };
+const catalog = { schemaVersion: 3, manuscriptType: "publication-draft", articles: entries };
 const binding = ({ slug, editionId, contentSha256, artifactSha256 }) => ({ slug, editionId, contentSha256, artifactSha256 });
 const envelope = () => ({ schemaVersion: 1, manuscriptType: "publication-draft", editorialVersion: "c".repeat(64), series: [{
   id: "synthetic-only", title: "合成系列", sourceUrl: "https://example.test/editorial-confirmation", evidence: "仅供契约测试的编辑确认依据。",
@@ -27,16 +29,14 @@ function snapshot(series = envelope(), { register = true, seriesBytes } = {}) {
   const files = new Map([["catalog.json", Buffer.from(JSON.stringify(catalog))]]);
   for (const entry of entries) { files.set(entry.file, Buffer.from(doc)); files.set(entry.reviewFile, Buffer.from(review)); }
   if (series !== undefined) files.set("series.json", seriesBytes || Buffer.from(JSON.stringify(series)));
-  const records = [...files].filter(([name]) => register || name !== "series.json").sort(([a], [b]) => a < b ? -1 : 1).map(([path, bytes]) => ({ path, sha256: sha256(bytes) }));
-  files.set("publication-draft-export-manifest.json", Buffer.from(JSON.stringify({ schemaVersion: 1, manuscriptType: "publication-draft-export", snapshotId: sha256(JSON.stringify(records)), files: records })));
-  return files;
+  return signSnapshot(files, "publication-draft", { omit: register ? [] : ["series.json"] });
 }
 
 test("series is optional and binds every current-category part in exact source order", () => {
   assert.deepEqual(validateSeries(envelope(), catalog, "publication-draft"), []);
   assert.deepEqual(validateSnapshot(snapshot(), "publication-draft").errors, []);
   const absent = snapshot(); absent.delete("series.json");
-  const manifest = JSON.parse(absent.get("publication-draft-export-manifest.json")); manifest.files = manifest.files.filter(({ path }) => path !== "series.json"); manifest.snapshotId = sha256(JSON.stringify(manifest.files)); absent.set("publication-draft-export-manifest.json", Buffer.from(JSON.stringify(manifest)));
+  const manifest = JSON.parse(absent.get("publication-draft-export-manifest.json")); manifest.files = manifest.files.filter(({ path }) => path !== "series.json"); manifest.snapshotId = canonicalDigest({ schemaVersion: 2, manuscriptType: manifest.manuscriptType, contractProfile: manifest.contractProfile, files: manifest.files }); absent.set("publication-draft-export-manifest.json", Buffer.from(JSON.stringify(manifest)));
   assert.deepEqual(validateSnapshot(absent, "publication-draft").errors, []);
   assert.equal(validateSnapshot(absent, "publication-draft").series, null);
 });

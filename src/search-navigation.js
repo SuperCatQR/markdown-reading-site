@@ -1,4 +1,4 @@
-import { partIndex, workKey } from "./source-identity.js";
+import { partIndex, workKey, partLabel } from "./source-identity.js";
 import { entryKey, isDraft, readerSearchRoute, searchRoute } from "./manuscripts.js";
 import { sanitizeSearchOrigin } from "./directory-state.js";
 import { matchHash, parseMatchHash, normalizeSearch } from "./search.js";
@@ -29,7 +29,7 @@ export function passageNavigationState(passages, entry, hash) {
 
 export function passageNavigationMarkup(state, request, origin = null) {
   const link = (passage, label, direction) => passage
-    ? `<a class="search-hit-step" data-search-hit="${direction}" href="${escapeHtml(`${readerSearchRoute(passage.entry, request)}${matchHash(passage.match, request.query, request.mode)}`)}" aria-label="${label}：P${partIndex(passage.entry) + 1} 正文命中">${label}</a>`
+    ? `<a class="search-hit-step" data-search-hit="${direction}" href="${escapeHtml(`${readerSearchRoute(passage.entry, request)}${matchHash(passage.match, request.query, request.mode)}`)}" aria-label="${label}：${partLabel(passage.entry)} 正文命中">${label}</a>`
     : `<span class="search-hit-boundary" aria-disabled="true">${label}</span>`;
   const global = origin ? `<a data-return-global href="${escapeHtml(searchRoute({ ...origin.directory, view: origin.view }))}">返回全站搜索结果</a>`
     : `<a href="${escapeHtml(searchRoute({ query: request.query, mode: request.mode, view: request.view }))}">重新全站搜索</a>`;

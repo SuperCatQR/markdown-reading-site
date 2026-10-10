@@ -1,4 +1,4 @@
-import { partIndex } from "./source-identity.js";
+import { partIndex, partLabel } from "./source-identity.js";
 import { visibleReadingEntry, readingToolPosition } from "./reader-tools.js";
 import { readingOffset } from "./contribution-navigation.js";
 import { feedbackKey, createFeedbackStore, feedbackText, feedbackIssueUrl } from "./contribution-feedback.js";
@@ -65,7 +65,7 @@ export function bindContributionPanel({ app, route, entries, issueUrl, passages 
     const saved = store.read(key);
     const initial = saved || { quote: selected?.text || block?.textContent?.slice(0, 4000) || "", context: block?.textContent?.slice(0, 4000) || "" };
     for (const field of fields) field.value = initial[field.name] || "";
-    dialog.querySelector(".feedback-identity").textContent = `${entry.title} · P${partIndex(entry) + 1} · ${route.mode === "review" ? "校验参照" : "正文"} · 编辑版本 ${entry.editionId}`;
+    dialog.querySelector(".feedback-identity").textContent = `${entry.title} · ${partLabel(entry)} · ${route.mode === "review" ? "校验参照" : "正文"} · 编辑版本 ${entry.editionId}`;
     status.textContent = saved ? "已恢复当前版本的暂存建议。" : "填写后会暂存，尚未提交。";
     update();
     scroll = window.scrollY; previousOverflow = document.body.style.overflow;

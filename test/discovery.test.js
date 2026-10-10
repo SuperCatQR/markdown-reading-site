@@ -1,3 +1,4 @@
+import { workKey } from "../src/source-identity.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { searchEntries, searchTerms, contextSnippet, textSegments, matchHash, parseMatchHash } from "../src/search.js";
@@ -5,8 +6,8 @@ import { resolveReaderRoute, searchRoute, entryKey, readerSearchRoute, videoEntr
 import { prepareDocument } from "../src/document.js";
 import { readerVideoMarkup, videoResults } from "../src/video-view.js";
 
-const entry = (part, patch = {}) => ({ manuscriptType: "publication-draft", bvid: "BVexample", pageIndex: part - 1,
-  editionId: String(part).padStart(32, "0"), title: "内在体验", summary: "", tags: ["哲学"], reviewStatus: "pending-review",
+const entry = (part, patch = {}) => ({ manuscriptType: "publication-draft", contentVersion: 2, platform: "bilibili", externalVideoId: "BVexample", partIndex: part - 1,
+  editionId: String(part).padStart(32, "0"), title: "内在体验", summary: "", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: ["哲学"] }, tags: ["哲学"], reviewStatus: "pending-review",
   sourceUrl: `https://www.bilibili.com/video/BVexample/?p=${part}`, ...patch });
 const indexFor = (entries, sources) => Object.fromEntries(entries.map((entry, i) => [entryKey(entry), prepareDocument(sources[i]).blocks]));
 
@@ -15,7 +16,7 @@ test("reverse search requires every keyword in the same body while keeping evide
   const index = indexFor(entries, ["# 标题\n\n内在体验值得讨论。\n\n自由带来痛苦。\n\n再谈内在体验。", "# 标题\n\n自由带来痛苦。", "# 标题\n\n内在体验和自由。"]);
   const results = searchEntries(entries, { query: " 内在体验  自由 内在体验 ", mode: "keywords", tag: "全部" }, index);
   assert.deepEqual(searchTerms(" 内在体验  自由 内在体验 ", "keywords"), ["内在体验", "自由"]);
-  assert.deepEqual(results.map(({ entry }) => entry.pageIndex), [2, 0]);
+  assert.deepEqual(results.map(({ entry }) => entry.partIndex), [2, 0]);
   assert.equal(results[1].matches.length, 3);
   assert.deepEqual(results[1].matches[1].terms, ["自由"]);
   assert.equal(searchEntries(entries, { query: "自由 不存在", mode: "keywords", tag: "全部" }, index).length, 0);
@@ -88,9 +89,9 @@ test("reader search URLs preserve exact edition, category and query without mixi
   assert.equal(route.entry, draft);
   assert.deepEqual(route.videoSearch, search);
   assert.equal(resolveReaderRoute(readerSearchRoute(draft, search, true), [published], [draft]).mode, "review");
-  assert.equal(videoEntry([draft, published], draft.bvid), published);
-  assert.equal(videoEntry([draft, published], draft.bvid, "drafts"), draft);
-  assert.equal(videoEntry([draft], draft.bvid, "published"), undefined);
+  assert.equal(videoEntry([draft, published], workKey(draft)), published);
+  assert.equal(videoEntry([draft, published], workKey(draft), "drafts"), draft);
+  assert.equal(videoEntry([draft], workKey(draft), "published"), undefined);
   for (const suffix of ["&vq=a&vq=b", "&vm=semantic", "&vview=unknown", "&vq=" + "x".repeat(301), "&q=test"]) {
     assert.equal(resolveReaderRoute(`${readerSearchRoute(draft)}${suffix}`, [published], [draft]).kind, "missing");
   }
@@ -99,8 +100,8 @@ test("reader search URLs preserve exact edition, category and query without mixi
 
 test("search URLs round-trip video scope, exact query and category while rejecting ambiguous manuscript selectors", () => {
   const draft = entry(1);
-  const url = searchRoute({ view: "drafts", bvid: draft.bvid, query: "自由 & [x.*]", mode: "keywords" });
-  assert.deepEqual(resolveReaderRoute(url, [], [draft]), { kind: "video", view: "drafts", bvid: draft.bvid, searchState: { query: "自由 & [x.*]", mode: "keywords", tag: "全部" } });
+  const url = searchRoute({ view: "drafts", videoKey: workKey(draft), query: "自由 & [x.*]", mode: "keywords" });
+  assert.deepEqual(resolveReaderRoute(url, [], [draft]), { kind: "video", view: "drafts", videoKey: workKey(draft), searchState: { query: "自由 & [x.*]", mode: "keywords", tag: "全部" } });
   assert.deepEqual(resolveReaderRoute(searchRoute({ view: "published", query: "自由", tag: "哲学" }), [], [draft]), { kind: "directory", view: "published", searchState: { query: "自由", mode: "general", sort: "body", tag: "哲学" } });
   for (const invalid of ["?video=missing", "?video=../escape", "?q=a&q=b", "?mode=semantic", "?tag=不存在", "?video=BVexample&tag=哲学", "?video=BVexample&draft=" + draft.editionId, "?review=" + draft.editionId + "&q=test", "?q=" + "a".repeat(301)]) {
     assert.equal(resolveReaderRoute(invalid, [], [draft]).kind, "missing", invalid);

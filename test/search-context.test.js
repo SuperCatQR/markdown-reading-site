@@ -1,3 +1,4 @@
+import { workKey } from "../src/source-identity.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { directoryResults } from "../src/directory-view.js";
@@ -6,9 +7,9 @@ import { passageNavigationMarkup } from "../src/search-navigation.js";
 import { resolveReaderRoute } from "../src/manuscripts.js";
 import { parseMatchHash } from "../src/search.js";
 
-const entry = (pageIndex) => ({ pageIndex, bvid: "BVscope", manuscriptType: "publication-draft",
-  editionId: String(pageIndex + 1).padStart(32, "0"), title: "自由的讨论", slug: `p-${pageIndex}`,
-  reviewStatus: "pending-review", tags: [], sourceUrl: "https://example.test/video" });
+const entry = (partIndex) => ({ partIndex, contentVersion: 2, platform: "bilibili", externalVideoId: "BVscope", manuscriptType: "publication-draft",
+  editionId: String(partIndex + 1).padStart(32, "0"), title: "自由的讨论", slug: `p-${partIndex}`,
+  reviewStatus: "pending-review", sourceMetadata: { title: "合成来源", metadataObservedAt: null, creatorName: null, creatorId: null, tags: [] }, tags: [], sourceUrl: "https://example.test/video" });
 const first = entry(0), second = entry(2);
 const body = { id: "passage-8", text: "自由", terms: ["自由"] };
 const options = { view: "drafts", query: "自由 人格", mode: "keywords", visibleCount: 24, expanded: [], passages: [], counts: { drafts: 2 } };
@@ -41,14 +42,14 @@ test("metadata-only title has a shareable query but no invented passage; ordinar
 
 test("only an explicit same-video search origin exposes restore; invalid or cached directory state cannot establish origin", () => {
   const directory = { query: "自由", mode: "phrase", sort: "title", tag: "哲学", scroll: 721,
-    visibleCount: 72, expanded: ["BVscope"], passages: [`publication-draft:${first.editionId}`] };
-  const raw = { kind: "directory-search", bvid: "BVscope", view: "drafts", directory };
-  const origin = sanitizeSearchOrigin(raw, first.bvid);
+    visibleCount: 72, expanded: ["bilibili.BVscope"], passages: [`publication-draft:${first.editionId}`] };
+  const raw = { kind: "directory-search", videoKey: "bilibili.BVscope", view: "drafts", directory };
+  const origin = sanitizeSearchOrigin(raw, workKey(first));
   assert.deepEqual(origin.directory, directory);
   assert.equal(sanitizeSearchOrigin(raw, "BVother"), null);
-  assert.equal(sanitizeSearchOrigin({ ...raw, kind: undefined }, first.bvid), null);
-  assert.equal(sanitizeSearchOrigin({ ...raw, view: "bad" }, first.bvid), null);
-  assert.equal(sanitizeSearchOrigin({ ...raw, directory: { ...directory, query: " " } }, first.bvid), null);
+  assert.equal(sanitizeSearchOrigin({ ...raw, kind: undefined }, workKey(first)), null);
+  assert.equal(sanitizeSearchOrigin({ ...raw, view: "bad" }, workKey(first)), null);
+  assert.equal(sanitizeSearchOrigin({ ...raw, directory: { ...directory, query: " " } }, workKey(first)), null);
   const request = { query: "新的本视频查询", mode: "general", view: "all" };
   const state = { current: 0, total: 1, previous: null, next: null };
   const withOrigin = passageNavigationMarkup(state, request, origin);

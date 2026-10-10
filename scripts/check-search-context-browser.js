@@ -95,13 +95,13 @@ async (page) => {
     const keywordUrl = await parseUrl(target.url());
     assert(keywordUrl.params.vm === "keywords", "Keyword mode lost");
     assert(keywordUrl.params.vview === "drafts", "Category scope lost");
-    const keywordBvid = await target.evaluate(() => history.state.searchOrigin.bvid);
+    const keywordBvid = await target.evaluate(() => history.state.searchOrigin.videoKey);
     await actions().click();
     await target.getByRole("button", { name: "查看本视频命中", exact: true }).click();
     const otherPart = target.locator("#video-results .part-link").filter({ hasText: "P" }).last();
     await otherPart.click();
     await hitsReady();
-    assert(await target.evaluate((bvid) => history.state.searchOrigin?.bvid === bvid, keywordBvid), "Cross-P lost global origin");
+    assert(await target.evaluate((bvid) => history.state.searchOrigin?.videoKey === bvid, keywordBvid), "Cross-P lost global origin");
     await returnGlobal();
     assert(await target.locator("#search").inputValue() === "审美 痛苦", "Cross-P return lost complete keywords");
 

@@ -1,3 +1,4 @@
+import { sourceTags } from "./source-identity.js";
 import { normalizeSearch, searchTerms } from "./search.js";
 import { validWorkKey } from "./source-identity.js";
 
@@ -18,7 +19,7 @@ export function queryGrams(query, mode) {
 
 export function metadataMatches(entry, query) {
   const term = normalizeSearch(query);
-  return term && [entry.title, entry.summary, entry.tags.join(" · ")].some((text) => normalizeSearch(text).includes(term));
+  return term && [entry.title, entry.summary, sourceTags(entry).join(" · ")].some((text) => normalizeSearch(text).includes(term));
 }
 
 export function candidateIds(manifest, grams, partitions) {
