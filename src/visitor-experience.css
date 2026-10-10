@@ -1,0 +1,92 @@
+/* Discovery and reading controls use the same quiet archive palette. */
+.directory-search-options { display: flex; flex-wrap: wrap; align-items: start; gap: 0 18px; margin-bottom: 4px; font-size: 13px; color: var(--muted); }
+.directory-search-options .advanced-search { flex: 1 1 auto; }
+.publication-filter { display: inline-flex; align-items: center; min-height: 44px; }
+.publication-filter select { min-height: 44px; max-width: 100%; padding: 6px 10px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; font-size: 13px; }
+.search-sort[hidden], .sorting-explanation[hidden] { display: none; }
+.sorting-explanation { color: var(--muted); font-size: 13px; }
+.sorting-explanation > summary { min-height: 44px; width: fit-content; display: flex; align-items: center; cursor: pointer; }
+.tag-options-label { margin: 12px 4px 0; color: var(--muted); font-size: 13px; }
+.tag-option > span:last-child { white-space: nowrap; font-size: 12px; }
+.filter-options { max-height: min(420px, 48dvh); }
+.tag-more { min-height: 44px; color: var(--accent-strong); background: transparent; border: 0; cursor: pointer; text-align: left; padding: 8px; }
+.tag-empty, .recent-empty { color: var(--muted); font-size: 14px; line-height: 1.8; }
+#recent-reading { scroll-margin-top: calc(var(--header-height) + 12px); }
+.directory-shell .source-bvid { display: none; }
+mark { text-decoration: underline; text-decoration-color: var(--accent-strong); text-underline-offset: 3px; font-weight: 600; }
+.passage-link { padding: 8px 12px; }
+
+.reader-header { grid-template-columns: auto minmax(0, 1fr) auto; }
+.reader-identity { min-width: 0; position: relative; }
+.reader-identity > summary { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 6px 10px; cursor: pointer; color: var(--ink); font-size: 14px; list-style: none; }
+.reader-title-preview { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.reader-title-mobile { display: none; }
+.reader-identity-popover, .reader-parts-popover { position: absolute; top: 100%; z-index: 22; width: min(380px, calc(100vw - 32px)); max-height: min(70dvh, 480px); overflow: auto; padding: 16px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-md); }
+.reader-identity-popover { right: 0; font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+.reader-identity-popover a, .reader-identity-popover button { display: inline-flex; min-height: 44px; align-items: center; padding: 6px 14px; color: var(--accent-strong); background: transparent; border: 1px solid var(--line); font: inherit; cursor: pointer; margin-right: 8px; }
+.reader-parts-popover { left: 0; width: min(320px, calc(100vw - 32px)); }
+.reader-parts-popover ol { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 8px 0 0; padding: 0; }
+.part-gaps { margin: 4px 0 10px; color: var(--muted); font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.reading-information > summary, .continuous-overview > summary { display: flex; min-height: 44px; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; cursor: pointer; }
+.reading-information > summary::before, .continuous-overview > summary::before { content: "+"; color: var(--accent-strong); }
+.reading-information[open] > summary::before, .continuous-overview[open] > summary::before { content: "−"; }
+.reading-information[open] { border-block: 1px solid var(--line); margin-block: 8px; padding-bottom: 12px; }
+.reading-information-date { font-size: 13px; color: var(--muted); }
+.reading-parts:not([open]), .table-of-contents:not([open]), .reader-video-search:not([open]) { margin: 0; padding: 0; border: 0; }
+.reading-parts:not([open]) > summary, .table-of-contents:not([open]) > summary, .reader-video-search:not([open]) > summary { display: none; }
+.paragraph-outline > p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+.paragraph-outline a { display: block; padding-block: 8px; line-height: 1.7; }
+.paragraph-outline a > span { display: block; color: var(--accent-strong); font-size: 12px; }
+.prose { font-size: var(--reading-font-size, 17px); line-height: var(--reading-line-height, 1.95); font-family: var(--reading-font, Georgia, serif); }
+.reading-article > .prose:not(.reading-heading), .continuous-part, .continuous-feedback { width: min(100%, var(--reading-width, 760px)); }
+.reading-article > .prose { margin-inline: auto; }
+.search-hit-query { max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: 13px; }
+.reading-settings { width: min(420px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: auto; padding: 24px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); box-shadow: var(--shadow-md); }
+.reading-settings::backdrop { background: rgb(0 0 0 / 35%); }
+.reading-settings form { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.reading-settings h2 { font-size: 20px; margin: 0; }
+.reading-settings label { display: grid; grid-template-columns: 60px minmax(0, 1fr); align-items: center; gap: 12px; margin-top: 16px; font-size: 14px; }
+.reading-settings select, .settings-reset, .settings-close { min-height: 44px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 8px 12px; }
+.settings-close { min-width: 44px; cursor: pointer; font-size: 20px; }
+.settings-reset { margin-top: 20px; cursor: pointer; }
+.settings-status { margin: 16px 0 0; font-size: 13px; color: var(--muted); line-height: 1.8; }
+
+@media (max-width: 780px) {
+  :root:not([data-reading="true"]) { --header-height: 64px; }
+  .site-header:not(.reader-header) { height: 64px; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: 1fr; gap: 8px; padding-inline: 12px; }
+  .site-header:not(.reader-header) > .wordmark { grid-column: 1; grid-row: 1; }
+  .site-header:not(.reader-header) > .wordmark > span:last-child { display: none; }
+  .site-header:not(.reader-header) > .top-nav { grid-column: 2; grid-row: 1; gap: 0; }
+  .site-header:not(.reader-header) > .theme-toggle { grid-column: 3; grid-row: 1; padding-inline: 8px; }
+  .site-header:not(.reader-header) .top-nav a { padding-inline: 8px; font-size: 13px; white-space: nowrap; }
+  .site-header:not(.reader-header) .theme-toggle > span:last-child { display: none; }
+  .directory-shell { padding-top: 16px; }
+  .directory-shell .page-heading h1 { font-size: 26px; }
+  .directory-shell .library-overview { display: flex; align-items: center; flex-wrap: wrap; gap: 0 12px; }
+  .directory-shell .library-overview p { font-size: 13px; }
+  .directory-shell .library-status summary { font-size: 12px; }
+  .directory-shell .directory-tools { padding-block: 8px 4px; }
+  .directory-search-options { gap: 0 8px; }
+  .directory-search-options .advanced-search { flex: 1 1 150px; }
+  .directory-search-options .search-mode-current { display: none; }
+  .directory-search-options .search-sort { flex-basis: 100%; margin-block: 4px 0; }
+  .sorting-explanation { margin-top: -2px; }
+  .directory-shell .filter-popover { left: 0; right: auto; width: min(340px, calc(100vw - 40px)); }
+  .reader-header { padding-inline: 8px; gap: 0; grid-template-columns: minmax(0, 1fr) auto auto; }
+  .reader-tools { gap: 0; justify-content: space-between; }
+  .reader-tools > a, .reader-tools > button, .reader-part-menu > summary, .reader-site-menu > summary, .reader-identity > summary { min-width: 40px; padding-inline: 5px; font-size: 13px; }
+  .reader-title-preview { display: none; }
+  .reader-title-mobile { display: inline; }
+  .reader-identity-popover { right: -40px; }
+  .reader-parts-popover { left: -44px; }
+  .reading-article { margin-top: 0; }
+  .reading-heading h1 { font-size: 25px; line-height: 1.5; }
+  .reading-status { font-size: 12px; gap: 4px 8px; }
+  .search-hit-query { max-width: calc(100vw - 236px); }
+  .continuous-heading { margin-block: 8px 0; }
+  .continuous-heading h1 { display: none; }
+  .continuous-heading .eyebrow { margin-bottom: 0; }
+  .continuous-shell > .back-link { display: none; }
+  .continuous-part { margin-top: 16px; }
+  .continuous-part .reading-heading h2 { font-size: 25px; }
+}
