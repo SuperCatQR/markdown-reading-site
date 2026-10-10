@@ -1,5 +1,6 @@
 import { entryRoute, isDraft, readerSearchRoute } from "./manuscripts.js";
-import { searchEntries, searchModes } from "./search.js";
+import { searchEntries, searchModes, parseMatchHash } from "./search.js";
+import { createSearchNavigation } from "./search-navigation.js";
 import { measureSearchStage, showSearchWaiting } from "./search-loader.js";
 import { searchHelp } from "./directory-view.js";
 import { videoResults } from "./video-view.js";
@@ -10,16 +11,30 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   const category = root.querySelector("#video-search-view");
   const results = root.querySelector("#video-results");
   const count = root.querySelector("#video-result-count");
-  const current = { query: input.value, mode: route.videoSearch?.mode || "general", view: category.value, tag: "全部", passages: [] };
+  const current = { query: input.value, mode: route.videoSearch?.mode || "general", view: category.value, tag: "全部", passages: route.videoSearch?.passages || [] };
+  const arrival = parseMatchHash(location.hash);
+  // A hit URL resumes the body, including its saved scroll position. Reopening
+  // the result disclosure would insert every result above that body position.
+  if (arrival && route.mode !== "review") root.open = false;
+  if (!current.query && arrival && route.mode !== "review") {
+    current.query = input.value = arrival.query;
+    current.mode = arrival.mode || "general";
+    root.querySelectorAll('[name="search-mode"]').forEach((radio) => { radio.checked = radio.value === current.mode; });
+    root.querySelector("#search-help").textContent = searchHelp(current.mode);
+    const modeLabel = root.querySelector(".search-mode-current");
+    if (modeLabel) modeLabel.textContent = searchModes[current.mode];
+    if (current.mode !== "general") root.querySelector("#advanced-search").open = true;
+  }
   const saved = history.state?.videoSearch;
-  if (saved?.editionId === route.entry.editionId && saved.query === current.query && saved.mode === current.mode && saved.view === current.view && Array.isArray(saved.passages)) current.passages = saved.passages;
+  if ((saved?.bvid === route.entry.bvid || saved?.editionId === route.entry.editionId) && saved.query === current.query && saved.mode === current.mode && saved.view === current.view && Array.isArray(saved.passages)) current.passages = saved.passages;
   let version = 0;
   let timer;
   let composing = false;
+  const navigation = createSearchNavigation({ app, route, getRequest: () => current, isCurrent });
 
   function save() {
     if (persistSearch) persistSearch({ ...current });
-    else history.replaceState({ ...history.state, videoSearch: { editionId: route.entry.editionId, query: current.query, mode: current.mode, view: current.view, passages: current.passages } }, "", `${readerSearchRoute(route.entry, current, route.mode === "review")}${location.hash}`);
+    else history.replaceState({ ...history.state, videoSearch: { bvid: route.entry.bvid, editionId: route.entry.editionId, query: current.query, mode: current.mode, view: current.view, passages: current.passages } }, "", `${readerSearchRoute(route.entry, current, route.mode === "review")}${location.hash}`);
     app.querySelectorAll(".parts-navigation a:not(.continuous-link), .reader-part-menu a, .document-tabs a").forEach((link) => {
       const params = new URLSearchParams(new URL(link.href).search);
       const entry = entries.find((entry) => params.get("draft") === entry.editionId || params.get("read") === entry.slug || params.get("review") === entry.editionId);
@@ -39,6 +54,7 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   async function search(persist = true) {
     const requestVersion = ++version;
     if (!isCurrent()) return;
+    navigation.pending();
     const request = { ...current };
     if (persist || route.videoSearch) save();
     root.querySelector("#clear-video-query").hidden = !request.query;
@@ -57,13 +73,14 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
     const stopWaiting = showSearchWaiting(results, { isCurrent: currentRequest, cancelId: "cancel-video-search" });
     const started = performance.now();
     try {
-      const index = await loadSearchData(request.view);
+      const index = await loadSearchData(request.view, route.entry.bvid);
       if (!isCurrent() || requestVersion !== version) return;
       const start = performance.now();
       const matches = searchEntries(candidates, request, index);
       measureSearchStage("compute", start, { view: request.view, scope: "video" });
       const renderStart = performance.now();
       showMatches(matches, request);
+      navigation.update(matches);
       measureSearchStage("render", renderStart, { view: request.view, scope: "video", matches: matches.length });
       count.textContent = `${matches.length} / ${candidates.length} 篇稿件`;
       measureSearchStage("total", started, { view: request.view, scope: "video" });
@@ -77,6 +94,7 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
 
   function update() {
     ++version;
+    navigation.pending();
     current.query = input.value;
     current.passages = [];
     clearTimeout(timer);
@@ -101,6 +119,7 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
   root.addEventListener("click", (event) => {
     if (event.target.closest("#retry-video-search")) search();
     if (event.target.closest("#clear-video-query, #cancel-video-search")) {
+      navigation.end();
       input.value = current.query = "";
       current.passages = [];
       clearTimeout(timer);
@@ -113,5 +132,7 @@ export function bindReaderVideo({ app, route, entries, summaries, loadSearchData
     current.passages = [...root.querySelectorAll(".passage-disclosure[open]")].map((details) => details.dataset.entry);
     if (isCurrent()) save();
   }, true);
-  return search(false);
+  const ready = search(false);
+  ready.destroy = () => { ++version; clearTimeout(timer); navigation.destroy(); };
+  return ready;
 }

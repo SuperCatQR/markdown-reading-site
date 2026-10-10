@@ -2,7 +2,7 @@ import { prepareDocument } from "./document.js";
 import { continuousRoute, entryRoute, reviewRoute, entryKey, videoRoute } from "./manuscripts.js";
 import { escapeHtml, statusBadge, footer, viewLabels } from "./ui.js";
 import { provenanceMarkup } from "./reader-details.js";
-import { copyMarkdown } from "./browser-document.js";
+import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
 import { readerVideoMarkup } from "./video-view.js";
 
 const sources = new Map();
@@ -28,6 +28,7 @@ export function createContinuousReader({ app, route, pageHeader, loadBody, saved
     query: typeof priorSearch?.query === "string" ? priorSearch.query.slice(0, 300) : "",
     mode: ["general", "phrase", "keywords"].includes(priorSearch?.mode) ? priorSearch.mode : "general",
     view: ["all", "drafts", "published"].includes(priorSearch?.view) ? priorSearch.view : route.view,
+    passages: Array.isArray(priorSearch?.passages) ? priorSearch.passages.filter((id) => typeof id === "string") : [],
   };
 
   function partMarkup(entry) {
@@ -77,13 +78,14 @@ export function createContinuousReader({ app, route, pageHeader, loadBody, saved
     if (!isCurrent()) return;
     draw();
     ready = true;
-    if (restore) window.scrollTo({ top: saved.scroll, behavior: "instant" });
-    else if (location.hash) {
-      try { document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView(); } catch { /* Invalid fragments leave the reader usable. */ }
+    if (restore) {
+      if (location.hash) focusDocumentHash(location.hash, { scroll: false });
+      window.scrollTo({ top: saved.scroll, behavior: "instant" });
     }
+    else if (location.hash) focusDocumentHash(location.hash);
     else if (route.entry && new URLSearchParams(location.search).has("part")) app.querySelector(`#${partId(route.entry)}`).focus();
     else if (focus) app.querySelector("main").focus({ preventScroll: true });
     onReady();
   }
-  return { render, snapshot, didRestore: () => restore, searchState: () => videoSearch, setSearch(value) { videoSearch = { query: value.query, mode: value.mode, view: value.view }; } };
+  return { render, snapshot, didRestore: () => restore, searchState: () => videoSearch, setSearch(value) { videoSearch = { query: value.query, mode: value.mode, view: value.view, passages: value.passages }; } };
 }

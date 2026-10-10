@@ -24,7 +24,7 @@ export function header({ view, theme, counts, directory = false, unknown = false
   const themeButton = `<button class="theme-toggle" type="button" aria-label="切换深浅主题" aria-pressed="${theme === "dark"}"><span class="theme-icon">${themeIconMarkup(theme)}</span><span>${theme === "dark" ? "浅色模式" : "深色模式"}</span></button>`;
   return `<a class="skip-link" href="#main-content">跳到内容</a><header class="site-header${readerTools ? " reader-header" : ""}">
     ${readerTools ? `${readerTools}<details class="reader-site-menu"><summary aria-label="站点分类与主题">更多</summary><div class="reader-site-popover"><a class="wordmark" href="${siteRoot}" aria-label="档案室首页"><span class="wordmark-mark">读</span><span>档案室</span></a>${categories}${themeButton}</div></details>` : `<a class="wordmark" href="${siteRoot}" aria-label="档案室首页"><span class="wordmark-mark">读</span><span>档案室</span></a>${categories}${themeButton}`}
-  </header>`;
+  </header>${readerTools ? '<aside id="reader-search-navigation" hidden></aside>' : ""}`;
 }
 
 export function statusBadge(entry) {
