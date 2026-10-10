@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import { fileURLToPath } from "node:url";
 import { readerContentPlugin } from "./scripts/reader-content.js";
+import { readerSeriesPlugin } from "./scripts/reader-series.js";
 
 export default defineConfig({
   base: process.env.VITE_BASE_PATH || "/",
@@ -16,5 +17,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [readerContentPlugin(fileURLToPath(new URL(".", import.meta.url)))],
+  plugins: [readerContentPlugin(fileURLToPath(new URL(".", import.meta.url))), readerSeriesPlugin(fileURLToPath(new URL(".", import.meta.url)))],
 });

@@ -15,13 +15,13 @@ async (page) => {
   const metrics = (target) => target.evaluate(() => ({
     userAgent: navigator.userAgent,
     stages: performance.getEntriesByType("measure").filter((entry) => entry.name.startsWith("reader.search.")).map(({ name, duration, detail }) => ({ name, duration, detail })),
-    resources: performance.getEntriesByType("resource").filter((entry) => /search-(drafts|published)/.test(entry.name)).map(({ name, duration, transferSize, encodedBodySize, decodedBodySize }) => ({ name, duration, transferSize, encodedBodySize, decodedBodySize })),
+    resources: performance.getEntriesByType("resource").filter((entry) => /search-(drafts|published|pairs|candidates|video)/.test(entry.name)).map(({ name, duration, transferSize, encodedBodySize, decodedBodySize }) => ({ name, duration, transferSize, encodedBodySize, decodedBodySize })),
   }));
   try {
     const slow = await fresh();
     let release;
     const gate = new Promise((resolve) => { release = resolve; });
-    await slow.route(/search-drafts[^/]*\.json/, async (route) => { await gate; await route.continue(); });
+    await slow.route(/search-pairs-drafts[^/]*\.json/, async (route) => { await gate; await route.continue(); });
     await slow.goto(`${base}?view=drafts&q=`);
     await ready(slow);
     assert(await slow.locator("#directory-results a").count() > 0, "Initial content absent");
@@ -33,10 +33,10 @@ async (page) => {
     await slow.locator("#cancel-search").click();
     await ready(slow);
     assert(await slow.locator("#search").inputValue() === "", "Cancel did not clear query");
-    const response = slow.waitForResponse((response) => /search-drafts[^/]*\.json/.test(response.url()));
+    const response = slow.waitForResponse((response) => /search-pairs-drafts[^/]*\.json/.test(response.url()));
     release();
     await response;
-    await slow.waitForFunction(() => performance.getEntriesByName("reader.search.normalize").length > 0);
+    await slow.waitForFunction(() => performance.getEntriesByName("reader.search.parse").length > 0);
     assert(await slow.locator("#search").inputValue() === "" && await slow.locator(".match-summary").count() === 0, "Late response overrode clear");
     await slow.locator("#search").fill("海德格尔");
     await ready(slow);
@@ -70,7 +70,7 @@ async (page) => {
 
     const failed = await fresh();
     let attempts = 0;
-    await failed.route(/search-drafts[^/]*\.json/, async (route) => ++attempts === 1 ? route.fulfill({ status: 503, body: "unavailable" }) : route.continue());
+    await failed.route(/search-candidates-drafts[^/]*\.json/, async (route) => ++attempts === 1 ? route.fulfill({ status: 503, body: "unavailable" }) : route.continue());
     await failed.goto(`${base}?view=drafts&q=${encodeURIComponent("自由")}`);
     await failed.locator("#retry-search").waitFor();
     assert(await failed.locator("#directory-results a").count() === 0, "Failure retained old links");
@@ -81,15 +81,15 @@ async (page) => {
     const leaving = await fresh();
     let resume;
     const leaveGate = new Promise((resolve) => { resume = resolve; });
-    await leaving.route(/search-drafts[^/]*\.json/, async (route) => { await leaveGate; await route.continue(); });
+    await leaving.route(/search-pairs-drafts[^/]*\.json/, async (route) => { await leaveGate; await route.continue(); });
     await leaving.goto(`${base}?view=drafts&q=${encodeURIComponent("自由")}`);
     await leaving.locator("#cancel-search").waitFor();
     await leaving.locator('.top-nav a[href="?view=published"]').click();
     await ready(leaving);
-    const late = leaving.waitForResponse((response) => /search-drafts[^/]*\.json/.test(response.url()));
+    const late = leaving.waitForResponse((response) => /search-pairs-drafts[^/]*\.json/.test(response.url()));
     resume();
     await late;
-    await leaving.waitForFunction(() => performance.getEntriesByName("reader.search.normalize").length > 0);
+    await leaving.waitForFunction(() => performance.getEntriesByType("resource").some((entry) => /search-pairs-drafts/.test(entry.name)));
     assert(await leaving.evaluate(() => new URL(location.href).searchParams.get("view") === "published"), "Late response changed directory category");
     assert(await leaving.locator("#search").inputValue() === "" && await leaving.locator(".match-summary").count() === 0, "Late response rendered wrong category matches");
 

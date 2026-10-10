@@ -4,6 +4,7 @@ import { estimateReadingMinutes } from "./reading-time.js";
 import { escapeHtml, statusBadge, documentTabs, viewLabels, footer } from "./ui.js";
 import { provenanceMarkup } from "./reader-details.js";
 import { readerVideoMarkup } from "./video-view.js";
+import { seriesMarkup, seriesAdjacentMarkup } from "./series-view.js";
 
 function partsNavigation(entry, entries, mode) {
   const { parts, previous, next } = adjacentParts(entry, entries);
@@ -13,7 +14,7 @@ function partsNavigation(entry, entries, mode) {
     <ol>${parts.map((part) => `<li><a href="${route(part)}"${part.editionId === entry.editionId ? ' aria-current="page"' : ""}>P${part.pageIndex + 1}</a></li>`).join("")}</ol><div class="parts-adjacent">${previous ? `<a rel="prev" href="${route(previous)}">← 上一部分 · P${previous.pageIndex + 1}</a>` : `<span>这是首个已收录分 P</span>`}${next ? `<a rel="next" href="${route(next)}">下一部分 · P${next.pageIndex + 1} →</a>` : `<span>已到最后一个收录分 P</span>`}<a class="continuous-link" href="${continuousRoute(entry.bvid, isDraft(entry) ? "drafts" : "published", entry.editionId)}">从此 P 连续阅读 →</a></div></nav>`;
 }
 
-export function readerMarkup(entry, mode, source, { entries, videoEntries = entries, videoSearch, returnView, pageUrl, issueUrl, returnContinuous }) {
+export function readerMarkup(entry, mode, source, { entries, videoEntries = entries, videoSearch, returnView, pageUrl, issueUrl, returnContinuous, series = [] }) {
   const review = mode === "review";
   const { title, body, headings } = prepareDocument(source);
   const toc = headings.filter(({ level }) => level > 1);
@@ -31,8 +32,9 @@ export function readerMarkup(entry, mode, source, { entries, videoEntries = entr
       <div class="reading-extra-controls">${entry.tags.length ? `<details class="article-themes"><summary><span>主题 · ${escapeHtml(entry.tags.slice(0, 2).join("、"))}</span><span>${entry.tags.length} 个</span></summary><div class="article-tags" aria-label="探索原视频主题标签">${entry.tags.map((tag) => `<a href="${escapeHtml(searchRoute({ view: returnView, tag }))}" aria-label="按主题筛选：${escapeHtml(tag)}">${escapeHtml(tag)}</a>`).join("")}</div></details>` : ""}
       ${provenanceMarkup(entry, { review, pageUrl, issueUrl, includeVersion: true })}</div></header>
       ${parts.length > 1 ? `<details class="reading-parts"><summary>同视频分 P · ${parts.length} 篇</summary>${partsNavigation(entry, entries, mode)}</details>` : ""}
+      ${seriesMarkup(entry, series, entries)}
       ${readerVideoMarkup(videoEntries.filter((candidate) => candidate.bvid === entry.bvid), videoSearch || { view: draft ? "drafts" : "published" })}
       ${toc.length ? `<details class="table-of-contents"><summary>本文目录</summary><nav aria-label="文章目录"><ol>${toc.map(({ id, text, level }) => `<li class="toc-level-${level}"><a href="#${encodeURIComponent(id)}">${escapeHtml(text)}</a></li>`).join("")}</ol></nav></details>` : ""}
-      <div class="prose">${body}</div><div class="reading-end"><p>本部分读完了${adjacentParts(entry, entries).parts.length > 1 ? "，继续下一部分或回到目录。" : "，可返回目录阅读其他内容。"}</p>${partsNavigation(entry, entries, mode)}<a class="back-link" href="${directoryRoute(returnView)}">返回${viewLabels[returnView]}目录</a></div>
+      <div class="prose">${body}</div><div class="reading-end"><p>本部分读完了${adjacentParts(entry, entries).parts.length > 1 ? "，继续下一部分或回到目录。" : "，可返回目录阅读其他内容。"}</p>${partsNavigation(entry, entries, mode)}${!review ? seriesAdjacentMarkup(entry, series, entries) : ""}<a class="back-link" href="${directoryRoute(returnView)}">返回${viewLabels[returnView]}目录</a></div>
     </article>${footer(viewLabels[draft ? "drafts" : "published"])}</main>`;
 }

@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateSnapshot, snapshotContract, validateCatalogPair } from "./catalog.js";
 
-export async function validateContentDirectory(contentRoot, kind = "publication") {
+export async function validateContentDirectory(contentRoot, kind = "publication", { includeSeries = false } = {}) {
   const contract = snapshotContract(kind);
   const root = path.resolve(contentRoot);
   for (let current = root; ; current = path.dirname(current)) {
@@ -32,7 +32,7 @@ export async function validateContentDirectory(contentRoot, kind = "publication"
     }
   }
   await scan(root);
-  const { errors, catalog } = validateSnapshot(files, kind);
+  const { errors, catalog, series } = validateSnapshot(files, kind);
   const expectedDirectories = new Set();
   for (const relative of files.keys()) {
     const segments = relative.split("/");
@@ -44,7 +44,7 @@ export async function validateContentDirectory(contentRoot, kind = "publication"
     if (!expectedDirectories.has(directory)) errors.push(`公开快照包含残留空目录: ${directory}`);
   }
   if (errors.length) throw new Error(errors.join("\n"));
-  return catalog;
+  return includeSeries ? { catalog, series } : catalog;
 }
 
 export async function validateSiteSnapshots(siteRoot) {

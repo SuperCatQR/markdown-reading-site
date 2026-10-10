@@ -2,10 +2,11 @@ import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
 import summaries from "virtual:reader-summaries";
 import searchUrls from "virtual:reader-search-urls";
+import { seriesSnapshots } from "virtual:reader-series";
 import { isDraft, sortReaderEntries, sourceTagsByFrequency, resolveReaderRoute, directoryRoute, searchRoute, readerSearchRoute, videoEntry, continuousRoute } from "./manuscripts.js";
 import { searchEntries, sortingHelp, searchModes } from "./search.js";
 import { createSearchLoader, measureSearchStage, showSearchWaiting } from "./search-loader.js";
-import { browserStorage, createDirectoryStore, sanitizeDirectoryState } from "./directory-state.js";
+import { browserStorage, createDirectoryStore, sanitizeDirectoryState, sanitizeSearchOrigin } from "./directory-state.js";
 import { header, footer, themeIconMarkup, viewLabels } from "./ui.js";
 import { directoryMarkup, directoryResults, searchHelp } from "./directory-view.js";
 import { copyMarkdown, focusDocumentHash } from "./browser-document.js";
@@ -162,7 +163,7 @@ async function syncDirectoryResults(restoreScroll = null) {
       resultCount.hidden = false;
       resultCount.textContent = "正在加载搜索资料…";
       stopWaiting = showSearchWaiting(results, { isCurrent });
-      index = await loadSearchData(view);
+      index = await loadSearchData(view, null, { ...current, entries: entriesByView[view], isCurrent });
     }
     if (!isCurrent()) return;
     const entries = entriesByView[view];
@@ -313,7 +314,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     if (version !== renderVersion) return;
     const savedContinuous = history.state?.continuous;
     continuousReader = createContinuousReader({
-      app, route, pageHeader, saved: savedContinuous, focus,
+      app, route, pageHeader, saved: savedContinuous, focus, series: seriesSnapshots[route.view] || [], seriesEntries: entriesByView[route.view],
       videoEntries: entriesByView.all.filter((entry) => entry.bvid === route.bvid),
       isCurrent: () => version === renderVersion,
       loadBody: (entry) => {
@@ -368,7 +369,7 @@ async function renderCurrentRoute({ focus = false } = {}) {
     if (version !== renderVersion) return;
     const returnView = Object.hasOwn(viewLabels, history.state?.directory?.view) ? history.state.directory.view : route.view;
     app.innerHTML = pageHeader() + readerMarkup(entry, route.mode, source, {
-      entries: entriesByView[route.view], videoEntries: entriesByView.all, videoSearch: route.videoSearch, returnView, pageUrl: location.href, issueUrl,
+      entries: entriesByView[route.view], videoEntries: entriesByView.all, videoSearch: route.videoSearch, returnView, pageUrl: location.href, issueUrl, series: seriesSnapshots[route.view] || [],
       returnContinuous: history.state?.continuous?.bvid === entry.bvid && history.state.continuous.view === route.view
         ? continuousRoute(entry.bvid, route.view, history.state.continuous.current) : null,
     });
@@ -495,7 +496,23 @@ function navigateWithoutReload(event) {
   const directory = history.state?.directory;
   const continuous = history.state?.continuous;
   const videoSearch = history.state?.videoSearch;
-  history.pushState({ ...(directory ? { directory } : {}), ...(continuous ? { continuous } : {}), ...(videoSearch ? { videoSearch } : {}) }, "", `${url.pathname}${url.search}${url.hash}`);
+  const destination = resolveReaderRoute(url.search, catalog.articles, draftCatalog.articles);
+  const previousOrigin = sanitizeSearchOrigin(history.state?.searchOrigin, state.route?.entry?.bvid);
+  let searchOrigin = null;
+  let returnDirectory = directory;
+  if (isSearchPage() && state.directory?.query.trim() && link.hasAttribute("data-directory-search") && destination.entry
+      && destination.videoSearch?.query === state.directory.query && destination.videoSearch.mode === state.directory.mode
+      && destination.videoSearch.view === state.route.view) {
+    searchOrigin = sanitizeSearchOrigin({ kind: "directory-search", bvid: destination.entry.bvid,
+      view: state.route.view, directory: state.directory }, destination.entry.bvid);
+  } else if (link.hasAttribute("data-return-global") && previousOrigin && destination.kind === "directory") {
+    returnDirectory = { ...previousOrigin.directory, view: previousOrigin.view };
+  } else if (previousOrigin && destination.entry?.bvid === previousOrigin.bvid
+      && link.matches(".search-hit-step, #video-results a, .parts-navigation a, .reader-part-menu a, .document-tabs a, .video-return")) {
+    searchOrigin = previousOrigin;
+  }
+  history.pushState({ ...(returnDirectory ? { directory: returnDirectory } : {}), ...(continuous ? { continuous } : {}),
+    ...(videoSearch ? { videoSearch } : {}), ...(searchOrigin ? { searchOrigin } : {}) }, "", `${url.pathname}${url.search}${url.hash}`);
   renderCurrentRoute({ focus: true });
 }
 

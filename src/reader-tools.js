@@ -99,17 +99,19 @@ export function bindReaderTools({ app, route, entries }) {
     if (saved.disclosure?.tagName === "DETAILS") saved.disclosure.open = false;
     if (restore) {
       restoreReadingToolPosition(saved.position, offset());
-      // Ending passage navigation also removes its fixed row later in the same
-      // click. Restore once that layout has settled, before progress unfreezes.
+      // Native details can defer their closed subtree's layout until paint.
+      // Let both disclosures and the fixed row settle before saving resumes.
       if (returnFrame) cancelAnimationFrame(returnFrame);
       returnFrame = requestAnimationFrame(() => {
         returnFrame = requestAnimationFrame(() => {
-          returnFrame = null;
-          if (!excursion) {
-            restoreReadingToolPosition(saved.position, offset());
-            app.dispatchEvent(new CustomEvent("reading-tool-return"));
-            anchorReleaseFrame = requestAnimationFrame(() => { if (!excursion) releaseScrollAnchor(); });
-          }
+          returnFrame = requestAnimationFrame(() => {
+            returnFrame = null;
+            if (!excursion) {
+              restoreReadingToolPosition(saved.position, offset());
+              app.dispatchEvent(new CustomEvent("reading-tool-return"));
+              anchorReleaseFrame = requestAnimationFrame(() => { if (!excursion) releaseScrollAnchor(); });
+            }
+          });
         });
       });
     } else {
