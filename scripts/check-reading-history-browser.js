@@ -14,7 +14,7 @@ async (page) => {
     JSON.stringify({ schemaVersion: 1, records, deleted: {}, clearedAt: 0 })), { key, records });
   const readyBody = (tab) => tab.locator(".reading-article .prose").waitFor();
   const openRecent = async (tab) => {
-    const recent = tab.locator("#recent-reading details.recent-reading");
+    const recent = tab.locator("#recent-reading details.recent-reading-management");
     await recent.waitFor();
     if (!await recent.evaluate((details) => details.open)) await recent.locator("summary").click();
   };
@@ -107,7 +107,7 @@ async (page) => {
     await setRecords(target, [relativeRecent]);
     await target.reload();
     await openRecent(target);
-    await target.locator(`[data-reading-resume="${relativeRecent.id}"]`).click();
+    await target.locator(`[data-reading-resume="${relativeRecent.id}"]`).first().click();
     await readyBody(target);
     await target.waitForLoadState("networkidle");
     const samePageDelta = await target.evaluate((record) => {
@@ -124,18 +124,19 @@ async (page) => {
     await setRecords(target, [{ ...saved, artifactSha256: "f".repeat(64) }]);
     await target.reload();
     await openRecent(target);
-    await target.getByText("内容已更新，旧位置不可恢复", { exact: true }).waitFor();
+    await target.getByText("内容已更新，旧位置不可恢复", { exact: true }).first().waitFor();
     assert(await target.locator("#recent-reading [data-reading-resume]").count() === 0, "Updated body offered stale anchor restoration");
     await setRecords(target, [{ ...saved, videoPartId: 99999999, id: `${saved.manuscriptType}:99999999` }]);
     await target.reload();
     await openRecent(target);
-    await target.getByText("稿件已撤回或不在当前快照中，位置不可恢复", { exact: true }).waitFor();
+    await target.getByText("稿件已撤回或不在当前快照中，位置不可恢复", { exact: true }).first().waitFor();
     await target.locator("[data-reading-delete]").click();
     assert((await read(target)).length === 0, "Delete retained a recent record");
 
     stage = "continuous visible part";
     await target.locator(".video-group:has(.parts-disclosure) .video-heading h2 a").first().click();
     await readyBody(target);
+    await target.locator(".reading-article .reading-parts > summary").first().click();
     await target.locator(".reading-article .continuous-link").first().click();
     await target.locator(".continuous-part .prose").first().waitFor();
     const firstEdition = await target.locator(".continuous-part").first().getAttribute("data-edition");
@@ -167,7 +168,7 @@ async (page) => {
     assert(actual.readingMode === "continuous" && !actual.anchor.startsWith("part-"), "Continuous position did not normalize the actual visible P anchor");
     await target.goto(`${base}?view=all`);
     await openRecent(target);
-    const continueLink = target.locator(`[data-reading-resume="${actual.id}"]`);
+    const continueLink = target.locator(`[data-reading-resume="${actual.id}"]`).first();
     await continueLink.waitFor();
     const sharedUrl = await absoluteUrl(await continueLink.getAttribute("href"));
     const reopened = await context.newPage();

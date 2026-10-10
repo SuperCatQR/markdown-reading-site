@@ -14,6 +14,7 @@ import { createReadingHistoryBrowser } from "./reading-history-browser.js";
 import "./site.css";
 import "./reader-experience.css";
 import "./directory-experience.css";
+import "./followup-reading.css";
 
 const bodyFiles = {
   ...import.meta.glob("../content/articles/part-*/publish.md", { eager: true, query: "?url", import: "default" }),
@@ -52,7 +53,34 @@ let continuousReader;
 let continuousScrollTimer;
 let readerTools;
 let layoutRestoreEvents;
-const readingHistory = createReadingHistoryBrowser({ app, entries: entriesByView.all, getRoute: () => state.route });
+let activeReaderVideo;
+let searchToolsObserver;
+let readingToolScroll = null;
+const readingHistory = createReadingHistoryBrowser({ app, entries: entriesByView.all, getRoute: () => state.route,
+  getTopOffset: () => Math.max(app.querySelector(".site-header")?.getBoundingClientRect().bottom || 0,
+    app.querySelector("#reader-search-navigation:not([hidden])")?.getBoundingClientRect().bottom || 0) + 12,
+});
+app.addEventListener("reading-tool-open", (event) => {
+  if (readingToolScroll === null) readingToolScroll = event.detail?.scroll ?? window.scrollY;
+});
+for (const name of ["reading-tool-return", "reading-tool-abandon"]) app.addEventListener(name, () => { readingToolScroll = null; });
+app.addEventListener("reading-tool-navigate", () => {
+  // Leave the prior reading position available to saveLocation during the
+  // navigation click; explicit same-page targets resume normal saving next frame.
+  requestAnimationFrame(() => { readingToolScroll = null; });
+});
+
+function updateSearchToolsHeight() {
+  const toolbar = app.querySelector("#reader-search-navigation");
+  const height = toolbar && !toolbar.hidden ? toolbar.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty("--search-tools-height", `${height}px`);
+}
+app.addEventListener("search-navigation-change", () => {
+  updateSearchToolsHeight();
+  const toolbar = app.querySelector("#reader-search-navigation");
+  searchToolsObserver?.disconnect();
+  if (toolbar) { searchToolsObserver = new ResizeObserver(updateSearchToolsHeight); searchToolsObserver.observe(toolbar); }
+});
 
 // Search results above the prose can change its position after the body is ready.
 // Repeat the chosen restoration only while the reader has not taken control.
@@ -96,10 +124,10 @@ function saveDirectory() {
 function saveLocation() {
   readingHistory.flush();
   if (isSearchPage()) saveDirectory();
-  else if (state.route?.kind === "article") history.replaceState({ ...history.state, articleScroll: window.scrollY }, "");
+  else if (state.route?.kind === "article") history.replaceState({ ...history.state, articleScroll: readingToolScroll ?? window.scrollY }, "");
   else if (state.route?.kind === "continuous") {
     const continuous = continuousReader?.snapshot();
-    if (continuous) history.replaceState({ ...history.state, continuous }, "");
+    if (continuous) history.replaceState({ ...history.state, continuous: { ...continuous, scroll: readingToolScroll ?? continuous.scroll } }, "");
   }
 }
 
@@ -239,8 +267,13 @@ function messagePage(title, message, { missing = false, retry = false } = {}) {
 
 async function renderCurrentRoute({ focus = false } = {}) {
   readingHistory.suspend();
+  readingToolScroll = null;
   readerTools?.destroy();
   readerTools = null;
+  activeReaderVideo?.destroy();
+  activeReaderVideo = null;
+  searchToolsObserver?.disconnect();
+  document.documentElement.style.setProperty("--search-tools-height", "0px");
   layoutRestoreEvents?.abort();
   const version = ++renderVersion;
   clearTimeout(continuousScrollTimer);
@@ -307,9 +340,13 @@ async function renderCurrentRoute({ focus = false } = {}) {
         isCurrent: () => version === renderVersion,
         persistSearch: (value) => { currentReader.setSearch(value); saveLocation(); },
       });
+      activeReaderVideo = videoSearchReady;
       finishReadingLayout(videoSearchReady, version, () => {
         if (localPosition) localPosition.restore();
-        else if (Number.isFinite(historyScroll)) window.scrollTo({ top: historyScroll, behavior: "instant" });
+        else if (Number.isFinite(historyScroll)) {
+          if (location.hash) focusDocumentHash(location.hash, { scroll: false });
+          window.scrollTo({ top: historyScroll, behavior: "instant" });
+        }
         else if (location.hash) focusDocumentHash(location.hash);
       });
     }
@@ -341,14 +378,21 @@ async function renderCurrentRoute({ focus = false } = {}) {
     const { bindReaderVideo } = await import("./reader-video.js");
     if (version !== renderVersion) return;
     const videoSearchReady = bindReaderVideo({ app, route, entries: entriesByView.all.filter((candidate) => candidate.bvid === entry.bvid), summaries, loadSearchData, isCurrent: () => version === renderVersion });
+    activeReaderVideo = videoSearchReady;
     if (focus) app.querySelector("main").focus({ preventScroll: true });
-    if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
+    if (Number.isFinite(history.state?.articleScroll)) {
+      if (location.hash) focusDocumentHash(location.hash, { scroll: false });
+      window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
+    }
     else if (location.hash) focusDocumentHash(location.hash);
     readerTools = bindReaderTools({ app, route, entries: entriesByView.all });
     const localPosition = readingHistory.ready({ historyRestored: Number.isFinite(history.state?.articleScroll) });
     finishReadingLayout(videoSearchReady, version, () => {
       if (localPosition) localPosition.restore();
-      else if (Number.isFinite(history.state?.articleScroll)) window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
+      else if (Number.isFinite(history.state?.articleScroll)) {
+        if (location.hash) focusDocumentHash(location.hash, { scroll: false });
+        window.scrollTo({ top: history.state.articleScroll, behavior: "instant" });
+      }
       else if (location.hash) focusDocumentHash(location.hash);
     });
     updateReadingProgress();
@@ -424,12 +468,34 @@ function navigateWithoutReload(event) {
   if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
   const url = new URL(link.href, location.href);
   if (url.origin !== location.origin || url.pathname !== location.pathname) return;
-  if (url.hash && url.search === location.search) return;
+  if (url.hash && url.search === location.search) {
+    event.preventDefault();
+    saveLocation();
+    const nextState = { ...history.state };
+    delete nextState.articleScroll;
+    if (nextState.continuous) {
+      nextState.continuous = { ...nextState.continuous };
+      delete nextState.continuous.scroll;
+    }
+    history.pushState(nextState, "", `${url.pathname}${url.search}${url.hash}`);
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+    const version = renderVersion;
+    requestAnimationFrame(() => {
+      if (version !== renderVersion) return;
+      focusDocumentHash(location.hash);
+      const targetHash = location.hash;
+      requestAnimationFrame(() => {
+        if (version === renderVersion && location.hash === targetHash) saveLocation();
+      });
+    });
+    return;
+  }
   event.preventDefault();
   saveLocation();
   const directory = history.state?.directory;
   const continuous = history.state?.continuous;
-  history.pushState({ ...(directory ? { directory } : {}), ...(continuous ? { continuous } : {}) }, "", `${url.pathname}${url.search}${url.hash}`);
+  const videoSearch = history.state?.videoSearch;
+  history.pushState({ ...(directory ? { directory } : {}), ...(continuous ? { continuous } : {}), ...(videoSearch ? { videoSearch } : {}) }, "", `${url.pathname}${url.search}${url.hash}`);
   renderCurrentRoute({ focus: true });
 }
 
@@ -453,7 +519,8 @@ app.addEventListener("toggle", (event) => {
   saveDirectory();
 }, true);
 window.addEventListener("popstate", () => renderCurrentRoute({ focus: true }));
-window.addEventListener("hashchange", () => { if (state.route?.kind === "article") focusDocumentHash(location.hash); });
+// Native hash traversal also emits popstate. Route rendering restores its saved
+// position; only the explicit same-document click above saves a new hash target.
 window.addEventListener("pagehide", saveLocation);
 document.addEventListener("scroll", () => {
   updateReadingProgress();
@@ -468,9 +535,8 @@ document.addEventListener("keydown", (event) => {
   const editable = active?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "SUMMARY", "BUTTON"].includes(active?.tagName);
   if (event.key === "/" && !editable && app.querySelector("#search, #video-query")) {
     event.preventDefault();
-    const disclosure = app.querySelector(".reader-video-search");
-    if (disclosure) disclosure.open = true;
-    app.querySelector("#search, #video-query").focus();
+    if (app.querySelector("#reader-find")) app.querySelector("#reader-find").click();
+    else app.querySelector("#search, #video-query").focus();
   }
 });
 themeMedia.addEventListener("change", (event) => {

@@ -11,6 +11,7 @@ export async function buildReaderData(root, watch = () => {}) {
   const catalogs = await validateSiteSnapshots(root);
   const summaries = {};
   const search = { published: {}, drafts: {} };
+  const videos = { published: {}, drafts: {} };
   await Promise.all(Object.entries({ published: catalogs.publication, drafts: catalogs.drafts }).map(async ([view, catalog]) => {
     const folder = path.join(root, view === "drafts" ? "draft-content" : "content");
     watch(path.join(folder, "catalog.json"));
@@ -26,10 +27,11 @@ export async function buildReaderData(root, watch = () => {}) {
     }));
     for (const { entry, blocks, minutes } of documents) {
       search[view][entryKey(entry)] = blocks;
+      (videos[view][entry.bvid] ||= {})[entryKey(entry)] = blocks;
       summaries[entryKey(entry)] = { minutes };
     }
   }));
-  return { summaries, search };
+  return { summaries, search, videos };
 }
 
 export function readerContentPlugin(root) {
@@ -53,21 +55,25 @@ export function readerContentPlugin(root) {
       const name = modules.get(id.slice(1));
       if (!name) return;
       if (name === "summaries") return `export default ${JSON.stringify(generated.summaries)};`;
-      const urls = Object.keys(generated.search).map((view) => {
-        const value = command === "serve" ? JSON.stringify(`${base}__reader/search-${view}.json`)
-          : `import.meta.ROLLUP_FILE_URL_${this.emitFile({ type: "asset", name: `search-${view}.json`, source: JSON.stringify(generated.search[view]) })}`;
-        return `${JSON.stringify(view)}: ${value}`;
+      const assetUrl = (name, index) => command === "serve" ? JSON.stringify(`${base}__reader/${name}.json`)
+        : `import.meta.ROLLUP_FILE_URL_${this.emitFile({ type: "asset", name: `${name}.json`, source: JSON.stringify(index) })}`;
+      const urls = Object.keys(generated.search).map((view) => `${JSON.stringify(view)}: ${assetUrl(`search-${view}`, generated.search[view])}`);
+      const videos = Object.entries(generated.videos).map(([view, indices]) => {
+        const records = Object.entries(indices).map(([bvid, index]) => `${JSON.stringify(bvid)}: ${assetUrl(`search-video-${view}-${bvid}`, index)}`);
+        return `${JSON.stringify(view)}: {${records.join(",")}}`;
       });
-      return `export default {${urls.join(",")}};`;
+      return `export default {${urls.join(",")}, videos: {${videos.join(",")}}};`;
     },
     configureServer(server) {
       server.middlewares.use((request, response, next) => {
         const pathname = new URL(request.url, "http://reader.local").pathname;
         const view = ["published", "drafts"].find((kind) => pathname === `${base}__reader/search-${kind}.json`);
-        if (!view) return next();
+        const local = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-video-(published|drafts)-([\w-]{1,80})\.json$/) : null;
+        const index = view ? generated.search[view] : local ? generated.videos[local[1]][local[2]] : null;
+        if (!index) return next();
         response.setHeader("Content-Type", "application/json; charset=utf-8");
         response.setHeader("Cache-Control", "no-cache");
-        response.end(JSON.stringify(generated.search[view]));
+        response.end(JSON.stringify(index));
       });
       const refresh = (file) => {
         if (!["content", "draft-content"].some((folder) => file.startsWith(path.join(root, folder) + path.sep))) return;

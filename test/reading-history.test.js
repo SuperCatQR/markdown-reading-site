@@ -129,3 +129,21 @@ test("recent links reopen only exact current continuous P; updated/withdrawn rec
   assert.match(missing, /稿件已撤回/);
   assert.doesNotMatch(missing, /<script>|data-reading-resume/);
 });
+
+test("latest readable record has a direct primary action while management stays secondary", () => {
+  const latest = { ...record(2, 1200), title: "很长的标题".repeat(30) };
+  const markup = recentReadingMarkup({ records: [latest, record()], status: "ok" }, [entry(1), entry(2)]);
+  const primary = markup.slice(markup.indexOf('class="recent-reading-primary"'), markup.indexOf('class="recent-reading-management"'));
+  assert.match(primary, /P2/);
+  assert.match(primary, /data-reading-resume="publication-draft:2"/);
+  assert.doesNotMatch(primary, /data-reading-delete|data-reading-clear|180 天/);
+  assert.match(markup, /<details class="recent-reading-management"><summary>查看全部 2 篇与管理记录/);
+  assert.match(markup, /保存在当前浏览器/);
+  const changed = recentReadingMarkup({ records: [latest, record()], status: "ok" }, [entry(1)]);
+  const changedPrimary = changed.slice(0, changed.indexOf('class="recent-reading-management"'));
+  assert.match(changedPrimary, /不可恢复/);
+  assert.doesNotMatch(changedPrimary, /data-reading-resume/);
+  for (const status of ["corrupt", "unavailable", "unsupported"]) {
+    assert.doesNotMatch(recentReadingMarkup({ records: [latest], status }, [entry(2)]), /data-reading-resume/);
+  }
+});

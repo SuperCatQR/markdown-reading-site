@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readerToolsMarkup } from "../src/reader-tools.js";
+import { readerToolsMarkup, readingToolPosition, restoreReadingToolPosition } from "../src/reader-tools.js";
 import { readerMarkup } from "../src/reader-view.js";
 import { continuousPartMarkup } from "../src/continuous-reader.js";
 
@@ -62,4 +62,25 @@ test("continuous part preserves the version and review facts when details are fo
   assert.match(markup, /<details class="provenance"/);
   assert.ok(markup.includes(manuscript.editionId) && markup.includes(manuscript.contentSha256));
   assert.match(markup, /冻结正文。/);
+});
+
+test("temporary tools return to the same paragraph fraction after disclosure layout changes", () => {
+  const originalWindow = globalThis.window;
+  let scrollTarget;
+  let focused = false;
+  let rect = { top: 20, height: 200, bottom: 220 };
+  const target = { isConnected: true, getBoundingClientRect: () => rect, hasAttribute: () => true,
+    focus: (options) => { focused = options.preventScroll; } };
+  globalThis.window = { innerHeight: 844, scrollY: 600, scrollTo: (options) => { scrollTarget = options.top; } };
+  try {
+    const position = readingToolPosition({ querySelectorAll: () => [target] }, 100);
+    assert.equal(position.fraction, 0.4);
+    // Tool results change layout and a later viewport has a different paragraph height.
+    rect = { top: -200, height: 300, bottom: 100 };
+    assert.equal(restoreReadingToolPosition(position, 120), true);
+    assert.equal(scrollTarget, 400);
+    assert.equal(focused, true);
+    target.isConnected = false;
+    assert.equal(restoreReadingToolPosition(position, 120), false);
+  } finally { globalThis.window = originalWindow; }
 });

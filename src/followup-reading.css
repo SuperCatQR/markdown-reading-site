@@ -1,0 +1,48 @@
+/* Reading assistance stays compact; every hidden choice remains keyboard usable. */
+:root[data-reading="true"] { --header-height: calc(64px + var(--search-tools-height, 0px)); }
+html { scroll-padding-top: calc(var(--header-height) + 12px); }
+.reading-shell { padding-top: calc(26px + var(--search-tools-height, 0px)); }
+.reading-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 20px; color: var(--muted); font-size: 13px; }
+.reading-actions > a, .reading-actions > button { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); }
+.reading-meta { margin-top: 2px; }
+.reading-meta > span, .reading-meta > time { min-height: 24px; }
+.reading-extra-controls { display: flex; flex-wrap: wrap; align-items: start; gap: 0 14px; margin-top: 2px; }
+.reading-extra-controls > details { margin: 0; min-width: 0; flex: 1 1 135px; }
+.reading-extra-controls > details[open] { flex-basis: 100%; }
+.article-themes > summary, .reading-parts > summary { display: flex; align-items: center; min-height: 44px; color: var(--muted); font-size: 13px; cursor: pointer; gap: 8px; }
+.article-themes > summary > span:first-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.article-themes > summary > span:last-child { flex-shrink: 0; }
+.article-themes > .article-tags { margin: 0 0 8px; }
+.reading-parts { margin: 2px 0; }
+.reading-parts .parts-navigation { margin: 0 0 10px; }
+.reading-heading { padding-bottom: 6px; }
+.reading-article > .prose { margin-top: 10px; }
+.table-of-contents { scroll-margin-top: calc(var(--header-height) + 12px); }
+.search-arrival { scroll-margin-top: calc(var(--header-height) + 12px); margin-block: 0 8px; overflow-wrap: anywhere; }
+#reader-search-navigation { position: fixed; top: 64px; inset-inline: 0; z-index: 19; padding-inline: max(12px, calc((100vw - 1040px) / 2)); background: var(--surface); border-bottom: 1px solid var(--line); }
+#reader-search-navigation[hidden] { display: none; }
+.search-hit-navigation { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 4px 10px; min-height: 52px; color: var(--ink); font-size: 14px; }
+.search-hit-step, .search-hit-boundary, .search-hit-actions > summary { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 6px 8px; }
+.search-hit-step { color: var(--accent-strong); }
+.search-hit-boundary { color: var(--muted); }
+.search-hit-position { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.search-hit-actions { position: relative; margin-left: auto; }
+.search-hit-actions > summary { cursor: pointer; }
+.search-hit-actions > div { position: absolute; right: 0; top: 100%; min-width: 230px; max-width: calc(100vw - 24px); padding: 12px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-sm); }
+.search-hit-actions p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+.search-hit-actions button, .reading-tool-return { color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 3px; cursor: pointer; min-height: 44px; padding: 8px 12px; font-size: 13px; }
+.search-hit-actions button { display: block; width: 100%; margin-top: 8px; }
+.reading-tool-return { margin-block: 8px; }
+.recent-reading-primary { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-block: 8px; }
+.recent-reading-primary > div { flex: 1 1 190px; min-width: 0; }
+.recent-reading-primary strong { color: var(--ink); font-size: 14px; line-height: 1.6; }
+.recent-reading-primary a { flex-shrink: 0; }
+.recent-reading-management > summary { display: flex; align-items: center; width: fit-content; min-height: 44px; color: var(--muted); cursor: pointer; }
+.recent-reading-management .reading-history-help { margin-block: 8px; }
+@media (max-width: 430px) {
+  .search-hit-navigation { gap: 4px; font-size: 13px; }
+  .search-hit-step, .search-hit-boundary, .search-hit-actions > summary { padding-inline: 6px; }
+}
+@media (max-width: 780px) {
+  .reading-shell { padding-top: calc(12px + var(--search-tools-height, 0px)); }
+}

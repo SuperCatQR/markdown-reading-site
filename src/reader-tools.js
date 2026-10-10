@@ -22,14 +22,56 @@ export function visibleReadingEntry(app, entries, topOffset) {
   return entries.find((entry) => entry.editionId === article?.dataset.edition);
 }
 
+export function readingToolPosition(app, offset) {
+  for (const block of app.querySelectorAll(".prose [id]")) {
+    const rect = block.getBoundingClientRect();
+    if (rect.height > 0 && rect.bottom > offset && rect.top < window.innerHeight) {
+      return { target: block, fraction: Math.max(0, Math.min(1, (offset - rect.top) / rect.height)) };
+    }
+  }
+  return null;
+}
+
+export function restoreReadingToolPosition(position, offset) {
+  if (!position?.target.isConnected) return false;
+  const rect = position.target.getBoundingClientRect();
+  window.scrollTo({ top: Math.max(0, window.scrollY + rect.top + rect.height * position.fraction - offset), behavior: "instant" });
+  const hadTabindex = position.target.hasAttribute("tabindex");
+  if (!hadTabindex) position.target.setAttribute("tabindex", "-1");
+  position.target.focus({ preventScroll: true });
+  if (!hadTabindex) position.target.addEventListener("blur", () => position.target.removeAttribute("tabindex"), { once: true });
+  return true;
+}
+
 export function bindReaderTools({ app, route, entries }) {
   const header = app.querySelector(".reader-header");
   if (!header) return { update() {}, destroy() {} };
   const events = new AbortController();
   let frame;
+  let returnFrame;
+  let anchorReleaseFrame;
+  let savedAnchorStyle;
   let current = route.entry;
-  const offset = () => header.getBoundingClientRect().bottom + 12;
+  let excursion;
+  const offset = () => {
+    const searchTools = app.querySelector("#reader-search-navigation");
+    return Math.max(header.getBoundingClientRect().bottom,
+      searchTools && !searchTools.hidden ? searchTools.getBoundingClientRect().bottom : 0) + 12;
+  };
   const currentArticle = () => app.querySelector(`[data-edition="${current?.editionId}"].continuous-part, [data-edition="${current?.editionId}"].reading-article`);
+  function cancelReturn() {
+    if (returnFrame) cancelAnimationFrame(returnFrame);
+    returnFrame = null;
+    if (!excursion) releaseScrollAnchor();
+  }
+  function releaseScrollAnchor() {
+    if (anchorReleaseFrame) cancelAnimationFrame(anchorReleaseFrame);
+    anchorReleaseFrame = null;
+    if (savedAnchorStyle !== undefined) {
+      app.style.overflowAnchor = savedAnchorStyle;
+      savedAnchorStyle = undefined;
+    }
+  }
 
   function update() {
     current = visibleReadingEntry(app, entries, offset()) || route.entry;
@@ -43,10 +85,78 @@ export function bindReaderTools({ app, route, entries }) {
 
   function openAndFocus(disclosure, target) {
     if (!disclosure) return;
+    app.dispatchEvent(new CustomEvent("reading-tool-open", { detail: { disclosure, scroll: window.scrollY } }));
     disclosure.open = true;
     target?.focus({ preventScroll: true });
     disclosure.scrollIntoView({ block: "start", behavior: "instant" });
   }
+
+  function finishExcursion({ restore = true } = {}) {
+    if (!excursion) return;
+    const saved = excursion;
+    excursion = null;
+    saved.disclosure?.querySelector("[data-reading-tool-return]")?.remove();
+    if (saved.disclosure?.tagName === "DETAILS") saved.disclosure.open = false;
+    if (restore) {
+      restoreReadingToolPosition(saved.position, offset());
+      // Ending passage navigation also removes its fixed row later in the same
+      // click. Restore once that layout has settled, before progress unfreezes.
+      if (returnFrame) cancelAnimationFrame(returnFrame);
+      returnFrame = requestAnimationFrame(() => {
+        returnFrame = requestAnimationFrame(() => {
+          returnFrame = null;
+          if (!excursion) {
+            restoreReadingToolPosition(saved.position, offset());
+            app.dispatchEvent(new CustomEvent("reading-tool-return"));
+            anchorReleaseFrame = requestAnimationFrame(() => { if (!excursion) releaseScrollAnchor(); });
+          }
+        });
+      });
+    } else {
+      releaseScrollAnchor();
+      app.dispatchEvent(new CustomEvent("reading-tool-navigate"));
+    }
+  }
+
+  app.addEventListener("reading-tool-open", (event) => {
+    cancelReturn();
+    if (anchorReleaseFrame) cancelAnimationFrame(anchorReleaseFrame);
+    anchorReleaseFrame = null;
+    if (savedAnchorStyle === undefined) savedAnchorStyle = app.style.overflowAnchor;
+    // Disclosure removal and highlight cleanup change content above the saved
+    // paragraph. Native scroll anchoring must not offset the explicit restore.
+    app.style.overflowAnchor = "none";
+    const disclosure = event.detail?.disclosure || app.querySelector(".reader-video-search");
+    if (excursion && excursion.disclosure !== disclosure) {
+      excursion.disclosure?.querySelector("[data-reading-tool-return]")?.remove();
+      if (excursion.disclosure?.tagName === "DETAILS") excursion.disclosure.open = false;
+      excursion.disclosure = disclosure;
+    } else if (!excursion) {
+      excursion = { position: readingToolPosition(app, offset()), disclosure };
+    }
+    if (disclosure && !disclosure.querySelector("[data-reading-tool-return]")) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "reading-tool-return reset-button";
+      button.dataset.readingToolReturn = "";
+      button.textContent = "返回刚才阅读处";
+      disclosure.append(button);
+    }
+  }, { signal: events.signal });
+  app.addEventListener("reading-tool-abandon", () => { cancelReturn(); finishExcursion({ restore: false }); }, { signal: events.signal });
+  app.addEventListener("reading-tool-navigate", () => {
+    cancelReturn();
+    if (excursion) finishExcursion({ restore: false });
+  }, { signal: events.signal });
+  app.addEventListener("click", (event) => {
+    if (event.target.closest("[data-reading-tool-return], #cancel-video-search")) finishExcursion();
+    const link = event.target.closest("a[href]");
+    if (link) cancelReturn();
+    if (link?.closest(".reader-video-search, .table-of-contents, #reader-search-navigation") && link.hash) finishExcursion({ restore: false });
+  }, { signal: events.signal, capture: true });
+  app.addEventListener("toggle", (event) => {
+    if (excursion?.disclosure === event.target && !event.target.open) finishExcursion();
+  }, { signal: events.signal, capture: true });
 
   header.addEventListener("click", (event) => {
     if (event.target.closest("#reader-find")) {
@@ -60,6 +170,11 @@ export function bindReaderTools({ app, route, entries }) {
   }, { signal: events.signal });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
+    if (excursion && (excursion.disclosure?.contains(document.activeElement) || event.target.closest?.("#reader-search-navigation"))) {
+      event.preventDefault();
+      finishExcursion();
+      return;
+    }
     const open = header.querySelector("details[open]");
     if (open) { open.open = false; open.querySelector("summary").focus(); }
   }, { signal: events.signal });
@@ -70,5 +185,5 @@ export function bindReaderTools({ app, route, entries }) {
     if (!frame) frame = requestAnimationFrame(() => { frame = null; update(); });
   }, { passive: true, signal: events.signal });
   update();
-  return { update, destroy() { events.abort(); if (frame) cancelAnimationFrame(frame); } };
+  return { update, destroy() { events.abort(); if (frame) cancelAnimationFrame(frame); cancelReturn(); releaseScrollAnchor(); } };
 }

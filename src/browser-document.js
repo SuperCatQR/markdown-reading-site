@@ -1,5 +1,24 @@
 import { parseMatchHash, textSegments, searchTerms } from "./search.js";
 
+const pendingAnchors = new WeakMap();
+
+function pauseScrollAnchoring(shell) {
+  if (!shell) return;
+  const previous = pendingAnchors.get(shell);
+  if (previous) cancelAnimationFrame(previous.frame);
+  const pending = { style: previous?.style ?? shell.style.overflowAnchor, frame: null };
+  shell.style.overflowAnchor = "none";
+  pendingAnchors.set(shell, pending);
+  // Highlight/notice changes and fixed-row reflow share this render. Let them
+  // settle before enabling the browser's automatic anchor correction again.
+  pending.frame = requestAnimationFrame(() => {
+    pending.frame = requestAnimationFrame(() => {
+      shell.style.overflowAnchor = pending.style;
+      pendingAnchors.delete(shell);
+    });
+  });
+}
+
 export async function copyMarkdown(source, button) {
   let textarea;
   try {
@@ -22,15 +41,17 @@ export async function copyMarkdown(source, button) {
   }
 }
 
-export function focusDocumentHash(hash) {
+export function focusDocumentHash(hash, { scroll = true } = {}) {
   const match = parseMatchHash(hash);
   let id;
   try { id = match?.id || decodeURIComponent(hash.slice(1)); } catch { return; }
   const target = document.getElementById(id);
-  if (!target || !document.querySelector(".prose")?.contains(target)) {
-    if (!match) document.getElementById(id)?.scrollIntoView({ behavior: "instant" });
+  if (!target || !target.closest(".prose")) {
+    if (!match && scroll) document.getElementById(id)?.scrollIntoView({ behavior: "instant" });
     return;
   }
+  pauseScrollAnchoring(target.closest(".reading-shell"));
+  let arrival;
   if (match) {
     for (const notice of document.querySelectorAll(".search-arrival")) notice.remove();
     for (const passage of document.querySelectorAll(".search-passage")) passage.classList.remove("search-passage");
@@ -74,6 +95,7 @@ export function focusDocumentHash(hash) {
     notice.setAttribute("role", "status");
     notice.textContent = `已定位正文命中：${match.query}`;
     target.before(notice);
+    arrival = notice;
     target.setAttribute("tabindex", "-1");
     target.focus({ preventScroll: true });
   }
@@ -81,5 +103,11 @@ export function focusDocumentHash(hash) {
     target.setAttribute("tabindex", "-1");
     target.focus({ preventScroll: true });
   }
-  target.scrollIntoView({ behavior: "instant", block: "start" });
+  if (!scroll) return;
+  // Locate the confirmation and passage together, using the actual fixed tools
+  // rather than assuming their height. Large text can make the notice wrap.
+  const fixedBottom = Math.max(...[...document.querySelectorAll(".site-header, #reader-search-navigation:not([hidden])")]
+    .map((node) => node.getBoundingClientRect().bottom), 0);
+  const top = (arrival || target).getBoundingClientRect().top;
+  window.scrollTo({ top: Math.max(0, window.scrollY + top - fixedBottom - 12), behavior: "instant" });
 }

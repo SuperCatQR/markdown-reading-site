@@ -58,6 +58,7 @@ async (page) => {
   await browser.locator(".prose").waitFor();
   const firstUrl = browser.url();
   assert(await browser.locator(".reading-heading .current-part").textContent() === parts[0], "Reader did not open the first collected part");
+  await browser.locator(".reading-parts > summary").click();
   await browser.locator('.parts-navigation a[rel="next"]').first().click();
   await browser.waitForFunction((part) => document.querySelector(".reading-heading .current-part")?.textContent === part, parts[1]);
   assert(!browser.url().includes("#hit="), "Old search hash leaked to next part");

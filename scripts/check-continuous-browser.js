@@ -11,6 +11,7 @@ async (page) => {
   const ready = () => target.waitForFunction(() => !!document.querySelector(".continuous-part") && !document.querySelector("#retry-document") && document.querySelector(".continuous-feedback")?.getAttribute("aria-busy") !== "true" && (!new URL(location.href).searchParams.has("part") || history.state?.continuous?.current === new URL(location.href).searchParams.get("part")));
   try {
     await target.goto(`${base}?video=BV1dA411T7xD&view=all`);
+    await target.locator(".reading-parts > summary").click();
     await target.locator(".parts-navigation").first().getByRole("link", { name: "从此 P 连续阅读 →" }).click();
     await ready();
     assert(await target.locator(".continuous-part").count() === 1, "Initial stream loaded multiple parts");

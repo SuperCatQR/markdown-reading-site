@@ -111,6 +111,7 @@ async (page) => {
     await target.goto(`${base}${longHref}`);
     await articleReady(target);
     await target.evaluate(() => sessionStorage.setItem('reading-directory-drafts', JSON.stringify({ query: '旧词', mode: 'keywords', sort: 'title', tag: '全部' })));
+    await target.locator('.article-themes > summary').click();
     const tag = await target.locator('.article-tags a').first().textContent();
     const tagHref = await target.locator('.article-tags a').first().getAttribute('href');
     const tagParams = await target.evaluate((tagHref) => Object.fromEntries(new URL(tagHref, location.href).searchParams), tagHref);
