@@ -1,11 +1,14 @@
 import { workKey, partIndex } from "./source-identity.js";
+import { sourceTagStats, bindDirectoryDiscovery, bindDirectoryPopovers, openDirectorySection } from "./discovery-controls.js";
+import { visibleQuery } from "./query-state.js";
+import { bindReadingPreferences, readingPreferencesMarkup } from "./reading-preferences.js";
 import catalog from "../content/catalog.json";
 import draftCatalog from "../draft-content/catalog.json";
 import summaries from "virtual:reader-summaries";
 import searchUrls from "virtual:reader-search-urls";
 import originSnapshots from "virtual:reader-origins";
 import { seriesSnapshots } from "virtual:reader-series";
-import { isDraft, sortReaderEntries, sourceTagsByFrequency, resolveReaderRoute, directoryRoute, searchRoute, readerSearchRoute, videoEntry, continuousRoute } from "./manuscripts.js";
+import { isDraft, sortReaderEntries, resolveReaderRoute, directoryRoute, searchRoute, readerSearchRoute, videoEntry, continuousRoute } from "./manuscripts.js";
 import { searchEntries, sortingHelp, searchModes } from "./search.js";
 import { createSearchLoader, measureSearchStage, showSearchWaiting } from "./search-loader.js";
 import { browserStorage, createDirectoryStore, sanitizeDirectoryState, sanitizeSearchOrigin } from "./directory-state.js";
@@ -20,6 +23,7 @@ import "./reader-experience.css";
 import "./directory-experience.css";
 import "./followup-reading.css";
 import "./contributor-experience.css";
+import "./visitor-experience.css";
 
 const bodyFiles = {
   ...import.meta.glob("../content/articles/part-*/publish.md", { eager: true, query: "?url", import: "default" }),
@@ -44,6 +48,8 @@ const entriesByView = {
 };
 const counts = Object.fromEntries(Object.entries(entriesByView).map(([view, entries]) => [view, entries.length]));
 const app = document.querySelector("#app");
+bindReadingPreferences(app);
+bindDirectoryPopovers(app);
 const siteRoot = import.meta.env.BASE_URL;
 const issueUrl = "https://github.com/SuperCatQR/markdown-reading-site/issues/new";
 const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
@@ -117,11 +123,11 @@ function pageHeader(options = {}) {
   const returnView = Object.hasOwn(viewLabels, history.state?.directory?.view) ? history.state.directory.view : route?.view;
   const tools = route?.entry && ["article", "continuous"].includes(route.kind)
     ? readerToolsMarkup(route, { entries: entriesByView.all, returnView }) : "";
-  return header({ view: route?.view, theme: state.theme, counts, siteRoot, readerTools: tools, ...options });
+  return header({ view: route?.view, theme: state.theme, counts, siteRoot, readerTools: tools, ...options }) + (tools ? readingPreferencesMarkup() : "");
 }
 
 function tagsForView(view) {
-  return ["全部", ...sourceTagsByFrequency(entriesByView[view])];
+  return ["全部", ...sourceTagStats(entriesByView[view]).map(({ tag }) => tag)];
 }
 
 function isSearchPage() { return state.route?.kind === "directory"; }
@@ -132,7 +138,7 @@ function saveDirectory() {
   if (!isSearchPage() || !state.directory) return;
   state.directory.scroll = window.scrollY;
   directories.write(directoryKey(), state.directory);
-  history.replaceState({ ...history.state, directory: { ...state.directory, view: state.route.view, bvid: state.route.bvid } }, "", searchRoute({ ...state.directory, view: state.route.view, bvid: state.route.bvid }));
+  history.replaceState({ ...history.state, directory: { ...state.directory, view: state.route.view, bvid: state.route.bvid } }, "", searchRoute({ ...state.directory, view: state.route.view, bvid: state.route.bvid }) + location.hash);
 }
 
 function saveLocation() {
@@ -205,6 +211,10 @@ async function syncDirectoryResults(restoreScroll = null) {
 function updateSortingControls() {
   const sort = app.querySelector("#search-sort");
   if (sort) { sort.value = state.directory.sort; sort.disabled = state.directory.mode !== "general"; }
+  const sortLabel = app.querySelector(".directory-search-options .search-sort");
+  if (sortLabel) sortLabel.hidden = !state.directory.query.trim();
+  const explanation = app.querySelector(".sorting-explanation");
+  if (explanation) explanation.hidden = !state.directory.query.trim();
   const help = app.querySelector("#sort-help");
   if (help) help.textContent = sortingHelp(state.directory.mode, state.directory.sort, state.directory.query);
   const mode = app.querySelector(".search-mode-current");
@@ -212,12 +222,13 @@ function updateSortingControls() {
   const label = app.querySelector(".search-sort-current");
   if (label) { label.textContent = "标题相关优先"; label.hidden = state.directory.sort !== "title" || state.directory.mode !== "general"; }
   const advanced = app.querySelector("#advanced-search");
-  if (advanced && (state.directory.mode !== "general" || state.directory.sort === "title")) advanced.open = true;
+  if (advanced && state.directory.mode !== "general") advanced.open = true;
 }
 
 function updateSearch(value) {
   ++resultsVersion;
-  state.directory.query = value;
+  state.directory.query = visibleQuery(value);
+  if (!state.composingSearch && !value.trim()) app.querySelector("#search").value = "";
   state.directory.visibleCount = 24;
   state.directory.passages = [];
   clearTimeout(searchTimer);
@@ -235,7 +246,7 @@ function renderDirectory() {
   state.composingSearch = false;
   const scroll = state.directory.scroll;
   const options = {
-    ...state.directory, view, tags, counts, videoCount: new Set(entriesByView[view].map((entry) => workKey(entry))).size,
+    ...state.directory, view, tags, counts, tagStats: sourceTagStats(entriesByView[view]), videoCount: new Set(entriesByView[view].map((entry) => workKey(entry))).size,
   };
   app.innerHTML = pageHeader({ directory: true }) + directoryMarkup(options);
   const recentHost = document.createElement("div");
@@ -264,14 +275,14 @@ function renderDirectory() {
     clearTimeout(searchTimer);
     syncDirectoryResults();
   });
-  app.querySelector("#tag-search")?.addEventListener("input", (event) => {
-    const query = event.target.value.trim().toLocaleLowerCase("zh-Hans");
-    app.querySelectorAll(".tag-option").forEach((option) => { option.hidden = !!query && !option.dataset.tag.toLocaleLowerCase("zh-Hans").includes(query); });
+  bindDirectoryDiscovery(app, options.tagStats);
+  app.querySelector("#publication-filter").addEventListener("change", (event) => {
+    saveLocation();
+    const view = event.target.value;
+    history.pushState({ directory: { ...state.directory, view, scroll: 0 } }, "", searchRoute({ ...state.directory, view }));
+    renderCurrentRoute({ focus: true });
   });
-  app.querySelector("#tag-filter-menu")?.addEventListener("toggle", (event) => {
-    event.target.querySelector("summary").setAttribute("aria-expanded", String(event.target.open));
-  });
-  syncDirectoryResults(scroll);
+  syncDirectoryResults(scroll).then(() => openDirectorySection(app, location.hash.slice(1)));
 }
 
 function messagePage(title, message, { missing = false, retry = false } = {}) {
@@ -462,7 +473,7 @@ function directoryAction(target) {
     state.directory.visibleCount = 24;
     app.querySelector(".filter-current").textContent = state.directory.tag;
     app.querySelectorAll(".tag-option").forEach((option) => {
-      const selected = option === tag;
+      const selected = option.dataset.tag === tag.dataset.tag;
       option.classList.toggle("selected", selected);
       option.setAttribute("aria-pressed", String(selected));
     });

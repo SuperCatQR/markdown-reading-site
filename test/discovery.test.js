@@ -47,8 +47,8 @@ test("video overview exposes numeric parts, missing ranges and both manuscript v
   const summaries = Object.fromEntries(entries.map((entry) => [entryKey(entry), { minutes: 3, excerpt: "原文摘录" }]));
   const overview = readerVideoMarkup(entries, { view: "all", query: "", mode: "general" });
   assert.match(overview, /已收录 2 个分 P/);
-  assert.match(overview, /P1 未收录/);
-  assert.match(overview, /P3–P9 未收录/);
+  assert.match(overview, /本站尚未收录 P1、P3–P9/);
+  assert.match(overview, /不代表原视频缺失/);
   assert.match(overview, /不代表视频完整目录/);
   const html = videoResults(entries.map((entry) => ({ entry, match: null })), { query: "" }, summaries);
   assert.ok(html.indexOf("?read=published-2") < html.indexOf(`?draft=${entries[1].editionId}`));

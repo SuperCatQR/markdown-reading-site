@@ -1,4 +1,5 @@
 import { workKey, partIndex, validWorkKey } from "./source-identity.js";
+import { visibleQuery } from "./query-state.js";
 export const REVIEW_LABELS = Object.freeze({
   "pending-review": "待审核", "in-review": "审核中", "changes-requested": "待修改",
   rejected: "未采用", approved: "已审核 · 未发布",
@@ -15,7 +16,7 @@ export const continuousRoute = (bvid, view, editionId) => `?${new URLSearchParam
 
 export function readerSearchRoute(entry, { query = "", mode = "general", view } = {}, review = false) {
   const params = new URLSearchParams(review ? reviewRoute(entry) : entryRoute(entry));
-  if (query) params.set("vq", query);
+  if (visibleQuery(query)) params.set("vq", visibleQuery(query));
   if (mode !== "general") params.set("vm", mode);
   if (view) params.set("vview", view);
   return `?${params}`;
@@ -28,7 +29,7 @@ export function videoEntry(entries, bvid, view = "all") {
 
 export function searchRoute({ view, bvid, query = "", mode = "general", tag = "全部", sort = "body" }) {
   const params = new URLSearchParams({ ...(bvid ? { video: bvid } : {}), view });
-  params.set("q", query);
+  params.set("q", visibleQuery(query));
   if (mode !== "general") params.set("mode", mode);
   if (tag !== "全部") params.set("tag", tag);
   if (sort !== "body") params.set("sort", sort);
@@ -86,7 +87,7 @@ export function resolveReaderRoute(search, publication, drafts) {
       || (params.has("vm") && !["general", "phrase", "keywords"].includes(params.get("vm")))
       || (params.has("vview") && !["all", "published", "drafts"].includes(params.get("vview")))) return { kind: "missing" };
   const videoSearch = ["vq", "vm", "vview"].some((key) => params.has(key))
-    ? { videoSearch: { query: params.get("vq") || "", mode: params.get("vm") || "general", view: params.get("vview") || "all" } } : {};
+    ? { videoSearch: { query: visibleQuery(params.get("vq") || ""), mode: params.get("vm") || "general", view: params.get("vview") || "all" } } : {};
   if (params.has("review")) {
     const id = params.get("review");
     if (!/^[0-9a-f]{32}$/.test(id)) return { kind: "missing" };
@@ -114,7 +115,7 @@ export function resolveReaderRoute(search, publication, drafts) {
   const tag = params.get("tag");
   if (params.has("tag") && (bvid || (tag !== "全部" && ![...publication, ...drafts].some((entry) => entry.tags.includes(tag))))) return { kind: "missing" };
   const searchState = ["q", "mode", "tag", "sort"].some((key) => params.has(key))
-    ? { query: params.get("q") || "", mode: params.get("mode") || "general", tag: params.get("tag") || "全部", ...(!bvid ? { sort: params.get("sort") || "body" } : {}) } : undefined;
+    ? { query: visibleQuery(params.get("q") || ""), mode: params.get("mode") || "general", tag: params.get("tag") || "全部", ...(!bvid ? { sort: params.get("sort") || "body" } : {}) } : undefined;
   return { kind: bvid ? "video" : "directory", view, ...(bvid ? { bvid } : {}), ...(searchState ? { searchState } : {}) };
 }
 

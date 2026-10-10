@@ -13,6 +13,8 @@ import { originNoticeMarkup, provenanceMarkup, versionDetailsMarkup } from "../s
 import { recordFromEntry, createReadingHistoryStore, reconcileReadingRecord } from "../src/reading-history.js";
 import { createSearchLoader } from "../src/search-loader.js";
 import { validateCandidateManifest } from "../src/search-candidates.js";
+import { sourceTagStats } from "../src/discovery-controls.js";
+import { missingPartRanges } from "../src/reading-outline.js";
 
 const fixtureRoot = fileURLToPath(new URL("./fixtures/universal-origin-v1/", import.meta.url));
 async function readSnapshot(folder) {
@@ -131,6 +133,8 @@ test("groups and routes real provider identity without injecting legacy fields",
   assert.equal(resolveReaderRoute("?video=youtube...%2Fprivate&view=drafts", [], catalog.articles).kind, "missing");
   const sameIdBilibili = { ...native, platform: "bilibili" };
   assert.notEqual(workKey(native), workKey(sameIdBilibili));
+  assert.deepEqual(sourceTagStats([{ ...native, tags: ["shared"] }, { ...sameIdBilibili, tags: ["shared"] }]), [{ tag: "shared", count: 2 }]);
+  assert.deepEqual(missingPartRanges([preserved]), [[1, 1]]);
 });
 
 test("shows preservation, later edits and historical AI baseline truthfully while unknown source time stays unknown", () => {

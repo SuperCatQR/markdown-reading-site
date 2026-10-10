@@ -1,5 +1,5 @@
 import { validWorkKey } from "./source-identity.js";
-
+import { visibleQuery } from "./query-state.js";
 export function browserStorage(name) {
   return {
     getItem(key) { try { return window[name].getItem(key); } catch { return null; } },
@@ -10,7 +10,7 @@ export function browserStorage(name) {
 export function sanitizeDirectoryState(value, tags) {
   const saved = value && typeof value === "object" ? value : {};
   return {
-    query: typeof saved.query === "string" ? saved.query.slice(0, 300) : "",
+    query: typeof saved.query === "string" ? visibleQuery(saved.query.slice(0, 300)) : "",
     mode: ["general", "phrase", "keywords"].includes(saved.mode) ? saved.mode : "general",
     sort: ["body", "title"].includes(saved.sort) ? saved.sort : "body",
     tag: tags.includes(saved.tag) ? saved.tag : "全部",
