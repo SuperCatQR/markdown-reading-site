@@ -1,10 +1,7 @@
-import { workKey } from "../src/source-identity.js";
+import { workKey, entryKey, prepareDocument, estimateReadingMinutes } from "../packages/content-core/index.js";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { validateSiteSnapshots } from "./validate-catalog.mjs";
-import { prepareDocument } from "../src/document.js";
-import { entryKey } from "../src/manuscripts.js";
-import { estimateReadingMinutes } from "../src/reading-time.js";
 import { sha256 } from "./catalog.js";
 import { buildCandidateData } from "./search-candidate-data.js";
 
