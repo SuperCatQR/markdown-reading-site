@@ -16,7 +16,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   const navigation = createNavigationSession(), tools = createToolController(root), feedback = createFeedbackState();
   let route = parseRoute(), currentHash = location.hash || '#/library', controller = new AbortController(), task = 0;
   let reader, resultLimit = 32, readerQuery = '', readerResults = [], timer, toolTask = 0;
-  let feedbackDraft = {}, feedbackStatus = '', currentTool = '';
+  let feedbackDraft = {}, feedbackStatus = '', feedbackContext = null, currentTool = '';
   const subscriptions = new AbortController();
   history.scrollRestoration = 'manual';
   function preferences() {
@@ -71,7 +71,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   async function render(next = parseRoute()) {
     const token = ++task;
     controller.abort(); controller = new AbortController(); const signal = controller.signal;
-    tools.close({ restoreFocus: false }); toolTask++; readerResults = []; readerQuery = '';
+    tools.close({ restoreFocus: false }); toolTask++; feedbackContext = null; readerResults = []; readerQuery = '';
     route = next; currentHash = location.hash || '#/library'; reader = null; preferences();
     if (['library', 'search'].includes(route.name)) {
       title(route.name === 'search' ? `搜索：${route.query}` : '文字资料库'); resultLimit = navigation.page(currentHash)?.limit || 32;
@@ -98,16 +98,19 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     } catch (error) { if (token === task && !signal.aborted) documentError(error); }
   }
   function feedbackOptions(draft = feedbackDraft) {
-    const position = readingLocation(root);
-    const pageUrl = new URL(routeHref(route.name, { editionId: reader.entry.editionId, flow: route.flow, block: position?.anchor }), location.href).href;
-    return { ...draft, entry: reader.entry, pageUrl, mode: route.name === 'verify' ? 'review' : 'body' };
+    return { ...draft, ...feedbackContext };
   }
-  async function showTool(name) {
+  async function showTool(name, { preserveFeedback = false } = {}) {
     if (!reader?.entry) return;
     const token = ++toolTask; currentTool = name;
     let feedbackMarkup = '';
     if (name === 'feedback') {
-      feedbackDraft = feedback.read(reader.entry, route.name === 'verify' ? 'review' : 'body');
+      if (!preserveFeedback || !feedbackContext) {
+        const position = readingLocation(root), entry = repository.findEdition(position?.editionId) || reader.entry;
+        const pageUrl = new URL(routeHref(route.name, { editionId: entry.editionId, flow: route.flow, block: position?.anchor }), location.href).href;
+        feedbackContext = { entry, pageUrl, mode: route.name === 'verify' ? 'review' : 'body' };
+      }
+      feedbackDraft = feedback.read(feedbackContext.entry, feedbackContext.mode);
       let module;
       try { module = await import('./features/feedback.js'); }
       catch { if (token === toolTask) tools.show(readerToolPanel({ ...viewArgs(), tool: name, error: '建议工具暂时无法加载，正文可以继续阅读。请刷新后重试。' })); return; }
@@ -115,11 +118,11 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
       const options = feedbackOptions();
       const validated = module.validateFeedbackDraft(feedbackDraft);
       const text = validated.valid ? module.feedbackText(options) : '';
-      feedbackMarkup = module.feedbackPanel({ entry: reader.entry, review: route.name === 'verify', draft: feedbackDraft, status: feedbackStatus, issueHref: validated.valid ? module.feedbackIssueHref(options) : '', text, errors: feedbackStatus ? validated.errors : [] });
+      feedbackMarkup = module.feedbackPanel({ entry: feedbackContext.entry, review: feedbackContext.mode === 'review', draft: feedbackDraft, status: feedbackStatus, issueHref: validated.valid ? module.feedbackIssueHref(options) : '', text, errors: feedbackStatus ? validated.errors : [] });
     }
     tools.show(readerToolPanel({ ...viewArgs(), tool: name, searchQuery: readerQuery, searchResults: readerResults, preferences: state.preferences, feedbackMarkup }));
   }
-  function closeTool() { toolTask++; tools.close(); }
+  function closeTool(options) { toolTask++; tools.close(options); }
   async function appendNext(button) {
     const session = reader, token = task; if (!session?.next || route.name !== 'read') return;
     if (session.documents.size >= 20) { capture(); navigate('read', { editionId: session.next.editionId, flow: true }); return; }
@@ -138,7 +141,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   }
   function jumpBlock(link) {
     const editionId = link.dataset.editionId || reader.entry.editionId, anchor = link.dataset.readerBlock;
-    closeTool();
+    closeTool({ restoreReading: false });
     if (!reader.documents.has(editionId)) { location.hash = routeHref(route.name, { editionId, block: anchor, flow: route.flow }); return; }
     restoreReadingLocation(root, { editionId, anchor }); reader.setCurrent(editionId); route = { ...route, editionId, block: anchor };
     history.replaceState(history.state, '', routeHref(route.name, route)); currentHash = location.hash; savePosition();
@@ -163,7 +166,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
       try { await navigator.clipboard.writeText(module.feedbackText(options)); feedbackStatus = '已复制；尚未提交建议。'; }
       catch { feedbackStatus = '复制失败，请在下方选中并复制建议文本。'; }
       if (token !== toolTask || reader !== session || !tools.open) return;
-      return showTool('feedback');
+      return showTool('feedback', { preserveFeedback: true });
     }
     if (target.getAttribute('href')?.startsWith('#/')) capture();
   }, { signal: subscriptions.signal });
@@ -183,9 +186,9 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
         readerResults = result.groups.flatMap((group) => group.parts.flatMap(({ entry, hits }) => hits.map((hit) => ({ ...hit, entry })))); return showTool('find');
       } catch (error) { if (token !== toolTask || controller.signal.aborted) return; const notice = document.createElement('p'); notice.setAttribute('role', 'alert'); notice.textContent = error.message; form.append(notice); }
     }
-    if (form.matches('[data-feedback-form]')) { event.preventDefault(); feedbackDraft = Object.fromEntries(new FormData(form)); feedback.write(reader.entry, route.name === 'verify' ? 'review' : 'body', feedbackDraft); feedbackStatus = '建议已整理。复制文本或打开 GitHub 后确认提交。'; return showTool('feedback'); }
+    if (form.matches('[data-feedback-form]') && feedbackContext) { event.preventDefault(); feedbackDraft = Object.fromEntries(new FormData(form)); feedback.write(feedbackContext.entry, feedbackContext.mode, feedbackDraft); feedbackStatus = '建议已整理。复制文本或打开 GitHub 后确认提交。'; return showTool('feedback', { preserveFeedback: true }); }
   }, { signal: subscriptions.signal });
-  root.addEventListener('input', (event) => { const form = event.target.closest('[data-feedback-form]'); if (form) { feedbackDraft = Object.fromEntries(new FormData(form)); const saved = feedback.write(reader.entry, route.name === 'verify' ? 'review' : 'body', feedbackDraft); feedbackStatus = saved.ok ? '' : '当前浏览器无法暂存建议，请复制完整文本保存。'; const notice = root.querySelector('[data-feedback-status]'); if (notice) notice.textContent = feedbackStatus; } }, { signal: subscriptions.signal });
+  root.addEventListener('input', (event) => { const form = event.target.closest('[data-feedback-form]'); if (form && feedbackContext) { feedbackDraft = Object.fromEntries(new FormData(form)); const saved = feedback.write(feedbackContext.entry, feedbackContext.mode, feedbackDraft); feedbackStatus = saved.ok ? '' : '当前浏览器无法暂存建议，请复制完整文本保存。'; const notice = root.querySelector('[data-feedback-status]'); if (notice) notice.textContent = feedbackStatus; } }, { signal: subscriptions.signal });
   root.addEventListener('change', (event) => {
     const target = event.target;
     if (target.dataset.preference) { const position = readingLocation(root); state.updatePreferences({ [target.dataset.preference]: target.dataset.preference === 'font' ? target.value : Number(target.value) }); preferences(); restoreReadingLocation(root, position); storageNotice(); return; }
@@ -195,11 +198,11 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   root.addEventListener('keydown', (event) => { if (event.key === 'Escape' && tools.open) { event.preventDefault(); closeTool(); } else tools.keyboard(event); }, { signal: subscriptions.signal });
   window.addEventListener('hashchange', () => {
     const next = parseRoute(); capture(false);
-    if (reader && next.name === route.name && next.flow === route.flow && reader.documents.has(next.editionId)) { route = next; currentHash = location.hash; closeTool(); restoreReadingLocation(root, { editionId: next.editionId, anchor: next.block }); reader.setCurrent(next.editionId); savePosition(); return; }
+    if (reader && next.name === route.name && next.flow === route.flow && reader.documents.has(next.editionId)) { route = next; currentHash = location.hash; closeTool({ restoreReading: false }); restoreReadingLocation(root, { editionId: next.editionId, anchor: next.block }); reader.setCurrent(next.editionId); savePosition(); return; }
     feedbackDraft = {}; feedbackStatus = ''; render(next);
   }, { signal: subscriptions.signal });
   window.addEventListener('scroll', () => { clearTimeout(timer); timer = setTimeout(savePosition, 250); }, { passive: true, signal: subscriptions.signal });
   window.addEventListener('pagehide', () => capture(), { signal: subscriptions.signal });
   render(route);
-  return { render, repository, search, state, dispose() { capture(); controller.abort(); subscriptions.abort(); tools.close({ restoreFocus: false }); } };
+  return { render, repository, search, state, dispose() { capture(); task++; toolTask++; controller.abort(); subscriptions.abort(); tools.dispose(); } };
 }

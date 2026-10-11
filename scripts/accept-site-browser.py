@@ -38,6 +38,7 @@ with sync_playwright() as pw:
             page.reload()
         if reader:
             expect(page.locator('.reader-prose')).to_be_visible()
+            expect(page.locator('.reader-article').first).to_have_attribute('data-edition-id', route.split('?')[0].split('/')[-1])
         if listing:
             expect(page.locator('.results-section')).to_be_visible()
             expect(page.locator('.loading-state')).to_have_count(0, timeout=30000)
@@ -463,6 +464,7 @@ with sync_playwright() as pw:
     run('Feedback draft survives reload and stays separate from verification', 'P1', feedback_draft)
 
     def keyboard_focus():
+        page.set_viewport_size({'width': 900, 'height': 900})
         visit('/read/' + multi, reader=True)
         opener = page.locator('[data-tool="more"]')
         opener.focus(); page.keyboard.press('Enter')
@@ -490,6 +492,75 @@ with sync_playwright() as pw:
         expect(page.locator('[data-feedback-status]')).to_contain_text('已复制')
         assert page.evaluate('window.copiedFeedback') == text, 'Copied feedback differs from visible paragraph-linked text'
     run('Feedback preview and clipboard preserve the same exact paragraph link', 'P1', feedback_copy_location)
+
+    def docked_tools():
+        measurements = []
+        for mode, edition in [('read', single), ('read', multi), ('verify', multi)]:
+            for width in [1100, 1366, 1440, 1600, 2048]:
+                page.set_viewport_size({'width': width, 'height': 900})
+                visit('/' + mode + '/' + edition, reader=True, fresh=True)
+                page.evaluate('window.scrollTo({top:1400,behavior:"instant"})')
+                before = page.evaluate('scrollY')
+                page.locator('[data-tool="more"]').click()
+                page.locator('[data-tool="feedback"]').click()
+                expect(page.locator('[data-feedback-form]')).to_be_visible()
+                expect(page.locator('.tool-drawer')).to_have_attribute('aria-modal', 'false')
+                prose = page.locator('.reader-prose').bounding_box()
+                drawer = page.locator('.tool-drawer').bounding_box()
+                assert prose['x'] + prose['width'] <= drawer['x'] - 16, f'Prose covered at {width}: {prose}, {drawer}'
+                assert prose['width'] >= 600, f'Docked manuscript too narrow at {width}: {prose}'
+                assert page.locator('.reader-layout').evaluate('e=>!e.inert'), 'Docked reader cannot be selected or used'
+                assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), f'Overflow at {width}'
+                if mode == 'verify' and width == 2048:
+                    page.screenshot(path=str(output / 'verification-feedback-docked.png'))
+                page.keyboard.press('Escape')
+                expect(page.locator('.tool-drawer')).to_have_count(0)
+                page.wait_for_function('before=>Math.abs(scrollY-before)<5', arg=before)
+                closed = page.evaluate('scrollY')
+                assert abs(closed - before) < 5, f'Docked close loses original position at {mode}/{edition}/{width}: {before} -> {closed}'
+                measurements.append({'mode': mode, 'width': width, 'prose_width': round(prose['width'], 2), 'gap': round(drawer['x'] - prose['x'] - prose['width'], 2)})
+        return measurements
+    run('Docked feedback reserves space beside single multi and verification manuscripts', 'P1', docked_tools)
+
+    def responsive_tools():
+        visit('/read/' + multi, reader=True)
+        page.locator('[data-tool="more"]').click()
+        for width in [2048, 1099, 900, 390, 320, 1440]:
+            page.set_viewport_size({'width': width, 'height': 900})
+            modal = width < 1100
+            expect(page.locator('.tool-drawer')).to_have_attribute('aria-modal', str(modal).lower())
+            expect(page.locator('.reader-layout')).to_have_css('visibility', 'hidden' if modal else 'visible')
+            assert page.locator('.reader-layout').evaluate('e=>e.inert') == modal
+            if modal:
+                box = page.locator('.tool-drawer').bounding_box()
+                assert box['x'] == 0 and abs(box['width'] - width) < 1
+            assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+        page.keyboard.press('Escape')
+        expect(page.locator('.reader-layout')).to_be_visible()
+        assert page.locator('.reader-layout').evaluate('e=>!e.inert')
+    run('Open tools adapt between usable dock and isolated full-width small-screen view', 'P1', responsive_tools)
+
+    def docked_feedback_identity():
+        visit('/read/' + multi + '?flow=continuous', reader=True)
+        page.locator('[data-action="load-next"]').click()
+        expect(page.locator('.reader-article')).to_have_count(2)
+        second = page.locator('.reader-article').nth(1).get_attribute('data-edition-id')
+        page.locator('.reader-article').first.scroll_into_view_if_needed()
+        expect(page).to_have_url(__import__('re').compile('/read/' + multi))
+        page.locator('[data-tool="more"]').click()
+        page.locator('[data-tool="feedback"]').click()
+        expect(page.locator('[data-feedback-form]')).to_have_attribute('data-edition-id', multi)
+        page.locator('[name="quote"]').fill('P1 feedback stays P1')
+        page.evaluate('document.querySelectorAll(".reader-article")[1].scrollIntoView()')
+        expect(page).to_have_url(__import__('re').compile('/read/' + second))
+        page.locator('[name="suggestion"]').fill('P1 suggestion')
+        page.locator('[name="reason"]').fill('P1 reason')
+        page.get_by_role('button', name='整理建议', exact=True).click()
+        expect(page.locator('[data-feedback-output]')).to_contain_text('P1 feedback stays P1')
+        text = page.locator('[data-feedback-output]').input_value()
+        assert multi in text and second not in text, 'Scrolling docked background changes feedback identity'
+        expect(page.locator('[data-feedback-form]')).to_have_attribute('data-edition-id', multi)
+    run('Docked feedback remains bound to its original version while continuous body scrolls', 'P1', docked_feedback_identity)
 
     report = {'base': base, 'browser': browser.version, 'checks': checks, 'summary': {
         'pass': sum(row['status'] == 'pass' for row in checks), 'fail': sum(row['status'] == 'fail' for row in checks)}}

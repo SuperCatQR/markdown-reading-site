@@ -47,7 +47,7 @@ export function readingLocation(root) {
   const article = articles.find((node) => node.getBoundingClientRect().bottom > 90);
   if (!article) return null;
   const prose = article.querySelector('.reader-prose');
-  const block = prose?.getBoundingClientRect().top <= 90 ? [...prose.querySelectorAll('[data-block-id]')].find((node) => node.getBoundingClientRect().bottom > 90) : null;
+  const block = prose?.getBoundingClientRect().top <= 90 ? [...prose.querySelectorAll('[data-block-id]')].find((node) => node.checkVisibility() && node.getBoundingClientRect().bottom > 90) : null;
   return { editionId: article.dataset.editionId, anchor: block?.dataset.blockId || '', offset: block ? Math.max(0, Math.min(1, (90 - block.getBoundingClientRect().top) / Math.max(1, block.getBoundingClientRect().height))) : 0 };
 }
 

@@ -152,7 +152,7 @@ mark { color: #202322; background: #f3d693; }
 .reader-actions { min-width: 0; display: flex; align-items: center; gap: 3px; }
 .reader-actions a, .reader-actions button { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 10px; border: 0; color: var(--muted); background: transparent; cursor: pointer; font-size: 12px; text-decoration: none; white-space: nowrap; }
 .reader-actions a:hover, .reader-actions button:hover, .reader-actions .active { color: var(--accent); background: var(--accent-soft); }
-.reader-layout { display: grid; grid-template-columns: minmax(0, var(--reader-width)); justify-content: center; gap: 36px; width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
+.reader-layout { display: grid; grid-template-columns: minmax(0, var(--reader-width)); justify-content: center; gap: 36px; width: min(1280px, calc(100% - 48px)); margin: 0 auto; overflow-anchor: none; }
 .reader-layout:has(> .reader-parts) { grid-template-columns: 230px minmax(0, var(--reader-width)); }
 .reader-parts { position: sticky; top: 88px; align-self: start; max-height: calc(100dvh - 112px); overflow: auto; padding: 36px 0; }
 .reader-parts ol { margin: 12px 0 0; padding: 0; list-style: none; }
@@ -179,6 +179,14 @@ mark { color: #202322; background: #f3d693; }
 .reader-end a:first-of-type { margin-left: auto; }
 .reader-article + .reader-article { margin-top: 64px; }.reader-end .button-link:disabled { cursor: wait; opacity: .65; }
 .tool-drawer { position: fixed; z-index: 30; top: 64px; right: 0; bottom: 0; width: min(430px, 100vw); overflow: auto; padding: 28px; border-left: 1px solid var(--line); background: var(--surface-raised); box-shadow: -14px 0 35px rgb(30 25 20 / 10%); }
+/* Reserve the complete tool column instead of placing it over the manuscript. */
+#app[data-reader-tool-mode="docked"] > .reader-layout { width: min(1280px, calc(100% - 478px)); margin-left: auto; margin-right: 454px; }
+#app[data-reader-tool-mode="modal"] > .reader-layout { visibility: hidden; }
+#app[data-reader-tool-mode="modal"] > .tool-drawer { width: 100%; border-left: 0; box-shadow: none; overscroll-behavior: contain; }
+@media (min-width: 1100px) and (max-width: 1599px) {
+  #app[data-reader-tool-mode="docked"] > .reader-layout { grid-template-columns: minmax(0, var(--reader-width)); }
+  #app[data-reader-tool-mode="docked"] > .reader-layout > .reader-parts { display: none; }
+}
 .tool-sheet h2 { padding-right: 58px; margin: 0 0 20px; font-size: 18px; }
 .tool-sheet > .reader-parts { position: static; max-height: none; padding: 0; }
 .tool-sheet > button, .tool-sheet > a { display: flex; align-items: center; width: 100%; min-height: 44px; padding: 0 12px; margin-top: 8px; border: 1px solid var(--line); color: var(--ink); background: var(--surface); cursor: pointer; text-decoration: none; }
