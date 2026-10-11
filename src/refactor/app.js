@@ -9,7 +9,7 @@ import { searchEntries, entryKey } from '../../packages/content-core/index.js';
 import { createReaderSession, readingLocation, restoreReadingLocation } from './features/reader-session.js';
 import { createToolController } from './features/tool-controller.js';
 import { createDocumentActionsController, currentDocumentSource } from './features/document-actions.js';
-import { libraryPage, recentPage, readerPage, readerArticle, readerToolPanel, escapeHtml } from './views.js';
+import { libraryPage, recentPage, readerPage, readerToolPanel, escapeHtml } from './views.js';
 import './styles.css';
 
 export function mountRefactorApp(root = document.querySelector('#app')) {
@@ -22,7 +22,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   const documentActions = createDocumentActionsController({ root, getDocument() {
     if (!reader?.entry) return { entry: null };
     const position = readingLocation(root), entry = repository.findEdition(position?.editionId) || reader?.entry;
-    return { entry, source: currentDocumentSource(reader, { editionId: entry.editionId }), mode: route.name, flow: route.flow, anchor: position?.anchor || '', baseUrl: location.href };
+    return { entry, source: currentDocumentSource(reader, { editionId: entry.editionId }), mode: route.name, anchor: position?.anchor || '', baseUrl: location.href };
   } });
   const subscriptions = new AbortController();
   history.scrollRestoration = 'manual';
@@ -48,11 +48,13 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     const value = readingLocation(root);
     if (!value) return;
     reader.setCurrent(value.editionId);
-    navigation.saveReader(route.name, value.editionId, { ...value, flow: route.flow });
+    navigation.saveReader(route.name, value.editionId, value);
     if (route.name === 'read') { state.remember(reader.entry, value.anchor, value.offset); storageNotice(); }
-    if (updateUrl && route.flow && route.name === 'read') {
-      route = { ...route, editionId: value.editionId, block: value.anchor };
-      history.replaceState(history.state, '', routeHref('read', { ...route, flow: true })); currentHash = location.hash;
+    if (updateUrl && route.name === 'read') {
+      const canonicalRoute = { ...route };
+      delete canonicalRoute.flow;
+      route = { ...canonicalRoute, editionId: value.editionId, block: value.anchor };
+      history.replaceState(history.state, '', routeHref('read', route)); currentHash = location.hash;
       root.querySelectorAll('.reader-parts a').forEach((link) => { const current = link.getAttribute('href')?.includes(value.editionId); link.classList.toggle('current', current); if (current) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
       title(reader.entry.title);
       const identity = root.querySelector('.reader-identity');
@@ -71,9 +73,9 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     root.innerHTML = `<header class="reader-header"><a class="reader-back" href="${escapeHtml(navigation.returnHref)}">返回资料库</a></header><main class="page empty-state" id="main-content"><h1>稿件暂时未能加载</h1><p role="alert">${escapeHtml(error.message)}</p><p>请重试，当前稿件的审核与发布状态没有改变。</p><button class="button-link" data-action="retry-document">重新加载</button></main>`;
   }
   function viewArgs(entry = reader?.entry, prepared = reader?.prepared) {
-    const opposite = route.name === 'read' ? 'verify' : 'read', position = navigation.reader(opposite, entry?.editionId);
+    const opposite = route.name === 'read' ? 'verify' : 'read';
     return { route, repository, entry, parts: reader?.parts || [], prepared, theme: state.preferences.theme, review: route.name === 'verify', returnHref: navigation.returnHref,
-      locationHref: routeHref(opposite, { editionId: entry?.editionId, flow: opposite === 'read' && (position?.flow || route.flow) }) };
+      locationHref: routeHref(opposite, { editionId: entry?.editionId }) };
   }
   async function render(next = parseRoute()) {
     const token = ++task;
@@ -117,7 +119,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     if (name === 'feedback') {
       if (!preserveFeedback || !feedbackContext) {
         const position = readingLocation(root), entry = repository.findEdition(position?.editionId) || reader.entry;
-        const pageUrl = new URL(routeHref(route.name, { editionId: entry.editionId, flow: route.flow, block: position?.anchor }), location.href).href;
+        const pageUrl = new URL(routeHref(route.name, { editionId: entry.editionId, block: position?.anchor }), location.href).href;
         feedbackContext = { entry, pageUrl, mode: route.name === 'verify' ? 'review' : 'body' };
         feedbackDraft = feedback.read(entry, feedbackContext.mode); feedbackStatus = '';
       }
@@ -134,28 +136,12 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     tools.show(readerToolPanel({ ...viewArgs(), tool: name, searchQuery: readerQuery, searchResults: readerResults, searchLoading, searchError, searchIndex: hitIndex, searchScope, preferences: state.preferences, feedbackMarkup }));
   }
   function closeTool(options) { toolTask++; tools.close(options); }
-  async function appendNext(button) {
-    const session = reader, token = task; if (!session?.next || route.name !== 'read') return;
-    if (session.documents.size >= 20) { capture(); navigate('read', { editionId: session.next.editionId, flow: true }); return; }
-    button.disabled = true; button.textContent = '正在加载下一 P…';
-    try {
-      const item = await session.append(controller.signal); if (!item || token !== task) return;
-      root.querySelector('.reader-article:last-child [data-action="load-next"]')?.remove();
-      root.querySelector('.reader-page').insertAdjacentHTML('beforeend', readerArticle(viewArgs(item.entry, item.prepared)));
-      restoreReadingLocation(root, { editionId: item.entry.editionId, anchor: '' });
-      session.setCurrent(item.entry.editionId); savePosition();
-    } catch (error) {
-      if (token !== task || controller.signal.aborted) return;
-      button.disabled = false; button.textContent = '重新加载下一 P';
-      const notice = button.parentElement.querySelector('[role="alert"]') || document.createElement('p'); notice.setAttribute('role', 'alert'); notice.textContent = error.message; button.parentElement.append(notice);
-    }
-  }
   function jumpBlock(link, { keepTool = false } = {}) {
     const editionId = link.dataset.editionId || reader.entry.editionId, anchor = link.dataset.readerBlock;
     const index = readerResults.findIndex((hit) => hit.entry.editionId === editionId && hit.id === anchor); if (index >= 0) hitIndex = index;
     if (!keepTool || !reader.documents.has(editionId)) closeTool({ restoreReading: false });
-    if (!reader.documents.has(editionId)) { if (index >= 0) pendingReaderSearch = { editionId, manuscriptType: reader.entry.manuscriptType, work: workKey(reader.entry), mode: route.name, query: readerQuery, results: readerResults, index, scope: searchScope, open: keepTool }; location.hash = routeHref(route.name, { editionId, block: anchor, flow: route.flow }); return; }
-    restoreReadingLocation(root, { editionId, anchor }); reader.setCurrent(editionId); route = { ...route, editionId, block: anchor };
+    if (!reader.documents.has(editionId)) { if (index >= 0) pendingReaderSearch = { editionId, manuscriptType: reader.entry.manuscriptType, work: workKey(reader.entry), mode: route.name, query: readerQuery, results: readerResults, index, scope: searchScope, open: keepTool }; location.hash = routeHref(route.name, { editionId, block: anchor }); return; }
+    restoreReadingLocation(root, { editionId, anchor }); reader.setCurrent(editionId); const canonicalRoute = { ...route }; delete canonicalRoute.flow; route = { ...canonicalRoute, editionId, block: anchor };
     if (keepTool && tools.open) tools.restoreReading({ editionId, anchor, offset: 0 });
     history.replaceState(history.state, '', routeHref(route.name, route)); currentHash = location.hash; savePosition();
   }
@@ -168,7 +154,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     if (['copy-paragraph-link', 'copy-markdown', 'download-markdown'].includes(action)) return documentActions.perform(action === 'copy-paragraph-link' ? 'copy-link' : action);
     if (action === 'reset-preferences') { const position = readingLocation(root); state.updatePreferences({ ...DEFAULT_PREFERENCES, theme: state.preferences.theme }); preferences(); tools.restoreReading(position); storageNotice(); return showTool('settings'); }
     if (action === 'feedback-selection' && selectedPassage?.editionId === feedbackContext?.entry.editionId) {
-      feedbackContext = { ...feedbackContext, pageUrl: new URL(routeHref(route.name, { editionId: selectedPassage.editionId, flow: route.flow, block: selectedPassage.anchor }), location.href).href };
+      feedbackContext = { ...feedbackContext, pageUrl: new URL(routeHref(route.name, { editionId: selectedPassage.editionId, block: selectedPassage.anchor }), location.href).href };
       feedbackDraft = { ...feedbackDraft, quote: selectedPassage.quote, context: selectedPassage.context };
       feedback.write(feedbackContext.entry, feedbackContext.mode, feedbackDraft);
       return showTool('feedback', { preserveFeedback: true });
@@ -177,7 +163,6 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     if (action === 'close-tool') return closeTool();
     if (action === 'retry-tool') return showTool(currentTool);
     if (action === 'theme') { const position = readingLocation(root); state.updatePreferences({ theme: state.preferences.theme === 'dark' ? 'light' : 'dark' }); preferences(); if (position) restoreReadingLocation(root, position); storageNotice(); return; }
-    if (action === 'load-next') return appendNext(target);
     if (action === 'retry-document' || action === 'retry-search') return render(route);
     if (action === 'load-more') { navigation.capture(currentHash, root, resultLimit + 32); return render(route); }
     if (target.dataset.removeHistory) { state.remove(target.dataset.removeHistory); return render(route); }
@@ -246,7 +231,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   root.addEventListener('keydown', (event) => { if (event.key === 'Escape' && tools.open) { event.preventDefault(); closeTool(); } else tools.keyboard(event); }, { signal: subscriptions.signal });
   window.addEventListener('hashchange', () => {
     const next = parseRoute(); capture(false);
-    if (reader && next.name === route.name && next.flow === route.flow && reader.documents.has(next.editionId)) { route = next; currentHash = location.hash; closeTool({ restoreReading: false }); restoreReadingLocation(root, { editionId: next.editionId, anchor: next.block }); reader.setCurrent(next.editionId); savePosition(); return; }
+    if (reader && next.name === route.name && reader.documents.has(next.editionId)) { route = next; currentHash = location.hash; closeTool({ restoreReading: false }); restoreReadingLocation(root, { editionId: next.editionId, anchor: next.block }); reader.setCurrent(next.editionId); savePosition(); return; }
     feedbackDraft = {}; feedbackStatus = ''; render(next);
   }, { signal: subscriptions.signal });
   window.addEventListener('scroll', () => { clearTimeout(timer); timer = setTimeout(savePosition, 250); }, { passive: true, signal: subscriptions.signal });

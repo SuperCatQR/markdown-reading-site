@@ -105,6 +105,17 @@ test("reader return context is explicit and export controls provide accessible m
   assert.ok(settings.includes('data-action="reset-preferences"'));
 });
 
+test("video IDs link to the source and P navigation uses direct single-page routes", () => {
+  const second = { ...entry, editionId: "f".repeat(32), partIndex: entry.partIndex + 1, videoPartId: (entry.videoPartId || 0) + 1, sourceUrl: "https://www.bilibili.com/video/BVfixture/?p=2" };
+  const localRepository = { ...repository, all: [entry, second], list: () => [entry, second], findEdition: (editionId) => [entry, second].find((item) => item.editionId === editionId), summaries: {} };
+  const library = libraryPage({ route: { name: "library", view: "all", mode: "general" }, repository: localRepository, groups: [{ title: entry.title, parts: [{ entry, hits: [] }, { entry: second, hits: [] }] }], theme: "light" });
+  assert.match(library, new RegExp(`<a class="source-id-link" href="${entry.sourceUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
+  const page = readerPage({ route: { name: "read", editionId: entry.editionId, flow: true }, entry, parts: [entry, second], repository: localRepository, prepared: { body: "", title: "" }, theme: "light" });
+  assert.ok(page.includes(`href="#/read/${second.editionId}"`));
+  assert.ok(!page.includes("开启连续阅读"));
+  assert.ok(!page.includes("data-action=\"load-next\""));
+});
+
 test("reader search exposes pending, failure and bounded previous/next navigation", () => {
   const hits = [{ id: 'passage-1', text: '自由', entry }, { id: 'passage-2', text: '再次自由', entry }];
   const first = readerToolPanel({ tool: 'find', entry, searchQuery: '自由', searchResults: hits, searchIndex: 0 });
