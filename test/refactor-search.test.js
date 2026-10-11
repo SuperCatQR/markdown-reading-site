@@ -98,12 +98,13 @@ test("empty query and directory construction require no network or heavyweight e
   assert.equal((await service.search()).total, 3); assert.equal(f.requests.length, 0);
   const entry = { ...f.entries[0], artifactSha256: "a".repeat(64), contentSha256: "b".repeat(64) };
   const details = { ...entry, sourceUrl: "https://example.test", origin: { kind: "native-ai", editionId: entry.editionId, contentSha256: entry.contentSha256, aiRevisionId: entry.aiRevisionId }, sourceMetadata: { ...entry.sourceMetadata, creatorName: "作者" } };
+  const original = new TextEncoder().encode("\uFEFF# 正文\r\n\r\n未经改写的完整文本。\r\n");
   const requests = [];
   const repo = createRepository({ published: [], drafts: [entry], bases: { drafts: "/reader/drafts-fingerprint/" } }, { fetchResource: async (url) => {
-    requests.push(url); return { ok: true, json: async () => details, text: async () => "# 正文" };
+    requests.push(url); return new Response(url.endsWith(".json") ? JSON.stringify(details) : original);
   } });
   const found = repo.findEdition(entry.editionId); assert.equal(requests.length, 0); assert.equal(found.origin, undefined);
   assert.equal(await repo.loadDetails(found), found); assert.equal(found.origin.kind, "native-ai");
-  assert.equal(await repo.loadBody(found), "# 正文");
+  assert.deepEqual(new TextEncoder().encode(await repo.loadBody(found)), original);
   assert.deepEqual(requests, [`/reader/drafts-fingerprint/entry-${entry.editionId}.json`, `/reader/drafts-fingerprint/body-${entry.editionId}.md`]);
 });

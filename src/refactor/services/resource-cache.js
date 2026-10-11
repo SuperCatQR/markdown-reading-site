@@ -33,7 +33,11 @@ export function createResourceCache(fetchResource = globalThis.fetch, { maxBytes
     }
     const response = await fetchResource(url, { signal });
     if (!response.ok) throw new Error("资源加载失败，请重试");
-    const value = validate(await (text ? response.text() : response.json()));
+    // Response.text() consumes a UTF-8 BOM. Manuscript exports must retain all
+    // original UTF-8 bytes, including BOM and CRLF, and reject malformed input.
+    const value = validate(await (text
+      ? response.arrayBuffer().then((bytes) => new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes))
+      : response.json()));
     throwIfAborted(signal);
     retain(url, value);
     return value;

@@ -3,7 +3,7 @@ import { readingLocation, restoreReadingLocation } from './reader-session.js';
 export function createToolController(root) {
   let opener;
   let background = [];
-  let layoutFrame, pendingPosition;
+  let layoutFrame, pendingPosition, layoutToken = 0;
   const capturePosition = () => {
     const position = readingLocation(root);
     if (!position) return null;
@@ -20,13 +20,21 @@ export function createToolController(root) {
     restoreReadingLocation(root, position);
     if (position?.headerOffset) window.scrollBy({ top: position.headerOffset, behavior: 'instant' });
   };
-  const settlePosition = (position, scrollTop = null) => {
+  const settlePosition = (position) => {
     cancelAnimationFrame(layoutFrame);
+    const token = ++layoutToken;
     pendingPosition = position;
+    root.querySelector('.tool-drawer')?.setAttribute('aria-busy', 'true');
+    // Grid tracks need a rendered frame after changing the dock width before
+    // their percentage-sized manuscript children have their final dimensions.
     layoutFrame = requestAnimationFrame(() => {
-      if (scrollTop !== null) window.scrollTo({ top: scrollTop, behavior: 'instant' });
-      else restorePosition(position);
-      pendingPosition = null;
+      if (token !== layoutToken) return;
+      layoutFrame = requestAnimationFrame(() => {
+        if (token !== layoutToken) return;
+        restorePosition(position);
+        pendingPosition = null;
+        root.querySelector('.tool-drawer')?.setAttribute('aria-busy', 'false');
+      });
     });
   };
   const wideScreen = window.matchMedia('(min-width: 1100px)');
@@ -43,6 +51,7 @@ export function createToolController(root) {
   const focusable = () => [...root.querySelectorAll('.tool-drawer a[href], .tool-drawer button, .tool-drawer input, .tool-drawer textarea, .tool-drawer select, .tool-drawer summary')].filter((node) => !node.disabled && node.getClientRects().length);
   return {
     get open() { return !!root.querySelector('.tool-drawer'); },
+    restoreReading(position) { settlePosition(position); },
     show(html) {
       if (!this.open) { opener = document.activeElement; background = [...root.children]; }
       root.querySelector('.tool-drawer')?.remove();
@@ -54,13 +63,12 @@ export function createToolController(root) {
     },
     close({ restoreFocus = true, restoreReading = true } = {}) {
       const position = this.open ? pendingPosition || capturePosition() : null;
-      const scrollTop = this.open ? window.scrollY : null;
-      cancelAnimationFrame(layoutFrame); pendingPosition = null;
+      cancelAnimationFrame(layoutFrame); layoutToken++; pendingPosition = null;
       root.querySelector('.tool-drawer')?.remove();
       delete root.dataset.readerToolMode;
       background.forEach((node) => { node.inert = false; });
       background = [];
-      if (restoreFocus && restoreReading) settlePosition(position, scrollTop);
+      if (restoreFocus && restoreReading) settlePosition(position);
       if (restoreFocus && opener?.isConnected) opener.focus({ preventScroll: true });
     },
     keyboard(event) {

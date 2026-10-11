@@ -1,6 +1,6 @@
 import { createContentRepository } from './services/content-repository.js';
 import { createSearchService } from './services/search-service.js';
-import { createLocalState } from './services/local-state.js';
+import { createLocalState, DEFAULT_PREFERENCES } from './services/local-state.js';
 import { createNavigationSession } from './services/navigation-session.js';
 import { createFeedbackState } from './services/feedback-state.js';
 import { navigate, parseRoute, routeHref } from './core/router.js';
@@ -8,6 +8,7 @@ import { isDraft, workKey } from './core/content.js';
 import { searchEntries, entryKey } from '../../packages/content-core/index.js';
 import { createReaderSession, readingLocation, restoreReadingLocation } from './features/reader-session.js';
 import { createToolController } from './features/tool-controller.js';
+import { createDocumentActionsController, currentDocumentSource } from './features/document-actions.js';
 import { libraryPage, recentPage, readerPage, readerArticle, readerToolPanel, escapeHtml } from './views.js';
 import './styles.css';
 
@@ -17,6 +18,12 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   let route = parseRoute(), currentHash = location.hash || '#/library', controller = new AbortController(), task = 0;
   let reader, resultLimit = 32, readerQuery = '', readerResults = [], timer, toolTask = 0;
   let feedbackDraft = {}, feedbackStatus = '', feedbackContext = null, currentTool = '';
+  let feedbackModule, selectedPassage, searchLoading = false, searchError = '', hitIndex = -1, searchScope = 'video', searchTask = 0, pendingReaderSearch;
+  const documentActions = createDocumentActionsController({ root, getDocument() {
+    if (!reader?.entry) return { entry: null };
+    const position = readingLocation(root), entry = repository.findEdition(position?.editionId) || reader?.entry;
+    return { entry, source: currentDocumentSource(reader, { editionId: entry.editionId }), mode: route.name, flow: route.flow, anchor: position?.anchor || '', baseUrl: location.href };
+  } });
   const subscriptions = new AbortController();
   history.scrollRestoration = 'manual';
   function preferences() {
@@ -46,10 +53,10 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     if (updateUrl && route.flow && route.name === 'read') {
       route = { ...route, editionId: value.editionId, block: value.anchor };
       history.replaceState(history.state, '', routeHref('read', { ...route, flow: true })); currentHash = location.hash;
-      root.querySelectorAll('.reader-parts a').forEach((link) => link.classList.toggle('current', link.getAttribute('href')?.includes(value.editionId)));
+      root.querySelectorAll('.reader-parts a').forEach((link) => { const current = link.getAttribute('href')?.includes(value.editionId); link.classList.toggle('current', current); if (current) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
       title(reader.entry.title);
       const identity = root.querySelector('.reader-identity');
-      if (identity) { identity.querySelector('span').textContent = reader.entry.title; identity.querySelector('strong').textContent = `P${reader.entry.partIndex + 1} · ${reader.entry.sourceMetadata?.partTitle || ''}`; }
+      if (identity) { identity.querySelector('span').textContent = reader.entry.title; identity.querySelector('strong').textContent = `P${reader.entry.partIndex + 1} · ${reader.entry.sourceMetadata?.partTitle || '分段标题未提供'}`; identity.title = `${reader.entry.title} · ${identity.querySelector('strong').textContent}`; }
     }
   }
   function capture(updateUrl = true) {
@@ -70,8 +77,9 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   }
   async function render(next = parseRoute()) {
     const token = ++task;
+    const pending = pendingReaderSearch; pendingReaderSearch = null;
     controller.abort(); controller = new AbortController(); const signal = controller.signal;
-    tools.close({ restoreFocus: false }); toolTask++; feedbackContext = null; readerResults = []; readerQuery = '';
+    tools.close({ restoreFocus: false }); toolTask++; searchTask++; feedbackContext = null; selectedPassage = null; readerResults = []; readerQuery = ''; searchLoading = false; searchError = ''; hitIndex = -1; searchScope = 'video';
     route = next; currentHash = location.hash || '#/library'; reader = null; preferences();
     if (['library', 'search'].includes(route.name)) {
       title(route.name === 'search' ? `搜索：${route.query}` : '文字资料库'); resultLimit = navigation.page(currentHash)?.limit || 32;
@@ -95,6 +103,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
       const position = route.block ? { editionId: entry.editionId, anchor: route.block } : navigation.reader(route.name, entry.editionId) || (local?.status === 'valid' ? local.record : null);
       if (position) restoreReadingLocation(root, position); else window.scrollTo({ top: 0, behavior: 'instant' });
       if (route.name === 'read') savePosition();
+      if (pending && pending.editionId === entry.editionId && pending.manuscriptType === entry.manuscriptType && pending.work === workKey(entry) && pending.mode === route.name) { readerQuery = pending.query; readerResults = pending.results; hitIndex = pending.index; searchScope = pending.scope; if (pending.open) await showTool('find'); }
     } catch (error) { if (token === task && !signal.aborted) documentError(error); }
   }
   function feedbackOptions(draft = feedbackDraft) {
@@ -102,6 +111,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   }
   async function showTool(name, { preserveFeedback = false } = {}) {
     if (!reader?.entry) return;
+    savePosition(false);
     const token = ++toolTask; currentTool = name;
     let feedbackMarkup = '';
     if (name === 'feedback') {
@@ -109,18 +119,19 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
         const position = readingLocation(root), entry = repository.findEdition(position?.editionId) || reader.entry;
         const pageUrl = new URL(routeHref(route.name, { editionId: entry.editionId, flow: route.flow, block: position?.anchor }), location.href).href;
         feedbackContext = { entry, pageUrl, mode: route.name === 'verify' ? 'review' : 'body' };
+        feedbackDraft = feedback.read(entry, feedbackContext.mode); feedbackStatus = '';
       }
-      feedbackDraft = feedback.read(feedbackContext.entry, feedbackContext.mode);
       let module;
       try { module = await import('./features/feedback.js'); }
       catch { if (token === toolTask) tools.show(readerToolPanel({ ...viewArgs(), tool: name, error: '建议工具暂时无法加载，正文可以继续阅读。请刷新后重试。' })); return; }
       if (token !== toolTask) return;
+      feedbackModule = module;
       const options = feedbackOptions();
       const validated = module.validateFeedbackDraft(feedbackDraft);
       const text = validated.valid ? module.feedbackText(options) : '';
-      feedbackMarkup = module.feedbackPanel({ entry: feedbackContext.entry, review: feedbackContext.mode === 'review', draft: feedbackDraft, status: feedbackStatus, issueHref: validated.valid ? module.feedbackIssueHref(options) : '', text, errors: feedbackStatus ? validated.errors : [] });
+      feedbackMarkup = module.feedbackPanel({ entry: feedbackContext.entry, review: feedbackContext.mode === 'review', draft: feedbackDraft, status: feedbackStatus, pageUrl: feedbackContext.pageUrl, selectionAvailable: selectedPassage?.editionId === feedbackContext.entry.editionId, draftStatus: feedback.status.saved ? '建议草稿仅暂存在当前标签页。' : '当前浏览器无法暂存建议，请复制完整文本保存。', issueHref: validated.valid ? module.feedbackIssueHref(options) : '', text, errors: feedbackStatus ? validated.errors : [] });
     }
-    tools.show(readerToolPanel({ ...viewArgs(), tool: name, searchQuery: readerQuery, searchResults: readerResults, preferences: state.preferences, feedbackMarkup }));
+    tools.show(readerToolPanel({ ...viewArgs(), tool: name, searchQuery: readerQuery, searchResults: readerResults, searchLoading, searchError, searchIndex: hitIndex, searchScope, preferences: state.preferences, feedbackMarkup }));
   }
   function closeTool(options) { toolTask++; tools.close(options); }
   async function appendNext(button) {
@@ -139,11 +150,13 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
       const notice = button.parentElement.querySelector('[role="alert"]') || document.createElement('p'); notice.setAttribute('role', 'alert'); notice.textContent = error.message; button.parentElement.append(notice);
     }
   }
-  function jumpBlock(link) {
+  function jumpBlock(link, { keepTool = false } = {}) {
     const editionId = link.dataset.editionId || reader.entry.editionId, anchor = link.dataset.readerBlock;
-    closeTool({ restoreReading: false });
-    if (!reader.documents.has(editionId)) { location.hash = routeHref(route.name, { editionId, block: anchor, flow: route.flow }); return; }
+    const index = readerResults.findIndex((hit) => hit.entry.editionId === editionId && hit.id === anchor); if (index >= 0) hitIndex = index;
+    if (!keepTool || !reader.documents.has(editionId)) closeTool({ restoreReading: false });
+    if (!reader.documents.has(editionId)) { if (index >= 0) pendingReaderSearch = { editionId, manuscriptType: reader.entry.manuscriptType, work: workKey(reader.entry), mode: route.name, query: readerQuery, results: readerResults, index, scope: searchScope, open: keepTool }; location.hash = routeHref(route.name, { editionId, block: anchor, flow: route.flow }); return; }
     restoreReadingLocation(root, { editionId, anchor }); reader.setCurrent(editionId); route = { ...route, editionId, block: anchor };
+    if (keepTool && tools.open) tools.restoreReading({ editionId, anchor, offset: 0 });
     history.replaceState(history.state, '', routeHref(route.name, route)); currentHash = location.hash; savePosition();
   }
   root.addEventListener('click', async (event) => {
@@ -151,6 +164,16 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     if (target.matches('[data-reader-block]') && reader) { event.preventDefault(); return jumpBlock(target); }
     if (target.dataset.tool) { event.preventDefault(); return showTool(target.dataset.tool); }
     const action = target.dataset.action;
+    if (action === 'skip-content') { const main = root.querySelector('main'); main?.setAttribute('tabindex', '-1'); main?.focus({ preventScroll: true }); main?.scrollIntoView({ behavior: 'instant', block: 'start' }); return; }
+    if (['copy-paragraph-link', 'copy-markdown', 'download-markdown'].includes(action)) return documentActions.perform(action === 'copy-paragraph-link' ? 'copy-link' : action);
+    if (action === 'reset-preferences') { const position = readingLocation(root); state.updatePreferences({ ...DEFAULT_PREFERENCES, theme: state.preferences.theme }); preferences(); tools.restoreReading(position); storageNotice(); return showTool('settings'); }
+    if (action === 'feedback-selection' && selectedPassage?.editionId === feedbackContext?.entry.editionId) {
+      feedbackContext = { ...feedbackContext, pageUrl: new URL(routeHref(route.name, { editionId: selectedPassage.editionId, flow: route.flow, block: selectedPassage.anchor }), location.href).href };
+      feedbackDraft = { ...feedbackDraft, quote: selectedPassage.quote, context: selectedPassage.context };
+      feedback.write(feedbackContext.entry, feedbackContext.mode, feedbackDraft);
+      return showTool('feedback', { preserveFeedback: true });
+    }
+    if (['previous-hit', 'next-hit'].includes(action) && readerResults.length) { hitIndex = Math.max(0, Math.min(readerResults.length - 1, hitIndex + (action === 'previous-hit' ? -1 : 1))); const hit = readerResults[hitIndex]; jumpBlock({ dataset: { editionId: hit.entry.editionId, readerBlock: hit.id } }, { keepTool: true }); if (tools.open) return showTool('find'); return; }
     if (action === 'close-tool') return closeTool();
     if (action === 'retry-tool') return showTool(currentTool);
     if (action === 'theme') { const position = readingLocation(root); state.updatePreferences({ theme: state.preferences.theme === 'dark' ? 'light' : 'dark' }); preferences(); if (position) restoreReadingLocation(root, position); storageNotice(); return; }
@@ -174,24 +197,49 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
     const form = event.target;
     if (form.matches('[data-search-form]')) { event.preventDefault(); capture(); return navigate('search', { q: form.elements.q.value.trim(), view: route.view || 'all', mode: route.mode || 'general', tag: route.tag, sort: route.sort }); }
     if (form.matches('[data-reader-search]')) {
-      event.preventDefault(); const session = reader, token = ++toolTask; readerQuery = form.elements.q.value.trim();
+      event.preventDefault(); const session = reader, token = ++searchTask; readerQuery = form.elements.q.value.trim(); searchScope = form.elements.scope?.value || 'video'; readerResults = []; hitIndex = -1; searchError = ''; searchLoading = true;
+      await showTool('find'); if (token !== searchTask || session !== reader) return;
+      const update = () => { if (tools.open && currentTool === 'find') return showTool('find'); };
       try {
         if (route.name === 'verify') {
           const matches = searchEntries([session.entry], { query: readerQuery, tag: '全部', mode: 'phrase' }, { [entryKey(session.entry)]: session.prepared.blocks });
           readerResults = matches.flatMap(({ entry, matches: hits }) => hits.map((hit) => ({ ...hit, entry })));
-          return showTool('find');
+          searchLoading = false; return update();
         }
         const result = await search.search({ query: readerQuery, mode: 'general', view: isDraft(session.entry) ? 'drafts' : 'published', scope: { video: workKey(session.entry), editionId: form.elements.scope?.value === 'article' ? session.entry.editionId : undefined } }, { signal: controller.signal });
-        if (token !== toolTask || session !== reader || !tools.open) return;
-        readerResults = result.groups.flatMap((group) => group.parts.flatMap(({ entry, hits }) => hits.map((hit) => ({ ...hit, entry })))); return showTool('find');
-      } catch (error) { if (token !== toolTask || controller.signal.aborted) return; const notice = document.createElement('p'); notice.setAttribute('role', 'alert'); notice.textContent = error.message; form.append(notice); }
+        if (token !== searchTask || session !== reader) return;
+        readerResults = result.groups.flatMap((group) => group.parts.flatMap(({ entry, hits }) => hits.map((hit) => ({ ...hit, entry })))); searchLoading = false; return update();
+      } catch (error) { if (token !== searchTask || controller.signal.aborted) return; searchLoading = false; searchError = error.message; return update(); }
     }
     if (form.matches('[data-feedback-form]') && feedbackContext) { event.preventDefault(); feedbackDraft = Object.fromEntries(new FormData(form)); feedback.write(feedbackContext.entry, feedbackContext.mode, feedbackDraft); feedbackStatus = '建议已整理。复制文本或打开 GitHub 后确认提交。'; return showTool('feedback', { preserveFeedback: true }); }
   }, { signal: subscriptions.signal });
-  root.addEventListener('input', (event) => { const form = event.target.closest('[data-feedback-form]'); if (form && feedbackContext) { feedbackDraft = Object.fromEntries(new FormData(form)); const saved = feedback.write(feedbackContext.entry, feedbackContext.mode, feedbackDraft); feedbackStatus = saved.ok ? '' : '当前浏览器无法暂存建议，请复制完整文本保存。'; const notice = root.querySelector('[data-feedback-status]'); if (notice) notice.textContent = feedbackStatus; } }, { signal: subscriptions.signal });
+  root.addEventListener('input', (event) => {
+    const form = event.target.closest('[data-feedback-form]');
+    if (!form || !feedbackContext) return;
+    toolTask++;
+    feedbackDraft = Object.fromEntries(new FormData(form));
+    const saved = feedback.write(feedbackContext.entry, feedbackContext.mode, feedbackDraft);
+    feedbackStatus = saved.ok ? '' : saved.reason === 'invalid-draft' ? '内容超出上限，原输入仍保留，请缩短后再整理。' : '当前浏览器无法暂存建议，请复制完整文本保存。';
+    const notice = root.querySelector('[data-feedback-status]'); if (notice) notice.textContent = feedbackStatus;
+    const validated = feedbackModule.validateFeedbackDraft(feedbackDraft);
+    for (const [field, count] of Object.entries(feedbackModule.feedbackFieldCounts(feedbackDraft))) { const node = root.querySelector(`[data-feedback-count="${field}"]`); if (node) node.textContent = `${count} / 4000 字符`; const input = form.elements[field]; if (input) { if (validated.errors[field]) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid'); } const error = root.querySelector(`#feedback-${field}-error`); if (error) { error.textContent = validated.errors[field] || ''; error.hidden = !validated.errors[field]; } }
+    const validation = root.querySelector('[data-feedback-validation]'); if (validation) validation.textContent = validated.valid ? '内容已完整，可以整理预览或复制完整建议。' : Object.values(validated.errors).join(' ');
+    const draftNotice = root.querySelector('[data-feedback-draft-status]'); if (draftNotice) draftNotice.textContent = saved.ok ? '建议草稿已暂存在当前标签页。' : feedbackStatus;
+    const copy = root.querySelector('[data-action="copy-feedback"]'); if (copy) { copy.disabled = !validated.valid; copy.setAttribute('aria-disabled', String(!validated.valid)); }
+    const preview = root.querySelector('[data-feedback-output]'); if (preview) preview.value = validated.valid ? feedbackModule.feedbackText(feedbackOptions()) : '';
+    const issue = root.querySelector('[data-feedback-issue]'); if (issue) { issue.hidden = true; issue.removeAttribute('href'); }
+  }, { signal: subscriptions.signal });
+  root.addEventListener('pointerup', () => {
+    const selection = window.getSelection(); if (!selection || selection.isCollapsed || !selection.rangeCount) return;
+    const range = selection.getRangeAt(0), element = selection.anchorNode?.parentElement, article = element?.closest('.reader-article'), block = element?.closest('[data-block-id]');
+    if (!article || !root.contains(article) || !article.contains(range.startContainer) || !article.contains(range.endContainer)) return;
+    const quote = selection.toString().trim(); if (!quote || quote.length > 4000) return;
+    const context = block?.textContent?.trim() || '';
+    selectedPassage = { editionId: article.dataset.editionId, anchor: block?.dataset.blockId || '', quote, context: context.length <= 4000 ? context : '' };
+  }, { signal: subscriptions.signal });
   root.addEventListener('change', (event) => {
     const target = event.target;
-    if (target.dataset.preference) { const position = readingLocation(root); state.updatePreferences({ [target.dataset.preference]: target.dataset.preference === 'font' ? target.value : Number(target.value) }); preferences(); restoreReadingLocation(root, position); storageNotice(); return; }
+    if (target.dataset.preference) { const position = readingLocation(root); state.updatePreferences({ [target.dataset.preference]: target.dataset.preference === 'font' ? target.value : Number(target.value) }); preferences(); tools.restoreReading(position); storageNotice(); return; }
     const filter = target.dataset.filter;
     if (filter || target.name === 'search-mode') { capture(); navigate(route.name === 'search' || target.name === 'search-mode' ? 'search' : 'library', { q: route.query, view: filter === 'view' ? target.value : route.view, tag: filter === 'tag' ? target.value : route.tag, mode: target.name === 'search-mode' ? target.value : route.mode, sort: filter === 'sort' ? target.value : route.sort }); }
   }, { signal: subscriptions.signal });

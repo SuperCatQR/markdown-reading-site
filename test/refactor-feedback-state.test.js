@@ -16,12 +16,15 @@ test("feedback drafts persist per exact body/reference and all frozen version fi
 });
 test("feedback storage keeps only ten drafts and four bounded text fields", () => {
   const disk = storage(), state = createFeedbackState({ storage: disk });
-  for (let part = 1; part <= 12; part++) state.write({ ...entry, editionId: part.toString(16).padStart(32, "0") }, "body", { quote: "x".repeat(5000), private: "not-saved" });
+  for (let part = 1; part <= 12; part++) state.write({ ...entry, editionId: part.toString(16).padStart(32, "0") }, "body", { quote: "x".repeat(4000), private: "not-saved" });
   const saved = JSON.parse(disk.getItem(FEEDBACK_KEY));
   assert.equal(saved.length, 10);
   assert.equal(saved[0].draft.quote.length, 4000);
   assert.equal(saved[0].draft.private, undefined);
   assert.equal(state.read({ ...entry, editionId: "1".padStart(32, "0") }, "body").quote, "");
+  const before = disk.getItem(FEEDBACK_KEY);
+  assert.deepEqual(state.write(entry, "body", { quote: "x".repeat(4001) }), { ok: false, reason: "invalid-draft" });
+  assert.equal(disk.getItem(FEEDBACK_KEY), before, "oversized input must be rejected rather than silently truncated");
 });
 test("corrupt and denied feedback storage does not break draft editing or claim saved", () => {
   for (const text of ["{", "{}", "[null]"]) {
