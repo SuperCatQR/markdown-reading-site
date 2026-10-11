@@ -1,4 +1,4 @@
-import { entryKey, isDraft, partLabel, partName, sourceLabel, statusLabel, workKey } from "./core/content.js";
+import { entryKey, isDraft, partLabel, partName, sourceLabel, statusLabel } from "./core/content.js";
 import { routeHref } from "./core/router.js";
 
 export function escapeHtml(value) {
@@ -46,12 +46,11 @@ function filters(route, entries) {
 export function libraryPage({ route, repository, groups, theme, history, loading = false, error = "", limit = 32 }) {
   const entries = repository.list(route.view || "all");
   const query = route.query || "";
-  const videos = new Set(entries.map(workKey)).size;
   const primary = history[0] && repository.findEdition(history[0].editionId);
   const visibleGroups = groups.slice(0, limit);
   const intro = route.name === "search"
     ? `<section class="search-page-heading"><p class="eyebrow">全站搜索</p><h1>搜索文字资料</h1><p>按标题、概念或正文查找，结果保留真实分 P 和命中段落。</p></section>`
-    : `<section class="library-intro"><p class="eyebrow">文字资料库</p><h1>找到一讲，顺着读下去。</h1><p>把视频讲解整理成可搜索、可连续阅读的文字资料。先找内容，再按自己的速度阅读；来源和稿件状态在需要时展开核验。</p><div class="library-stats"><strong>${videos.toLocaleString("zh-CN")}</strong> 个视频 <span aria-hidden="true">·</span> <strong>${entries.length.toLocaleString("zh-CN")}</strong> 篇稿件</div></section>`;
+    : "";
   const resume = route.name === "search" ? "" : primary ? `<aside class="resume-strip"><div><span class="eyebrow">继续阅读</span><strong>${escapeHtml(primary.title)}</strong><span>${escapeHtml(partLabel(primary))} · ${escapeHtml(statusLabel(primary))}</span></div><a class="text-link" href="${routeHref("read", { editionId: primary.editionId, block: history[0].anchor })}">继续上次阅读 ${icon("arrow")}</a></aside>` : "";
   return `${appHeader({ route, theme })}<main class="page ${route.name === "search" ? "search-page" : "library-page"}" id="main-content">${intro}<form class="primary-search" data-search-form><label for="global-search">查找文字资料</label><div class="search-field"><span>${icon("search")}</span><input id="global-search" name="q" type="search" value="${escapeHtml(query)}" placeholder="搜索标题、概念或正文" autocomplete="off"><button type="submit">搜索</button></div></form>${filters(route, entries)}${resume}<section class="results-section" aria-live="polite"><div class="results-heading"><div><p class="eyebrow">${query ? "搜索结果" : "全部内容"}</p><h2>${query ? `与“${escapeHtml(query)}”相关` : "按视频浏览"}</h2></div><span class="result-total">${loading ? "正在查找…" : error ? "查找失败" : `${groups.length} 个视频`}</span></div>${error ? `<div class="inline-error" role="alert"><p>${escapeHtml(error)}</p><button type="button" data-action="retry-search">重新查找</button></div>` : loading ? `<div class="loading-state"><span></span><span></span><span></span></div>` : groups.length ? visibleGroups.map((group, index) => resultGroup({ ...group, index: index + 1 }, repository, query)).join("") + (groups.length > limit ? `<button class="load-more button-link" type="button" data-action="load-more">再显示 ${Math.min(32, groups.length - limit)} 个视频</button>` : "") : `<div class="empty-state"><h3>${query ? "没有找到匹配内容" : "暂无可阅读内容"}</h3><p>${query ? "尝试换一个概念，或改用综合查找。" : "公开快照准备好后，内容会出现在这里。"}</p></div>`}</section></main>`;
 }
