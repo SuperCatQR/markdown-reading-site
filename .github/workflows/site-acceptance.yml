@@ -1,0 +1,50 @@
+name: Site task acceptance
+
+on:
+  pull_request:
+  push:
+    branches: [main, codex/fix-site-acceptance]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reader-tasks:
+    runs-on: ubuntu-latest
+    env:
+      VITE_BASE_PATH: /markdown-reading-site/
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: node scripts/check-refactor-search.mjs
+      - run: pnpm build
+      - run: node scripts/check-refactor-assets.mjs
+      - run: pip install playwright==1.61.0
+      - run: python -m playwright install --with-deps chromium
+      - name: Start production preview
+        run: pnpm exec vite preview --host 127.0.0.1 --port 5180 --strictPort > /tmp/site-preview.log 2>&1 &
+      - name: Accept real reader tasks and failure recovery
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5180/markdown-reading-site/ > /dev/null; then break; fi
+            sleep 1
+          done
+          python scripts/accept-site-browser.py --base http://127.0.0.1:5180/markdown-reading-site/ --out artifacts/site-acceptance
+      - name: Save acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-acceptance
+          path: artifacts/site-acceptance

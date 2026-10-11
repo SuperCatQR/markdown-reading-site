@@ -12,17 +12,28 @@ export async function buildReaderData(root, watch = () => {}) {
   const search = { published: {}, drafts: {} };
   const videos = { published: {}, drafts: {} };
   const candidates = {};
+  const directory = { published: [], drafts: [], bases: {} };
+  const resources = new Map();
   await Promise.all(Object.entries({ published: catalogs.publication, drafts: catalogs.drafts }).map(async ([view, catalog]) => {
     const folder = path.join(root, view === "drafts" ? "draft-content" : "content");
     watch(path.join(folder, "catalog.json"));
     watch(path.join(folder, view === "drafts" ? "publication-draft-export-manifest.json" : "publication-export-manifest.json"));
     watch(path.join(folder, "origins.json"));
+    const resourceBase = `reader/${view}-${sha256(JSON.stringify([catalog, catalogs.origins[view]])).slice(0, 16)}/`;
+    directory.bases[view] = resourceBase;
+    const originByEdition = new Map((catalogs.origins[view]?.entries || []).map((origin) => [origin.editionId, origin]));
     const documents = await Promise.all(catalog.articles.map(async (entry) => {
       watch(path.join(folder, entry.file));
       watch(path.join(folder, entry.reviewFile));
       const bytes = await readFile(path.join(folder, entry.file));
       if (sha256(bytes) !== entry.artifactSha256) throw new Error(`生成搜索索引时正文 SHA-256 不匹配: ${entry.file}`);
       const source = bytes.toString("utf8");
+      const review = await readFile(path.join(folder, entry.reviewFile));
+      if (sha256(review) !== entry.reviewArtifactSha256) throw new Error(`校验参照 SHA-256 不匹配: ${entry.reviewFile}`);
+      const details = { ...entry, origin: originByEdition.get(entry.editionId) };
+      resources.set(`${resourceBase}entry-${entry.editionId}.json`, JSON.stringify(details));
+      resources.set(`${resourceBase}body-${entry.editionId}.md`, bytes);
+      resources.set(`${resourceBase}review-${entry.editionId}.md`, review);
       const { blocks } = prepareDocument(source);
       return { entry, blocks, minutes: estimateReadingMinutes(source) };
     }));
@@ -30,10 +41,19 @@ export async function buildReaderData(root, watch = () => {}) {
       search[view][entryKey(entry)] = blocks;
       (videos[view][workKey(entry)] ||= {})[entryKey(entry)] = blocks;
       summaries[entryKey(entry)] = { minutes };
+      directory[view].push({
+        editionId: entry.editionId, manuscriptType: entry.manuscriptType, contentVersion: entry.contentVersion,
+        platform: entry.platform, externalVideoId: entry.externalVideoId, partIndex: entry.partIndex,
+        title: entry.title, summary: entry.summary, reviewStatus: entry.reviewStatus,
+        sourcePublishedAt: entry.sourcePublishedAt, createdAt: entry.createdAt, publishedAt: entry.publishedAt,
+        contentSha256: entry.contentSha256, artifactSha256: entry.artifactSha256,
+        videoPartId: entry.videoPartId, aiRevisionId: entry.aiRevisionId, releaseId: entry.releaseId ?? null,
+        sourceMetadata: { partTitle: entry.sourceMetadata.partTitle, tags: entry.sourceMetadata.tags },
+      });
     }
     candidates[view] = buildCandidateData(catalog.articles, search[view]);
   }));
-  return { summaries, search, videos, candidates, origins: catalogs.origins };
+  return { summaries, search, videos, candidates, origins: catalogs.origins, directory, resources };
 }
 
 export function readerContentPlugin(root) {
@@ -42,6 +62,7 @@ export function readerContentPlugin(root) {
     [`${prefix}summaries`, "summaries"],
     [`${prefix}search-urls`, "search-urls"],
     [`${prefix}origins`, "origins"],
+    [`${prefix}directory`, "directory"],
   ]);
   let generated;
   let command;
@@ -62,6 +83,7 @@ export function readerContentPlugin(root) {
     async buildStart() {
       generated = await buildReaderData(root, (file) => this.addWatchFile(file));
       indexVideoAssets();
+      if (command === "build") for (const [fileName, source] of generated.resources) this.emitFile({ type: "asset", fileName, source });
     },
     resolveId(id) { if (modules.has(id)) return `\0${id}`; },
     load(id) {
@@ -69,6 +91,7 @@ export function readerContentPlugin(root) {
       if (!name) return;
       if (name === "summaries") return `export default ${JSON.stringify(generated.summaries)};`;
       if (name === "origins") return `export default ${JSON.stringify(generated.origins)};`;
+      if (name === "directory") return `export default ${JSON.stringify({ ...generated.directory, bases: Object.fromEntries(Object.entries(generated.directory.bases).map(([view, value]) => [view, `${base}${value}`])) })};`;
       const assetUrl = (name, index) => command === "serve" ? JSON.stringify(`${base}__reader/${name}.json`)
         : `import.meta.ROLLUP_FILE_URL_${this.emitFile({ type: "asset", name: `${name}.json`, source: JSON.stringify(index) })}`;
       const urls = Object.keys(generated.search).map((view) => `${JSON.stringify(view)}: ${assetUrl(`search-${view}`, generated.search[view])}`);
@@ -85,6 +108,13 @@ export function readerContentPlugin(root) {
     configureServer(server) {
       server.middlewares.use((request, response, next) => {
         const pathname = new URL(request.url, "http://reader.local").pathname;
+        const resource = pathname.startsWith(base) ? generated.resources.get(pathname.slice(base.length)) : undefined;
+        if (resource !== undefined) {
+          response.setHeader("Content-Type", pathname.endsWith(".json") ? "application/json; charset=utf-8" : "text/markdown; charset=utf-8");
+          response.setHeader("Cache-Control", "no-cache");
+          response.end(resource);
+          return;
+        }
         const view = ["published", "drafts"].find((kind) => pathname === `${base}__reader/search-${kind}.json`);
         const local = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^(search-video-(?:published|drafts)-[0-9a-f]{64})\.json$/) : null;
         const manifest = pathname.startsWith(`${base}__reader/`) ? pathname.slice(`${base}__reader/`.length).match(/^search-candidates-(published|drafts)\.json$/) : null;

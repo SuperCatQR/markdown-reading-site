@@ -17,6 +17,7 @@ args = parser.parse_args()
 output = Path(args.out)
 output.mkdir(parents=True, exist_ok=True)
 base = args.base.rstrip('/') + '/'
+catalog = json.loads((Path(__file__).resolve().parents[1] / 'draft-content/catalog.json').read_text(encoding='utf-8'))
 single = '0e6bb3b8a12d493d90fbb6f707161526'
 multi = '0724ad88f2f34abea2924007462b7f7b'
 history_key = 'reader-refactor-history-v1'
@@ -126,7 +127,7 @@ with sync_playwright() as pw:
                 route.fulfill(status=503, body='unavailable')
             else:
                 route.continue_()
-        page.route('**/search-drafts-*.json', fail_once)
+        page.route('**/search-candidates-drafts*.json', fail_once)
         try:
             visit('/search?q=CPU')
             expect(page.locator('.inline-error')).to_be_visible()
@@ -134,32 +135,32 @@ with sync_playwright() as pw:
             expect(page.locator('.result-group').first).to_be_visible(timeout=30000)
             return {'failed_request_seen': failed[0], 'retry_results': page.locator('.result-group').count()}
         finally:
-            page.unroute('**/search-drafts-*.json', fail_once)
+            page.unroute('**/search-candidates-drafts*.json', fail_once)
     run('Search transport failure and retry', 'P1', search_failure_retry)
 
     def malformed_search():
         def malformed(route):
             route.fulfill(status=200, content_type='application/json', body='[]')
-        page.route('**/search-drafts-*.json', malformed)
+        page.route('**/search-candidates-drafts*.json', malformed)
         try:
             visit('/search?q=CPU')
             expect(page.locator('.loading-state')).to_have_count(0, timeout=30000)
             expect(page.locator('.inline-error')).to_be_visible()
         finally:
-            page.unroute('**/search-drafts-*.json', malformed)
+            page.unroute('**/search-candidates-drafts*.json', malformed)
     run('Malformed search assets produce an error', 'P2', malformed_search)
 
     def search_race():
         settled = []
         def on_settled(request):
-            if '/search-drafts-' in request.url:
+            if '/search-candidates-drafts' in request.url:
                 settled.append(request.failure or 'finished')
         page.on('requestfinished', on_settled)
         page.on('requestfailed', on_settled)
         def delay(route):
             time.sleep(1.5)
             route.continue_()
-        page.route('**/search-drafts-*.json', delay)
+        page.route('**/search-candidates-drafts*.json', delay)
         try:
             visit('/search?q=CPU')
             expect(page.locator('.loading-state')).to_be_visible()
@@ -175,7 +176,7 @@ with sync_playwright() as pw:
             assert page.locator('.recent-page').count() == 1, f'Late response replaced recent page while URL is {page.url}'
             assert page.locator('.search-page').count() == 0, f'Late response rendered search page while URL is {page.url}'
         finally:
-            page.unroute('**/search-drafts-*.json', delay)
+            page.unroute('**/search-candidates-drafts*.json', delay)
             page.remove_listener('requestfinished', on_settled)
             page.remove_listener('requestfailed', on_settled)
     run('Navigation rejects a late search response', 'P1', search_race)
@@ -190,10 +191,24 @@ with sync_playwright() as pw:
     def continuous():
         visit('/read/' + multi + '?flow=continuous', reader=True)
         first_text = page.locator('.reader-prose').inner_text()
-        page.locator('.reader-end').scroll_into_view_if_needed()
-        candidates = page.locator('.reader-end a').all_text_contents()
-        assert any('下一' in text or '加载' in text for text in candidates), f'No next-part load action; only {candidates}; current body length={len(first_text)}'
-    run('Continuous reading exposes a next-part load action', 'P1', continuous)
+        button = page.locator('[data-action="load-next"]')
+        button.scroll_into_view_if_needed()
+        before = page.evaluate('scrollY')
+        button.click()
+        expect(page.locator('.reader-article')).to_have_count(2)
+        assert page.locator('.reader-prose').first.inner_text() == first_text, 'Appending replaced the first body'
+        assert page.evaluate('scrollY') > before, 'Continue did not enter the appended part'
+        ids = page.locator('[id]').evaluate_all('nodes=>nodes.map(n=>n.id)')
+        assert len(ids) == len(set(ids)), 'Continuous flow duplicates DOM IDs'
+        second = page.locator('.reader-article').nth(1)
+        expect(page).to_have_url(__import__('re').compile('/read/' + second.get_attribute('data-edition-id')))
+        expect(page.locator('.reader-identity strong')).to_contain_text('P2')
+        second.scroll_into_view_if_needed()
+        expect(page).to_have_url(__import__('re').compile('/read/' + second.get_attribute('data-edition-id')))
+        page.locator('.reader-article').first.scroll_into_view_if_needed()
+        expect(page).to_have_url(__import__('re').compile('/read/' + multi))
+        return {'articles': 2, 'first_body_retained': True, 'unique_ids': True, 'flow_url_tracks_visible_part': True}
+    run('Continuous reading appends real next part and tracks position', 'P1', continuous)
 
     def view_switch():
         visit('/read/' + single, reader=True)
@@ -205,21 +220,35 @@ with sync_playwright() as pw:
         expect(page.locator('.reader-status')).to_contain_text('未发布')
         page.get_by_role('button', name='更多', exact=True).click()
         page.get_by_role('button', name='来源与版本', exact=True).click()
-        facts = page.locator('.source-facts').inner_text()
+        facts = page.locator('.tool-drawer').inner_text()
         source_url = page.locator('.source-facts a').first.get_attribute('href')
-        digest = page.locator('.source-facts code').nth(1).inner_text()
-        assert single in facts and '正文 SHA-256' in facts and '原视频' in facts, facts
+        digest = page.locator('.source-version-details').last.locator('dt').filter(has_text='正文文件 SHA-256').locator('xpath=following-sibling::dd[1]').inner_text()
+        assert single in facts and '正文文件 SHA-256' in facts and '原视频' in facts, facts
         assert source_url and source_url.startswith('http'), f'Invalid source URL: {source_url}'
         assert len(digest) == 64 and all(character in '0123456789abcdef' for character in digest.lower()), f'Invalid SHA-256 value: {digest}'
-        return {'edition': single, 'draft_status_visible': True, 'source_url': source_url, 'sha256_shape': '64 hex characters'}
+        frozen = next(entry for entry in catalog['articles'] if entry['editionId'] == single)
+        assert digest == frozen['artifactSha256'], 'Visible body hash differs from frozen snapshot'
+        assert source_url == frozen['sourceUrl'], 'Visible source differs from frozen snapshot'
+        assert frozen['aiRevisionId'] in facts and frozen['contentSha256'] in facts and frozen['reviewArtifactSha256'] in facts
+        return {'edition': single, 'draft_status_visible': True, 'source_url': source_url, 'frozen_version_values_equal': True}
     run('Source, edition and SHA-256 are visibly represented', 'P1', source_facts)
 
     def feedback():
         visit('/verify/' + single, reader=True)
         page.get_by_role('button', name='更多', exact=True).click()
-        actions = page.locator('.tool-drawer').inner_text()
-        assert '建议' in actions or '反馈' in actions, f'No correction feedback entry: {actions}'
-    run('Verification exposes a correction feedback entry', 'P1', feedback)
+        page.locator('[data-tool="feedback"]').click()
+        expect(page.locator('[data-feedback-form]')).to_be_visible()
+        for name, value in {'quote': '核验测试原句', 'context': '核验上下文', 'suggestion': '建议替换句', 'reason': '核验理由'}.items():
+            page.locator('[data-feedback-form] [name="' + name + '"]').fill(value)
+        page.get_by_role('button', name='整理建议', exact=True).click()
+        output = page.locator('[data-feedback-output]')
+        expect(output).to_contain_text(single)
+        expect(output).to_contain_text('核验测试原句')
+        expect(output).to_contain_text('校验参照')
+        url = page.locator('[data-feedback-issue]').get_attribute('href')
+        assert 'issues/new' in url and 'body=' in url, 'Version-linked prefilled feedback missing'
+        return {'version': single, 'review_mode': True, 'prefilled_issue': True}
+    run('Verification prepares correction feedback with exact version', 'P1', feedback)
 
     def tools_restore():
         visit('/read/' + single, reader=True)
@@ -228,7 +257,7 @@ with sync_playwright() as pw:
         page.get_by_role('button', name='更多', exact=True).click()
         expect(page.locator('.tool-drawer')).to_be_visible()
         after = page.evaluate('scrollY')
-        page.get_by_role('button', name='关闭', exact=True).click()
+        page.locator('.drawer-close').click()
         expect(page.locator('.tool-drawer')).to_have_count(0)
         closed = page.evaluate('scrollY')
         assert abs(closed - before) < 5, f'Tool destroys reader position: before={before}, open={after}, closed={closed}'
@@ -292,7 +321,7 @@ with sync_playwright() as pw:
         visit('/read/' + single, reader=True)
         page.get_by_role('button', name='更多', exact=True).click()
         expect(page.locator('.tool-drawer')).to_be_visible()
-        page.get_by_role('button', name='排版', exact=True).click()
+        page.locator('[data-tool="settings"]').click()
         page.locator('[data-preference="size"]').select_option('21')
         page.locator('[data-preference="width"]').select_option('920')
         visit('/read/' + single, reader=True, fresh=True)
@@ -318,14 +347,149 @@ with sync_playwright() as pw:
     def document_failure():
         def failure(route):
             route.fulfill(status=503, body='unavailable')
-        page.route('**/preview-*.md', failure)
+        page.route('**/body-*.md', failure)
         try:
             visit('/read/' + single)
             expect(page.locator('.empty-state')).to_be_visible()
             assert page.get_by_role('button', name='重新加载').count() > 0, 'Transport failure is rendered as missing document without retry'
         finally:
-            page.unroute('**/preview-*.md', failure)
+            page.unroute('**/body-*.md', failure)
     run('Body transport failure offers retry', 'P2', document_failure)
+
+    def body_resume():
+        visit('/read/' + single, reader=True)
+        page.evaluate('window.scrollTo({top:1450,behavior:"instant"})')
+        page.wait_for_timeout(350)
+        before = page.evaluate('scrollY')
+        visit('/recent')
+        page.locator('.recent-actions a').first.click()
+        expect(page.locator('.reader-prose')).to_be_visible()
+        assert abs(page.evaluate('scrollY') - before) < 5, 'Recent loses paragraph offset'
+        page.reload()
+        expect(page.locator('.reader-prose')).to_be_visible()
+        assert abs(page.evaluate('scrollY') - before) < 5, 'Reload loses paragraph offset'
+        return {'restored_scroll': before}
+    run('Recent and reload restore exact body paragraph offset', 'P1', body_resume)
+
+    def verify_return():
+        visit('/read/' + single, reader=True)
+        page.evaluate('window.scrollTo({top:1500,behavior:"instant"})')
+        before = page.evaluate('scrollY')
+        page.locator('[data-tool="more"]').click()
+        page.locator('.tool-drawer a').filter(has_text='打开核验参照').click()
+        expect(page.locator('.review-note')).to_be_visible()
+        page.evaluate('window.scrollTo({top:900,behavior:"instant"})')
+        page.locator('[data-tool="more"]').click()
+        page.locator('.tool-drawer a').filter(has_text='返回正文').click()
+        expect(page.locator('.review-note')).to_have_count(0)
+        assert abs(page.evaluate('scrollY') - before) < 5, f'Verification changed body location {before} -> {page.evaluate("scrollY")}'
+    run('Verification returns to body without changing body position', 'P1', verify_return)
+
+    def next_failure():
+        visit('/read/' + multi + '?flow=continuous', reader=True)
+        first = page.locator('.reader-prose').inner_text()
+        def unavailable(route):
+            route.fulfill(status=503, body='temporary')
+        page.route('**/body-*.md', unavailable)
+        button = page.locator('[data-action="load-next"]')
+        button.scroll_into_view_if_needed()
+        before = page.evaluate('scrollY')
+        button.click()
+        expect(page.locator('.reader-end [role="alert"]')).to_be_visible()
+        assert page.locator('.reader-prose').inner_text() == first
+        assert abs(page.evaluate('scrollY') - before) < 5
+        page.unroute('**/body-*.md', unavailable)
+        button.click()
+        expect(page.locator('.reader-article')).to_have_count(2)
+    run('Next-part failure preserves body and supports retry', 'P1', next_failure)
+
+    def navigation_refresh():
+        visit('/library', listing=True)
+        page.locator('[data-action="load-more"]').click()
+        expect(page.locator('.result-group')).to_have_count(64)
+        page.locator('.more-parts').first.locator('summary').click()
+        page.evaluate('window.scrollTo({top:400,behavior:"instant"})')
+        before = page.evaluate('scrollY')
+        # Dispatch the link without Playwright first scrolling an off-screen
+        # heading; this check owns the exact saved list position.
+        page.locator('.result-group h2 a').first.evaluate('e=>e.click()')
+        expect(page.locator('.reader-prose')).to_be_visible()
+        page.reload()
+        expect(page.locator('.reader-prose')).to_be_visible()
+        page.locator('.reader-back').click()
+        expect(page.locator('.result-group')).to_have_count(64)
+        assert page.locator('.more-parts').first.get_attribute('open') is not None
+        assert abs(page.evaluate('scrollY') - before) < 5, f'List location {before} -> {page.evaluate("scrollY")}'
+    run('Reader reload preserves list limit disclosure and return scroll', 'P1', navigation_refresh)
+
+    def storage_denied():
+        page.add_init_script("Storage.prototype.setItem = function(){ throw new DOMException('denied','SecurityError'); }")
+        visit('/read/' + single, reader=True)
+        expect(page.locator('[data-storage-notice]')).to_be_visible()
+        page.locator('[data-tool="more"]').click()
+        page.locator('[data-tool="settings"]').click()
+        page.locator('[data-preference="size"]').select_option('21')
+        expect(page.locator('.reader-prose')).to_have_css('font-size', '21px')
+    run('Denied storage is visible and does not block reading settings', 'P1', storage_denied)
+
+    def stale_identity():
+        visit('/read/' + single, reader=True)
+        visit('/recent')
+        expect(page.locator('.recent-page')).to_be_visible()
+        page.evaluate('key=>{let items=JSON.parse(localStorage.getItem(key));items[0].artifactSha256="0".repeat(64);localStorage.setItem(key,JSON.stringify(items));}', history_key)
+        visit('/recent', fresh=True)
+        expect(page.locator('.recent-unavailable')).to_be_visible()
+        assert page.locator('.recent-actions a').inner_text().startswith('从当前版本开始')
+        page.locator('[data-remove-history]').click()
+        expect(page.locator('.recent-unavailable')).to_have_count(0)
+    run('Changed body version remains visible but cannot restore stale position', 'P1', stale_identity)
+
+    def feedback_draft():
+        visit('/read/' + single, reader=True)
+        page.locator('[data-tool="more"]').click()
+        page.locator('[data-tool="feedback"]').click()
+        page.locator('[name="quote"]').fill('仅正文草稿')
+        page.reload()
+        expect(page.locator('.reader-prose')).to_be_visible()
+        page.locator('[data-tool="more"]').click()
+        page.locator('[data-tool="feedback"]').click()
+        expect(page.locator('[name="quote"]')).to_have_value('仅正文草稿')
+        page.locator('.drawer-close').click()
+        page.locator('.reader-view-links a').first.click()
+        expect(page.locator('.review-note')).to_be_visible()
+        page.locator('[data-tool="more"]').click()
+        page.locator('[data-tool="feedback"]').click()
+        expect(page.locator('[name="quote"]')).to_have_value('')
+    run('Feedback draft survives reload and stays separate from verification', 'P1', feedback_draft)
+
+    def keyboard_focus():
+        visit('/read/' + multi, reader=True)
+        opener = page.locator('[data-tool="more"]')
+        opener.focus(); page.keyboard.press('Enter')
+        expect(page.locator('.tool-drawer')).to_be_visible()
+        assert page.locator('.tool-drawer').evaluate('e=>e.contains(document.activeElement)')
+        for _ in range(12):
+            page.keyboard.press('Tab')
+            assert page.locator('.tool-drawer').evaluate('e=>e.contains(document.activeElement)')
+        page.keyboard.press('Escape')
+        expect(opener).to_be_focused()
+    run('Drawer traps tab focus and restores the opener', 'P2', keyboard_focus)
+
+    def feedback_copy_location():
+        visit('/read/' + single, reader=True)
+        page.evaluate('window.scrollTo({top:1400,behavior:"instant"}); Object.defineProperty(navigator,"clipboard",{configurable:true,value:{writeText:async text=>{window.copiedFeedback=text}}})')
+        page.get_by_role('button', name='更多', exact=True).click()
+        page.locator('[data-tool="feedback"]').click()
+        for name, value in {'quote': '当前段落', 'suggestion': '修订建议', 'reason': '修改理由'}.items():
+            page.locator('[data-feedback-form] [name="' + name + '"]').fill(value)
+        page.get_by_role('button', name='整理建议', exact=True).click()
+        expect(page.locator('[data-feedback-output]')).to_contain_text('当前段落')
+        text = page.locator('[data-feedback-output]').input_value()
+        assert 'block=' in text, 'Feedback omitted the current canonical paragraph location'
+        page.locator('[data-action="copy-feedback"]').click()
+        expect(page.locator('[data-feedback-status]')).to_contain_text('已复制')
+        assert page.evaluate('window.copiedFeedback') == text, 'Copied feedback differs from visible paragraph-linked text'
+    run('Feedback preview and clipboard preserve the same exact paragraph link', 'P1', feedback_copy_location)
 
     report = {'base': base, 'browser': browser.version, 'checks': checks, 'summary': {
         'pass': sum(row['status'] == 'pass' for row in checks), 'fail': sum(row['status'] == 'fail' for row in checks)}}
