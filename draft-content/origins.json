@@ -250,6 +250,16 @@
       "videoPartId": 1742
     },
     {
+      "aiRevisionId": "45fd4b0d1e36661b86cec6ded929b418f22243342d70c07a2b1f2e3c33ce2907",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3abaf7631d3980fb68ab0c9a167b41f7675e77869267e2bec702f4f27be6062b",
+      "editionId": "00812019a8734db4bfa6ada8ce0acd7f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "be8ce201ea2114d1fd893b7741932daad8feaaf8f8ec2557d6abfec1217ae08b",
+      "videoPartId": 471
+    },
+    {
       "aiRevisionId": "b1a13966347405a7a01896112b1b93b083f721e09e6c9f55854d3e0ddaa1ef0b",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "033daa7b0727bac0a41b9bf856d467df23badcb5fa45ca01191f0c21708ba455",
@@ -620,6 +630,16 @@
       "reviewArtifactSha256": "118a5813da1fd3c6229bd48404a7765d6bb8936f3ce3d7bd7ef2ca42900309c5",
       "sourceMetadataSha256": "f9f566058589adad82ab4116a6cbad9ea657b9b14c3efeb4363d677c6dce9d9e",
       "videoPartId": 269
+    },
+    {
+      "aiRevisionId": "ad6d88b66728b2e7b1e967f65f961dbe247111a5e5eed26446a643dfcfadd896",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "44d61c2d5303994adb7b9190ceb27bf603b1790ab507bfc13a6c9319db35e4d4",
+      "editionId": "011f8abd6641457eaf4ac57c6c851e49",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "03062f6fce7d1cd94012ccb0aa338fbe2513e20a40810d182ae9457b3025a286",
+      "videoPartId": 498
     },
     {
       "aiRevisionId": "ed1630c3908d534fc2fc6978b23e4ce4fd148902b7da1f8e8be803f917f3c59a",
@@ -2254,6 +2274,16 @@
       "videoPartId": 1287
     },
     {
+      "aiRevisionId": "18d5157a893a3d1395200955c0462ede5bd94d60613ca9da20ca56500c4abd73",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f2e95cd57f3b8ce6bbf457a8cce614d2c9a28f59e5ce59b4c20ce8130c445fb8",
+      "editionId": "04454fe2061846cdbf255a884fd88770",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "dd7fc9bc7a92246959b8b2ff4dca5a927ae725ce883cd6b63356d8acd06e57d0",
+      "videoPartId": 207
+    },
+    {
       "aiRevisionId": "9957677dfdcdd135b0ca2f87922b239135006ea60a0d4412df345e4adc25cb1a",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "e8d625c2147078009d74efbf3802c727d2ba490bf5f11374607911fc1cff7bd9",
@@ -2378,6 +2408,26 @@
       "videoPartId": 1166
     },
     {
+      "aiRevisionId": "6f81291adbb220c34e3daa84bb1aa9ed5002b532441d29d24eb4ccaa18eb0a30",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d4f6ea9e658e4b6cc32c48a3bec076f3a38bff4205a01f0158be962fa168abea",
+      "editionId": "0471444b122f4e5e9b6ed158b023cd94",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "702d5f6a04a0cc0f5e1c8d728bd3329672e48eb1813951a1d14c6a4442cf98b1",
+      "videoPartId": 1009
+    },
+    {
+      "aiRevisionId": "a2fd99e1beb9463dea9ca8d1b6af4d3bc59c102ea1bba76b7d4dd247023e08fb",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d18abd7917f2b06dcfc10b088aa50158213dcd997cafb31cb574188dbdd26673",
+      "editionId": "04a1ec40f6a24f70bf3c09d72fefbd5a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "817f0eaa53bf00f1ecf1ef93dbddd5667b920943785c8159705d6f04db8517a1",
+      "videoPartId": 887
+    },
+    {
       "aiRevisionId": "5c1acb159764691210b2bd25b59d7e743541d93ebb7d35997731fef8c5dc7d69",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "d466e9fae5f092634270ce1b607eeb5dab35725982480ce06722668463890a4d",
@@ -2386,6 +2436,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "594ff18cd334f728653db7863643cc51ea5db046ffb748d2882b261ae53d77fd",
       "videoPartId": 344
+    },
+    {
+      "aiRevisionId": "53eb9ca99e78a4344d7aff588aa5564d480def7af0559b730b69d72ce05453a7",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6797fe2a8ee718d9058fa07fc2deccf63e4006fd1bd6b757840f75ec76a46a47",
+      "editionId": "04b90edcc03c4bd3be9a9b8b986e6c0c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b7dbfabbe9614c8cac32c40f52032bb1be622784c6ed3650d6eb3259173542e5",
+      "videoPartId": 642
     },
     {
       "aiRevisionId": "e756336a659b00b84493c572e3a3275b95b95bac5f75abf19ec7ba61390e0df0",
@@ -4764,6 +4824,16 @@
       "videoPartId": 1330
     },
     {
+      "aiRevisionId": "f0671982018f9ad11c322bf39cd1086114a21e6dce341422024315756b39e252",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "fe195481d9920ef28b25bd47dc37c9d2fd1db7a314b3daebb32345fad8a3080c",
+      "editionId": "08503b23be2c448da6b11a5d041dc7ae",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9a055ad1847c47f9f8a0dc8ac5993f0c63ca7e0d926f216b423c64c1a0c1b7b7",
+      "videoPartId": 1220
+    },
+    {
       "aiRevisionId": "b0efe3181d480ff006b0589a5ddabce82fa8d15ce96b5a2777c3b83c44694fd9",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "a7c4d011c63531962397789df736724cdffd232ef949570e6f6004986672998b",
@@ -5012,6 +5082,16 @@
       "videoPartId": 973
     },
     {
+      "aiRevisionId": "fe239726ab2730897afd444d6837cf93d2ea5ca128ca5e9da831fdd5bda1423e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4202007e0b3ad59c407b5e3ad1f50039afddd7bc3ba5de2abcf5b1320a04d2c3",
+      "editionId": "08c3fcf056b04dbe87b0f2ab9de821b2",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7371c35f0eff4e74c477b4f7e89d21d6a267c75848671df8b0c1551f205835b0",
+      "videoPartId": 1891
+    },
+    {
       "aiRevisionId": "ccef4eb874324c7b00118fe7d885909099be2bc1fd8b6ef4f7c21d37e54aebb0",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "c04c78e7b665e868158834924dfabc001f3aa2a0b5f34062433e7bc031187dfa",
@@ -5136,6 +5216,16 @@
       "videoPartId": 1054
     },
     {
+      "aiRevisionId": "109deca48478a414373cefb7ce6321ac88d7b8dd094623f8a9490eb37133bc70",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8524e5ca8f133cb46904b414bfc6aefecbbbbb3273599d8c48f3c5f4b27e4514",
+      "editionId": "08d8232d66f043a6adb0ec13ff3e51dc",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "54628297c9823ff3de752c8d169fae65c474855706d65a3b856329f76ba554bd",
+      "videoPartId": 501
+    },
+    {
       "aiRevisionId": "1df0bb11dd1213f1015aa8dac062e375ab0c614292d110b812833375849eb483",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "80e1dd154d97eb0cea62d896351ff853e51f6b26b91b4dbf5d6ad3aa1fe8144e",
@@ -5258,6 +5348,16 @@
       "reviewArtifactSha256": "af76aa06474a266bb92a6470ebe3e0c4b31eeb459cbe8d9b84ccc0f5f9aec15e",
       "sourceMetadataSha256": "c107ab8fa9b461a07bf031dce25b24e296a9ef1ec35e346705fde91cf573f2cb",
       "videoPartId": 66
+    },
+    {
+      "aiRevisionId": "60b7501063265de58fe70ba100a6e3eea8c46b6a57c85d351e8f5a383da8cbed",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "731a6e1e62a41e20923bece46c3b60d2eabf55c5e184b48dda0de8a1e3eb52cd",
+      "editionId": "08f1198337fa41f68c5f1ed12a755d04",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "765e962978a511e429bdad58fc6fd8ecda0b6a57e61cf36cccc22c69038e7b1a",
+      "videoPartId": 729
     },
     {
       "aiRevisionId": "79b20ee08cbf42d8a19c08518d0e1c3de424fe6f48df10fca3c2bbaf1c7785b9",
@@ -6128,6 +6228,26 @@
       "videoPartId": 1741
     },
     {
+      "aiRevisionId": "8c1cde0b0ed4537af3ff02aa7dd5583c2734fb18dfe76fcbc5e6e5946d31b061",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "217cedaacb1a8b37f4a2de738203455159ae0a74263adf48498e996a52c73d95",
+      "editionId": "0b39c9041c944c79afea445415d86ac8",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6fd0ac7e7149978c0cb2262ca8845243c8912217746b7b3b75b0d03bd18d716d",
+      "videoPartId": 1809
+    },
+    {
+      "aiRevisionId": "9e492a520153158f364577fd0d6da0c534e8044363190166e41d52d197c53b28",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b4b2c720dd7515531a88dc3f4eb9c12e6fe0daf1289eb96c64ffa66ccd9499bb",
+      "editionId": "0b3b1cc1072e497483e3858e8b4288e5",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ad9909880de8fdbfc821b664491e120c43169e5279e8f3cba1aa1f9674c87121",
+      "videoPartId": 1860
+    },
+    {
       "aiRevisionId": "5db9435c903ba61b375c25f12e4639285af126b776e65e554fe4e722734f8b3f",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "c0f785ef12776349743889ee0863786b30fc01da29963c315d16299d532085ff",
@@ -6252,6 +6372,16 @@
       "videoPartId": 835
     },
     {
+      "aiRevisionId": "cae2e3e285d9bf1b64ebc2d304150da7d03dbf61f66b538e43881f2514d49643",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f0616df03390769e195317bf39d799a44c449ddae4c1027d8a8a2d11467e3c8e",
+      "editionId": "0bba4a8246ff41fe830cab948a2c9f01",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "183eeb4685ef3ab632d0943e005805e0b5c7825c1ceebcba20ef2cf1c76b1855",
+      "videoPartId": 1420
+    },
+    {
       "aiRevisionId": "fd9b2c3d4c08cf488597d0b59e6557e7a8ed48c5c1d8cd49aa0c95b407e0532c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "082f054adb04c95b5d300398920152023b2c2c14738c1321954ff7458825df0f",
@@ -6374,6 +6504,16 @@
       "reviewArtifactSha256": "5c28de96eb86b0f8a9cc109950c623df1d5e8baf4637d73b4d3a15ec484c2955",
       "sourceMetadataSha256": "b42745d35f8eff14d8b15eb34d477140de552c3527e771096f85401c400f978d",
       "videoPartId": 526
+    },
+    {
+      "aiRevisionId": "f4ab5fd3e0a529fc6e87bac520fd48cb90ed6c77b860f7cc2338320bdbb12fde",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8091cef3d5a41f32b5e8de63dd8f71925f00bff2301025716bb6f2c9ad6deb8d",
+      "editionId": "0be8cc97eff54ebf99447d7ba3a5fd6b",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "895d0f690af6f542cbd8b2469fae8fb4e9fcf43bc6f5687b667ca8f0bdd06519",
+      "videoPartId": 904
     },
     {
       "aiRevisionId": "8bc905328557a7338eb738b074f9e924f7aa3eeb86dac8baea0d76035d278bc1",
@@ -7884,6 +8024,16 @@
       "videoPartId": 493
     },
     {
+      "aiRevisionId": "1f03033922dba30b56f84cceabeed17ee959f6b7f7e12b4c9fec14049169e346",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8840a9dd05bb29403662f638fcb0cd1a3fbe4945b7817f84002f271571ced6d6",
+      "editionId": "0e6bb3b8a12d493d90fbb6f707161526",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ee7c7833fcd948e8cd13ec237bec7f7346009588f1f0633549deb12a6b8d0ada",
+      "videoPartId": 1982
+    },
+    {
       "aiRevisionId": "effa8fe07151896c51bac3437919cc15a6f35bb8a867a6810e351b5b7cd61055",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d6d936421b6bd70ef1af62d8af4119910058a6bad8fc5b7d97912dd63ffccb16",
@@ -8006,6 +8156,26 @@
       "reviewArtifactSha256": "2c9490b5fbdcc1e15ea187939fbdbc22dd0425805d5ee81a9608b623e6d28cec",
       "sourceMetadataSha256": "89fdfbb944e092ed6b15d8e43921fcca717acedad40f019d7010535b3c2b5aab",
       "videoPartId": 1402
+    },
+    {
+      "aiRevisionId": "d3b12756c294f0ee9a872a0bc6be7d0d87272f456101ca8578fc37ef17280e6e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0a5efc8b0a403dfe487617fcaf72c67f22bb03dd4ec6f7d1709c5219938cca2f",
+      "editionId": "0ed08392cef24f658e675949e7b53a05",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "66da330cf2e1e307cf029163d9d0074a5c9789da39a1235d20ddc3980b7ca8b1",
+      "videoPartId": 815
+    },
+    {
+      "aiRevisionId": "16939c97658423636f7199b373b8c21203e979c3910c084c22eb8271664c92ac",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f35626e5118f27d492962a0afa7b4dc4d049a0bba7c020d9e7961faeae177e78",
+      "editionId": "0f82e814cf1846a0b5bde1aa90c02b54",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "95e74ed0d936d5b55ccf6d468c9d2cb1133520054e4c35a83a0fe63b9e5a3479",
+      "videoPartId": 219
     },
     {
       "aiRevisionId": "9059e655bd7ccfc7c34b2e33abd2d87166d3f8d1d5ea484c3f604c0352e28ced",
@@ -8876,6 +9046,16 @@
       "videoPartId": 1132
     },
     {
+      "aiRevisionId": "5d38fbf2091acb7f0df22c43710823f95ca4a64445e7ee743729a17cedb3eb60",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "709c69db583055c194724e4261901fe128bab5f0618199dc3a7c96dcc2d33896",
+      "editionId": "11b328d8eb004bb88dd63bef8feddca4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2132998759e3a6d4729695e2dc88cb5a9006c3cf4d66d27554f06e110dd1313e",
+      "videoPartId": 73
+    },
+    {
       "aiRevisionId": "02b4e67d3ed2f7f56653a14bc7e982beae573f77a05428bffde337fcbc5ceba6",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "1805e63fa2c39fcae85eb6d9675668c9ed42136d4d85477f72fec6b75350f1ed",
@@ -9246,6 +9426,16 @@
       "reviewArtifactSha256": "c20566c5aefb19bfd0f3c7da470381a8477a080f456a1fd3ae298b7b3f69a1ac",
       "sourceMetadataSha256": "75f6c7a939a158aa7780ac4e49439b2f1620a9439660e1bbebe7e6aa72269809",
       "videoPartId": 1655
+    },
+    {
+      "aiRevisionId": "9b493f4e7eb09f35c327c4e7efcb9e1450bd55bb5d62fad500107dd3c283f688",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "76e919a94525679cc37106282c37d75edce68aae538801047645e45da528ee79",
+      "editionId": "126528a685804a7f9bb8ee3756e87e45",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "18f1a5b394d726b3ffa24b56fc0364b2a6ea11c82f54302406a36e860c38441a",
+      "videoPartId": 539
     },
     {
       "aiRevisionId": "3aa6e01f386bbc0baa550aada46fdca8ea1f11c0e6ee96a44503dfeb8838ed3b",
@@ -9620,6 +9810,16 @@
       "videoPartId": 1752
     },
     {
+      "aiRevisionId": "b8e829f11bcee6c0a19c138b6ab669b0580043178c6cf489d68455e6a1a7d11a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4f75557714474f9549ada103aa77b9b3a775ff282e6faad20eea64cd287ef57c",
+      "editionId": "132c422e11694789bafad90221d82292",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "381ca9c1e2151414eb6b48fa8d9c7964c9afaac885089103d6f1922e1b4c6416",
+      "videoPartId": 592
+    },
+    {
       "aiRevisionId": "b17acbc5c7b5b0b3508c6ab352384480044eb591d6cff52d89a944dad5fd0aa5",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "e0b965918461248d19f67b3dd894c75aebbd529dc2057408270dc18b4786a944",
@@ -9742,6 +9942,16 @@
       "reviewArtifactSha256": "21b91ba0fe7f2130ff1126e86339cdab1f2bcfadd2ce4f1dbcaa455b1268ff6c",
       "sourceMetadataSha256": "6582865a1a15c9eb3fb0cf98704cdb652d37ad3b92d188e9d21a18f4829a4c3e",
       "videoPartId": 1508
+    },
+    {
+      "aiRevisionId": "2ae236630a8a647f21ba8b7ebd192e5b7d8566034a1d3e0a645579debc79a519",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "223acd23b73acca6401767feef9adf33adc6ad11fcde0b909e54f50b961dcdf1",
+      "editionId": "13a1d85392c34f60a6dc7ac3d9d64e26",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "17be3faaf39ca4dea1bd30e35b8d39359f60db956c36ddfd2e541748ba0da20b",
+      "videoPartId": 569
     },
     {
       "aiRevisionId": "a7917ba477f4ad89d71a5eaf49506b0eb60af7ae9fa45e456f76560688e83fb6",
@@ -9990,6 +10200,16 @@
       "reviewArtifactSha256": "e0743580c63717eccd37bcfbecb2d29348da3dd6b2200c6b5cc474cdd23cd944",
       "sourceMetadataSha256": "3d2436978e4ee2a318422ea09761c4dd67fa37473a2d9f39c98b97f12a3ff972",
       "videoPartId": 1482
+    },
+    {
+      "aiRevisionId": "0faa8087cc83f233c01e7b6690e019bf834da50d9af9e1d8ad0f8873276116aa",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b575614f384aededd7b9123367a21a51d4d20944e7bc1ff9d83f2af7a52eb87e",
+      "editionId": "147641e9bddb49a2aa07d608d09d312c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "089a66a2d4c66786e30ab75c54cc20f151f6045bd04a2abd55536be1587cec8e",
+      "videoPartId": 1059
     },
     {
       "aiRevisionId": "6094018c1e6bf716fe9a174366f4c46ce09463accdd73a6c5d4bd784df6153d3",
@@ -10610,6 +10830,26 @@
       "reviewArtifactSha256": "e160f441b5fd8561d051312eb960f7dede8cd3c75d7a7966702ddb580623ed87",
       "sourceMetadataSha256": "e034df18be420afcb21146fc1c046d8d3958e366c1322403c8c7b043a965903d",
       "videoPartId": 380
+    },
+    {
+      "aiRevisionId": "f3a8245dec93ceea451b31f4e5dc22c28f8baecc16bf78683049cdfdd52d2dbd",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b2dcc4250704fa9df37b18ac9cf072d7d3ffa915db54840337b729e81edb07d6",
+      "editionId": "152458ff40054426b2322fc91a2289f9",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "5fc1b8e32f6cf80f9ffa4afc4ca5ccdb4286df1b5cf5f386ffee0225688e7d9e",
+      "videoPartId": 814
+    },
+    {
+      "aiRevisionId": "d319649c9c6ac39a97766d60bddc28e7570c3af9b89224d971fb0e8db3a48a2a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8dc24f586a077309226fd832914616d8895d8c2caad417d3dc4e8b325d771779",
+      "editionId": "15a9d4ea8ab745c28bbd96f6f32cd30c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ef687fbc7ed3dc9358eb1c7d781d8157529c69bb02144a40d25d82d1fa9e276e",
+      "videoPartId": 1031
     },
     {
       "aiRevisionId": "4f3ff40a4397a22c266769fda85623946c28ebdd036f29bdb85a17dc7999e8f2",
@@ -11490,6 +11730,16 @@
       "videoPartId": 1337
     },
     {
+      "aiRevisionId": "5221a63f2dc394c3e6121ff80ad38230abeafcf15ddc3c9a686d5b0b1c9ad4f9",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "76930890571e6a927f0016396be0166ab15213c605dabfcce5eb92c5bf20f37b",
+      "editionId": "16b3ad35b2ec42d1bf0f62519a15b244",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9e02ebb1e97e52bbf16b85492677b7b045f1303274a64ba7b73cb03eaee802ff",
+      "videoPartId": 360
+    },
+    {
       "aiRevisionId": "b60d569e18104e17459a6d5cc6afc2cbb47d0ce1643343196a1b4d3a0adfb93b",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "6c3aa7989d20a18f0e5394dfd4be603ba45739a3215a22890baf9255cb091810",
@@ -11612,6 +11862,16 @@
       "reviewArtifactSha256": "f60ca956b0d60383dca20d81014be1853c3bc125dbb48de98914379a738e872d",
       "sourceMetadataSha256": "d3c41c9cbddf5a326f02160dc631cf5a6379ca8f05a044beeca25729f7342f5d",
       "videoPartId": 271
+    },
+    {
+      "aiRevisionId": "432e62b3d74f5641357a8378585328e3a8427f8e49292b6b2d771a1720dce671",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "1754b40e0fd64574b17f183dc74372673cddd597b10f24f3d1c4e0228fd75add",
+      "editionId": "170a3c695974400bbd79abd5ddeb0174",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "3dadc71697166504e5f4b1ef782e2242c3162de1ae8ce7df1e9a96d8eef842fe",
+      "videoPartId": 758
     },
     {
       "aiRevisionId": "4db2ed18d9dc49f3a2d80987bc3fe6921ed5797febdb3934f674990c64030e56",
@@ -11986,6 +12246,16 @@
       "videoPartId": 677
     },
     {
+      "aiRevisionId": "d4003bab87958acaaf4ac4434868aeb143add2b898dc3dff169bee0609e16176",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d68dd8f953a669c5f7f4d62bebb240572e30d2a1c022fc8dbab9f3afd0226a15",
+      "editionId": "17afb3b9a41a426fbdcbfc7eb5e02494",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "3433ed6cc4383d024848aa423e630998cf68961dbcde6c1ee057e44810f66262",
+      "videoPartId": 258
+    },
+    {
       "aiRevisionId": "410d83319e3c74de68dc44761de94b973757ee63fa3a998e9e168134fff0137f",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b873058dd9d50d07a8eb6f6080367b492b5037155b38e5b00164ce6765c37727",
@@ -12358,6 +12628,36 @@
       "videoPartId": 197
     },
     {
+      "aiRevisionId": "a3d43087e1d5c08922f1919334145d4a5169bbfe686fee8fe5d31605e97d7794",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "678030602c002996184711a24af10983911728854cb72c7ee0b9ed434de61b9b",
+      "editionId": "18bc47a1c33c42508ae6fda829a88530",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2210b2fa0a763cd0601451be30e6697d7d46d4a31ffe75703ec05aedaad2da05",
+      "videoPartId": 989
+    },
+    {
+      "aiRevisionId": "1c0ee256adf5e5471bed308c5a7512c655b2799ba1f119c78218b46f3a1a57c3",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c0e9248314e11d376e3c67f4e71f40f7271ca4228a26760378d93008cb21bd99",
+      "editionId": "18bc550df8884a28a5755942b4b792ce",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "846cd5ca533ac8a5ae30b7f5156d6fbb0e064ce1aab296f1a0d7484fc4a29335",
+      "videoPartId": 93
+    },
+    {
+      "aiRevisionId": "abfa8ce8d6d698aca81e972942f4817386396bedb42c2773a060a4de096f5a0c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "545fc5511aa8fc226dc7a8d781fddc09b3d8f672558c408678bfde7a93330fac",
+      "editionId": "1902d263d6fe4c1a93e053301c080683",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1fafc737b53075e8835ae2cb2d2479ce217720e415954f29069bc059d1cc5737",
+      "videoPartId": 1382
+    },
+    {
       "aiRevisionId": "c320fda0b87103e46c7f5fa2467573b4d8b90f664efef41391470959c3fa039b",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "6af2b114476b7f4484ea32a3304432577ab52802a84388652cfd8fa6ee5d31d0",
@@ -12480,6 +12780,16 @@
       "reviewArtifactSha256": "21b54b8d7fdadb25bfd4b145162d4c858717fde5254fbe85c881b8892dd2ef41",
       "sourceMetadataSha256": "9695e2625de209e4222da2d2205377a318d01ea98193ba3958db9e44c824e4dc",
       "videoPartId": 1030
+    },
+    {
+      "aiRevisionId": "f1b96a27b70a68084d45dad3eb911ea6e839b1ed41394178deb1930b52b199ff",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "36227c10740e8b0ced2e4836930aba00a0725a3d37bceb7b23d85bedbf3793f7",
+      "editionId": "1921b4d05db9484db4f03bc6945797b3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ab39f202c54f082902c7248d292fb47b41252628e0e37b8405c4d0ed5b279153",
+      "videoPartId": 1595
     },
     {
       "aiRevisionId": "ed93c00a285cf4509d1413062e722b5812c049fe18c0cd199239e26cf9c4b4bc",
@@ -12614,6 +12924,16 @@
       "reviewArtifactSha256": "241eeca308f720056f28fb74eaea06a6cb2cdd90768269a2160a3c675d68f89b",
       "sourceMetadataSha256": "8863d27e13af5ec2095bf017189b660edd5923de6ca8ca8a0a99375cc8d97f41",
       "videoPartId": 1786
+    },
+    {
+      "aiRevisionId": "548b54d375c79a48957fe3ea3f16a416a0dbbf332f6ab694fe0d89a832e3c173",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c605c22ac2bf085d8d67640145a347d1becf23d887a8d157928cbcf9e933275b",
+      "editionId": "19ea95a006dc44d08127f9bfa8b295f1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "417a00d3e49040677b63da73ab241b6dee78a451a2289b9b534c669ae6cb91ba",
+      "videoPartId": 802
     },
     {
       "aiRevisionId": "004908d41a721207b6fefedd2b3486367524cdc9cafc47ca33494e074070153f",
@@ -13110,6 +13430,16 @@
       "reviewArtifactSha256": "b602e472c1b24fb849eb8bccdf99f965005e7ae3586b1f1dffab90a2ea523d12",
       "sourceMetadataSha256": "1744330b6d44e117852c8afd9427618c291649096e99c95a606aeb6a9ec7e7bd",
       "videoPartId": 666
+    },
+    {
+      "aiRevisionId": "7a220f78a1e0138a1fd957043985c0f6e36bd88b0bdb7162b6eacd4740699b5b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "1e4e887807849ac5fd2eb97641fed69a43787a8077c7a206b44bdf1fe7b3be24",
+      "editionId": "1aa9042728884d1d8a4d068753f7297a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "898c0464005c65f33c305e1644733da651cfd755f562cbe2973f367a101db97a",
+      "videoPartId": 925
     },
     {
       "aiRevisionId": "c90055fc3153146136be9a1bc42e3f90547a7aa951032adc6821e84f515f7a84",
@@ -13978,6 +14308,16 @@
       "reviewArtifactSha256": "1d659a0e10b35ad5a805c515cdada4d857c5e24f1b18d5d58fd2b7f9fbfd1f87",
       "sourceMetadataSha256": "d988dd417ff0f79d1629a9a0ef032713db7b5262e65957800a235e7967566a9c",
       "videoPartId": 921
+    },
+    {
+      "aiRevisionId": "30dccc2a8d315634b96499bdd19cc85c31ad5ad56e9642b683cebffc049bf3f4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e97f902184c5d644006f47a5cee5f7b189ffa8e76355182edecffabfaaa1dc54",
+      "editionId": "1bbb5f79524546c483564ba0d9edf9c5",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b94194becd53956aa7b80923b96b47ef5868c79c77418832ce22dc3d422c9fe1",
+      "videoPartId": 162
     },
     {
       "aiRevisionId": "22569d639d133f6d3b78c4f9d1791951f58d957b4b0869fb3aa68a7be35a3de3",
@@ -14970,6 +15310,16 @@
       "reviewArtifactSha256": "0d1a373cb919f494e8cea1b08e62028fbb468df537bd229b594792c1521b4651",
       "sourceMetadataSha256": "98ba7e572f2f9c1f787ea6634fdaf4109457fae16bc626c8ac4ec4c989d07d97",
       "videoPartId": 1188
+    },
+    {
+      "aiRevisionId": "5277f16c62f968474e0365b7a9a4b2f1e7bc6d7a8f2e8b7c02ee32dfcf9ec95c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c588aa2c77186ea94e83ef48a0f7da75d6d6387781aea4a7bce7110a113bce75",
+      "editionId": "1d50786b24af4bac87337756b390ccbf",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8bf155e26a8df1e84e618c846c48c8ba9345ca45dbedd04bc5c747f17de26785",
+      "videoPartId": 570
     },
     {
       "aiRevisionId": "cef570727410393a7c58d1b08355e6add79de4bce8aed5bb1e48c02a7008e2af",
@@ -16098,6 +16448,16 @@
       "videoPartId": 1685
     },
     {
+      "aiRevisionId": "8896e13d83cb725ab27b4023d5e76c2553a5fe019b1fb689c5b387960291f2ee",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "da212c419cd9445785f8e2c93ebfa4e25f207b288dda487b25a4ad7ad5e2dab7",
+      "editionId": "1ef42ec980fe46b08df3b4ee776d4390",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "890b12217500fd91ed7f7ed9acaa4fdf1eb2d32ffd84ed11766536bf9404bb07",
+      "videoPartId": 184
+    },
+    {
       "aiRevisionId": "19f00b89efe08755d4fe52b89994c9c7299b425496432eabcf3552624d180776",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "cb9a2b121316a415b4aaa08cf4efe45587ca1184446b2563351d94b2fc1c6ac3",
@@ -16966,6 +17326,16 @@
       "videoPartId": 519
     },
     {
+      "aiRevisionId": "6278aadc8b5740fd94aeb8b8fe2a24ba46c441908ebf51d6b6a9b99568de35a7",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3dee27c21c6f3cd27c0f2a435d89066658b4ed9f05bf02bd26284d5bd974892b",
+      "editionId": "201fdd4e5d064db3914f19096cb36d49",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ba9d18cbe00fd597fdcee568aeee8fef52513050d046b8e75a5026a905a4bb70",
+      "videoPartId": 1206
+    },
+    {
       "aiRevisionId": "8d7886a309580e9c47957846362e78edce10714917a79d4f33c3ac41cac67ab5",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "2c032d5b439058a3942bc601576af64fba12f55c5e6f0315f7853dfe1326bde5",
@@ -17212,6 +17582,16 @@
       "reviewArtifactSha256": "913e6effcaadf41cddd262d369d8cbec3f1325a67bb8e3e3cb666159c13f2c64",
       "sourceMetadataSha256": "4616b289a9f98f2f160b01d27c6f75be43c03911f6bb202a8089625711191879",
       "videoPartId": 1775
+    },
+    {
+      "aiRevisionId": "e9b6e8e9bb1ab31d8321aae2303d2b8f3b9da067aa5181bdb00085e7e62431d5",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "5e77f1926f0cf5988ff46537b8d3b36006348320dc13997e03863651916dba16",
+      "editionId": "205432b6ad794e3ba4b4ece3f5f60fe3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7903cfc5ad642dd129ecfa3ed8ec83e42f96aef8a616aaf340f4dca941e83270",
+      "videoPartId": 529
     },
     {
       "aiRevisionId": "37d39c760e5726022a320156550d324cfa538b7925c0f018294f711a9ff432b0",
@@ -17586,6 +17966,16 @@
       "videoPartId": 1622
     },
     {
+      "aiRevisionId": "6f482f071d4f38b9e20a44d6d61f3f2c885ee9a377c3340d1ef9b2d5e9df6c54",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a1c014e3ae9da4ee776499caec11cd18665d92bff4570ad176f441af4762101c",
+      "editionId": "2138562ae9654e18843f32fd564db6e1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "f1e52cff1636a3900e74334712342be302674b261818e318af0d29ffb56be81e",
+      "videoPartId": 230
+    },
+    {
       "aiRevisionId": "299ef42399766ea65d8f519448691dcc388a29fb415d52d5f95e40640200c759",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d7089a8c682d63daa6584624c6f6109054db84c32a02c8f9c608bb0b31c426ee",
@@ -17956,6 +18346,16 @@
       "reviewArtifactSha256": "5a0043dd171205e770656c2b123e056cadeea40661fcd60b73899738d38b07a1",
       "sourceMetadataSha256": "aad55d86cd2667f2b92658f39cda65e0f1075a8fe85bc415c74aed3ac62e11f9",
       "videoPartId": 213
+    },
+    {
+      "aiRevisionId": "912312e9d4da3c33f442a2f5a3eef7f0af139bec13809ba55c3ef4331552ddb2",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a93292ac8609189dccdfb37bb403008a97ee252137f33f808096c990630fafc5",
+      "editionId": "21973d9a5b294bde98cdb085da304226",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "75593bd83844c617561917a80e1f7dd08ceed4e4249402e8a2825c083f441557",
+      "videoPartId": 331
     },
     {
       "aiRevisionId": "203aa2e9867acebd1792d5f7eaf2f79731a174e527ef3640528839f4af0e6e65",
@@ -19218,6 +19618,16 @@
       "videoPartId": 1690
     },
     {
+      "aiRevisionId": "9fb1d13c98454ce40e50da10fa49174ed04b2002900ed4fd1a4b2b198e8ca8a8",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e8abc462eb90d9b660fbad710edf3b74fa4ee61e4906dcef9a2d356b257d9313",
+      "editionId": "24062f5921b2439693db945a3884cbd7",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8905016855f149773e6f8a0e9c625a241645baffd86506b5f06acf60286d8c1f",
+      "videoPartId": 707
+    },
+    {
       "aiRevisionId": "b616677e41184ce79e6e7c8aa754fb894adbb7325156bf83ae95994fe72a3e65",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "1c551eea56f86d2b3e511e6e29df1f123eed29fc0ab9d6f7dd54e54f4dd990cd",
@@ -19340,6 +19750,16 @@
       "reviewArtifactSha256": "27fd95f308cc833be97dfba1b0163e6844739bdaacfa24b5f4a2f4d2d03237c2",
       "sourceMetadataSha256": "68fdfe9938705e9634be7567c94d13c0a9fe662e1634df371bfdf72722c18446",
       "videoPartId": 1339
+    },
+    {
+      "aiRevisionId": "f32eebf0a05eb96d447de85bcd57e813d0588a4e558b343c195f600cffd797be",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c37f1dbf78c22bcc98d94b64250c4c41887cbc6f5250b90e762d2bf02509a667",
+      "editionId": "2456024863df49dcaf56ee2be8333db6",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ccfc92a17a41df483750ce392802b5a5da45b63474286e525d73701a6ed9f580",
+      "videoPartId": 871
     },
     {
       "aiRevisionId": "abca951621c061070ce9d4457e1bdf07953cd528a157c389b71415a51528b0ed",
@@ -19724,6 +20144,16 @@
       "videoPartId": 1126
     },
     {
+      "aiRevisionId": "26fdfbd85e0303e4deb40df9e528c7a084817befba58e4a7d4f3a31bc48e99bf",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "bfc7f42e4a6efa8edcb515f4fa91c1f320e81cfd1c545b1e45297e0dc09ebe4e",
+      "editionId": "24f3989ef8ad4fa6879d85c230366d76",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7e86bc57e7e1cb7df6d37b888350c9d92a5dcf0c2979226947318ad832ceb285",
+      "videoPartId": 514
+    },
+    {
       "aiRevisionId": "e3ff2d6e5bec483dfc59a24abb701c9bbb4a2891c54c6d23f58645798158391e",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "9a1caa129a094ec79dc34920444f57fb46ce596ecedb86ecf5cd20488a5418bf",
@@ -19846,6 +20276,16 @@
       "reviewArtifactSha256": "46b7b0bccde334450ead9818d09b58ea3ed24da569032a9f4c8a4846464e85dc",
       "sourceMetadataSha256": "9a1edd510def00576e140937a597a1d19020b0569635528e4071c51bcdb63a55",
       "videoPartId": 532
+    },
+    {
+      "aiRevisionId": "2bbfab56ae1430593d00f43980206e408d701b059d0638d264525ee95c85c908",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "5d2d6c2284565bbce00cd4e15a3b0f3ef0c5ca69fb9f13f2b157fd63b046d5dc",
+      "editionId": "251d473e0dbc491cbab73858ae393480",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "baf3f0faee3b87ca16e9fa822482ac15dcd598abef291c1da4efbb4a5948308c",
+      "videoPartId": 101
     },
     {
       "aiRevisionId": "7f1e8ed05c216300e6e402f74902e38371ed2ead180b5c249d2134436d38784a",
@@ -20840,6 +21280,16 @@
       "videoPartId": 1961
     },
     {
+      "aiRevisionId": "7a81b9bc728988b8b6ea1b8d6b9be311c197bdc0588cb449d14bb384dc18adf8",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "346d4e7d1dcc7252f5871bd319c1c26718425ea6eb4629f1f54c1ee6854c2ec0",
+      "editionId": "26b07302f0294323b15f7914de6fe90c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "fe1fe275989ec86237607da397039afb8a86226dcecc9ce592a678c228355aef",
+      "videoPartId": 717
+    },
+    {
       "aiRevisionId": "90c4aeac7b0e6f46082d849dfdb7d7dc8562aa098733d07db67bd2f2805e6356",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "84ed4858722109cc38ec45402458972abe454d01a6ac232000cfa8c06cd59dc7",
@@ -20962,6 +21412,16 @@
       "reviewArtifactSha256": "d2d12c029d0d19176c74b1b74de2b133fc8dd724b3e9b3bb0a590f2310028139",
       "sourceMetadataSha256": "d5fe39c48b8a8b3d0d304e997513e722ee5b8de5ca3ec722acd267455b663a75",
       "videoPartId": 840
+    },
+    {
+      "aiRevisionId": "f07e4871e7f430304b73a1fa6656379e6a549b23a3692f99bdfe6680702d3007",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "bfeebe0c22a11da311c449b3d0b53fe95e104c8c84ee6f9600d66c77d5f1092f",
+      "editionId": "26d63f527afa42e69aebfa658f2f5403",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ce97f48a8512c9f7469377b392df4a265ac6b3337230f9ceb3945ba50011c0fd",
+      "videoPartId": 386
     },
     {
       "aiRevisionId": "77afe0ce1945354ae60ecb07e44e15de18d403badd5f29a9b4025af29a14b9e5",
@@ -23940,6 +24400,16 @@
       "videoPartId": 27
     },
     {
+      "aiRevisionId": "0ff37938d271f23a5b55ae3abd6f69235d05ebe54cc8f55730dca1a4e4e29abc",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f83ccd6246e132cb6a5d59ed6c33057e49ecef90284902be9652194144c6af94",
+      "editionId": "2b2aae68b5b84ebcbd0647690c604f78",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "3d5aa97c698e2290ec14e9cec6bf93559097cf4969c994b994d38733745116bb",
+      "videoPartId": 121
+    },
+    {
       "aiRevisionId": "be92a2098d36945c0f289bb4d040a94d2f563837782f92d72b064581c7bcc812",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "941cd71f17b5129343ef63a23fcf627a7dba7657d315e514e35fa774ec045f05",
@@ -24434,6 +24904,16 @@
       "reviewArtifactSha256": "fed596caf2441b1da5fa2857508209f1716f123d8f91ad71293f8bcd71407cf8",
       "sourceMetadataSha256": "30ad3dcbc17070ea122b72394736e2d7c11bf422eec14a8dc2ba19b52113817c",
       "videoPartId": 244
+    },
+    {
+      "aiRevisionId": "0a519cbce0433f0e617fa2ee9b2ad5ef959170550bb5a2fb240c89e1244240ef",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c61290b688e0f3fb6d491ec92c8d06be9569b0e97ec6c8ec4dd020ab0d57b54c",
+      "editionId": "2c0042ef40c04502b1f97e78017f8291",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "290584901e41cee4912fab85176cd8fb373ea67104e1ae79c3aa3b32c9886b88",
+      "videoPartId": 1410
     },
     {
       "aiRevisionId": "47e78313bba8b818fead040f593df7424797fe20df62c94b09fef1f3f94f4d14",
@@ -25056,6 +25536,26 @@
       "videoPartId": 364
     },
     {
+      "aiRevisionId": "c80e5b98718076da16e5ef9b3c8405dc5cebb79ce5a5bf610aca6a6befafcca4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "797e050b46107995ba1d67af3b79a1da9d2f88f64ddc95d33241900e38cb69dc",
+      "editionId": "2cf01a680bcb44a6a249055ac69c06c3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1ab470051d2c22f877957c9e10e732d2340f74055e7083e4e1fb42432f0a3e1c",
+      "videoPartId": 901
+    },
+    {
+      "aiRevisionId": "231d7e50161b4e0311334e55a323e45f938d227891e5d295ed053c94dadaf6b8",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "78deadf8751f14576327ed575c257d0487344334f2b98c47c6e3cdff845f8346",
+      "editionId": "2d2262273a4e4a34adc2e285a2183e55",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b12f5e5185f719d5b3ac3cd7e75eddeb0f3cc3d3c729174f553899367912977c",
+      "videoPartId": 232
+    },
+    {
       "aiRevisionId": "621772b11059914658df31fdd99b112b8b023a1cd57bffb6bfeaa1c5d8dccca5",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "10d9d80d309dbd3ca091a8e5b49c384e7e39cafb157bd3c39c7ef7442b7b6d75",
@@ -25312,6 +25812,26 @@
       "reviewArtifactSha256": "78a5774998a53bfd0df639d4c56f1556abee4ec95ec68f7b2e014578023ad504",
       "sourceMetadataSha256": "dbbaac80fe55d5b92efa4581356bfa5ab527e1ace7ea6461b60e85df3bccafd8",
       "videoPartId": 281
+    },
+    {
+      "aiRevisionId": "6538d20766ac65ab3e39666de18c49300c2c477d13a523352fb3cdd84c0af393",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "91e369d11c3d6350995a4335e0e5fab7621383f28b53feafe5333e313b530198",
+      "editionId": "2dee0d8f556d44aa950172dfbf5c8aa8",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "a2cdf130511937fdf7e98042cde31f6764462c139d4f5e12a6f3b71aba0da1b1",
+      "videoPartId": 182
+    },
+    {
+      "aiRevisionId": "dde026d478ad7625ea4e93e46c3a388083acb92ca1b640165b2908423842dc1e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ea1173a099390d1006d9d577f248bf8d337e9c7b8a2aa7cca4bbb062bf5f50ce",
+      "editionId": "2df6610dd1eb48b5b42a580337901a79",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e1888e1c1a5cf5959d372843be29b6a69186bcd7f67a046a5e0d65656529b8fa",
+      "videoPartId": 778
     },
     {
       "aiRevisionId": "94005f9e4f2a8031e12c4c40d056b18dfc045141fddacc5e329192880642d116",
@@ -27070,6 +27590,16 @@
       "videoPartId": 233
     },
     {
+      "aiRevisionId": "9ffcd933ccb2281c2b18c34311e7a9237df51879e39f49b09fb6060834e12b8f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8c9fc07d3c9f72b80821152d519908c3e5ab545b110b41de7b201e8f2c71d97c",
+      "editionId": "2ffc8cb74e3c4b19a993a4d5181184da",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9a6c3140460555dae3bdb31e03d530d89c67f6f30c6f11c242ecd72c1f9a0859",
+      "videoPartId": 756
+    },
+    {
       "aiRevisionId": "bb6808eb2c3016144931879fe0b787d2368cc7098695298847b0289ef1a0d3cc",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "03c825ce2fb23f7192bd65a334eb8cabc284ec41ec858d78adbff70cfd201b6c",
@@ -28702,6 +29232,16 @@
       "videoPartId": 141
     },
     {
+      "aiRevisionId": "f58b2c7856aad812c755529cfbe59e24e9f128eac4f6b08beeb48f4eb4752142",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "392801c69fefcacc8f02e7507f9234fceec6294efb640bb2817c8b1e97d41072",
+      "editionId": "333f388f7c414a439664bbf73681392e",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "f1b651e978b72571395e9d916e545f337237bc606d3c04ca4d97314195dead48",
+      "videoPartId": 1753
+    },
+    {
       "aiRevisionId": "7472fc25023326206fc32d5aadca65eb543f1893edff1a819a80ef96f0e80e3a",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "35330c59aa80919791b4bd5aee2130531a0a5bdd22f77cb457432be6e61db444",
@@ -29072,6 +29612,16 @@
       "reviewArtifactSha256": "4648d0f9814f57c452e755ab1797d63828271e8f86d39c3774f952a3aaaf2c09",
       "sourceMetadataSha256": "8d08c953b624035e13c189150334559f41dde31b36ea20980f73619f183dc287",
       "videoPartId": 770
+    },
+    {
+      "aiRevisionId": "757fb4a3d92fbf441309e8715fb4b068a5e5ce3f7cca327dff3eb111396dc702",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "5c689d3dfaa173e13626fee6781013f1ea078c5ea94085d1ac7bcb2056d521b8",
+      "editionId": "342a915acc644f9c96cac504d9fb4074",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7b6e4652878696e72be968aeff4ee2e10dfbb68e0a8ed91a73486c8f2916fb7a",
+      "videoPartId": 1053
     },
     {
       "aiRevisionId": "a02618f83f7e504dca17c61e41ee0e9b748580b76f8582b975bcdbc701b0adf3",
@@ -29694,6 +30244,16 @@
       "videoPartId": 234
     },
     {
+      "aiRevisionId": "94bc659a8be1c9b617dddeba3788f07e0cfcb9c0c805de762a31ba64f39d1794",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "56bfa38f043abacfbfb1836c8556b67600a17ea35739439806c03cf785b4e272",
+      "editionId": "353a9841ffd4471db34a083c26c912ad",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7be379b720f293b27bfe6fd4b005dfde20038c4e203b61b4599d0caea3e0e75e",
+      "videoPartId": 1674
+    },
+    {
       "aiRevisionId": "e4b75d2266876dcfba31cc66144c2917acf610e61bf7174fa0bab7de23be907f",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "9dd594a56da3ad13baeda421ae68aad3b400918c8fcf3a705fac0aee1e0e1cbf",
@@ -29816,6 +30376,16 @@
       "reviewArtifactSha256": "ff66f4e50d55fc048e084f96c9b1beb3329b339fa31f815cfcb62e45b29086e4",
       "sourceMetadataSha256": "c6cb1b59c78d2243e78709cbf6233a5e1bbf9db0b33617d0d6b0856dfe5d80c9",
       "videoPartId": 158
+    },
+    {
+      "aiRevisionId": "5c25689010c7b03f68e8165707e445375376bbe48228ee9797c781611c53e7f2",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f3f6593e11b720539d1821b9c92fe726ffa56680ef92d643f9d79958772c339d",
+      "editionId": "3570881ff21d4308ade95daad20263a3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6542f9235ddeac8f573b30286956fd1f6a34e57c495b818979ec485651b2c64c",
+      "videoPartId": 178
     },
     {
       "aiRevisionId": "9096735735246acb579f44f4fd9aecbc47f1ff501328b034b868de5e8cfa9f57",
@@ -29950,6 +30520,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "19f18be27a623932c053d432a2c4ed70f9d00091334e2f055e1f86e2ff8f5209",
       "videoPartId": 1884
+    },
+    {
+      "aiRevisionId": "e34b5e79b6d7bfd5150ba60b5109c827dafc9c6fa16b458fa470afea6bd26d70",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3b9144c321c6ee48f11ebef4df63c898784a460eae4a217e1e18f9b9ec31bcb9",
+      "editionId": "358a57890b954e45ace00057b5ac0856",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "fc2ae7fc37d074e8ab2a2991ddaa1b2cb0fa59cb679fab9af1ca3b5e70f14c14",
+      "videoPartId": 1158
     },
     {
       "aiRevisionId": "beac3dcc5b434881c7053f514555c38cc789597755a9443a95b75b62fa4c3a7b",
@@ -30706,6 +31286,16 @@
       "videoPartId": 354
     },
     {
+      "aiRevisionId": "ba997eedb221e0c29ac2c95a1bbd1ff3a8bdc154a8a435235d023f4a7b38652f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "51f6b1b5c4b0bd7d69383ff1cfbc665769b50741ccc2cf964816d826a16b05cc",
+      "editionId": "36fdf9697a294290ae666167fb863027",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "27b1829a9d2151da6713b10d42dd8604e33186c1ceab3b0c9380d24d926fe386",
+      "videoPartId": 1267
+    },
+    {
       "aiRevisionId": "25246d846d9be6f366e50ad209ac13139f6410b5d8fa57b52280e4e530c77ae9",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d356d1029b7c694abfc4fa6c5182a589a068657abaed4a901610a369badf680b",
@@ -30952,6 +31542,16 @@
       "reviewArtifactSha256": "59b6f751434116a7098240e62afb24ed7c750706bc9fefbd3fadce7a13e85eb2",
       "sourceMetadataSha256": "3aa5f9f38860bf882f9c8c0231af2ba4cb2a2ba95d2db07c1c81a90bce2458ce",
       "videoPartId": 1906
+    },
+    {
+      "aiRevisionId": "8bb5d083a825b8d9b0b44fc8e17a49a831f2274f3a0677190ab968d5bd3e4ab5",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f475bc144b9a9d6be2a46841647d13d63a46ce5fca6b374be908e16c0f042bc6",
+      "editionId": "37a7b9cbf2b8438589213c3d0ba83699",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d8a88971b72f4416bb9a1006afead6324bbe1669fedc46a11eee6d4aed2477b4",
+      "videoPartId": 641
     },
     {
       "aiRevisionId": "4affc44b2616784a6ba5e55da14282b1f64393fd2845d1793cddc98aee439e3d",
@@ -32202,6 +32802,16 @@
       "reviewArtifactSha256": "2f64fd34946a23d097b9e6b66e96607d24d79306e086f6865f476e65c2c8cded",
       "sourceMetadataSha256": "79891d2cbbbee60f3b8a762120d7991a031c436b74f32aa61a3997c3cd98438e",
       "videoPartId": 151
+    },
+    {
+      "aiRevisionId": "e907dc190793662830f9c8884f77b6184c150c32dc032360c46919ce7ae8368e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3b2068a39804da902cc527c165665745d83c1993b4662fc3e5e4e0165d78c32d",
+      "editionId": "39880494198e4bf8b9e3fd249f9e80f6",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2bf5b499df07c673b62e3ef5d21289b6a251de602d399cecfd3091078f4b77fa",
+      "videoPartId": 1307
     },
     {
       "aiRevisionId": "be8faacd07100763ae82a57b358f924a795f9fbec16df3ba26492a21991a3649",
@@ -33970,6 +34580,36 @@
       "videoPartId": 627
     },
     {
+      "aiRevisionId": "ec301478c2f6a39c35b49af68663f3d86f5571437e3696007df3996db4e8fde5",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "5295e897f044924b3155926447e996ba96051d1076ddd3273e6563a941bec933",
+      "editionId": "3b976798e15b4bc39bfcc35b104b96de",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ccfafebeb37668b35285cadd88148896935cefd36b13167eaeb6f9e3908b58b8",
+      "videoPartId": 1855
+    },
+    {
+      "aiRevisionId": "de71e53fac6255f4454a53b5e7fa4989da1a0f82682600996434c666c6dd6124",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "248f6e99c9489b03a5107b082dd9b9289f290aee85de7df4baeba0cd28986c4a",
+      "editionId": "3b9bf436f2984a26b1902e30fab06545",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "c6f6511eed23e935f198e09c47e30cea187af829407868ea910d12db19d18375",
+      "videoPartId": 20
+    },
+    {
+      "aiRevisionId": "8a0f8f8022c2c832f011e68f88b2664caf880a8aa395eb1d9cc6278408d6d69b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "eb2a830847a8ac3485107f565cba6972f5387d2c80a91c58252ccef1bbc01ab5",
+      "editionId": "3b9d4f3787594950ab832453269c8494",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "29a3803a781ede0c6adb088e5aaa43e5160e8e8f815cf1327f49a4d92393cd30",
+      "videoPartId": 996
+    },
+    {
       "aiRevisionId": "93ce12d91df35e39683a59488059f6b5a2c414d471ecb7ee334326c459e66442",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "62810def7175623311e1cf8ac3fe7eb4add6e5cb4749f106cc72b48820271d8d",
@@ -34092,6 +34732,16 @@
       "reviewArtifactSha256": "1574295ab9369569b3cbaba429e2c01b9c57efc7497d07a03250d1df0dc8397b",
       "sourceMetadataSha256": "6f87195e0905ac194641884aeb880f14e501d7131c47cf90a15d499ca4361212",
       "videoPartId": 97
+    },
+    {
+      "aiRevisionId": "6ed1df66f68aaf96f2e76ceeb16a2190e300451eb8d54aeb6480210911799505",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "66c72a83ca1d254a07de10fef487e6b9d117b6173bd027dd75e1f109aa46a7ef",
+      "editionId": "3c0af50d814b4afe946e4787ffc70756",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "fdb0d5532f475516cfc77ae9411d40e4b14c253805acf9a84f8c31a11a2b4092",
+      "videoPartId": 1157
     },
     {
       "aiRevisionId": "2db2058daa0a2eb3d7422b14aaea4931afee98c363152cd213e27dd390f84b42",
@@ -34226,6 +34876,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "59564bd59e771d054b06d70bf1d524e97bf6fcb633fcfed9314c5629fd6e5e6f",
       "videoPartId": 1600
+    },
+    {
+      "aiRevisionId": "c8459c65ba46135afa9d1cdaedd34f54db1ecc7658b9eaf72c97630d10f2b875",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "9c839c9fbcd66f8025aff3782cd287525340c48535e7e7d6ea8bd25e1e53bac5",
+      "editionId": "3c59994a7f1d46079917deaf7adca035",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "200077efe73c5d2181ab3814a3fd6148ba371f41e0750ba44718cfca03827c75",
+      "videoPartId": 716
     },
     {
       "aiRevisionId": "e41be713ac8c46cdd5a8cdf3811ed6e9d9a8486d9966ee2f66ccc8b10e8f3b7a",
@@ -34598,6 +35258,16 @@
       "reviewArtifactSha256": "b8106edd4bbb5cf14f2b7d4412d50ed609331bda388456df80b7128dfe64ab39",
       "sourceMetadataSha256": "0ef9efdfb64d098266adebd880d5b3a73ef07e954aeb7ed498468e6c9db15a66",
       "videoPartId": 1283
+    },
+    {
+      "aiRevisionId": "10098ee9f37fe52264987a2bcfa6a9da8f45df9dbb84a7331569811c36b4e627",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "29c574ba54038fec4861e2f2b236250a2470e7aeb77c70573511b7bc8eef0a37",
+      "editionId": "3d7d45223c7b4ac38afa12acc38c6d0b",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2b97a5e75c2e21202edb3692eb90615316c4c16c5b921ad42c453233dfbdddff",
+      "videoPartId": 361
     },
     {
       "aiRevisionId": "ee9fca36c76a81bab12892872ffeaea2ad2c0829f0a69e47674b6c52dc974d79",
@@ -35096,6 +35766,16 @@
       "videoPartId": 1448
     },
     {
+      "aiRevisionId": "f971c0b5411a197e47004b2b957fc3470dc744cfc00010e1dbfe0ef46212de3f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ac94fbfd01668921fbd7591c2d37c6075955aa1fce905f5d7cc9ada502046897",
+      "editionId": "3ee8f61c686d484e9a68e3b58c46dcaf",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ea46b622f6c32ac8ffa09eb595f29ff2486970a4bba66f62c12921c5eaed492d",
+      "videoPartId": 1242
+    },
+    {
       "aiRevisionId": "37676606931cdd30ed6878673efeab3172831ef15e0dda4f25ec5ce7072a7639",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "210a7564b4836ac6371d4218ef2a96ee7b3a53312f67315a1c7d049b2c0bcd43",
@@ -35228,6 +35908,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "39d4ad12a15b56d9f61f4e67e46ede4007b1368ee4dd541c779b089fe57e372f",
       "videoPartId": 480
+    },
+    {
+      "aiRevisionId": "45cfbf125f9e388d2dce4e3dec930a776926267d820aacdd41486bf945ceabd6",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "006922953096f8974608db10cc7519d850682c2a2ae0279ee1d661344a4433c4",
+      "editionId": "3f1ec442a88349a388845fdca38bc200",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6acc438038e7ef765677b0a8f45191f1b8f161cac1345e0721972942554190bd",
+      "videoPartId": 458
     },
     {
       "aiRevisionId": "425043a213e6c0ab71781d8e31b9de8853fbdd8bcc716ca30e54151677203608",
@@ -36986,6 +37676,16 @@
       "videoPartId": 889
     },
     {
+      "aiRevisionId": "da6c4611f4df3a145dc38d0ef453664e91bd9d1ab06ab3d8b1409b3d2c25b52d",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "27863fba7bfdeb84108646f7a61f963029e6fcaa9c3a3dcd5483df86451a2670",
+      "editionId": "42aadc34f34f418c8f2ddbf30388e696",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0da49544a6a850158f6c971b2e038a3da35a2bd578381b50b283d1000636bc62",
+      "videoPartId": 816
+    },
+    {
       "aiRevisionId": "2c1a9be31e58aa884776318f90aafa167910e8de6ed3b1601237ce22953752f7",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "31d3f82f6999c62c61748f0415a86caa7e895e5ac51c420963ed2c046e5c84c4",
@@ -37480,6 +38180,16 @@
       "reviewArtifactSha256": "32065cacd6c5fe82e90c903dc0c3a413dc3b8f35b557ca18bc9cd394c87fd703",
       "sourceMetadataSha256": "7e41fe605092e5c908bb0dded47b9cf0a0fc3f49473689b876bb465b2756a624",
       "videoPartId": 210
+    },
+    {
+      "aiRevisionId": "4e23870bfa10d535902d37b651519abb464f99033b9f15aa894a88ec7cdc453d",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "01494f3ef3aef8390b5b569d9cf6505098bc9d9d6ebc3b0b81d2654eae2d4208",
+      "editionId": "4323b9477b3c40b7b3c7896b8ce58981",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "17153a5eede3161add3852938f1ed3811b90b7763e341b7f0f3294bb3c9f41a0",
+      "videoPartId": 111
     },
     {
       "aiRevisionId": "9d081c1d88d9d2e43a62cbd46c47437c6581875d69545e485a8f9c0b308f848d",
@@ -38226,6 +38936,26 @@
       "videoPartId": 586
     },
     {
+      "aiRevisionId": "bd4603d89bc12d991834ac52cb7699e2044e1848235019d62955f3bee40d903b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d96721c2d06a700346d8e74ddd2442d649bc4b37efa5bc838d567ba4de9fe5dc",
+      "editionId": "448b9a6dab964d2898981b086290870b",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "aea0f90abc7dc1b475d22d568b82ec7a9fdb46db3566cf8c356c27e58ec91d05",
+      "videoPartId": 110
+    },
+    {
+      "aiRevisionId": "59961badad1cf6b0a7b15f19b3f14f3ad094fbd15ce173fa61f496856b0add17",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "83ae160c04fcbbebb4efa8ae08cf89ebce752a6b761d2add6706770aaf5db4ef",
+      "editionId": "44e68f909a5145338dc5015c48036d1a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1081144efa25c05e8b7eb19b6b4cf20e9560faa6155807961a586f8db205a833",
+      "videoPartId": 689
+    },
+    {
       "aiRevisionId": "2f06b736ed06b97a59d8b4e5ef26917ac2de66d950ce7b0780f97f7a7a038a74",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "4b41c5a11fe5e2e04330edb91d068b67e3cbd90cc6e8e7dad921c5b9f15b910b",
@@ -38472,6 +39202,16 @@
       "reviewArtifactSha256": "bf0d62c17b75e042fde50c9797c023f48f6dc93f391947bdc7b82ffef808a86a",
       "sourceMetadataSha256": "49fd28c21594c60aa12c33d3a1baf0b360c30baea79a15a9b6d9c9bfcd944835",
       "videoPartId": 1676
+    },
+    {
+      "aiRevisionId": "db7fe4bf2780c651287836a127ff771be1eb0026fc1653adbbb72c1ab5550cd6",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c98ac7500f7e1a6b5a6f294599414f7ab60cb55892faa3e79e06063d7ea8ecc3",
+      "editionId": "45856d1f532546cb80cf6c54c292c0e9",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "32b8d5cfd19b1d9f91bc2adb6c8461f926e949964524d25ed16677e17aec900b",
+      "videoPartId": 164
     },
     {
       "aiRevisionId": "dde7e4c808c65d25c14a945f6b235f703e5a1d5ac2ce3680fbdbcc9302e75279",
@@ -39104,6 +39844,16 @@
       "videoPartId": 1872
     },
     {
+      "aiRevisionId": "b3a94bace2f7e13122006620f93d0dfb47004e96c4de8b2fe21d37ed4af4cfca",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c2619b98071d042fdc8bb5ada833bcc719d68558f9daa7e913096522c6293c84",
+      "editionId": "46c3de26abec4235ac3c78c1dd10b897",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "10ca8adbbdd0483bd071661fc81bb5a4122a7cf9b534ea03b1146be211ae725e",
+      "videoPartId": 1611
+    },
+    {
       "aiRevisionId": "7f243c431e43c63ce790ad5278c2bd34dc2dbe1b579c221e3df379b47ba263e9",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d03656bfa2f1c2fd4ba1f876e1fb6c63a494e1e275a4cc421520779c104cd35e",
@@ -39352,6 +40102,16 @@
       "videoPartId": 1203
     },
     {
+      "aiRevisionId": "4f0036029c6170c2be8b825d266ba9312914425ecf7548f8926770872f903ed3",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "cdd14ccd0edc0dbeb1e6245827e34cfa67b60268a5fd6334fefd3572a9c6adac",
+      "editionId": "473c9024a88a4be78c4407841e5978e2",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9171e546aa0b26fe472aa7f3c8e620d008ccc75c3bce2be4d57ce84fef7efa44",
+      "videoPartId": 516
+    },
+    {
       "aiRevisionId": "132ad28174c78a9a1d164f369fc596a4904c82bb9d8b3cdf53a1dd920fcd7a9f",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "74c2b379219ea95842c64615391d95a8c90778afebbdbb0ba9681082f9659e6f",
@@ -39474,6 +40234,16 @@
       "reviewArtifactSha256": "6b9f49ad4879efad9475288437a04ad3a9bb4b47dd213ac3ceaa45832086fc6c",
       "sourceMetadataSha256": "fe95bd87ce3019c626cfeba084d687d1d78022568b0b2d3fa47d176efad71186",
       "videoPartId": 1681
+    },
+    {
+      "aiRevisionId": "152db139b130448782068889e274672991ec8f695131ce39155e23c6812f4dcf",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e412bf0ed089484a7542a7dcf38b34d7c7596de88d523ab0c6679edabe603316",
+      "editionId": "47d018bcb7154a0a95f4dc6566c57b0a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "358d498cf0fc32b2c66bea9801db11da434dd21501ebabef8fec636e07c1a075",
+      "videoPartId": 596
     },
     {
       "aiRevisionId": "60845a72672d76680369676bcff9af5e70d592f28a6becb8a42d3e7f61d9ddb5",
@@ -41480,6 +42250,16 @@
       "videoPartId": 829
     },
     {
+      "aiRevisionId": "1801f321326d7dcfe8306e5e8eee1ade4a2eadc056a1e85ada74df8e5269f583",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "75099b12b45508b980dc261f2b25dc302a95987d639279aac338fabbb889038b",
+      "editionId": "4b98e41f69b64f36b6eb90224be23fd8",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2b4d969893fcb05d46fe169452775296a4b744e138672059b99ca2013ab0bd46",
+      "videoPartId": 747
+    },
+    {
       "aiRevisionId": "2f447515373b5566aee3f2efb511ee25296c1b0450d82ecc9330300f361c0f42",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d5122eee9dc3b8edfdd03c056aa85eeca343027da2cd04ece21caffe7db16a08",
@@ -42730,6 +43510,26 @@
       "videoPartId": 470
     },
     {
+      "aiRevisionId": "b126dc71c767f5a563dc8f6402a2d22fba5a32203fc07f8c25d404315967c31b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a5c69f8351fb61e16c59dfd34998b581a0960762723a711ec3a9664c552c82af",
+      "editionId": "4e2d3ebba3ee46a99a9d4174d9640784",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "4d4814e5c6096134c58e3c4f81a43058208bf78e2ffc84db5cc8cf0bbfa96cad",
+      "videoPartId": 653
+    },
+    {
+      "aiRevisionId": "8c40912184079a4ba71f0e6ffff79d5581d0f4c4b1ed70ed68161a827e4830af",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ae70041ae8b23b3f2307497bc50cc7c6b67881dce33945c1629572d5e964949d",
+      "editionId": "4e3421d1d37246b8b3584fbeab881837",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1dc3bca9e2b449e1f9e8f3a308b41650e6d85f3f884b4a402a5c56ac674c2cbf",
+      "videoPartId": 791
+    },
+    {
       "aiRevisionId": "ac65ce5358053417e4463dc28971eb6fbb2796ed83790da6e624cb44c1f5b4bb",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "53c3793ad07978fce3392d148ca21485167a9e7ee8a290dd21f4619071da117f",
@@ -43350,6 +44150,16 @@
       "videoPartId": 1514
     },
     {
+      "aiRevisionId": "4317c49aa0a704d19fe653129fbd809271cbd0d391860396b84540107128e776",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "09ba1c789f06e890407916ff0cdd0186fb83af76a966589116337c1498eeaa0d",
+      "editionId": "5043de65047b4c259ffeacef1aa6d54b",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "4ed9c7b1a5dd9262c72e0ac5153101b6888fa3181d175cdb79be98334a7bb572",
+      "videoPartId": 277
+    },
+    {
       "aiRevisionId": "9e3be98381f757f99f65ddce5d77d766a64c0353422a2cb55d3ceb98835d1edc",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "ead1549109091265b341c1e014a3256297a33b320db3a63cc57d5e66f7149a0d",
@@ -43720,6 +44530,16 @@
       "reviewArtifactSha256": "3dee0ffc65f89600b69743ddfaec34092753bb99ad65ea025462377350c56e97",
       "sourceMetadataSha256": "de2299ff8689c2a5786401df8c68e7344e4755bb83443d00bfbe39284149fd96",
       "videoPartId": 893
+    },
+    {
+      "aiRevisionId": "08a877d00f2ab04e10745db461c22a353e8548d5112434b02fd87ca0b6cb599a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ef6bed074f39a75cf8aae7b6069640abd2396a155f105c35afef72bcff3d2967",
+      "editionId": "516a839e5fd54ecbbdb3e04d89e79180",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0cedcfa13736c8ce056f14389a20e6c4c4efea66dbd8ef478139e2b2b938daab",
+      "videoPartId": 1839
     },
     {
       "aiRevisionId": "7aa5807549acb84d225cc05383f5f3a2717f5a93b74f5692eab3023890c429d6",
@@ -45582,6 +46402,26 @@
       "videoPartId": 1424
     },
     {
+      "aiRevisionId": "39262ab2f3ec2851c2e75a54a9c969be324884a06a69152863f51db15c895249",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ded4bd3c5191e3a5723133f9491d3a72c9f746785d5c6c0b658e09d242a182a1",
+      "editionId": "5467b5f8c6cd4685bfaf7fcdabc0f95e",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "cda45978af29b29723427decb00098d7e4db3dd132fc873edc850716d60e47ad",
+      "videoPartId": 275
+    },
+    {
+      "aiRevisionId": "14476e666af883dc59818988835eb0279e2e0e7678d734b7bd2ed1ae8849a5bd",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0040678ede27698c2938c30abeb27b7403ec98565a34243a2a174f0bbc38973d",
+      "editionId": "54b0bb6be94f4162b2d1bf05ff844b63",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9f83151685d486523e3a476df0dc6443899e8cf9af8b2e12382089e59be9baad",
+      "videoPartId": 1953
+    },
+    {
       "aiRevisionId": "7f1ae31fb060f11fd37f0d95211baa1d1aac0c1d2411a0a00ffaf70fdb5e256b",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "1efe363023fb7f45dbeb4e36cb589e30bb83d32c08a43f4204339c9636f4fa2e",
@@ -45962,6 +46802,26 @@
       "reviewArtifactSha256": "81573a43c443f3bfd02965b0a98fd88064c007db6277bd52c3c9d7fa98d94443",
       "sourceMetadataSha256": "cb712c2c2b1782bd32f21b80f5d14320574be884b4ebff8a4ca6b937ba5dee41",
       "videoPartId": 1793
+    },
+    {
+      "aiRevisionId": "ea9615c243154a24a38075ad7f4aa093a30cec274f6de0b496411642e5cd2a80",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "bd42b9177182cf123fdb5ce2a32a6815433c94925002b0b174c5aad7dd84a344",
+      "editionId": "556f5011c87c4ecdb77ed3af3b98ea98",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "69f5df70f41c169112d84d4dac65e228057370583ef0620fe2b8047ea6e8a1f3",
+      "videoPartId": 1842
+    },
+    {
+      "aiRevisionId": "077c7bb72b7b4bd98933e621e738ae45067a02e2e73729266435182a05d35300",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4f6feba56b83449748da87910ad2f3d2adfaa8abe8dfb627b6945d484b6bed2f",
+      "editionId": "55d21ab5c9634d1a818de0e079d5f9e7",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1fcbea34db568b560ab00f351f76b8a3ce51b755aa2bbc0e9d0ec1eb43161ec2",
+      "videoPartId": 1020
     },
     {
       "aiRevisionId": "cedc6826c8bc70aaae4991aea031a600bbfb9322ec2c4544e16a3b3a90292c1e",
@@ -46468,6 +47328,16 @@
       "reviewArtifactSha256": "09c234084c2d831357120fdb81408f064bbb116d1b70727003c59a9cfe10299f",
       "sourceMetadataSha256": "93c2447690bf9c2b1ee59cfc1b3499f7088e1124d93d80ec4411e79ffcd845e4",
       "videoPartId": 1957
+    },
+    {
+      "aiRevisionId": "2f21a3f06fe1ad631576f0e6d3a174a5ba5bb8b14a650adde228ec068921fecb",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "2e152288d9ea5a4ca47ac395ee826fc753bbc445777e83f17f6cf6c31264f9e8",
+      "editionId": "56ae40d67afa42788c91484d5ce25541",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0fb3969bb0f1d8ac3667e41b514351bc888f60869433eaed3206d78c025e4a5f",
+      "videoPartId": 1209
     },
     {
       "aiRevisionId": "7382c75b5ea413e89752a57ac7463203a9008074ca04b33a1d55d0a14f31445f",
@@ -47460,6 +48330,26 @@
       "reviewArtifactSha256": "45d29ee0c5ef869298a0ec388e34e9eff1e4b427762f42f3d5118358dcfd23de",
       "sourceMetadataSha256": "bc99cf6c2d1c9087c09da2b933c0a726b3797bd62d3530af84c50936c2652a22",
       "videoPartId": 414
+    },
+    {
+      "aiRevisionId": "0ce4bff36bdb7340d33101b475cb9625729062bbc36abd841f9692eb50ad2f38",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6b86cffb13770d9b42e9c938dd92beac52bae84bd4adc33f4c1a1bc857ef4e47",
+      "editionId": "581b2579c98d4196bb65a9f8e059dd3c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "5cdeb525f3ee8d911e71a3f6145c1eefba7e469afa5227ad64aabcd1fc9a5653",
+      "videoPartId": 1894
+    },
+    {
+      "aiRevisionId": "fa288956cfe781e00b0f50338fce45fe537f8df11246ba528563e040b1901536",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "17b40523f588d5655ec0cfa9468be22989ecd0e1bf7a939e6fb96d647c50f552",
+      "editionId": "587b6ff687c24aad84c5920f880b5dac",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8d58f026504456c5469029f85cff47f683ddeed9efa64ae021e206edf3c84cac",
+      "videoPartId": 1889
     },
     {
       "aiRevisionId": "1b0464a14520e2f2313989ea46f9d01cc31e23921f5af505fc89c137fb10fd42",
@@ -49094,6 +49984,16 @@
       "videoPartId": 1653
     },
     {
+      "aiRevisionId": "ac2458b1eb7366e41067838fba92c4c6d3fd9227472c6cadb14eaa8cf7b61365",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "cf59052567d3bb4575ef0a9f54e44f178fecd6f40a207ee92fbcf7bb6ed16c73",
+      "editionId": "5a91dea077804ad39e64e75955cf8d16",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7707a25444fa2f17d3c2657dc1f330d4d6fdd76a1ab0679fc417a86a78df74a9",
+      "videoPartId": 1419
+    },
+    {
       "aiRevisionId": "e3c188bb8e3564479212d502d9ba75a984bd6aa08be2b992d80a77124279d11c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "5845fc08f30a8dd163faa841ceccb7e26bb828f31a5d6eac655f48e7012c7df1",
@@ -49340,6 +50240,16 @@
       "reviewArtifactSha256": "5ff819afc21e66647dc9e433ef0e5c4115bd39dbb51ae3ff55f58b51e77e09bb",
       "sourceMetadataSha256": "1f00173a0496903843060e47e58b7bb9a4411c9bfb601cbb97588d2c638d7665",
       "videoPartId": 59
+    },
+    {
+      "aiRevisionId": "e8a63f014e181055f11756a0b100a73ea4bc792659e2a4232322d4cff1b6a6db",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "93452b6ac6dbfaa221c687fdce26c90e9adbb8459e63f8ce61b368df7fbc8225",
+      "editionId": "5afd7b6fe7de458a84b0aa3bd2be5db1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1f2f7dc332bd231ec92c26b35ad675116642714d9594f3d5311484f5054eedb3",
+      "videoPartId": 1162
     },
     {
       "aiRevisionId": "10f551153805521c6a010202f9f125bd4c7069c14c7a318ef88c80d2ad4df525",
@@ -49712,6 +50622,16 @@
       "reviewArtifactSha256": "dd6ed3fdad21c8f88cd7949042f0e7ea03af30dd43fcdba39cf8131f65e65e35",
       "sourceMetadataSha256": "746ba726be414222d0971449b9aaa22b80a7d7a2d285f9bdf644a9fd954ef8dd",
       "videoPartId": 958
+    },
+    {
+      "aiRevisionId": "4f7d7c1e5e39a44431fff67070ef586445f0dd36081c6cc320ee02460caa61b5",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "91740159f2df19e7de2f38f252c3736d9d8a92766ad0bb2788be775ea53e7cfa",
+      "editionId": "5b859f8b22154db9b9d538a2308ac2e7",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d50f1d9c51fe29068997951d400eaf7d6919e50dc721578061fe0e9fe28be1a4",
+      "videoPartId": 369
     },
     {
       "aiRevisionId": "4a7a0b0d8c3c09ea814930739f0b4e4bb30d178990449db1c330082966d16429",
@@ -50486,6 +51406,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "4f64667582ded44e67f0b33a2a4056ba1ad7cdb37484733a78d11be6e2357a25",
       "videoPartId": 1164
+    },
+    {
+      "aiRevisionId": "b7faf4b24240c274756ea3fe812b4868cacf3902729b4b3622592e73a1fd5d03",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c9bedc4f142c3823ce227e78b05ec9cc08f834bb487439ebccfd96fc4915c9c9",
+      "editionId": "5d11663a5ccc416bb8cfc7a1c985cf23",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9bf7f32ada6ef7f16557bcebd2c0ee83420e7d3a0adb50cf50b4ae1519093d40",
+      "videoPartId": 928
     },
     {
       "aiRevisionId": "8b0ddbea2fd2c9e9e67e7f9f1adcfe9b4ff58408e9d461a61f3470ae1d0f8c5f",
@@ -51604,6 +52534,16 @@
       "videoPartId": 370
     },
     {
+      "aiRevisionId": "a91e748a10b35d88c1e8116a910e42c7762ad58b1e3e9bc0b42d370310785387",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "01e151af89ae5c0cc31de895dacdfe3c97f751acddef8f98f88e0c96f20b96d9",
+      "editionId": "5f0a6afd165d45d0ac54cb7b372f6850",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "82ae901a3c4ca528f21aefd66de04e407c811442f78ed96f98cbc763b783692f",
+      "videoPartId": 2
+    },
+    {
       "aiRevisionId": "59cbf612a7118eff62d00aae095a0bda599ddcac61b532db01eaa889ccba865b",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "b3a02ae9aca0f59f345942abad6970890d7bf8680ab8a3f64d0a3fe585a14d89",
@@ -51612,6 +52552,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "ade835b20d574c23e7b179d4d4f88db341f38fc2661fcf798f75abf676606ce8",
       "videoPartId": 999
+    },
+    {
+      "aiRevisionId": "843a1efe45571ef7c7be004954aa8add43211e3dd136780ddea778f0b3a13a2e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "5af196f4b50dce8ee5a0b5f6bc935f879f7ffea33965a4d74f09f728cb748af7",
+      "editionId": "5fadb9717e704ff189968475506507ab",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d6dd68628d764542097294483be56f7460d50ba80633d3416bd3c2074a2c8aa2",
+      "videoPartId": 94
     },
     {
       "aiRevisionId": "ec782ea3b2e571ea1994ead8df004662f652069fb8bc6beea516fab4a8d8cef0",
@@ -52998,6 +53948,16 @@
       "videoPartId": 1501
     },
     {
+      "aiRevisionId": "e555b1f270c98a9277d476c741d3fdc7cfa3b44885a50a9e41ad8f6b3556024e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "da5279fc86f2f9f770c5fad2081a104897a7d8c955b56ea92b971b9cabb43c58",
+      "editionId": "62be2c83eeb3428eaee5221546cb7e51",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b09bec1bad246a7899f2c7894b3819f6ce98dab172297a551aa518ab92f42d0c",
+      "videoPartId": 399
+    },
+    {
       "aiRevisionId": "c226c4cd87415a0d9fe32fe20733a232c02830f9a18cc4c68eec1c1bb2abc643",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b292d6b3544e240d157174035e3b1171c34aac92bbca98b74e6d0d9dea468d93",
@@ -53120,6 +54080,26 @@
       "reviewArtifactSha256": "308a0bbd3066b330d93b77fa6f29fcbbc46a05e158bbe1b175c9b78701e2b907",
       "sourceMetadataSha256": "02b67ee3c6ec392b1b88649139e370698bed6f1e3f5d522eb796ddd1a70ff66f",
       "videoPartId": 1224
+    },
+    {
+      "aiRevisionId": "5345ccea4f0ba93b565b016e565901bcdf4a309c87246d217313b05c4f05fbca",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "be5bcb325541608b13871f30fcee5645ded5f8d0743469a10f24630a0b78ec50",
+      "editionId": "63296680dd724761bb61c4576eb2b057",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9a666cce3ebb7a08bc31536613535f629e95ea5db512b6fe0876ce2a26586479",
+      "videoPartId": 439
+    },
+    {
+      "aiRevisionId": "225f26b1af402509d9547dbcd33d52dec8fad8934f9d527f2351352903d8c40a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4442e23a88c9e9ca852425993ecbd62b72d632ebd7c3cdf7bccded38bdc30c16",
+      "editionId": "635076206334496f8dcb6b2ba1dfbe3d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "f1e1141110d06309d81dd8a0b61635f31024d2227fbb3e91319d74d6bb42f6ce",
+      "videoPartId": 1305
     },
     {
       "aiRevisionId": "daa426c41926aa9d048c0a0ff2b166c52d326b4c17a718d8b7d137098d05bef4",
@@ -53368,6 +54348,26 @@
       "reviewArtifactSha256": "b65845b4a41b35bb5bd04108b6d70d703e1b108dd13c41c6157441b955a7686e",
       "sourceMetadataSha256": "aed67fa44008e916cf789fe9f60ec7f67cc6372205a440c9e67562554c9ae68d",
       "videoPartId": 295
+    },
+    {
+      "aiRevisionId": "c9b1901542fd2dbc5011ff7bfa64b52f39e56b200bd538f4fe1beed22b9fcfbf",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d457aca992a8ca494fa6a3c23a3f625606dfdbe9ccbd7b2a0c6deaff674bca09",
+      "editionId": "63b446cfd7784d99b4ca3bd5d62674ed",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1a00cb14fa3580653c8addc1dd4ce9b50bc8628d8ad0bb24b3b0315f1bfdd8c0",
+      "videoPartId": 571
+    },
+    {
+      "aiRevisionId": "738a180533dacbd1979ac0edbec446842d5734191d7c79fb40ab72228b74f076",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8ae0768d788c69840ef5f8b61aed903f9cfcbfac428f6401ca7760c917b7fdad",
+      "editionId": "63e44d28de5d421abfd3bbf90b709073",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "57ce1e29d42099fdda1e4f98bd555ebdc5c4042a8250b2a8d1d40adcaaedf08c",
+      "videoPartId": 1036
     },
     {
       "aiRevisionId": "8e300f5ecd2e87140abb20f27eabf52c84b9de94b37be9ed70e82a1b628b8e1f",
@@ -54134,6 +55134,26 @@
       "videoPartId": 915
     },
     {
+      "aiRevisionId": "66abd3f2e0c247a3e45169f4bdc8b38364fbda58aeceeebbf01d3b0ec270173f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ee206c1c4cb2ef9279dfc486d005c524e644ec5d40a53703ba11bf15a91cdb5f",
+      "editionId": "65487136baf94bad90dae52bd4c2c65a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b91d5e76c804f10b3914f9c6258a4978e254a3ef6757cbced5f014aec1b1fd5b",
+      "videoPartId": 624
+    },
+    {
+      "aiRevisionId": "299b3e55d97dae84222800e470b1168e204ffe46459cbade17c8637ec54d2198",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "1d3f09a5247e6d349709ec9d514d968eb4a3e85f24d0a9fcec0a731927d3463a",
+      "editionId": "662ea57a7d114c0f835d1d9768f075f2",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "32567514d5b60fda9d77b0525c2e462e1e6f6fe2f843cb94ee8aa2c8cc85cd8b",
+      "videoPartId": 1060
+    },
+    {
       "aiRevisionId": "0ad8323bff868780d45b99b2692371c6fee2ed9095582922ed3c91f326f3647c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d69e2b67850ee8ba5ce42b23fcb7ca49f3a35bd44f77ce5d8c2881300da7b495",
@@ -54630,6 +55650,16 @@
       "videoPartId": 849
     },
     {
+      "aiRevisionId": "4f164d7d679feafd4b25fa6a18415c0ba914116fceeb0acee5a282138621f13e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "894b6ddab3b27a62c1ebb01050ae142651fdfc350776db298ee605b683afaa80",
+      "editionId": "66f1a57c24264d869ec7b0043d96242b",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "231d8cdbe5fa751dcd9631c264ac40aa07614d4c9f2dd2dc3b6652deb4525f6e",
+      "videoPartId": 691
+    },
+    {
       "aiRevisionId": "4ab2bbbe1f069695b1c995137759dbe179e1028caa68a7f6a99b398e614f6330",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "2b9692a05ba45b3abebfbf1629c8588af42ed5bdea3c41548b0159624c20d46f",
@@ -54878,6 +55908,16 @@
       "videoPartId": 880
     },
     {
+      "aiRevisionId": "b4ae381d9d92d2cf335a5db0cd4b4313dc4ed48b76d4f587f825178b8a8625fe",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "9b179347c8695bcae747f0aaed0055c4dd06abe6ffc48a5f6a13218c0f1ea27f",
+      "editionId": "671767220c694f5480e20285f579145f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b7e088fe3e2163d74d2f96993827f10a127cac52223344b7342f205a2b38b32e",
+      "videoPartId": 868
+    },
+    {
       "aiRevisionId": "ee89dd655c0d2cd3590820b51dbf1817c5fc545f7f5900296bfe6bd08b5e3a55",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "3efab7cdc6da36c865c0230dc657d6cd3af5d86cd46910d3684a6cf172d4c079",
@@ -54886,6 +55926,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "965707ed5b4633bef6231ed44993bb81cdd01f978503cdf8c0b05a04dc592a32",
       "videoPartId": 680
+    },
+    {
+      "aiRevisionId": "551b42bc2c7dfd9dd06e4d24afc3e7fca4ec7385f9f1e32470f40c6a766cc68e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4667d2b98a296d07eb8c0b7d48b956ca5c302307f52bd94c7fae45b434ea29b5",
+      "editionId": "679ce7e36a734e728d5706ab5ceb6522",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6444d01e2ace0374c9909d165e6a1977151cc28efb87d076c956923037606b7e",
+      "videoPartId": 1921
     },
     {
       "aiRevisionId": "46bcfc05e0a7ba7ef342bf2740d25dabba7492d6620e464db48038153ff5c17b",
@@ -55660,6 +56710,26 @@
       "reviewArtifactSha256": "dd461ad0e103cac02c1c8bbda007bdbda5ce141adf8c9cdfe110a96a90ad45cd",
       "sourceMetadataSha256": "12ea14cb697648169a7f066b438f38b88f0bf5e7ca5396483c919e5ae6a7456f",
       "videoPartId": 1168
+    },
+    {
+      "aiRevisionId": "4224e74976267b518c6bf2321b53bef35f379f23c964f4d3a063d4b02c6f7143",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4173fefc5d0a5e629dd0292175a49b21e7eecf8c1c3a64672ac72f1d681f596e",
+      "editionId": "6924170087a742b287cb972343d1f1e4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "49dab805ddd82b0857a7f11a1ae18d23c55b9e80868a7a5ab599ed9b47ba56dc",
+      "videoPartId": 391
+    },
+    {
+      "aiRevisionId": "f0329b23c3c39449798efb4595fd16edeee1131378500243a80784ecc4145232",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "76808bb395b6ef7463d4bb8db817bd89a4427f0db92d1314594591ab14ad600a",
+      "editionId": "697f4987e2eb49e49edd0d874cb9fc75",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e76519ff4d6b023c3ac23003b5bc835f45e017c68cdd2b6c21c0208cbc950853",
+      "videoPartId": 876
     },
     {
       "aiRevisionId": "859ea61c9714ae37c37b160bd1fcbe7ba555b50298d5fbffaa1e6c8f4c672d93",
@@ -56778,6 +57848,16 @@
       "videoPartId": 1370
     },
     {
+      "aiRevisionId": "45275690b290332b0a553bc9e161914900ba8e325f9e6ec0329c45d6eda861ff",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "91733b2c4c383d93b65e73e207558425096d92e8952c197d3fb4172275322d5d",
+      "editionId": "6c3e470324054d4db909a4b4103cabde",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ee36af69cdb4ccc10b6dd2a69ec1683e2a6bfe71b4dc9be871c0ce0b8f7bfa4a",
+      "videoPartId": 1521
+    },
+    {
       "aiRevisionId": "a3b88a777a4a13661bf5fb07600227dfccc803ad48ae85c3ff2f20ca1be6f561",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "7da6ebe93965646cb12f1ea87fb969eea3e3d9067ddf7507917e2cee5e3f375f",
@@ -56900,6 +57980,16 @@
       "reviewArtifactSha256": "27efa5ef16c6fd5c77cc67de346ba8f71e6261e20fd891b0ae5d23aa24e31e11",
       "sourceMetadataSha256": "38d2611b640e153d8f6dec420cf2cb7467da0468653226ef743f9d21ada1c576",
       "videoPartId": 1843
+    },
+    {
+      "aiRevisionId": "253c2a788f6a674eea62781bd1fe919f74ef70b7d5cb72bac0ad847f723fe61e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6374c123394beb00fda342d1249a25e7c68dd1c2b2ba2a3d854bb31b42d2eff6",
+      "editionId": "6c8e474a3e974ba9be949a252727e460",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "5a991fc5ebc1f48a002fe67ed512479de68b6a0c259b28aaf2e10807124335f8",
+      "videoPartId": 1585
     },
     {
       "aiRevisionId": "7561e1203c48189ee8a08fd9124b8cc2de580befd6a5c3a0bd331837994b8bb0",
@@ -57170,6 +58260,26 @@
       "videoPartId": 1945
     },
     {
+      "aiRevisionId": "9e818158fa69fe552ade305898d76f2250bc8d78301179854c20a2d1b4f27404",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3de0cfeb5fea247eba2e35cdbb5dd26cd16bb561c6de25b7acb24e172b856133",
+      "editionId": "6dc8e85ce0664200bf632c85ba05e7ad",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "051e82427792318ab3a9a7b2a44b5368adab5783b4d578ccdcf6bc7432857988",
+      "videoPartId": 1853
+    },
+    {
+      "aiRevisionId": "714620d5528bd6b3240b7f8c21d84531becb40e96f58ab86c9d4f7011fd8febf",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "29a85e70d6f473955e0f5c632019a23143ce77320a95243ac801890a16718ed7",
+      "editionId": "6dce11be441149c79fc79b4c1e874e30",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b7ba297f76555a9e1e358971cd8d184a9c6a79f4d1f8a725e4eaba5ecde8cf95",
+      "videoPartId": 1951
+    },
+    {
       "aiRevisionId": "489e8593b3b03cb8ea18850b8afdc691c98099121a819527b4f704d1beb3cd41",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "29e7d2e7bcc787498b075b5b5a11cf6977824c4f1985b1b67e238861b004bb94",
@@ -57428,6 +58538,16 @@
       "videoPartId": 1516
     },
     {
+      "aiRevisionId": "66fae940db7cbbb97a92ad0cb17a8fe666b434d4b70ed2671dea26220efa1cae",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "319c8e9fec4a8c3e3a29a7793bd2fa7b701712aa96270275ad4fdd33258e6db9",
+      "editionId": "6e1c0b0f85e544e7bfe68f4ee084c654",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6fba276aa58bbdc86e9a0d3171d14a7fc2becad9a7b6524bb0a3dbb369b2f0a4",
+      "videoPartId": 374
+    },
+    {
       "aiRevisionId": "601217523a66c603f9a059a61bd517e1e653e080dffe574088390275b4f6351a",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "797a0bf895991fc78116ffa675afe6177ed3cbaa578f64e008924b328d528234",
@@ -57550,6 +58670,26 @@
       "reviewArtifactSha256": "493e75b8117907dab37e82bb3cf068ed9f27c6bc1d5a6757ccf2bd10a8a83d99",
       "sourceMetadataSha256": "8010ede068c2ceb81a53a782985b850c7fb8cc1881ee5d9f987340e57be2bf8a",
       "videoPartId": 1730
+    },
+    {
+      "aiRevisionId": "9281b909bc411ea66e454e33951c389f6134a543f7edeb0c97c6065b5ac3127b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e652b11a4c5e7c358700285d790a58722c78d34d7a62df39b5d6514e26548a7c",
+      "editionId": "6e38ef0ddc164fcdb3ca953cb8837c6f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8a70cf9d1f7d13aef0318442228f07524a071bfd76c3948a990797f93a6a453b",
+      "videoPartId": 659
+    },
+    {
+      "aiRevisionId": "f8bda2ef8df974646062df7f06d2bd097bdf10e6e47d05f2197fd69676f93179",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d1d3b88a2e250ca35c0f3ae0edc4c439921295d535ac0f8f14557cbedac0f913",
+      "editionId": "6e4c3b2dd0c1443db38a4be776b5f823",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "24adff79b274422e66b8cb28eac8981b16f0efaf850c57d239efa609e6098d6b",
+      "videoPartId": 1978
     },
     {
       "aiRevisionId": "b96f19db728773ba6f6ca8b0c199d40043739f7beda5bae19122d21bbaeff536",
@@ -57686,6 +58826,36 @@
       "videoPartId": 555
     },
     {
+      "aiRevisionId": "8e7a448f1369f41fc31c24fb282087cfbc9f296c213a79c144bf9f38bc235334",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "135aab75c33cf9051abbac7d5b861014733ef624cacfd24a94c978157d181425",
+      "editionId": "6e89ad5ea0034abe84d2f33c3a4219f9",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "effad9926a79ab88917f71b5d608d0eb9d04598d2f48e3b658d523d1ec50bb5f",
+      "videoPartId": 346
+    },
+    {
+      "aiRevisionId": "64b952d7147d7aad3ca2407bea84314e0b99f762f3c101d244ece2022188ccb4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b2842b2756250cd48f4b586de192ca85ee5b860262d7de0228c90a5f1d24944d",
+      "editionId": "6e95b7bb61ac424bbbbae83a2bb3753a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d9a95238513899f284b5b6f5425844439491ae7cd1e6f432cc4b63b99d8e0dc9",
+      "videoPartId": 1854
+    },
+    {
+      "aiRevisionId": "c0af15fd4343fa6ea964ea37540200af2fdb9f8c0bdd9f5295a3f29f68d9dff2",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "df396e6d84e8fe3dcc1cfafd571c5d661b0717c58b58e49e19d5f21914bc4af4",
+      "editionId": "6e9e1ed71de14cadb459bc0059257f3d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1d13c8b2c0393c50e4fa688febf530b50c62cccb24d6e3e314e130eab5124ef1",
+      "videoPartId": 1583
+    },
+    {
       "aiRevisionId": "e641452219c2fe12a04fe94fe0775c177e49b6077613a192e2d5d86d2fcfe69a",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d12d8ef918f9be118491b0b15231298c2da6168e955d3b780c06995dc43b0591",
@@ -57808,6 +58978,16 @@
       "reviewArtifactSha256": "b9a5cf74205d694a728c2f51957b72f712ec091190923225c1e8572cf0a2b4f1",
       "sourceMetadataSha256": "44423532d0bfb5f0dc8badf4fe2ae6e61c41bb10a3bb3f1b543df67151a40eef",
       "videoPartId": 1172
+    },
+    {
+      "aiRevisionId": "d2f0005467e8ebe09368c1875fb10b1da9cc3ede8f1a41871bacbb5754a9b496",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4c1971f1b7ba948e2ebb26a2d1221db9b60139d387f9d3ab861b84e8464c28b1",
+      "editionId": "6f06b45bfaa74c558c35e9214906e8b7",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "fae784d1004954edd2224066a4c21e58bed92225f1663e13001fa57f87240ac8",
+      "videoPartId": 1046
     },
     {
       "aiRevisionId": "973ffdfc4da117936f1b1bfb40ab3413d238dfab9b5bf33966e9850aa055da25",
@@ -58182,6 +59362,16 @@
       "videoPartId": 1073
     },
     {
+      "aiRevisionId": "3c5c6cf9e552873a342cfebf7ae2dccbe0020ab080825012bb39249196928092",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "5c25ec8630015cd9bcc2ef143aeb2d7ffed4801591565f812d7eb6d30cf7d9e4",
+      "editionId": "6ff808eb612b4ba19dfbd0b3800beda8",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b3ddce099506f5e776ab9c3f87c9583be730ea12276a869bafaed6505fe9b0fa",
+      "videoPartId": 807
+    },
+    {
       "aiRevisionId": "f589157c8b30a4aca36b381571081ab9dbfb51b37bb2cd568c24820f80f0a69a",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "5feb05d1cb800c4f5bccbee238673b397e3c2b5ba5657825e85faec6c1a1f524",
@@ -58440,6 +59630,16 @@
       "videoPartId": 22
     },
     {
+      "aiRevisionId": "425060d2e43a5329bcdf5c62756b8a42f6688ee29160d0592eb767f0255d4da1",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4cd1a77abeb3c6683332ff84639984ad4c7375df668167a1e04dfe3f5a60d2dc",
+      "editionId": "707fc79105b7446695f0653598f38da1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "74d2f3bd295261ad303a5cf8bd5bba517e1b0f4f80065bcd16bcc296d4fae113",
+      "videoPartId": 46
+    },
+    {
       "aiRevisionId": "73bf6f2e5a8fe9fd4f855bfde35b907f287eaeb6fbf5e14be681341c8c20c5c6",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "45ad7a37434f488a7bf2a48535e92636445982bfe95e0b5846680b6aee043496",
@@ -58562,6 +59762,16 @@
       "reviewArtifactSha256": "240d295f6f4ed625b21d0082e21b056b60306e30eed1fce7bc39d93579d3f90d",
       "sourceMetadataSha256": "16196aa973b4f765e148f045c7ffae10a6c346132d672f253fe7dd7686379237",
       "videoPartId": 1532
+    },
+    {
+      "aiRevisionId": "6e6cdc58ed8b1e9f397f4e12f74a11bd548e43768f620bc43336d06c50e8e8e5",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "20cb6803077d6c9899c4b1f04a1a7b4148272864e2e49b390c48feca30f6948a",
+      "editionId": "70d29539b79a4e5eb88561b6b6365e7c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "653df98f4997ded5062190be7780cdc1c326446fe0552d5d4e182b68e9e4fa6f",
+      "videoPartId": 798
     },
     {
       "aiRevisionId": "8d3aae33e805fc530dbf6e5a42c2445fa5c72e40f422101aeb08132e6a7ea7cc",
@@ -61684,6 +62894,16 @@
       "videoPartId": 186
     },
     {
+      "aiRevisionId": "60d07d3b86eca8eb66591c2fab8aed14ca7645351602cf3265b9ff2624352c34",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f18e08182a2685f9e0596517ded673fc5c5b61fd46137cf1a7a381afbde58a0a",
+      "editionId": "74c8ca4e1cb649acbd242d69071bfa2f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8b52cb6b11b78f362dfedb6dc3f5b20324862150316b64615704edca570ca325",
+      "videoPartId": 272
+    },
+    {
       "aiRevisionId": "290978561f1992db7ed7aea6e362cd73234315bc9f58dd2c3b537935f64eb65b",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b631b903f52ca54e8d96226394b944ee6b15f26cd1ad91465820eaa6e251db6f",
@@ -62180,6 +63400,16 @@
       "videoPartId": 1570
     },
     {
+      "aiRevisionId": "27332ff99f3eadc412dfcaae9df2f0332ffb1c0162235aa9c104c194095673ce",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "03947fee78f9f9d2133b43a3edd532bf051483970a9d91fca2a208bef17fd427",
+      "editionId": "759d7d26e47248b2ad48db20ca264ec8",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8937053cdfa3ee7fe3ce7ef152e67637a1f871e0016c4b4c1778bc7571d37614",
+      "videoPartId": 1966
+    },
+    {
       "aiRevisionId": "1e07b7924042a26270a1dc06a0b74d2c08df7564bb98d98f7ab501388a97ec9e",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b117e884015c1fb987d20a69ecf5e1636f8ae3ff5d6456dedc1d226a1e818431",
@@ -62560,6 +63790,16 @@
       "reviewArtifactSha256": "57eefb62c1952fa288653386bae7ed98e8b9cff86766bc7cfd6ce0a87de647e4",
       "sourceMetadataSha256": "96a58f92ceadab03bcdc36fc1ac0567362ffd11cea67bf047c8b9ea14fcc5e21",
       "videoPartId": 387
+    },
+    {
+      "aiRevisionId": "dcb823baef811bd5c078678d50d82c16f96ffbc7ad50afcbad2f399a5c1ad98d",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ec55d7559813bca2ee21f13ccaf614ae5fb3edb6b11702950170b738ceca8736",
+      "editionId": "76c03d5611d44564b7354ba444e0f26f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "db0c08ae2a16750c6fe564d8bdad2bbb3b403136d597583a5aafa842b1cdf6ec",
+      "videoPartId": 1374
     },
     {
       "aiRevisionId": "04142eefa4d6b798649d30c40b8218103c5075f2b56f48b40dd6f9cd188dc14e",
@@ -63554,6 +64794,16 @@
       "videoPartId": 1027
     },
     {
+      "aiRevisionId": "92be04ae3e9a2a7d984de3798f4c40dd99569b603f84beb89972252bb5273a24",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "643a23e6c895deb999b5fd67184db921323b331950c3cfa16a0095c7379a1336",
+      "editionId": "78b6e90163b44cb6bac260d259931334",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "062c82f2757779f12b3aec575dbbd52a7c011c4e304c6d7a45f44ab837c67b92",
+      "videoPartId": 64
+    },
+    {
       "aiRevisionId": "066e3d76dca8c38e3465f4ffa33956dfdf9d78e4e8b6e3a82b240fe5b3e0f486",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "91c6d779bfd6d0e4003a86c9635d1cd4c41e3bb9df58c1838a0cfd18e893f9f9",
@@ -63678,6 +64928,16 @@
       "videoPartId": 1276
     },
     {
+      "aiRevisionId": "10a7891efa28a43bcfdb48f4aa2670d396ad185f404f3753c6fb964efb9a3bea",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ed98c7ff06b051870c824a29ff8362cf277826164fbfa158cab8329cbf6784d4",
+      "editionId": "78d7f309dd3348fbbf2438cc8616bfa9",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9718b230573975b0a4239edd3d34c5402d9df34599d6f8cdc8a2a78095b517ee",
+      "videoPartId": 525
+    },
+    {
       "aiRevisionId": "877b48321b3e642ba40c708479787e4491216708ebf99af23e7141454e2b20b6",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "538eb5cf655ae7e672b4d80d7326cb0dcaa38595bb54108420b9f3f868a37354",
@@ -63800,6 +65060,16 @@
       "reviewArtifactSha256": "c8e9807a4b49236a9fae81c14ac35388a81683368a07422aee06b4f111d1551e",
       "sourceMetadataSha256": "9e8cc6a153aa428f028951e73edbf3af7a3e47d28d2ba2d031c6f29435be1722",
       "videoPartId": 1336
+    },
+    {
+      "aiRevisionId": "9e8fcf714d6560f0a48d3978981fda7b50623cfd82024f41a27496a6b43b4bf3",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "17f49275f5df215bde51ade340a61f7182cf55b8b077a63b6797795dc4ef9292",
+      "editionId": "79092c3f47de4c84b8cd479ad44d0d2f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9ace12676ec405af6aa855964deedf59deb4c39e03fe14f86740e6bc00a64153",
+      "videoPartId": 1758
     },
     {
       "aiRevisionId": "1672de78320803f15e4ab4ea56ef512ab9df869e86ad803def7115c8a0415762",
@@ -64172,6 +65442,16 @@
       "reviewArtifactSha256": "b2b1db89bafccb72629fc2507814823634e6b889e8f98f995b921c0ab1a31340",
       "sourceMetadataSha256": "6e794f50822ccaad843e424caaf99f25741a777d6e4b42aa593915cf75400b05",
       "videoPartId": 761
+    },
+    {
+      "aiRevisionId": "7469ff6428196ed01119228c3298041f1eb0f528ad96de2305147d0d1aa11b37",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c42d123247adbe0cf576eb75cc095d0e1b6864a6f92ae644d3233bf57b8f752e",
+      "editionId": "798fa762ad104ab48f3b259343c74c81",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b98fd7f571c2ed80cb296ebc283680f98d514335a344310ad3bc921120c54fa9",
+      "videoPartId": 916
     },
     {
       "aiRevisionId": "98f236a577f8283a6ae7b1ca517bddb72233f158a7ab452f6f9fdc2d98ed7c9a",
@@ -64670,6 +65950,16 @@
       "videoPartId": 377
     },
     {
+      "aiRevisionId": "4bc1f3b3e09c1146694481fcd03a221468863052a7be8cd4e62ca7c3220a417a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "60a14439b9f6275aab9e11648a7cc014381ff430048b19b24d62da8f3a935155",
+      "editionId": "7abd884f6df3460c954c667f7cbc7043",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e9c9b5fc9de1c6a3ef9260b3b0fe5f812df80b37f368e910300f5529fe5b511d",
+      "videoPartId": 1386
+    },
+    {
       "aiRevisionId": "79c2f460bea594ca67ec2311c0ce5763de188893e530a5c354bf2bdb18fc2c51",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "37a6590fabc19550249525539ca9ba52a257d1e90c2acd3111c509ee553e45fe",
@@ -64926,6 +66216,16 @@
       "reviewArtifactSha256": "9a3fedc7a12678d487363c09ff2b3fd35d095e7bfda795e6559ba8f85e57a3a0",
       "sourceMetadataSha256": "db58d50e8687d6de37ae8a12b79ff2e2bce43d4856146e32689271a2b8886b67",
       "videoPartId": 1867
+    },
+    {
+      "aiRevisionId": "c1701666397392f4716f111e59032392664c9bb33d27094a9e9e0e6174903ee9",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "cb947827dc36bb9ec45bc3892d59c50a8a1e18d1321f6daab25c23686159d6c0",
+      "editionId": "7b4fd5a65f814b368f2bfa9f0eb1e7c3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "445c4c249df1837069f4b69f34ba3a39bec09556100fc639ce704bd5840d0138",
+      "videoPartId": 455
     },
     {
       "aiRevisionId": "459ba951dc89095d1f9c8aa6812f18410e6da6d645957ba8648a340098eaafcd",
@@ -65310,6 +66610,16 @@
       "videoPartId": 908
     },
     {
+      "aiRevisionId": "c596e42b0af43afee2ef6d108c24d67f1096d2c63d779852b70d692dffc79ced",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "141d9fb86b581c7e42d4cf81a27d2cc25aeacb94ec925bdfc6cbab22b70b66c7",
+      "editionId": "7cd7d86c0f0949e69cd8c6ce1887c078",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "f05a8b8a7eb12665dbd905ffb3b4b45e0f7a7375bf4659216b8a4dec91adf08c",
+      "videoPartId": 1383
+    },
+    {
       "aiRevisionId": "49b04f6cf928a1b031a37d12c591bdc2af261555157d8de3ccfc28b59c51db1e",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "0e417b65612a5006c8b6c66547a7d09b1278c7d198e2a10505fcfb0b2957c498",
@@ -65566,6 +66876,16 @@
       "reviewArtifactSha256": "2766f9228878bb92f03a09befce2b116ea8dca73d758827a20f3fc5d9a6cedf6",
       "sourceMetadataSha256": "4604ec54790212c91321b532dde34b78540b0d7d4ecfa6a401d67e99332bc341",
       "videoPartId": 1835
+    },
+    {
+      "aiRevisionId": "3d75e035187ff0e0eacb83938e45e1ab507335b279ef2358fbb87e5ec373cf67",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "57cba9c1a4e8c301a0c0d630323ab9cea1348e36e18e01833af26b8c910d1b1c",
+      "editionId": "7d759ce397bf4fbc94ca840fe3bb5e73",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "cd2a357b01c78b933fdd39e6ef6cdfe780110579960bf3cc08737849fadaf74f",
+      "videoPartId": 60
     },
     {
       "aiRevisionId": "a501780425e612ff524ec0d6bd5b63ecd3b458f9b4ce5d331e7b11b37bc1fa80",
@@ -66322,6 +67642,16 @@
       "videoPartId": 1792
     },
     {
+      "aiRevisionId": "5cd4fb0144a483eeaa36e83974962820d83d449509cb2d331687072263423123",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "aa6f1d431a02e9ae352360fff29d77e3d99cd92236136ee0069f1fc23b1aaa75",
+      "editionId": "7f28c378fe124e73a55ff432b6177443",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "942c4bd73a27debcc4cf56f80f0a81fe44b66434cf8e3e3fb7b84c0481b1d446",
+      "videoPartId": 1024
+    },
+    {
       "aiRevisionId": "2ce416cd1ff72182ef57df3f777d754fe8cc9f30abba0d9366296950660ce422",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "d2acb7c5afb1ae29f0d0f3cbbc66c9f96c78849e58e1ad739e71d844a54d5149",
@@ -66568,6 +67898,26 @@
       "reviewArtifactSha256": "65a5a65dea4bd066a5a36666ac3f87783a0f2b2ea80495afa37a1fdd13092ec8",
       "sourceMetadataSha256": "b599047c640bb06517c8b9e6c860135da95bce85bcab0e29ef71e721ef02584b",
       "videoPartId": 1433
+    },
+    {
+      "aiRevisionId": "5e8903db4005d53040f4af8c397b991a3dc1e288226014ab74be162be08f6cda",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "40467842fcb52bf0dda82f53ebf7b8f5be0fc06f30298c47b2bae306dd00f5ff",
+      "editionId": "80540e50f2ad4b668d754f1f18379902",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "80a06e6df0be452bd12e25772ff8e88f56a8f0250f13fef62c457328f79a4d1b",
+      "videoPartId": 1845
+    },
+    {
+      "aiRevisionId": "3cf2753a952e83613050e289043df51010960f84ac79ea6afc51f6d2e4012a04",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ca7bcebfaeacb71dd2415c0923704dd345b500a176f86f86a83dfa63a7020016",
+      "editionId": "80a0738df2c341cbac5ec27620873876",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ec04d94d636d57f5649fce81036c978eec71f958b89f66120b9f480f93ddb8d8",
+      "videoPartId": 413
     },
     {
       "aiRevisionId": "44fb6503691b58285f93dd310371640cb6b933337d66a5542ec17cf2976e9b67",
@@ -66818,6 +68168,16 @@
       "videoPartId": 504
     },
     {
+      "aiRevisionId": "4fa969f7669792f1a228318013048d10b0bcab25db442ad2e7882f9520ca6809",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "36a9e3d6511eb8f7e4d5442f775953512d12abc52c0a811b73bf06b83f505e22",
+      "editionId": "8116b03adaa14d81ae9bb9e84a900a3f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ed8fd31be27e4324bfe947127751be5f96e49b29129a269983a04c2c338e5a46",
+      "videoPartId": 1666
+    },
+    {
       "aiRevisionId": "3ded4fdb58d3e2f146668c540e8724d423e346afd29cdf7bccbeb371cfcbe85c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "433682092a325bb5979b75993cab212e85d6f1130469bda00658b25d94f204af",
@@ -66940,6 +68300,26 @@
       "reviewArtifactSha256": "e075cc0729bacf4f99ced5d1d3fc8fd6b56a53bdc295f3ec405889c47b45bb8e",
       "sourceMetadataSha256": "755a8e77b4fa61565ba8598585ca1e88f6b635d93e447f8128beced7e670f88e",
       "videoPartId": 256
+    },
+    {
+      "aiRevisionId": "0cc265d23199609cb466bf41898ae7d96de2e8c0c83c9c9c37f6d18b1da92c24",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0b37799e10ccca65fb64bfceb9e8885d16b4605aa704045677ebd3dd9170d5d7",
+      "editionId": "812f0b598b7e4231b9d1905e421d2af0",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "85dc781f65412f98db5bbc283a1359f9b492e74e934caf9d88efe0abbc13707a",
+      "videoPartId": 823
+    },
+    {
+      "aiRevisionId": "a264d6434157a04f81a66a66b9d3ed09332730febf00eb51556aee5bc0ccae8c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "bbfc9ca755e5a056aa96d169c3b22333053becdfbb954a81beea506f0fb4e8f5",
+      "editionId": "8131fdba45584a2ba99d2a0587e4380f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "019312b13a46078c33b9552b5293bf7a7264bd28464c7dcb82c09da6b0dda1dd",
+      "videoPartId": 806
     },
     {
       "aiRevisionId": "a2812c37fe17d12961e6d5d06dab8359de5bef562b0942b9c1d029c0fc86c7cf",
@@ -67438,6 +68818,16 @@
       "videoPartId": 332
     },
     {
+      "aiRevisionId": "b0d2d394b6e3dbdde8b18d64112612e65bb1052bce4a21258cfd9420c26bac4c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "9d4410f65b83effe55324b78efac24c0793b052026a1cd561a39d443767dcda8",
+      "editionId": "8187e3e9f6c0466182d30e91efb51622",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "281a2e69ec7fdd6c592af04cb9d9abcae834a474929dfc20f9a92e452c54eb5c",
+      "videoPartId": 1065
+    },
+    {
       "aiRevisionId": "6cd1d6427ff79627cd4637fd60ebc0fb5d3c521d9d7d8837053f60adda97bbd7",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "bf34f9db4f75e6515854585883c61e62ed0db7c065809c5b4ad6c77670901a1b",
@@ -67580,6 +68970,26 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "18efaebe4fe0906f6196771c8c257030ffc7da2a11f1999fc98fb429ed33bcc2",
       "videoPartId": 1772
+    },
+    {
+      "aiRevisionId": "120eb1acca7157500dacc2b77d9b0030f990902bf9df92408b287514e25ca140",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "73d56b4cd05dfd8a38b539bf66c84b83fa5ab2648c6426a4fec3a97d1194d998",
+      "editionId": "81fbedb43a5041cc9d887020b72a5095",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2dfd520e652cb0119769bc776a9bc92c4a1462e52ec99b8b72bfbbe2eba99467",
+      "videoPartId": 99
+    },
+    {
+      "aiRevisionId": "bedb99a478aac67b399cec15d129ff7b82beaf968bda663ba1469b7332519459",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "404cc1350bcc79c9cbbcefcbfdafe5afedecd459c70fc81994f5647231e14874",
+      "editionId": "8253fc91b1dd467f8a995a440691eac3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9c94b70402a49a631b5f3af68c3b39a070f7817bd6a8ef61132b8bd3580e9972",
+      "videoPartId": 144
     },
     {
       "aiRevisionId": "795967a1e97c3172cef72da18e7e4733e0406cf34d6eb017d85474cf11fdf700",
@@ -67850,6 +69260,16 @@
       "videoPartId": 133
     },
     {
+      "aiRevisionId": "0fdcfc019fa9c3e197d01d1c05520405047003c583f8c23a326091f804d9c421",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c3e0b4edaea900bde1ca6be4591bc781ab2eb1e672bf32901877429048678b09",
+      "editionId": "838ea8df8ac946d3aaddd4ab17f125c4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "953c3c0459e8c234a1246591fa3147210a2aad47d39af0672b0763921add9edf",
+      "videoPartId": 218
+    },
+    {
       "aiRevisionId": "90211481ef142883ad43acf65aab03bbfd24653c33b58424e282130535798a4e",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "7d85888af81a1db08d6e66e19fcd54fe2d50ed41b52250318555d4383632ac6a",
@@ -68098,6 +69518,16 @@
       "videoPartId": 1480
     },
     {
+      "aiRevisionId": "4d0c627b80d7ae0ac5a97dd33225e49b296e4214b82959ae6cecc907b38dc63b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "30992725cfa0fafab6277919cce78196e775fbaec0a3bc672a914af61acaad67",
+      "editionId": "844aac698a7249589016652eab6b51e4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0f9b85fb1e6d237728fc6a0000d0f1b1b83fddaeea3e0e715bcecc82f4dbc515",
+      "videoPartId": 366
+    },
+    {
       "aiRevisionId": "48dc95d83a52d1b46e6eaf4437dfa71db624f1aa15965bb56eccc63b2803e65c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "57a18443380fa6dafdcedf27cad2334664b5e050f13cf69d0be588e766f86ab0",
@@ -68344,6 +69774,16 @@
       "reviewArtifactSha256": "845aa39186ea29c227f03fc5543f3c0c28debd4e0879f9d719c1772ca528e2fd",
       "sourceMetadataSha256": "d92aae2bbad72fa79276c7261dbb75cb7a43f13c67abec6ec72cde5d310481ad",
       "videoPartId": 1799
+    },
+    {
+      "aiRevisionId": "c42cb263aa52698d868f024b7d9e33eb357bfd3ba0aa2165f7b74f7d4de4d0ad",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c48e43053a3c61eb11d5651ce9aff617160d6f91e34323afacad2833512db5ac",
+      "editionId": "84ab3426e24f426a80e2912b761f7f13",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2f448725cfb1b00ffba3432c0a859f11ef7f1ce86e97d74c06d636fb4117871c",
+      "videoPartId": 718
     },
     {
       "aiRevisionId": "275c46fa05f32337e429b3b7eed46b935974d942537bedb5c024e904d297851e",
@@ -68716,6 +70156,16 @@
       "reviewArtifactSha256": "3d62820dda846fc8a5f03cbdda4d912db2c5d924061bbe73ff22abd4c37330d3",
       "sourceMetadataSha256": "79a3bc929ba08dbba316be7f14443e0d8aa39c6a94e14e0b90c6c04be5bc236a",
       "videoPartId": 153
+    },
+    {
+      "aiRevisionId": "d3677ab8f6fb7e49c1bb9cdb4a37c166bdb9176373be7cc23e182c625844af36",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "af872e048268c61b9f280ff481ec3244ed7c46470b33ce07e46a4bd3fd4f6cad",
+      "editionId": "850f45780a2149ce8a932f4e6e737f46",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9f000aa195232a3a7846686c2753a1f689476bb8bc1e98e67f51d14efe7b5d55",
+      "videoPartId": 307
     },
     {
       "aiRevisionId": "0830aade9a98f65f044a38337344b8a9a3bd07ab70985ac7612817a5cb2b3fa8",
@@ -69214,6 +70664,16 @@
       "videoPartId": 117
     },
     {
+      "aiRevisionId": "65980dc9f39f4cdb4cf48d3d87f333893c1bc56f84b9dab227638f97bc081c44",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ea9b75adba338547905840cf31da59ebe4202a85c19b6cd7a32b79fdc2ab09b5",
+      "editionId": "85af0fdf4cb24c8eafe10d78d10c5baa",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b6677170e5e6b894897d9eda6d21e8eb251c43d70e2d8093947ed18fab99624f",
+      "videoPartId": 551
+    },
+    {
       "aiRevisionId": "fe5ae7a4c7e14d6c0559a9cb3ba14bc6694612a72d5643f421b21eea094c89e9",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "224f1e6bc5e6cde64b558ca6fcb1d86fea65f28634af3adf97b511bda557c1eb",
@@ -69708,6 +71168,16 @@
       "reviewArtifactSha256": "cbb4c21a1fb200d7790658525027bfa7e240636ecc8baa179394e19764d27377",
       "sourceMetadataSha256": "3836aff132af786c47749213c64b748fbb137a342fc896a6e8ec26de2ab591f4",
       "videoPartId": 899
+    },
+    {
+      "aiRevisionId": "c4f115655f457fb83d54653af26d729b4918bd4d2f0a8c9cd465eab1d0a8eef8",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0fc46e23796fa3868d22afb0117e7f8c649ab512e4b21744d04e7b39fde86869",
+      "editionId": "85fa7d47d15d4a1dbbbd51be12168b29",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d349b2e9b4107b42acb6ed0966f503f583776fa13bf472fe29f08c70dba0efee",
+      "videoPartId": 1586
     },
     {
       "aiRevisionId": "00d236835b2a6f2f62e4a44123ec5173570bc8684b020b4d46b3587ae4f32f11",
@@ -70950,6 +72420,16 @@
       "videoPartId": 629
     },
     {
+      "aiRevisionId": "b1b372802ea0b1668e2ab692cd6a82a5b93e2d1862773a52524c37368dfd2842",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ead9c4f07d734cefac3c3048c654a7fdf81697675de3bb003b6862fec75a5edb",
+      "editionId": "87dc9284cf2c474cb1ad78fa854efd77",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7197ad2bc9cb638d651b82e31ec3fe2e9a85e5307b893d7c724b8f400c2f7164",
+      "videoPartId": 686
+    },
+    {
       "aiRevisionId": "0f5c9cfd506da63011acc1dfeb3065c82f2cbca746463048c4006be0c606d2dc",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "92b6745b8d455c0de2e8f22a3cfb1ac16762daf3cd58c26b325e7d30a459b8e3",
@@ -71072,6 +72552,26 @@
       "reviewArtifactSha256": "b9e4b870b731223941ca34ccf9b3eacbb3753e6b4432f6703226f7f6314e8562",
       "sourceMetadataSha256": "7bd9f1e0b7d42a0748deb3b69feb00737caad2769d7a0d557fe72b214be598c1",
       "videoPartId": 79
+    },
+    {
+      "aiRevisionId": "228a225c46567f93636593301077cbf2f9023d2307c294488db513edc153f051",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8e31e9971bdb547ba5b8296b20ad000d4d60fcd0832b5a1d531b927fccadf9bd",
+      "editionId": "880e54772e1f47d69974f2335fc84ed5",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7dbf5803ab5f968aeb12199b23d9513c82287b63f0e40ef003d796fe30c247bb",
+      "videoPartId": 222
+    },
+    {
+      "aiRevisionId": "d8905b4df5dd00e40f01b31f3746d1d442509a7ed7be69bbb7a9e0109c537811",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4760de61cb93710773f42422acd83628cc41307623a1833723aaf7b2b8c6fbaf",
+      "editionId": "883fcbc1c51f4e1ba1fd3376ba17b065",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "86685edc0ee390b525e8822737fd9c74fe88b0d8346b9883258d587d74b20d45",
+      "videoPartId": 780
     },
     {
       "aiRevisionId": "da43d3a7811b20e4fc57fe6a414cd171a53a5215d4ca976d12b7346c754587c5",
@@ -71198,6 +72698,26 @@
       "videoPartId": 1061
     },
     {
+      "aiRevisionId": "d990b3592a34c1d350a4591a27e7a95da02497ec4c857cc5453e7906df9a4bce",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e7a7465fdbf4e05d1a7a0a6e1302c94e59262b8c75a5c889e2675c948d6dd472",
+      "editionId": "896122bf52a347c39aa6b5c251313758",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6e5178b09e7a7c20c98910faeb5e48c9402b7a069fac961ba312018ad3ebc9e9",
+      "videoPartId": 71
+    },
+    {
+      "aiRevisionId": "ecbdafa1281316e4d4c1575164d289d963c7e9ba377140b7ced0c583524d41ce",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b540e603596572c859fd7c0fdc643b83cf24db94087fe0ec874761d666052d3f",
+      "editionId": "8969865094ec40608c5783188f26a115",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8943227ba16b781652832380bd897254bde918377d3a11910c33fb08fd77ad05",
+      "videoPartId": 306
+    },
+    {
       "aiRevisionId": "a38c76e4ad560d392b69c54d46f7f361a6d976b600a0f0cecc810574ceb1949a",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "9163c53c3e32b6812f441bbc119023a612f18f6c52864be17277b4dc16d7f3f3",
@@ -71320,6 +72840,16 @@
       "reviewArtifactSha256": "a0c377c9b77a5d1115d2b5fd6275c18f5d56698422c997ab04b616f2ad296e65",
       "sourceMetadataSha256": "7d05a1ca775b5a35410c2e18b000adcbfe10d0c5ce088a4f4bb5dc5665cd1e19",
       "videoPartId": 1253
+    },
+    {
+      "aiRevisionId": "95d0a238fb46f197af45800ea89c1447e0a940de3d0fd070324ba795910a2a3f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ec3df1ad222ea7307a71be88ea3045ec3146da9330792def4e4daabcbcfa0fff",
+      "editionId": "898bdd66f6954b549baea00ff35bc02d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "528bce97c81ef5765a5749898ca83ee9b40d8c1c032e1c3d9368d8ed85802ed9",
+      "videoPartId": 1457
     },
     {
       "aiRevisionId": "73590b4dc400efe63b5acc91772fe512fe1df2d06e5d94b779fe97498155166e",
@@ -71466,6 +72996,26 @@
       "videoPartId": 608
     },
     {
+      "aiRevisionId": "b7a919261ba2aff1ae28db02cfe6e860b62657983b2226f6172e07c6efddccc4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e57f4673d72e4631415ae86441efdb2f19c7fdcbf7e3b1ba419ce1aba5ece112",
+      "editionId": "8a5263792844460598c18b6266dd25a6",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "852f96c9179d4360c92606723a91433f2ed45fbc94abef35b418038719be80c8",
+      "videoPartId": 318
+    },
+    {
+      "aiRevisionId": "cb1cf7d2e3f3de46cc60b5361d89a42ec5e078daf72a3355b38b6a20dfad0d48",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b30f7c217e97610e0e2d34e8be40c95d14f3ac334d75793e3e8a4d0847c6ebca",
+      "editionId": "8a55c8fb00e14d29a86ec4ecb53b4c0d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "574dd2bfc916244a419c0846166801c4b9a3ef666cef0b8ff0371ee00cb55006",
+      "videoPartId": 874
+    },
+    {
       "aiRevisionId": "7c1bca82fa8fceb058b8d490d623c475e24533226628bcae31817862b3540ab0",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "f24a622330d1d2ae1270bdb0cd38ebc4839fd294036c6fc16f34b89c0274cec2",
@@ -71474,6 +73024,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "a2b5d16c5b8f84d91c503ac65e00ef36cc8a566d56c9233c7464119c8bb7d749",
       "videoPartId": 967
+    },
+    {
+      "aiRevisionId": "ea5dd63ea8b44198fcde32dd28d971029a1db5f4dc159843e161e5e0299df733",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "dcf4560fe558ede37110678e7f447bbadd3806ea22984df51c434de3104e6a85",
+      "editionId": "8a89a0e85dd849f7b734a5c52c2c6d20",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d93dde188923081cc119fb2ad8ee8538658ea5bd0fefa82c2a67d35ceace23bc",
+      "videoPartId": 736
     },
     {
       "aiRevisionId": "a0c458f16383013bd77da721af296350bd98ef0e2d7f2edd2a393b3e2253326e",
@@ -71608,6 +73168,16 @@
       "kind": "ai-generated-v2",
       "sourceMetadataSha256": "1b4b61eedfbfcaf994b263cf2dea29ee840d6c4280aabf3d9fc2c5c7841d8799",
       "videoPartId": 1461
+    },
+    {
+      "aiRevisionId": "b7e216f0b4c9051b450d5fad870c25b7f3bd75e8cc6fe15d280da9fe3885fd0a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "5ae871ed70f496af20064fee9901d982624b96ebbee5b9448b0147e7d7ee0595",
+      "editionId": "8b92f3fc13f14197bf5c52e2fade38aa",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6d2945ca0ff403eacc6bfa892d818a025cee2ecac12e19bfaec5e12f5b368a52",
+      "videoPartId": 752
     },
     {
       "aiRevisionId": "a0e565b6335f89f94ebb71e792e5d48ccc75aae95186760404a242cf852c83d5",
@@ -72622,6 +74192,16 @@
       "videoPartId": 1582
     },
     {
+      "aiRevisionId": "c13033fa76b1732d3d6cc8e31dd2019b06c66ec648e0de1b4f5852ad009ee2b1",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "231e78dbc6bc7414d2d97bdd1834ca0731bd3961cf375788fc59f863144fcbfc",
+      "editionId": "8d185152bd8f4a99a1fa2fa5aa4baf6d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2bf01355577a17ba65fbbe3828d0e3457bba50844ee7d8f252a74b25c4d134a6",
+      "videoPartId": 316
+    },
+    {
       "aiRevisionId": "583afd0c56879febf6aef0efaecfe9cf71d1df698333274d312e96b412536c8c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "16a4515288c33e9f1e9df83cf5bfd6ebbdea9d0f78df014832839cb7e979cefe",
@@ -73126,6 +74706,16 @@
       "reviewArtifactSha256": "08d18c0b49337ff11676a981d6af024a2d37a64543e681f1aac2ba6513e99b4a",
       "sourceMetadataSha256": "eb844cefc02e3232f0ca2eb27ac1f018323fa20206fdd65f2de974b526907342",
       "videoPartId": 1439
+    },
+    {
+      "aiRevisionId": "1a8d64e41944c1ee77454f161f9452953b80e9c018e041c982ad6898209f8800",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "38c7c3b3c1f04992bee267482f2f1af26ac11a8d931386d7d7267d9fb92eb615",
+      "editionId": "8e282c822a8e498e834d5fb8b80afb21",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "4f2e791d7af214f10dcf38c28cd9f5a0245e5828cbbf8fa650bcef0499b6982b",
+      "videoPartId": 1139
     },
     {
       "aiRevisionId": "3a8b89bdfd61d3f38302c7aaba96ef993f19710542cce1c05bb5c24ac1df1094",
@@ -73642,6 +75232,26 @@
       "reviewArtifactSha256": "568c416519783b6bf66e5e0898ae7da288dfed7f8b7bf7bb732b941012f823b1",
       "sourceMetadataSha256": "4b14d398cba077fc0331f2763ed010bb554fb4ac2b3463955ac2e5887988ff90",
       "videoPartId": 1058
+    },
+    {
+      "aiRevisionId": "391cd1c25dd2d1410c6b47e715d594c2f78488a879b8356400ecb491322ed472",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f68a8f603127aa8e19cba35bdb22826e27472a9c1368c4260f8832b2a0132254",
+      "editionId": "8f915db5d2564310984b66807351b349",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ccdcd96cc47f6f29771f52092b66e893575bbde868d1c23dba3147439d075ca0",
+      "videoPartId": 241
+    },
+    {
+      "aiRevisionId": "4585d37388019a7ee6df752245f63498b33d69953747006162623e1095a663e9",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "7d0525f12b703b1af2284a1525aa425a5d9d1c7a5e1ea3df45e9f9eada7028cb",
+      "editionId": "8faa7e1ff59b4a738f9236777c6a1aab",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "edcdc0d01da935ace9410a600c5650dd2673cb5a66f215ca61574a014d995c04",
+      "videoPartId": 705
     },
     {
       "aiRevisionId": "1acd0efd9f7cd251c65661739a154f9d03ee4bf5b7cd5021d8357237e2505afc",
@@ -76392,6 +78002,26 @@
       "videoPartId": 981
     },
     {
+      "aiRevisionId": "750709951b130b3b2131a65be9543d074dca9fc2ebfc08c8052f154377e83fa8",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b01c7f051f9c6af24873fc6c12d869556c0957ff0489cea433e3f1bd8ce4fa42",
+      "editionId": "93c94b98f7f04d21bcc2dbb8421b1096",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "eb287c1256cd563ee79026cb5e54440993b5e55de76158624b12ff85607f3439",
+      "videoPartId": 730
+    },
+    {
+      "aiRevisionId": "59a724ec1d21396068b266563c5928d8f5fc57e87036c2641c8675c6abc17ff3",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6a57bce06651bcbd2d2705763819fb62d1aea357cc92c236dea911f0e512c0fd",
+      "editionId": "940504657349479c87d97a1050bfc39e",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e8cae6f46ef315a5ebd11f1bbdf393f9d91668cee23d2caa17fd2ff3d499daee",
+      "videoPartId": 228
+    },
+    {
       "aiRevisionId": "8014f8ed41a390ea3ab46d7e300495ed5f66537d912e21e4da9600bd09560b7c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "28158e84f46c49b0728d439de724a8a5d0871ec813c83bde863cfe862ef01dba",
@@ -76762,6 +78392,16 @@
       "reviewArtifactSha256": "cdf6d9cb13da49c15d7312a1899c1fe70d272f306526456e6bfb4fa94f1c8721",
       "sourceMetadataSha256": "f456d780c6a7ceb1dd317561b10fae8dd62e2e20caaaffbd8a55a505c98d9de9",
       "videoPartId": 1244
+    },
+    {
+      "aiRevisionId": "4cbcc56016e80c38a75927956ed25d19ec371e23cd88d740840aec1020b02bc4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8981f620a7c757cbb85658dbb2086c4c122e8c70ad4fe79614ef9344d612485f",
+      "editionId": "9554a6005fd9424fa62064a7620af2c2",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "935927fdd63ae01ca07892e2dbb4329aa6c4fd2e6ebc153a222b094de421be9e",
+      "videoPartId": 157
     },
     {
       "aiRevisionId": "c12a12ee1fd969ad4153b926b7e68370508da3b4741121470783ea3754bce0ae",
@@ -77258,6 +78898,16 @@
       "reviewArtifactSha256": "79895b4b3bde02b3c000de0927b35e8273ce5feefe97e961a31616aa1cdcd501",
       "sourceMetadataSha256": "15de16405294f511deaf2a1afeed7e3763d120abb83496027eb377a18dadf684",
       "videoPartId": 1750
+    },
+    {
+      "aiRevisionId": "e48ed731890691a1f1fd36b6e715ef7cb7147fc2938e75e49c8c005c6f6d2491",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "cca24ad423b82530e973338ca8009994ce5c647888723e4af9ea7f7c83ed8a80",
+      "editionId": "964edc72c1ad456b886bbca2a38e415f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8f4c80aaa98a11f9d04e64f321bb27ba34805f9cbe0107c85108380fcded4097",
+      "videoPartId": 1107
     },
     {
       "aiRevisionId": "ebaa1cd204f51e660ee855bc4b1abc249964b5dcf8277ea483444bf208f8ab18",
@@ -78126,6 +79776,16 @@
       "reviewArtifactSha256": "4854d21ddd9268c2e66f187c28c435b2095dc5f3d3dd6bad8857d8f4df01ec75",
       "sourceMetadataSha256": "2693cb3746e2d772bb6aac602b49c07a3a5135adc713fb74476c1d5c4080e0b4",
       "videoPartId": 1452
+    },
+    {
+      "aiRevisionId": "e8b5e63cc1467d1ecbcc3f85edd1d5b926dab8246a46b4ab1f484d35bfef7c8f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "76ad4df5d3f1796a8363493965f7b743024f0dfbc3d3fb43072fc0f42aa5c8c9",
+      "editionId": "96fa3a59b46645228f3063b5dc2df105",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "42ef1748e400b03df7ab378a8d98645c439fe49f9344a9b241fb27e6af3b2e3e",
+      "videoPartId": 1645
     },
     {
       "aiRevisionId": "b603442e55039545b60e6690536a655614f94a63bdca8b6304dcc236b3f7d851",
@@ -79512,6 +81172,16 @@
       "videoPartId": 549
     },
     {
+      "aiRevisionId": "3ca8eb2596a90a99c370e698a266b8c223f7c31d70c3e160fb58fe33a859c210",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "42ad3d76da3242979ac795cad941403c7d3ddab20b91310aab4c61f90042c80c",
+      "editionId": "9948270a237a47449bcf0b6b9dd3bad7",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "c3682f6239a1c823c4cea1a50db19b5d2e4e12bf02cd3d1fe55ff1a8b7e697d2",
+      "videoPartId": 187
+    },
+    {
       "aiRevisionId": "58113a9201c3ed34235efbfacebb81afe8793b08bbb5b919c6e380f481e83001",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "654bd8089e683b43419844309d10b71a05ad9a90c36e130c1ec4c16a6c8a270b",
@@ -80256,6 +81926,26 @@
       "videoPartId": 378
     },
     {
+      "aiRevisionId": "30123abf1bb25e6d8ae9a245ca9fb2cebc8b53aee9284408a7c84f54ac73d355",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "64be8040b5ba29089f1c7bc0c8c55e49d5a2ef24cec9508fa4184a3cebbb2f77",
+      "editionId": "9a11eb65670d4228bea96e66ababd5f7",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9c6d5ce07758dd4591d8db09d77966adc325bcf9a771d16c05b742cea0046703",
+      "videoPartId": 1969
+    },
+    {
+      "aiRevisionId": "003f0c29e18ae7969831828fe5118a14eab83fc9fc8f340618349cc4f0ac8c99",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c588bbd66c9fb8f1430a2ca29f715777be24341bf4a5fafb7f88de28e748cb10",
+      "editionId": "9a6a97e51a8f4105ab4296b773102e76",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "26648daf8b7a7728eeee45707dfb6c9afd2c15ad3ebf98e95fea7e59ca51fbfc",
+      "videoPartId": 108
+    },
+    {
       "aiRevisionId": "fb3c4bccd651f9367a6fbd9e6664951626b744d2e6ffcf6c0a2e77288dd43901",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "f04617e655806542596511312944b4f39992806947a6ccee8f6c08a66479a185",
@@ -80638,6 +82328,16 @@
       "videoPartId": 1563
     },
     {
+      "aiRevisionId": "8ea11733a55ac0c5198ecbe0094c2dbe79527a60b89d7e75890b3500109017fc",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "26e859c333f36a37c5feaf4c4b503ad5551c0d6b15a18ed006d8fe4d192f6200",
+      "editionId": "9afa27a51ccc44baa756129adf9894e1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "226dc6cb52a6b2169acc7f0ac605e8f70a582653b6869670a717bb96f14cb7bd",
+      "videoPartId": 21
+    },
+    {
       "aiRevisionId": "2849b91dd47b570b882fa4ecdb5308ae60d53e781e37c79b2cb43af9f047ea25",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "785c092ba87433942403a0ed707cb9326e84b1eb089ae53057fc942bce804890",
@@ -80760,6 +82460,16 @@
       "reviewArtifactSha256": "92ff7d89f43a4dbf3e0a425bd8378828f32932ed6ec763a8deeb91f2de3b1a41",
       "sourceMetadataSha256": "8981c72130e535c463afaa82b9f77022164d2ff6121e3fea2b28df2de7395310",
       "videoPartId": 294
+    },
+    {
+      "aiRevisionId": "f43b146b2fcce316144f115dbfca55f63611280fa367f95c69e7c700c14981e9",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "afe70c284442f5b90c68d38654e8bcfe355f0def5d73afbb6924314ff4756521",
+      "editionId": "9ba7c7201ce84fc8bb5b4d7758c92486",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "110938fe4b0dd81b6ff038a7b18c077ae0ea7eb27d5aa7aa466877bd48648a30",
+      "videoPartId": 1631
     },
     {
       "aiRevisionId": "9d90dc9241974cfa0e325fda31235b582afa36be5b9789d5b30ba1b1b6bf2d91",
@@ -81010,6 +82720,16 @@
       "videoPartId": 1234
     },
     {
+      "aiRevisionId": "24b06c0249c99779fce18fb983796090107673bcacc36f4ffb1beda9427ede7c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4e8501fdb3160990a2697c44875569d8741ff3327dea0cd54056b73357d419ea",
+      "editionId": "9be0d87080104493ba59b1d9d2b147ce",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "3328d37f186354e72f075d29eb2eefba8689e581665c1a8aecbfbbccbc634d30",
+      "videoPartId": 1245
+    },
+    {
       "aiRevisionId": "d8f75bca0017194df6826c23f1024d416a4af7b8598fc7ff655895c95fbe8b2e",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "8e4e0af6fb2ea0c6388c57706d0c3c52a1fcf46204fe7c943bf741dc005f067a",
@@ -81256,6 +82976,16 @@
       "reviewArtifactSha256": "f9c465e97ca37d85d0cf269f13e6406ebe4e59476badfd464c45da2e3a2a157b",
       "sourceMetadataSha256": "91eaaa9942473111f2a8b421c44be824233097988f72b1e4e336a353fa58e476",
       "videoPartId": 1888
+    },
+    {
+      "aiRevisionId": "c1a901ec8eb7396ce8f39fc6a54657d3bfcd2c64357debfaeb3f9bab72db309d",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "efa37435e5571543d8506abe6e77c4773ee28cb548439f3b404c3096e3fbb8d1",
+      "editionId": "9c822be9e07c4feabf185514e4181b72",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d05a9b1161c6d95a82690ff9a7d28a6488fdf0de21c8034a6732a8ed3e014702",
+      "videoPartId": 534
     },
     {
       "aiRevisionId": "bd436d78ebaf7a7eb070c77f10cf8ccb3060080bd8e8dd75046066725a99a4df",
@@ -82000,6 +83730,16 @@
       "reviewArtifactSha256": "e3145aeacb06104623de0f601237ef789319f12ca6bec0166ba939453d6fc66e",
       "sourceMetadataSha256": "760de7752c7e4be6ce260b502125b25c9ba55a782568ff925bf95a9e0452a598",
       "videoPartId": 509
+    },
+    {
+      "aiRevisionId": "788c04fad4b4e04fa5cd12525603ede72fd3eae3754f0dbb2f920e266ce2ff53",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ea819a336674a71a6b21c82ca49edf1a2c4256a16505dfa0842ea393d562bef8",
+      "editionId": "9e5901c310924246822b6b3a537f5212",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "763047bdc427d2368a96c1ae102ec9729fe97a5901e0b577ea54c7a611b9ab34",
+      "videoPartId": 1078
     },
     {
       "aiRevisionId": "471d45dfc0f54daf8660f60e987e6dce8f2358e7d80ccda8d6c96fef4849c4fe",
@@ -82786,6 +84526,16 @@
       "videoPartId": 1038
     },
     {
+      "aiRevisionId": "f8bb4bd84ed0f9490153359ad0acfc23aee92772d468291134ff6fbd5969918e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "278de326b5fd2502d3f620ff3270603e1952941baea39632727881bd1bf1f374",
+      "editionId": "a09dc33f62924bceb0caf63916caa6b3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6b1c3825e251e2cd2740a7d79f499f5457df4b86bf912e68a3caefc9179faa94",
+      "videoPartId": 1822
+    },
+    {
       "aiRevisionId": "d7c87b23bf8ebc284f6ce240655b1f91912f8aad97f5f9992bd7a168218a7060",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "96d3c2db954654ae8bcab8dae680aece47dafc232624e3b476e8d90fbd77a641",
@@ -83280,6 +85030,16 @@
       "reviewArtifactSha256": "b44af9a62d1d4999d2abc90bde83b71340cb2b423585c8bb1cd3444a7a466297",
       "sourceMetadataSha256": "56019879d321429ebd4b435d0721677b0d599fec6887eff56c248ee1c2f0c507",
       "videoPartId": 1500
+    },
+    {
+      "aiRevisionId": "4d72a1d1404f5831d544fabe7c8cf8ef5c9aea00a400e276986e74bbbee5168b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "91ec6bbff8c60e682b17e8b6de87747fc318f92dc56b39c74377e329e2587d70",
+      "editionId": "a22de505a5dc447cb053fd83535aa7b1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "c5abe47758ada1ff5f0491bf7608d8cdffee6d398bfbbe78c69920efc2ffd8ef",
+      "videoPartId": 1885
     },
     {
       "aiRevisionId": "0d7609ed8c2e85cc8961219191c2a90291e9808421f3b32be7af18c9fb0444cf",
@@ -84398,6 +86158,16 @@
       "videoPartId": 1795
     },
     {
+      "aiRevisionId": "db6dab6c3caaeb19ee9ad38dc72279a40fd0a410f1594908d6100cb9b7df82ea",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8090ad5d581ea8d747337edc177e238eeb1d942f85e2ed3da754a3e7e8094950",
+      "editionId": "a3d04598161342c081132a168ac95697",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "78592accd3b3f48b2c6dff31e351116e0fa2786b1813f69be8a6fbb04ddc6494",
+      "videoPartId": 548
+    },
+    {
       "aiRevisionId": "dfc87ca4dbbf41509575fa2b53ba7f15fa962f1a128cf6350412838b24110c92",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "6b32ce3700c67d865537e4390a8fbb8b7b356f39c432b251ced25502c223f297",
@@ -84522,6 +86292,16 @@
       "videoPartId": 848
     },
     {
+      "aiRevisionId": "245f887efcb94012812cd18607f76e60ea103a4765a9bf30e8df01210f1a39d9",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "1b655d064fe488e2d1173def1f41d479e56e22f8a6f5a260bbb04b04f663ae02",
+      "editionId": "a3f02daee2fc48f59e87572e144dbef0",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "464131169a056907ac05c7b39d79f4ce677bb406180f491bc892b3418d0c4120",
+      "videoPartId": 1104
+    },
+    {
       "aiRevisionId": "db45e9a30088185581cf6500e26a4451f3186354b8d37ebe4397a196c2b1fd14",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b678ca8264167e7747bb150bad0fe45e752338dcb59a65f4ba1e24f7ab87232f",
@@ -84644,6 +86424,16 @@
       "reviewArtifactSha256": "dac8b42a31ae92094147b40b08b337f6638cfb75c784b50c788278e64008e191",
       "sourceMetadataSha256": "762c60f909324bd549b17d5a577a341f29d1e6067095bfe58e1a15db3d7e6c05",
       "videoPartId": 1605
+    },
+    {
+      "aiRevisionId": "a06fee10c3bfb7133f0574811bdb53850856782c4a9c67536b61baa82d2f23a3",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "9da66811eb2853eb1cb867a0440d07da1420cbae717d09cc4d4d0e6568be2e9c",
+      "editionId": "a46c260b989a44abab2ea94a0d34a751",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0a49ec1a3471a197961920ce5fda0bae8d76d4139e81e313a60fb669b1fd5f62",
+      "videoPartId": 990
     },
     {
       "aiRevisionId": "87d1cdad604096640ba689fdaa6e6bb202ec50ed37b4395d8769507dcece6894",
@@ -85274,6 +87064,16 @@
       "reviewArtifactSha256": "c8e3885e34c467f46f8dcec1274789a155bc82f98ef75efa5cb1e409b7948a1b",
       "sourceMetadataSha256": "d658d47786f344f633cdb6d7dcb633781b9edba47f779809ac5401cab6ab977f",
       "videoPartId": 1661
+    },
+    {
+      "aiRevisionId": "e6c422d004880b822d458b96b7a8be353e482c0840fbc85aa8af9418fecf35ba",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3255c40db068bf869343c6200a0653bc9481b2abd168e5e27f1f3a12f11543a2",
+      "editionId": "a4e194c3b0ba4b28bae6451d1975b293",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "616d06a94b927e2a7566fb6cda47e27c5de2ea8a4935d0e45bb368cada17cc8b",
+      "videoPartId": 492
     },
     {
       "aiRevisionId": "dfcc2887e74a86032e7e5fb48556dd9e82e97a7d068b3758d0abf4fa068b6786",
@@ -86266,6 +88066,16 @@
       "reviewArtifactSha256": "f36291d54ca38d2f2989cdfb6c4307f00c295fb7d647a98e5bafa73cae2afe18",
       "sourceMetadataSha256": "fd1beab61b7273e00f6c1d9d9a06a471513592442b13db589fa2dd9f47df4902",
       "videoPartId": 821
+    },
+    {
+      "aiRevisionId": "479865bd6c569f777905ec8e5585d2bd2da7af172111555529acc3de6f7ac543",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "2d92f18d32baf9de95ff7ca36d1f7b6065eb173354588f86ecc0935cb12b726e",
+      "editionId": "a707968ae53e407eb791fd1a7e3d85cc",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b9b728aec651393533bb399fa21ce2a4c13c7402a883b89d643aafae32fe7dd1",
+      "videoPartId": 1637
     },
     {
       "aiRevisionId": "30e040af2b99a1e50a4611f2558e26a1b9ddebcb91de5589d9ada6d2fa2b651b",
@@ -87270,6 +89080,16 @@
       "videoPartId": 599
     },
     {
+      "aiRevisionId": "72ff1be088bb7969a739f152b183b097d320c50abe62236ed72aa9f1f8a18218",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c8210bbb7e32c07937aac3e65935ebb01c5acde420fed9762bad736b9c8b92e3",
+      "editionId": "a9b10a37b61749809f838805bb9da339",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8642adc0a997d3fccc81985a96ec619edd61a494e6c58472934021a9c5f15fec",
+      "videoPartId": 489
+    },
+    {
       "aiRevisionId": "7e53d457ed0719a57874b9f39b94ac9f493f9e1ed284d62894729a30a1cb9719",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b7665e15ae6ec5391ab8870955645f8a4f092180d6353af68bb0bd0033a75d84",
@@ -87516,6 +89336,36 @@
       "reviewArtifactSha256": "1d50444e5117853145d955b79742763d5fb2c22f4e659b524235d0b45e49f345",
       "sourceMetadataSha256": "b22cff302ff49c20a1459be92d11449ea6e9c06e33fa905f41062096e84c70b3",
       "videoPartId": 1670
+    },
+    {
+      "aiRevisionId": "be7f63b57b84b2f5b1c6be28a658f971a12d58c686ce8b50a2431e66bbb1c321",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a8ebc3b0b2cec95e4009186a4aeb50f8ff09c6640fde11ae8cc6d1c546ba7d19",
+      "editionId": "aa261a90810f463abeb3a80475a68018",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "f8d3618448f2eaff1e2e5986d8730b7b7dc33fbc5056bc9be22c70f30a6218ce",
+      "videoPartId": 1960
+    },
+    {
+      "aiRevisionId": "fcc1c76f258b9dcf651bb2fd7bf4f96db2f4b755bff6e242175a98fa3a07af12",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0dbacf161bbefe0d6d3341af019346b77c832e7f38bbdc0b15af6de9ae6e208d",
+      "editionId": "aa49b909338446c5ab1b835e09d447a2",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2beecc78673b295a9a349f26306c76104d16d18f96a0b666ebb6f1e65bd545fb",
+      "videoPartId": 173
+    },
+    {
+      "aiRevisionId": "62bae47887d6918a19b692bd6d0a227a2f0c4915f8eadb59e2d201e989bb0064",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a411b48772049a33425a61d48247195d45b5c2cefd2d094f7516798be6fc1914",
+      "editionId": "aa88c70feeae449390e426e446b4b825",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6c8d56997242d40804afec615d32fe922dabd8e373f224df0bba309c516a53f0",
+      "videoPartId": 779
     },
     {
       "aiRevisionId": "b1a9d88a74f04434f634995bbdec15353acb8f6d3f52aff49635a73d47b4e605",
@@ -88892,6 +90742,16 @@
       "videoPartId": 1938
     },
     {
+      "aiRevisionId": "ac44106f69f0663f483ed84a9d8827fde820b3e5c7e6dede4e84ded7eaddaa6d",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "7d398b4f5735e062d60ed9197c4253dea1410faaee7c35e0e388b51e2bc9a26f",
+      "editionId": "ad3229f00db74ffcbc49f4a668209fd4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b15ff7432ae0b37088e034c38fe3314df66ee880cf819d4fc66e5f5ece4f15e7",
+      "videoPartId": 338
+    },
+    {
       "aiRevisionId": "f67e8db3dadeb09e386f5a5369e4de95d1a84329432ca39f85a1f93ceea9f2ef",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "f8c3749635ad3fda4c212e21b4364a421ea4f1bd6edae869ea1a235e93e2824d",
@@ -89264,6 +91124,16 @@
       "videoPartId": 841
     },
     {
+      "aiRevisionId": "34896f3f8d7906418c3d26f3b9b610396c0cee14d2869a4e4283898fea58dded",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "02cd97a44639d2f8013e84c65c275c90acfa7c0727a6d20a7d70d8339922acc2",
+      "editionId": "ad9c511caebd477ea122aed2c216b4a4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e3b30a19e226af0197ab81e0c5c1362d7d36026772ee6bc78d5a5c6ffe971e88",
+      "videoPartId": 1271
+    },
+    {
       "aiRevisionId": "04b7d9ab5c1c29f3116f23593d763299a95d344f938c7536f16720860c84ba8a",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "5fa9ba93939118e1f61f1c9d81ef31c43b3605d05c29c5e1bf560d9e6e18226f",
@@ -89510,6 +91380,16 @@
       "reviewArtifactSha256": "e23fc8386cc02126663ed3e650243b63fe7b558aed5e33741f42123f2c9471c3",
       "sourceMetadataSha256": "797a417760f1fb82dd02c03823a7f107f15774958af3e7eb1427a805d68c4a08",
       "videoPartId": 1320
+    },
+    {
+      "aiRevisionId": "2af6e1c54b6cf7f90e7ea71decc0f83a5f6ae45b2de79cd47ddaf50e6e2383fb",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "83e4ea8d19bd16d0e7e611f4988e408f49c38c1427ba4fd1a084fe8bf54ff896",
+      "editionId": "ae060833d5704f6d855fc001c03a928d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "f006f31d2b735f9308b12af49010565fdb58befcd32ea86301881f31cf023197",
+      "videoPartId": 1556
     },
     {
       "aiRevisionId": "ed0de2d6e77755250eccfcef34b4963ad2c7cba29662a3830070f0df7b4cc9db",
@@ -89884,6 +91764,16 @@
       "videoPartId": 1740
     },
     {
+      "aiRevisionId": "02dce52f70a116491b8f668986c9456e768cb01934faa12d4cba2636971e25e9",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a90465d2b0a9a2ead6d706c7079c54ab6eb148ce025d734dae66acee8eac9146",
+      "editionId": "ae6b77d3d4af40749397cc379cd44726",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d1696d46660f6815c018525242ab91e910929049caada7c55f7e90ba3e3981b0",
+      "videoPartId": 1727
+    },
+    {
       "aiRevisionId": "4d66d3bd8c533c31ca9254b2eb79acf1e88d9d1fd86f2a3cbebf15251e9a22fd",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "be0e2d671706b561f31a035a3a0a4e57a902846372d94038ccaf125faf789c47",
@@ -90006,6 +91896,16 @@
       "reviewArtifactSha256": "fad9c61a12c1b7cee813d4b228d1e1423b8dcbb709bb8e7b17b9058d22c0284f",
       "sourceMetadataSha256": "74d031434a0c2f47af90ac256cf94875722f046ee798141f26b34a23343d9b09",
       "videoPartId": 1442
+    },
+    {
+      "aiRevisionId": "aa93f6f2d268e00a374dba9fdb6e133853696c559ab9cdd93eac0e1daa7b7a72",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "dbab2cccccbb7c40cd81c2cb2ed43d94dd6bb92c90aa9ee24d5cbdd2f79aaf33",
+      "editionId": "af78a256dabc4fd0b1474c534b7ec295",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "fcb2165043cc4b6ec4803bc8c56ba4ae7582d6912b77cf73f945d66ba96229db",
+      "videoPartId": 852
     },
     {
       "aiRevisionId": "b4fd4f0e8eedf7024b0deca2cd24adc2cd68d56a50ee88ad6c3d265dd395f6bc",
@@ -92136,6 +94036,16 @@
       "videoPartId": 1787
     },
     {
+      "aiRevisionId": "54b6598f055893985893436968e78c4281ba2b2b10969392bcde5bf68fc9921a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "87ea50de71948b3f0bc18ed1910ee2f51a06f103b8a73f1d5e6774349eaa44be",
+      "editionId": "b28f62ddf3e04b91bccf04846a3fbb63",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "a639a73c498102c96b2e5cfe1c62b1d88901e0b07cb8a90e126e25a5d8afb79b",
+      "videoPartId": 333
+    },
+    {
       "aiRevisionId": "309e278a76c3f2b8561acc0756294dbd3c0f48a277b7db227be59b1e3ad93b63",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b16d5108f7310fde3af659f5613442701f2a628ec9d61de693e135c149d5223c",
@@ -92382,6 +94292,26 @@
       "reviewArtifactSha256": "492efebf055559f42b995f1be1239ced68c6e55e02b8f1681903e3c4abc0b41c",
       "sourceMetadataSha256": "0ee09e522368d7506d1b77e700ea31a11639084fe572c6cdf88ab7b76266e878",
       "videoPartId": 1035
+    },
+    {
+      "aiRevisionId": "1601a0d97890eefd15f9222e0a57ea84e4ba3d0c9d00a6f213d23aedf9279ca2",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "31ec32fd8d6b212f34227f663d62f0b50c86191a7b468e2d534298466b18d4d0",
+      "editionId": "b2ebe6451a1247f1970e915fc326d9b2",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "886a7f138583bdbcf90decdb4a0b0ef2ccd2c28c838dd5ca65729f8c592818dd",
+      "videoPartId": 1679
+    },
+    {
+      "aiRevisionId": "e609adf944864914acb3747fe86281d37a914ffd4cddf1fabcbc2a35b89d012f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f84b74f20725a076fcde8bbc637cf8e2002155f0e1ae43c1bb841982946413d4",
+      "editionId": "b2f08cd3ddd2448c920b22c64a4e830e",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1f6ea9195468fec37fbaa81de0f2d3573702ffec29579b03ad794f7c76394d6c",
+      "videoPartId": 432
     },
     {
       "aiRevisionId": "2b26525360fba0ce60db815ab6f37fcd3a386b769e6b74a131d603a0822d5571",
@@ -94378,6 +96308,36 @@
       "videoPartId": 1801
     },
     {
+      "aiRevisionId": "846b5113147453417a146d36d3e04e3f1ecd50a8d24fb1a4b4c5fe963544e328",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "08830e018724398db98ec0d4b0e9c845f00fc2cc98cfdfb2341788c67eb765e3",
+      "editionId": "b5a3e69971044d58bba3a8abe35f50b4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "da1b66475b5c65fe39b0cc420397d1108fa0254130bd8c7e589c09c23fff0dce",
+      "videoPartId": 1194
+    },
+    {
+      "aiRevisionId": "1970e9ceb4b97a75f32fa96296a4b6afc23de64be5b85f1cdc12286929961a3e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "7b0ad22a7a89c954f991d8f6e4b93de6af0d31cb6b01d6cf98490fe4f26b2423",
+      "editionId": "b5a6e846c3d04a3b90aaef3776b9c444",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e6c2a5c4bc6f80e9b7f01c22c8ab7006b60e687092ca75cbc66208d99c29bc18",
+      "videoPartId": 734
+    },
+    {
+      "aiRevisionId": "d0ac173311166ce88c0b9614b1301217d7fcf36ba41702f2404189c482e59be2",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "f1278033c6b883007b68fd5047733686211f274cdac57328fcc29d7001628e48",
+      "editionId": "b63fafde4c574bf29fa972ff88e6200a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "981c1dd57be921537332347493f1664d2945ca8287b4922a179cc7c739dea7d6",
+      "videoPartId": 1700
+    },
+    {
       "aiRevisionId": "e879c0bd13e88b3340e1c0a7512d9350c571dd16d344ffb321b5239c6b2fe6f3",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "bb6b0b9b787a1ff1b91ed925fe2b03c5a6ad53b6c73a509b02a7c309447ce653",
@@ -94624,6 +96584,16 @@
       "reviewArtifactSha256": "1bf286a3d612ba4a2b872777b46175ba5d08c41d662f18d7eccb523d24a7dd5c",
       "sourceMetadataSha256": "02d5626a6800439e28c230b8d4075bc0458799d5554a4d0079f92f2dc1184f4c",
       "videoPartId": 593
+    },
+    {
+      "aiRevisionId": "ecccc56ddd914f1ed5735443ae0c27527feebf2a7a0854d4be7ae3133da3b6c4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b869b7b13c7fe6689c497cdd3d30ea4fddf6f48313b84ac998f9e51a76342ed7",
+      "editionId": "b66a12c508eb48ba94afae0dbe6a4fcb",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "5e34fed3ee71f1305346cb8b90a3bc01f37c573b923771806f0c9cedd402e138",
+      "videoPartId": 1838
     },
     {
       "aiRevisionId": "819ce287d012bae30070707d4e7f1985178440ba0b824f5a0aa868d348c8a371",
@@ -95254,6 +97224,16 @@
       "reviewArtifactSha256": "37a90ca1c9b07bdac9c00ad05fc04f7de1e3727a05454e53f29dccbe5bf1daa6",
       "sourceMetadataSha256": "76a6c5cc550dc7d1d1b63c9a1381491139d8c61510b61a65f7be37a25982283f",
       "videoPartId": 287
+    },
+    {
+      "aiRevisionId": "b93199fe940bb33316d546653f562d5775b433e9ba8093a1f8d08477209b2ddb",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a8b7c5a066d1846d3accc949f3af9e7a187065b7f08a336f1dd37d9ef68622f2",
+      "editionId": "b79865668dbd4b2f8cd6962bca24bce8",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "74421145b95086733d6e7f723bfbbccd1dc7b5fe062779a755cb3474d2516948",
+      "videoPartId": 801
     },
     {
       "aiRevisionId": "e8a9aea3855b491c88a2d0154dab0fc6fa463f20bd26b51617dc684aa83c260b",
@@ -96620,6 +98600,16 @@
       "videoPartId": 1954
     },
     {
+      "aiRevisionId": "a2270583ef130787995bffe190b841cb0689a07d8b1ad33c0cd281d614b4c598",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e9d4b526a4dcca39d5ed4eb3c2331162eaf786b92725552a70bb0f60dd319db5",
+      "editionId": "b978318a66ec49149526c471f2f7ecc7",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e3825cd5ef88228135cc04251c5b7ad56e69d93f99e113f666fb4ceaf44c2a0f",
+      "videoPartId": 750
+    },
+    {
       "aiRevisionId": "8f56b89976814372d0a6fb60fdee255fdc63e5e0a9e8f20c7cdcb5d7bb2fb905",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "41e5b8ca742c4ec5cf1fb0c459fe783a189e01aacd7c04a421b9b81f65fd20e8",
@@ -96990,6 +98980,16 @@
       "reviewArtifactSha256": "9c90b390dd9d1bb5b7c8473db149db02a4c29e7ddb120849f82da7f110184a72",
       "sourceMetadataSha256": "0cba26d8e107b14aae008327e666867821511f61a517aca84eedaf192ded1313",
       "videoPartId": 673
+    },
+    {
+      "aiRevisionId": "7db2d85cb238043c411c27da778fae1e6ffaf77dc46867dc5921138f53575c5e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "fd962c0419dbc353e694d68c0d3295be974e6989609cf8c54253a0d88979b7be",
+      "editionId": "b9fa9754949d4399bdeefe76e507f383",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "bf4570232816f06d47aee5b97f64db334ee6ce21f0eb28c4be64074ba4623ff6",
+      "videoPartId": 755
     },
     {
       "aiRevisionId": "b24c96b4d67938642aa25e535d8fe4c3169425b133962e0f48cc5230eb15fb8f",
@@ -97984,6 +99984,16 @@
       "videoPartId": 552
     },
     {
+      "aiRevisionId": "1d42972b63933a764d11a32e262d2f8eb5dea859def9f36708e5357266b5affc",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "56043b6c7a8d4ee86a7e43b1b459ce1b17797fac61e3678ecfd9e560391de041",
+      "editionId": "bb53024eba13419ab4cf95d640744c02",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "4a5a7d4873d2781a386700889feb3618f88f493f3c473fb2f1528aa47903dd2b",
+      "videoPartId": 809
+    },
+    {
       "aiRevisionId": "8125f6dd528030cc5ab1a90616435af3636815172759934bc90570a3a7593b10",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "f30bdfe4a566f4b515baa9b87b9f73d3f74dd287faf81faa0f04d519367186f4",
@@ -98748,6 +100758,16 @@
       "videoPartId": 303
     },
     {
+      "aiRevisionId": "9232682655832b905e90923a5da8a710cd449e921cc1ed7b1d354aa1335155c9",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c4ae7759677abc5eca6ea1cfc6f271ef129878a20403b16cea417a39ccceba24",
+      "editionId": "bc98e6a6dc1a4ec6a2fe260126ec6f55",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "17418dca5cea7658eb77dbd76e7acb576d8b2b8945a3a14301c62572816d7253",
+      "videoPartId": 11
+    },
+    {
       "aiRevisionId": "09b95db2492d20ba2dac21e02e31a59a393ed4bf200c703ee303c8618e60043f",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "520fa07fb8f4b359a568416797828bc9da8106fa7e958b49a64c5a1c7a9cd17d",
@@ -99376,6 +101396,16 @@
       "reviewArtifactSha256": "d55595a48c6f89ea2fd4790da6795db8774e373deb4b3920b0ed648280d5d383",
       "sourceMetadataSha256": "7471af0ef6c56f0510044686e4711287d80fb873edaf6c9c379044703a3f3d71",
       "videoPartId": 800
+    },
+    {
+      "aiRevisionId": "3220d7ff133937d71edd971016aa56c7c41170d6cc37f64b3332db8d1d80b572",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "fde0bca3d5cba2b585859151a42d71ef0a5b6a50243d54c996c4e71b720bf826",
+      "editionId": "bdb71cfa975b46f98eea29b04e7e392d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "a2cdb082007ddf3fda3b85dbe8543b88efa8ee900a45941ca1c19b55e1e46c0c",
+      "videoPartId": 381
     },
     {
       "aiRevisionId": "89929ba0abb71c4e93e8e92ae54dcfabdc2882325db118ed9b234983f419ee53",
@@ -100152,6 +102182,16 @@
       "videoPartId": 28
     },
     {
+      "aiRevisionId": "6495cbfabdec7a702aa4b051002be98b143555391a2c97ac2edcbdac48d23a2e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "71f72d500b26c4494efc21501080111ca24572ddb294efa3c8a9e9f603247321",
+      "editionId": "bf685363731c4be3a94638fea8a8c7ea",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "50ce021bc989b57ddf6e35c86be438e8fa1b7654924a7afa7911935c4b5617a9",
+      "videoPartId": 362
+    },
+    {
       "aiRevisionId": "cddbb7c1328790ab08837b2ae916c3690d51a0bf2a244379c45824ff41fe1cd2",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "42902c2ba8d950cab410a747044aa7c38a6c99d61aae7c3a0e51a33f560decbc",
@@ -100398,6 +102438,16 @@
       "reviewArtifactSha256": "72b15609f0ac82fe159e81199cac86360ac770cbc3eba6b4d667155df4b7e900",
       "sourceMetadataSha256": "97d5af24f4cbeb11fda3934f84a812baa62c19a8908054995cc809e57e33c67c",
       "videoPartId": 1580
+    },
+    {
+      "aiRevisionId": "77748d303cb880e67821446d77aae649bd64cad301260e7e5e8b4fb303633a59",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "65f0545a8afc6f7528fdbfc7b5853b50c31a428f28a2a0108d4f277135dd1742",
+      "editionId": "c0012d7fd7fe45adaaaf776ee83be20d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "4575d9e4fd37deafbc7078de8f881c1c0173cf382018b3ba0378d756c67c5c8c",
+      "videoPartId": 421
     },
     {
       "aiRevisionId": "4eeed06f33c8cddbfc5aaee2cb1034585f106e6ce4eef84739be4ec2762f2370",
@@ -101660,6 +103710,26 @@
       "videoPartId": 704
     },
     {
+      "aiRevisionId": "443e787e5db5b34e8a26d71e07cc997c041e62768af803c34d6c8b6ad1d34c50",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "992d4f91b14e4efe5e25cad572e331bd97d934e1bffebace819f5609b6c47a9e",
+      "editionId": "c18c9f6d57e0487bb96e4af058aff3e6",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "26553683257f3d7032911a1ae372e7b4e46b59a4a534361ba48efda50c5ab37e",
+      "videoPartId": 753
+    },
+    {
+      "aiRevisionId": "47a3fc9346bca2192b1873dfa0f20c59b423a26c6f6cdfdfeff786c3bfe188f8",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "acbdd12a3b0abf4122c77e22cedf73feb136573a2d2a217e016d6137e1c0b95b",
+      "editionId": "c1a0aa20f42143d1a0254c9e17fc2a0b",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9768e86026dafe0f56fc66830d89a3c219fcb2c92ecfcde1e116e43276fcccac",
+      "videoPartId": 1778
+    },
+    {
       "aiRevisionId": "590a87b83842980482e95136495a5e30eb4d4ef0aad2fba8bde57ff1a1453a85",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "85eaedb11dcaaf52a512fe355c8a4289935225ab164ee6efe5fe70376bb69faf",
@@ -102030,6 +104100,16 @@
       "reviewArtifactSha256": "caf160339ff7781b07c3f494f9f99eac62d798fd4c40f0b9592c7a35320c4e22",
       "sourceMetadataSha256": "9208b4e338f0f77a403f9a2a010bd0800bc68a901b3af51af4829b050a7ea0c5",
       "videoPartId": 923
+    },
+    {
+      "aiRevisionId": "0938216c8309da5b921d5c6852647421cee083e82e8a5406d510251d08d11f35",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "94a65337d53fdc5441ca2cadbafe9335058f3115dc7b220dd2c3d1081bf4c468",
+      "editionId": "c1f484c2273e4e9e819a4465e22d3f0f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "db86e79e6afa0a78bde58bed36bbde238b3d442477c9e00ae3d884e0eaa7c99d",
+      "videoPartId": 854
     },
     {
       "aiRevisionId": "f6043f160ec4c6ba02a16da5170ca0bed03f8f260a8487d4a2f3976b00521b09",
@@ -102538,6 +104618,36 @@
       "videoPartId": 1736
     },
     {
+      "aiRevisionId": "c037a48b90441e71c4cb1f6fda5fdd18ea9af057d37656e000a519853c692b96",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "28e720b3a93d5e303e0442e0f223d350378eaf411859cd50c4cf53ae30292c76",
+      "editionId": "c2d384c060744df6ba61932407ba826d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "c437a7d9289367afc23d5c9c8c5909ff4407a9d9dc2319f26830468f23f6e67a",
+      "videoPartId": 124
+    },
+    {
+      "aiRevisionId": "57cd650811d083c37e9f917bc1372200d39af5be100ca042daf77f0a1a1f4d25",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "36a427df1189387fedbd97a56cc9243f9ddf1efb6b0e7f5da67616dc4267489e",
+      "editionId": "c322551ed0ca43d9b2a10de8bd741c8c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9ff6a0b87904472a48f2b476c6515fb54b8356a1fa403ea585bf348d8bec34ee",
+      "videoPartId": 618
+    },
+    {
+      "aiRevisionId": "0f1a613ed9d3900e144bfef8a68ede2994c06cdbfcbca6dce4c80647a7bedd95",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e368fb27a7695093f06f188090147940bc9454b9c978281bca905025b4f9b306",
+      "editionId": "c38370fdeff340c78b201e2d8dbb1fe5",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "632c6f35bd24044add479cf647a35707c2ecbb6c6bbe617674fcd9614baae1df",
+      "videoPartId": 515
+    },
+    {
       "aiRevisionId": "a4a55f69c6f571a53f98bca1f8255f777652f251521245568921f08ca3979bef",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "73f7000bc8119d892df2a6043baea9b6d93b5941020b4c17b9ed69bb1c08070f",
@@ -102814,6 +104924,16 @@
       "reviewArtifactSha256": "346641cc1c4d5cf9b3e9114f6c3d5c90ed9b8d5c3a61bedf4728610e860c1c3f",
       "sourceMetadataSha256": "7b98bab2dba61fb000edcc7730d3a7ab73a5e16f6a564b917649666cd5b1edad",
       "videoPartId": 29
+    },
+    {
+      "aiRevisionId": "ea6e1898d2c71cb8840a2643f389cbae0ee75848da27aab0e3f0fb530a02078f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ec3230cdc51f3777b878a5aa2b80a77532e0f11e8805db658e4c26a00abe102e",
+      "editionId": "c50c20ca5f7345ae8fdada91372d2e98",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "680196834d9d4c6e0ddc906f2ed7bd5c31d29da0c3120b2c52f9ddb9415b18f3",
+      "videoPartId": 679
     },
     {
       "aiRevisionId": "e595af899ee8901af713f6eb7bace1bf39c4e09229b95c0a5e67182c30f0fa04",
@@ -103694,6 +105814,16 @@
       "videoPartId": 767
     },
     {
+      "aiRevisionId": "268bb9e803c72a2b1c0682a254e75cdc298b04f6aea60e3c0d64f819ecad52ab",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "786212f5cc0af3b0d6401b4a42a01bb1f71475685221feb3442327be6b895f9c",
+      "editionId": "c6703ec554214697925b328c59fc6fc3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "97f9adea340b986c7d88e156d1ece7041302791ec75e1e51698fe1394776800a",
+      "videoPartId": 89
+    },
+    {
       "aiRevisionId": "3526830303d70d7e91a385e1c7a123da26448662a77f0a762688b44dc4ada63e",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "fe8232c31a495deb5d3a501a82e6e1e20d854c9b31b303577a30a1e085142a34",
@@ -103816,6 +105946,16 @@
       "reviewArtifactSha256": "29865ae6d36f271427b700ff71f3b13c67ce4f5fa2b1f77c7c936f59254857d7",
       "sourceMetadataSha256": "2f844d44e21569eb570d05eec6835e5f75df8bbe59a1e46fb807619fb8f2becd",
       "videoPartId": 1743
+    },
+    {
+      "aiRevisionId": "e4507e1b5b82ab51aacbe2a21a79930a393db5cde9e5ad136c1738ff702eee95",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "97fbd13f8a94df717509acedb14b89378c6ea39b2f02e858bdbf04af8ccbf52d",
+      "editionId": "c6fdf625a0e642589d60130a48d3f738",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "c98a69b7caf41c8ec1827e58f8c77ec72c2ba880580c3a0c61944d6e23e7c925",
+      "videoPartId": 894
     },
     {
       "aiRevisionId": "0ba60792161a8b8da65692e39d6155364853449980c64c0496d4d74a994660aa",
@@ -104064,6 +106204,16 @@
       "reviewArtifactSha256": "0bb782afe8d0bc864b40a64542e7a745053aa3eb28263dd44e6c1f30a9f6a31c",
       "sourceMetadataSha256": "ee2d1569f2f1f69684a01ab0728623c3d2d5dc71c0aa0d93555f851eba9531ea",
       "videoPartId": 247
+    },
+    {
+      "aiRevisionId": "e5fb0c0899b8a1f966ee426a65ededafafefc80d1a3b6d30f7ac526f3afcda0d",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3adcea5d9129b8db449abaf24f6285ddaedcfed262a53bceaec536c104e76267",
+      "editionId": "c8199ea0051c4c64b0bd8c00112a402b",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "814da96d71b5f965e3795a3c8b6465919aea8919a9718d3391a4e92efbba98f6",
+      "videoPartId": 500
     },
     {
       "aiRevisionId": "6cd1ce8f8d319309f8ef1aa0381192454bf6fb87a668f5034a9a09758e3ce0df",
@@ -104448,6 +106598,16 @@
       "videoPartId": 1928
     },
     {
+      "aiRevisionId": "f7b78dafe9192f57a34b7193564bdad9abd227aa343be897a6ff3639818b904f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "1c2c67173c56c89eb7a4913fe53f7d5ecbe2f95a17a8df4483782d4396452b48",
+      "editionId": "c8e254b32b594fe09c40466b4eab4cee",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "42784e35e96b77708b27e3b24c013123dea4e7e8c817a1ed320224a029ee8888",
+      "videoPartId": 550
+    },
+    {
       "aiRevisionId": "c49a95a47ee950bd60c3a28bc8e8c5dd33eeddd1ef34170e55f886ed6124ce01",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "6b20366d05de6459512be6a68392d2334063dc45eef4afa78cd79f9eb60a09a8",
@@ -104818,6 +106978,16 @@
       "reviewArtifactSha256": "f58dc2505c67b9d2b4a8785e298013102de20024905f522be05fbc1192779efd",
       "sourceMetadataSha256": "569aa46400c285187b3195753490ba47ef892a70505db3e0f0203f0c4e013261",
       "videoPartId": 1892
+    },
+    {
+      "aiRevisionId": "e09e27ed9f3a46c325e4315fb0d463018bebc18a5ef1c00054349261d6c00364",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0368410d32e297e44083aa49cbc1a1b627a8590f020e221bc9b4ff6c3e705c94",
+      "editionId": "c9a954dd6fdc4a68bf88918ad6318280",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d3264c2105e271e710708620bbc8fae4a8f6fcad4064bc6a6030aecc253975e9",
+      "videoPartId": 1607
     },
     {
       "aiRevisionId": "4087b002b7c1b8869cffb121903c9c64a627aa6d0483f384ea5862c98c3fc094",
@@ -106566,6 +108736,16 @@
       "videoPartId": 993
     },
     {
+      "aiRevisionId": "c44cea3f8481e443bfda2dc1fd12e510e2850e79f83ded30265c9de75555f1b4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "416705ba03bc33a0d37a2f7ff2556d306d54a6ea2373f39caed6a01002d40447",
+      "editionId": "cb8c4b09d5464540a496620a1ebe354a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ac651866774ed79cd9ad0cd00d2fbbe558553cdb3a407df0c1722297539643bb",
+      "videoPartId": 827
+    },
+    {
       "aiRevisionId": "749c62189741f69c5e023cc481ed0c382bbab1e99b3808d1f4d6567109012b27",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "9b6b8ba2be0917174a068af329f61e54f3fe289d385357b3457953919c428348",
@@ -107194,6 +109374,26 @@
       "reviewArtifactSha256": "fe4ac9f4623684617d57e26027950adec3245951b5cdfd6e407c1386dfda98f6",
       "sourceMetadataSha256": "3e2580fd79b171495bbe8db9ba0e5eb0167dee285c362788133660d1bf2b088d",
       "videoPartId": 1328
+    },
+    {
+      "aiRevisionId": "325f1e58a1fe1bcf88a7b012739ea88b1591df48d82ce2285c4a08855c8a2647",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "00c1dc87b2d868f9b130f7a60366d9149cfaf977eba4f95217602a971dd782ae",
+      "editionId": "cc86a23fd700453a9c818433b43b240c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "aac77e15a12b1e34447ff5bbcc682a6988ad618e700127e038a2fc6895075614",
+      "videoPartId": 177
+    },
+    {
+      "aiRevisionId": "fdc8997134cb7d62ba5071ff3856869cc453f2aac4885d5910f0d3e4a823babe",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3ab2c4d8c369610a95f656ce4ea7a2d9cd6d58dc685ef348891f2fd8ac49bfc7",
+      "editionId": "cc98c5c7895f499289c2219b8a62a380",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "178360a566fd6fe44edd9723bbb42a2e28983b556124bad0d5451f430a215ad7",
+      "videoPartId": 902
     },
     {
       "aiRevisionId": "0004945652ab806ded0607c39ad6c3f8f1c8f245ba9d0808ef91dab7324f58c9",
@@ -109438,6 +111638,16 @@
       "videoPartId": 376
     },
     {
+      "aiRevisionId": "9d5c1075474e58166aba9a0ac9216484e15179a2c47b8b4b9c9c4ddb00b1e57e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "933af950b498527dbb753d9de6b431d3e3b0acda3f020ffa91e367241967c533",
+      "editionId": "d04a216de53c421b859cb60fac4b3a55",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "a5ff337838239cbba27af1584747095b0e9f90997576a7cf08777a7d45a9dca7",
+      "videoPartId": 1192
+    },
+    {
       "aiRevisionId": "2fb1108ffbb046744d795861b73b95a0155079ad18b0a7e40c9d57c4d19e06eb",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "1ec5073f93e5e4a71a36865cb09fdda4e2ab69284535bd78ea0890d59d2402d9",
@@ -109932,6 +112142,16 @@
       "reviewArtifactSha256": "ef82d5d8755680cdc50510b6954236ddaa6d0caba14104d7f64e49f4fb8fb634",
       "sourceMetadataSha256": "762e4fb4c23624cc371980fc4dde6bae011b6897716d61ac95462956517e2587",
       "videoPartId": 1400
+    },
+    {
+      "aiRevisionId": "2e25d62de0616c7ff6d3ff35de611b966067b19b93f61c18988b87fa2b03183f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "66a46028b26849e2cc3103fb30921831acef7310787dc40afb783be8ec334f6b",
+      "editionId": "d0cd6253f9484e01a8bf691f9a10ebe4",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "2930d2d34ae8cac257a144144af6aa2ab95ceea83e9ab047d010d80552a87d6b",
+      "videoPartId": 765
     },
     {
       "aiRevisionId": "0cfa2f4be4c5e61ef82df5f4c59891d45ecbf0be6a3961d4327d6009112e8373",
@@ -112910,6 +115130,26 @@
       "videoPartId": 319
     },
     {
+      "aiRevisionId": "077447d79edbd6532f9dff541f25cc02b1aa6605b022a48a809047facf9ca3f8",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "280125ee58f79a6bbeca0fde19417e34d97856ce8ec92ab5c251fe31dc781706",
+      "editionId": "d577cd8610f94f339276008d31f71b7d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0cf1a4b6ce04b46c9834b73193703c3b7fc0be3606bcbc658b23bd7c20845582",
+      "videoPartId": 1902
+    },
+    {
+      "aiRevisionId": "cb3f82bd8e3de6ff0f8d7e5cfa007aa79c1007ac3e05b5ff8e8e93c32a76ea45",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "24988d3e1908924ebdf2908c2b2ecfaf95387423b1e0d79766dedb3f81e4047c",
+      "editionId": "d57e9f241c1340b9803de7716d7142e9",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "63d71230aeea595192f9f3f0e1f963550e8a5813a2c2a50ccc59baad6ebf5b31",
+      "videoPartId": 1266
+    },
+    {
       "aiRevisionId": "7b1b8376fb375d8b300343edcdcd25cde2200f9acddc595b88e431936f2de2cc",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "7421122be10c69626093dc8163b65b0ac8b1562280a6e3b7c3e82128833a7aeb",
@@ -114914,6 +117154,16 @@
       "videoPartId": 728
     },
     {
+      "aiRevisionId": "510e891a7cfeee89f78e2fabc356a4ca3c03736375763e0ad3ebcc014e76829e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3c1aafe2ebb591781525d06919d0db27db246481c012f8bc932ceb213dc3effa",
+      "editionId": "d82d803cbdb54d62a4d1f4c8ed35f877",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "df6b71c73ae402871550838fd8f1e2f04f4a7e7252e115b2bc3918810757fa97",
+      "videoPartId": 1079
+    },
+    {
       "aiRevisionId": "9a171c839ffe8a45f65338c82dd27f0febb66041c4a83cd4a8851da8139fe78f",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "83ad2106017e2374c835016ef8151c3d39abd00385a3d1ae2010c1824217f284",
@@ -116030,6 +118280,26 @@
       "videoPartId": 1769
     },
     {
+      "aiRevisionId": "0559de66b950affb985e0d9d23b48976e7724e240d2e330ed07071faae4851f2",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a546bdf6696261dc5ecf3f16e9844a16f635e1270b8011263bfc8c94240d1716",
+      "editionId": "d8fbe49d85e547ca85207f634ffe07d3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d45b05275f16171fb51d4c151cffe0d830a68b71e6b4ab0e863ba00f09583983",
+      "videoPartId": 1345
+    },
+    {
+      "aiRevisionId": "740f15edc86ab12a3e93d2dc5867b494d18dbb8cab0f3444dbfa5049b414f69b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "80144611341edd0b614b683064b8746bd46f5855918c9d08370e6c32aebe5a88",
+      "editionId": "d9524a84328b41c28a9da86f17a25d21",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "9b6334232f8df1600d8912610f7b7171968aad00c6b820f7f278ad7aa3ea7d34",
+      "videoPartId": 789
+    },
+    {
       "aiRevisionId": "c25cc927e0f7f2f7fbbb9be347591132d7ce5ee6133dfaa59220bc29aa559537",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "e375ff7d23f8c42e44d184d6ad602577d091d1d015abe0d1031f275284fb134c",
@@ -116152,6 +118422,26 @@
       "reviewArtifactSha256": "513bac8cd1792d2cafd32b99601b82363a61b139e69eaa7acd680df4ab5290e4",
       "sourceMetadataSha256": "9db8f863bde123f56fe064af28648c8fc06a4feea22b25662cce4d727698807b",
       "videoPartId": 1731
+    },
+    {
+      "aiRevisionId": "a497712c84d08c12b6b7da0d9300411bf61034ffa7dc8dde1313de1d0a06c298",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3c797c7af1f99238130eef45e7dbf7b9711c524451e56b5351a2bef009cb7d96",
+      "editionId": "d99694368edc48dea7c3ad4cabc440c1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "c5f311036ff520b82463f58353079276ae55b100dd44d439bcd3ef3a3915fda2",
+      "videoPartId": 196
+    },
+    {
+      "aiRevisionId": "478671e38aceea6556590e96e86a0f4e2a3fa469be681b40b1420f778bf51a3f",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "bd22724d4b69d185079f72df3a744e34d71a53b34d81b57d5aac5c3abb6b9950",
+      "editionId": "d99861fab35e4b04a8f2e6d2018037ec",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b2dc7280c40c957cd7818394a6310d5365cc8eb65b5cf4bce6a472bb148d3a4c",
+      "videoPartId": 1537
     },
     {
       "aiRevisionId": "c2ed3d906fc3fb436a6c35eec6ca407cc6032597e8e08beff5eea27b43fc3dba",
@@ -116772,6 +119062,16 @@
       "reviewArtifactSha256": "c01fa213bbe0260531a0fc17c42dbe63a9ec04005b7af296b0686313eb05cb82",
       "sourceMetadataSha256": "d36ffe1e6a9a0b44df8ccb31ae12ec5bc82bf6bc8cae362b7172947e02dd0a41",
       "videoPartId": 1225
+    },
+    {
+      "aiRevisionId": "5a7f18f637da99d43bd1cdf9cb6d4ce5408589aad909c5d03300829d5a77960e",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6fb484570dd0a2e4cfde1ac003540b3854d81889db90fca805849278409fced9",
+      "editionId": "da12e0d7a0494e41b63cee9583935f94",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7044ee1a734c62e806abb725a311ee1f08725028520f9551359b582b86381ab6",
+      "videoPartId": 1980
     },
     {
       "aiRevisionId": "24e1f8bb096ffcc466b05d759f7421c53192dda03a9f90f8c68952b83f71ad0e",
@@ -117402,6 +119702,16 @@
       "reviewArtifactSha256": "e7f4008c3dec964be4b430a7a4bfe43c75b11e155381fcfe2202f0689a59d88f",
       "sourceMetadataSha256": "ab51f41e81de495eba9ef6846645a48b17b11f1c3e94f11dba5c4c0958578f40",
       "videoPartId": 580
+    },
+    {
+      "aiRevisionId": "2dc56199cb9b7bb5f3dcdfee5344fbcb87ac8963d435a3b301902ead5f9288ab",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "704da3145ecdbc1f3c02779aa89b10269fc5f9d8c66e935d9483f87cebc6068f",
+      "editionId": "dae01d9469e4495192e24acfd93df2b5",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "7c8ce31263aaa475918a625b8b985ca25021352ceef1799b9ffb30de3af0935c",
+      "videoPartId": 388
     },
     {
       "aiRevisionId": "089765d1be079751c6e2a5cb7417bef656fb77a8c05ad32136360a6450b3ea4f",
@@ -120762,6 +123072,16 @@
       "videoPartId": 1671
     },
     {
+      "aiRevisionId": "156757965e3e75e9bf775af3cce69b2b1c4aeed08b50d10bfe2d9fa9772b2ffc",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "302a44506c0de84812f2b70058844c85a671e05372018fdf11ef9e11332cb251",
+      "editionId": "e0c39c8d043e4399b25f95bb03d778a1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "322edd6ed1921e9ae3703c2b01cc15efde20634693f1f69f2b47723d94e9703c",
+      "videoPartId": 1347
+    },
+    {
       "aiRevisionId": "14ab06af7362f035d791721d1edf19a18bfe16bebedd15883da5832b2b54b578",
       "aiTemplateVersion": "ai-draft-v2",
       "contentSha256": "02f838470ac2b6898f0547503b7ba6a21e9b4bf9edf8efb2d4ee9ff4774247cf",
@@ -121018,6 +123338,16 @@
       "reviewArtifactSha256": "9b30b5abd8cc37675c0c851561f3354210ba121993611b4be74f8b9723b33536",
       "sourceMetadataSha256": "4e6decb2e799b2fcb6637221ae4802142b0c52fd728b8baa9843ff272f14122b",
       "videoPartId": 1593
+    },
+    {
+      "aiRevisionId": "dfb1caa2bda7dd485399fa23a6b7dd923126618b2a88cebf5b2f21b4bb070724",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "357d516176ee510ef8502871ae7e9539857685f07d26f5c7a4cf17f865bc252a",
+      "editionId": "e0ef6a0eaf7f4fa0b7ba5e9f123a455c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "cfb06acacef4bcfb65ce17f8d58389b566501d524c81491a1bc799531468ce52",
+      "videoPartId": 1197
     },
     {
       "aiRevisionId": "9e4843fa322365d5b297dc3a84e090ce72b5b62c82924c5b59aa482897245626",
@@ -122394,6 +124724,26 @@
       "videoPartId": 892
     },
     {
+      "aiRevisionId": "dd10c5ac18617b3fe0d790130644db3315357fc5ccf422513e96f7f0892740fd",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "fb54a6a20e62fcc6e933d8c8e762fd69c48a8993bc953645514e8605a47412e9",
+      "editionId": "e22ae83adf424634b8c5c35c450eb4ce",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d5345138fbe7b23c5bfcd41b2ae647db3e3c81db7ff143dc032691a22df1626f",
+      "videoPartId": 732
+    },
+    {
+      "aiRevisionId": "834390cbf9b2f81f9ee9e7f6e11a074b3ce07863229bd55ee3aebdb7e329ddad",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "79e1ac6b4088f577be6c88ad884323c33a34b001d7881583ccb6914c782b793d",
+      "editionId": "e2476206bf3f45fcb4e259b978edfaa3",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "68200eb9164de6dda8ef0d346396913b9c589a43781ba43e116870bc788895dd",
+      "videoPartId": 395
+    },
+    {
       "aiRevisionId": "274817629f16ecf9027ed6bf9b5a62a80185f0b6547caa81c69245a4ef4fa7b5",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "e47f0f848a4a4d00836d510f2ba8b87a95345c7b36a38b5c34ff50d9ce056b89",
@@ -122766,6 +125116,16 @@
       "videoPartId": 869
     },
     {
+      "aiRevisionId": "00851d1e3727f81a2132bb24a9ccd46baa9454c82d0532b5578f335d280a8b10",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0eb9edf291ded97fe30ca09424b818345f48c3187cfadb66860c05b8fd5284c5",
+      "editionId": "e328e4ad463746b5ae3a4014ec05bd04",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d484ad67b98d5d1259339036260545f5a295cc165e0f67ba1684e2ce7f17512c",
+      "videoPartId": 427
+    },
+    {
       "aiRevisionId": "656ae2642515409d9cf9cd3ba4823fc2b71eb4103d95bfe9a262583e99ccaf56",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "c067e8a08f4353c62006bcc50e080c87d6dd65b1949ce79e741e1267a398acde",
@@ -122888,6 +125248,36 @@
       "reviewArtifactSha256": "6c2485847ddc77e03f4300bd9898062667bd3ef01233ddb37c0cec911079793a",
       "sourceMetadataSha256": "cde51f2231b27b26d126aa37c9e501942fefb27b585af39f4777a063e5107e8c",
       "videoPartId": 1942
+    },
+    {
+      "aiRevisionId": "b87a285cb024bc726173147f279d82d194351ace444378ae3a1672da0dd70e75",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "de82792882cf4582a2b966641ffd0b1a72592506535f2153d76280560ea01b35",
+      "editionId": "e358ca6e19624115838ab333bc1b8474",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "09180ead300c5efc33f1c0a77328c5e7c31d3c574a9cb705846c01267f1cf0a1",
+      "videoPartId": 1414
+    },
+    {
+      "aiRevisionId": "06948e26d04ff68bbc7cb6226e5d37259564f5c01a093a8edb7648dbbbb3ed46",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "cd5ac4634cf1a16f27a45002bb7cb69eae65146354e7a6353d5935fb7afa0ee6",
+      "editionId": "e37877fdf95d4cb8bc0e538a99cdd52f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "acfebcb8342bb080967fc3b1e8589a01fce1e7b4006db7d0df23ad77e8d75bf7",
+      "videoPartId": 638
+    },
+    {
+      "aiRevisionId": "ce4a3fc302fd887f33f8c9b3bade31fefe26d09363fc0e2204e0bbf2fa2a7daa",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c6a960bb80e08c81b1a33632c05a245eb292547478194f01ba12e021fa74f353",
+      "editionId": "e385f3f3ce6c47aaae412a0634289dd6",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "eb5ac84cc8f559e4bf53583d8fbe5282a0e7fe069bb5b2885d5c6e352e2728d4",
+      "videoPartId": 1296
     },
     {
       "aiRevisionId": "2410dbec5a72e7eed7f2aaf35da0351a3ec7241762dc2f3b5176a8c856a0083f",
@@ -123138,6 +125528,16 @@
       "videoPartId": 975
     },
     {
+      "aiRevisionId": "a8d3257a9cab0f3523e02d6f796eec39ee54a79f49fcb52d7459a598042ac725",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "ae0d1e27a99fef74e1b870ac6f645783fe753da32d39bb27f956d836c7b39247",
+      "editionId": "e44234d7d33c421a92fa0de19b44b7b2",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "65c37fb25795fcf015cdd9bc41f88c4a09c2fbfc3ae816eff9dea739e6c5cc3c",
+      "videoPartId": 23
+    },
+    {
       "aiRevisionId": "2dbf2ffc42618af99e565ffb69b830d3e5d8903c02d8924a3228cd9b3c20dcda",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "81127c914afe956d17204125bba6425b4d17ede0a802860112d650886febda07",
@@ -123386,6 +125786,16 @@
       "videoPartId": 1591
     },
     {
+      "aiRevisionId": "889f522918a87b87dd267f49aa4319a81de9462d466bdf7945fc4daad8736dbd",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "b46d03afbfc74189692f5e7368c1a851f9910647b540286f68e8b3e2f3de91f6",
+      "editionId": "e4d016e64f514f3dadc24283ced16f1f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "522608799f3c2eda4231a48b7f89514c3cc9cd659e545446acf982ec31bf8b01",
+      "videoPartId": 355
+    },
+    {
       "aiRevisionId": "b07a9b20f71640d7b0e17afa1f6adbfa15edf8cf5b27c81d71a35f89eed7752e",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "ed0e13f1ed54d7ca1db568da6c9f44c1b663fd049667201ea59e284728468d81",
@@ -123508,6 +125918,16 @@
       "reviewArtifactSha256": "4954b351f8590451462c20bd36c0af405455e5b33f8961bf39099bd4d3d926dd",
       "sourceMetadataSha256": "d1f50d289a6716897800ab3da3be74dcf347f6c737d53a2b7b83d5c825b33877",
       "videoPartId": 1489
+    },
+    {
+      "aiRevisionId": "9654369ac7c6548095de8da6b286ff4caa2325c35ad1f63c89afe5a79de68cfc",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "fad109c2960fff5e60ef9a096c75efc12b1f4bdb744824ee4143e9ef289174a3",
+      "editionId": "e507244279314c63b526e45801a83563",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "3ebdd13c0c67b8e046f1b3b455208794dd0525af3f79bd74a0c8a4cb2b97500b",
+      "videoPartId": 428
     },
     {
       "aiRevisionId": "5246540e47c067a46232deb130d6fc0dc4da584ab4d9078f82c139de6b0fde51",
@@ -123766,6 +126186,16 @@
       "reviewArtifactSha256": "7eae64a20394aff2e0aaa38862284093db23fb57fbc1563f1ecd67e363ad695a",
       "sourceMetadataSha256": "d8a1c38cbcd3f95e9b4f18e87cd444517596b36ac7b38b831d6a15303b446a40",
       "videoPartId": 1873
+    },
+    {
+      "aiRevisionId": "7b9f5c1b3529634f6472c7ee665bd18058e4223049e7064dc37459a57683adc7",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6a2498ff3f2a126e811d594c07fed0ee35436bcf9f8abe86c6d375f115e763fa",
+      "editionId": "e57e620194554f03af04601a1a3de18f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "5d008d96b51306a8b70bb3996741149b781d8cb55d7139da3ab62226857c5ac9",
+      "videoPartId": 590
     },
     {
       "aiRevisionId": "2fbb1f7cd5e739a7baa59bafeda9b193ba559872f3ec949555b7c1549a422503",
@@ -124138,6 +126568,26 @@
       "reviewArtifactSha256": "d449985082cc237fce54b1465b5302157a479d7852f5c5ac605a5af5ef9c2487",
       "sourceMetadataSha256": "ee296a7e9b4dfbc79508cec6b78dc90493bfba0000103e687128a2cb08cc4aa9",
       "videoPartId": 1559
+    },
+    {
+      "aiRevisionId": "907527feb6da57c91c027bb34ebc9658b194a4d9fd5e7d3cd86f5b68a904f39a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "8f1f06a44f6d777dba4a77dafce963ad6d0392dd60cc230749a238e2e4b36bbb",
+      "editionId": "e61bf10759ed474e8d3dbed066f1e678",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "d18349d4488a387a0410f4399a6d4646e21f59a805940917e6b0f6798593a63c",
+      "videoPartId": 811
+    },
+    {
+      "aiRevisionId": "f2e15a47c05bfb8ed76b8c8b2e4271e50b7f2c42fa4b3a6cd4f6df7838eb755b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "c72195108d27c5287b66b80b56ad0d1e4ade7af25a9bba6ede5a8ae81fc1a716",
+      "editionId": "e6568cdf923948ec82868e60df010b1d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ffb1486635b4bb475a8243a5c75f8003ec666bebd768fbe063dd797ec310695c",
+      "videoPartId": 1434
     },
     {
       "aiRevisionId": "7236754bdc327e8932272918412f5bb180c5d6a210ae386b1b05068e24fb19a2",
@@ -125400,6 +127850,16 @@
       "videoPartId": 194
     },
     {
+      "aiRevisionId": "428ac6385b3d0339645907b92b31f32be927f890765a53264d3233458688f13c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d55777eefb14444df7149e968dffce69dcd0fda5ddc329a23baafbe28e27f4ce",
+      "editionId": "e7bde5d68aeb4c6e8cb09a18a9650c18",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0cd73e6e6fa8a11bd0b0436ae1f47d63daf74a383f8382822f2bcdfe127a439f",
+      "videoPartId": 1567
+    },
+    {
       "aiRevisionId": "1c8d32103f7ec16c43bd5dbe156a7f639bca774b732b29dd8307952227a3d43d",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "489784cc8919a61a3dd83e78a1326e901aeddfb7941f9920325b5e81d4ca48de",
@@ -125522,6 +127982,16 @@
       "reviewArtifactSha256": "068e2c530e78520402a4780f2f46c5f13833867d5ae8642f9d31aa93f3139141",
       "sourceMetadataSha256": "01c775f4d16328fee961c87792cbca3df1b1b8499983ef3685d5a635f482e7ce",
       "videoPartId": 1277
+    },
+    {
+      "aiRevisionId": "6941b4578692f86af3c0895053064991e514fc7c859afdbabd04b8e3116274aa",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "db40a1004e7534b8632be4ec0120135ccf55101f7a9f2584398b0c2f704cb81f",
+      "editionId": "e7ef369854c1432da5ff43c5d61aea68",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "37b09e633541b96a9953b33af38f0cc50643cba1ded258e1fe7314b849adcb09",
+      "videoPartId": 57
     },
     {
       "aiRevisionId": "305d31918682659e78710e0fb6d8fe9539831978c105bd9615163a754feaeff9",
@@ -126142,6 +128612,16 @@
       "reviewArtifactSha256": "998bebafc4934059de4ba9b80be2d55049981c670869846acd047ff4a67b1cc5",
       "sourceMetadataSha256": "5b53d2cbc5f27dd98a3d77f8cf8eb8057ffeeb3588123dee1b999ccb90e57ace",
       "videoPartId": 1520
+    },
+    {
+      "aiRevisionId": "09ee4e25b9d665ebdbbe647adeb9e4d46215b849467a0ac7396d67646a9b344a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "62e34f63e55a8edcc940160de7523bbcda72637031199f8a7270562b4de1749b",
+      "editionId": "e894af33468b4f3fa8500ad8f6a26edd",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "139d9bbd05ef9381990e5b7127ef855ac87ac0f588a2162665dd14e36cb2195b",
+      "videoPartId": 1692
     },
     {
       "aiRevisionId": "08137772e7919200bef2956f11715ce926bb497b880b8478e1af3663db53b356",
@@ -127414,6 +129894,26 @@
       "videoPartId": 1247
     },
     {
+      "aiRevisionId": "f35602ce554907f0d5453331d30879ad57afc4f6d9a708549f2970c7a355da89",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "9227591255ac82261739c6da08a8da4ea741634266b71e83b59e90770f8e8c3c",
+      "editionId": "e9dd994f994c40889db323bdbc207d0a",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "b4e0bc6a58b796dba115594a8fd6fe70877e70acf44e45383b26ae71e9d4f46c",
+      "videoPartId": 931
+    },
+    {
+      "aiRevisionId": "be2e745d56d91f32f2e5c3c26a87d17935108b62c270bd82de683ae21862ab5b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3c268f84cbdcd277d5691cc9f84948592391b1a0ec8247804fadf4ec5d77c42c",
+      "editionId": "ea0292a16678489792e8e16d0fe2c4da",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "cda021691f5ade8c67f0202afe2fecfffea40acec42e5bade94219d53557198f",
+      "videoPartId": 390
+    },
+    {
       "aiRevisionId": "e39ffef2e5ee6248b70bcbebb606b7b26899d9dc12ca4721bc8c3446635ec09b",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "dff6256b34e8e115cc782d8e72faba431668a269312d0e9c2b85bfa58c5f79d2",
@@ -127536,6 +130036,16 @@
       "reviewArtifactSha256": "53edf15b02b8887399c2213f17752627af8cec4bc5e3641f2da2aa3b271ed10a",
       "sourceMetadataSha256": "ea4ea032e979ac0568deb9a82dfd81c05635fa47d3fc1be5fb02c74a213c1c92",
       "videoPartId": 261
+    },
+    {
+      "aiRevisionId": "b35bdcb70eb9d85a5c01772cc1188f60decc0beee07ae88a5312c2b22f332c68",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "3ad8df9227cb7aed5ca96489778480f91fec75387346da6a3136a43849682201",
+      "editionId": "ea6d826d26aa452eaadf36b927c0eb25",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "f745f4cb4e8e94878d3134482c44c3e772f70c9a585e5fb2217ee8213a16a534",
+      "videoPartId": 560
     },
     {
       "aiRevisionId": "f446c35645ac5596ba380d028f29a1469b33f2caea129807a7d35022a932e2e8",
@@ -129026,6 +131536,16 @@
       "videoPartId": 1008
     },
     {
+      "aiRevisionId": "74bf1dc74d3ba10fb551eb21494549e49209ec92150d300e4c66eef7af17204c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "a2f0fc82e07a3c7e950f7b6c4b6b7ce15311d7641864722c81618110e64efe0e",
+      "editionId": "ed2b863d38b84b4fa3342460c768ed91",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "882a3e5ce2e1215cee923b0fb5ddce0d12b61b68b78a08a2d947f4081ca37352",
+      "videoPartId": 192
+    },
+    {
       "aiRevisionId": "76667eb7d7b71fff16fa6fe4522e2c983486aef88f7baeaefc635c42ffb5c07b",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b2c67e59e215cc098870677a3f3caf8435f65dd9edd91e960e809adb359af59d",
@@ -129522,6 +132042,16 @@
       "videoPartId": 743
     },
     {
+      "aiRevisionId": "537bb4bfea90ad382a5c478e59d5a8298c821811c614ef2b881fdf3e4f96cd64",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "0fc4d00d669505b20e6c02bd32a27169bf4955a8b4e6afe468471bf7a767afd6",
+      "editionId": "eef6a91cdded42f8b451e0834f8ca410",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "710ea1b134a88f4960f734316d5b28e42429788dca013da0409b53396fe73666",
+      "videoPartId": 54
+    },
+    {
       "aiRevisionId": "62570e31be6692a08ab62545839d698dbda54eb381cb73e380a8e5d6f81b9a38",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "9d9d79825f36ec8b29cb3b155db702578d55c8f568b5fd98a58ced6897f6b923",
@@ -129644,6 +132174,16 @@
       "reviewArtifactSha256": "29a838d95a85b4dfca1b52c3f75b5940610af263b6deac1a35d6d7055b54569e",
       "sourceMetadataSha256": "890c170020a1dceba1882e3e72621f746c4dc91cc8b63cea5c5ddcfad444dd18",
       "videoPartId": 1029
+    },
+    {
+      "aiRevisionId": "af60340d9c59bf89fa9bfae09453661c14a790f786682fa5b10ab9f648a7e026",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "d835644339de49a83a2fb530fe6040786a3005a63b6977301e8e279a04a23bf9",
+      "editionId": "f003388603214bfc87d1031f77b06cf1",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "e6ec25711d624fcfabb9eff1abfdb36bc7fe979716d57b3427bde363b543b30f",
+      "videoPartId": 1910
     },
     {
       "aiRevisionId": "9b9b4b491e2ed6e82ab54eb84637e1de27669cd8f81b234ca6bf1b6d185ecc2b",
@@ -130782,6 +133322,16 @@
       "videoPartId": 1100
     },
     {
+      "aiRevisionId": "841350c4460dd53c7a35251db6d8a6248bccd7e0297ae6573cfa2a223d0813b7",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "cf12c9659450b741d11366c564475a3f23797462f3f2e20ba6eb62c5f7788f5f",
+      "editionId": "f2cf53fed71b447da94e0b4989853711",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "829682aa6ecdc061db26c15ed6d575c01b16e784ac6640d83e346552502d5fb1",
+      "videoPartId": 522
+    },
+    {
       "aiRevisionId": "907d3c1ce52c9ead01a7329dd0b35726e063ac5f0491abe05fa49b914e509db5",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "a627b6104a6b23ba9d4be8dcd983795ea5b80293756cc54ec13781fa2d865581",
@@ -131524,6 +134074,16 @@
       "reviewArtifactSha256": "3560d806258bd6bd4ce6eed1a4029c56d0e4e89978f188212a27d732e9eca9bf",
       "sourceMetadataSha256": "c67e2257039fbc8e232fa40c882fa92c5804a1091fe85ba80cfa3cf478527127",
       "videoPartId": 1232
+    },
+    {
+      "aiRevisionId": "723726960a96ac3e9e3f31a41d82d2e08b9a62e389af2f9803c6ad1ea4ddb43c",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "1d59fb990f39828971724c08b742850914620653011e586c60a86c509b25536d",
+      "editionId": "f3c69d6bed7c4c96979ab2461e3cef1f",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "6f796b064c491a389bcbe7e61256449b8949c5a6decbb39d608971744fa9ed0f",
+      "videoPartId": 909
     },
     {
       "aiRevisionId": "ba7503b1bda999f8ef84072babed9f1379c4e325d30ec45bb0c99da5824f17e3",
@@ -132662,6 +135222,16 @@
       "videoPartId": 533
     },
     {
+      "aiRevisionId": "1976a87b29810c10395169071f8fae80fcc04b5f8eaf604a6e619cb531483096",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "2fc9720328c4a4317d1c3dcc02c94f69e85832bc6a466b3fee5ebafa89d26d29",
+      "editionId": "f5bedb8d24234121abe78a43037b6303",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "62e3c24711d5589148227b66567f8e51df0917b8e16f51b302a8e76930b34c5c",
+      "videoPartId": 1981
+    },
+    {
       "aiRevisionId": "167d1283a67923f2745906fde3070c44516bb245cf933899eef913cbe9b343a5",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "937afe0eff0fd70d644e4a876302604bc8b5b7aa2e02c3213e4b86bee0c4ed30",
@@ -132784,6 +135354,16 @@
       "reviewArtifactSha256": "5f336b829e76154f8857bb0f64e27004bd720dc0adf19fa24fca105b693cbc75",
       "sourceMetadataSha256": "1db931350350144acd27d06e7214e47e035ed780f1cfa476c5437bd10057b52f",
       "videoPartId": 1959
+    },
+    {
+      "aiRevisionId": "6bafe120b4d77bfa7f76cc5aee45471962ee444b3dba02be1f45cfd1bde92f0b",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6bcebc8703dba0c6d98f8063feff0b7c15205e8769a70e3d6371f35e8ac08437",
+      "editionId": "f5e045a348414788baa2593c69af3257",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "1872c6db2ae677287c04f0f4aaec9ac83e552801a182f0259c0cc606697a4b8f",
+      "videoPartId": 1739
     },
     {
       "aiRevisionId": "38aec79143084b858b9ba037e07c0ed5a075626a1b26a99247dd4aed08b261e3",
@@ -133292,6 +135872,16 @@
       "videoPartId": 131
     },
     {
+      "aiRevisionId": "66578228c9236084676555115ce6588886cef2156d54239f3e8bde92555735c4",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "57499d5333a07f438bc86e5f79b21c0c6f59164e0aca4cc0cbb03926ef50e7f3",
+      "editionId": "f7d0d422907e4f4d913acaf337929e0d",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "27c44c6064fec9462b7427aef57a298130a2112d3599e92d121dbfe1e97110b3",
+      "videoPartId": 1776
+    },
+    {
       "aiRevisionId": "8edaeb19b7b93aeeb5b0c7f5e647f840d0b98c1c2cf11f3fca5fd2ae91d9eafe",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "147a284e2461fa3f65cc208f9e1c621e0eaab6fbc240a1c076299a78fd56d0b2",
@@ -133662,6 +136252,16 @@
       "reviewArtifactSha256": "8afb43772fe76e2a1afd638f5ef3d8cd50dbda4c0a0c159d3be8586375578551",
       "sourceMetadataSha256": "ead827d874051787fb525c8988ae5381b6b42fc231ee52b49117c940932a9321",
       "videoPartId": 1291
+    },
+    {
+      "aiRevisionId": "375072392692f07aba4f4becf0cc7220c15474d5192a10012d9bfa89453b90cd",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e00ed661e6ca0a7592881bc05a999c2873b7a75ce39e690e6dfb464ab0b707b0",
+      "editionId": "f82451e60e874652aac5b26eb66c035c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "79cec19b3abb5ba5f19dc2858b7a37fa6189642c0e4690656871019c25736479",
+      "videoPartId": 936
     },
     {
       "aiRevisionId": "92905830f015651eefce04a83993c178a9c1ca074602d4d9e0c05cdc3526c8a6",
@@ -136040,6 +138640,16 @@
       "videoPartId": 1390
     },
     {
+      "aiRevisionId": "8d89a3f004155c6cd80257307343194a1ddfa8795c21e3872f56a5d794477f6a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6bf23f0400f6a0f91d0ed722b2203338a5df689d6b06fe969447dc25a1b7c6dc",
+      "editionId": "fbe6715f5f6c4bbf9a7f87b793f01eee",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "8c685aae93161ba51e4e94043a8b4de4dfaab74023e8cdccf3edbb2fb585b8d9",
+      "videoPartId": 288
+    },
+    {
       "aiRevisionId": "f62f573cae2cd77f00c79da127dd0ec72fc8db71cb5b169ac245cdf6eab54e3c",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "cb33b44007f0c5d96ca099a800b567c43acdaf771036e871a25ba03969aae802",
@@ -136658,6 +139268,16 @@
       "reviewArtifactSha256": "ed2ee3f3acce8abc5c265c9cedd028969798529c657baee33bc22c4b0240997f",
       "sourceMetadataSha256": "7c7e97803a1f6e8a07eb6dfac2da24d74b68c3b7bc42521feb710953e064f4a2",
       "videoPartId": 343
+    },
+    {
+      "aiRevisionId": "0de3bb75a62ab24765557a7ae566964a1132ca703044ae07940fbeaa49033f1a",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "6335168d44470f520295950509cbb700845f6ff91162aa2957b462ec17b5e013",
+      "editionId": "fc91f290a26e40459f2ef23e38454525",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "ca366e52eaa193f7b62a8a56b3ce5b724595b4aa22f004a2629a5d54cc7cd769",
+      "videoPartId": 1314
     },
     {
       "aiRevisionId": "b14296cecf1e8f383a636ee7c63de4a9be3cfd520bbe1f86a89bff75fab734c5",
@@ -137528,6 +140148,16 @@
       "videoPartId": 322
     },
     {
+      "aiRevisionId": "da80d1a829bdd43e25cf54ab7478d0d8162d27f0740f47807beba2cb69c02b64",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "4182d7c3006e20328c6398efd39aaca0db09bcc12679ba0ffd6772b1ed682981",
+      "editionId": "fe2563d4d02f46bcb87ce24bab164ebe",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "0fb7c6d824fb0be9f6a1b053c594697078a4ee05d2e095f356c92fc83557dcd0",
+      "videoPartId": 1594
+    },
+    {
       "aiRevisionId": "ac0aca75ca0a8c4422ff23bfad2d39709e3e2d4471858bb2a7dfe74dc28946a5",
       "aiTemplateVersion": "ai-draft-v1",
       "baselineBodySha256": "b2520f81c5f879c7d6f3acf855cf1a985bb664ec694cef76316770978cb38b74",
@@ -137898,6 +140528,16 @@
       "reviewArtifactSha256": "840a76c2b8ea7e3a6acee146b95a9f2615ef5a9599e940d4c9977a1e3c1d00fc",
       "sourceMetadataSha256": "74371740c2dc4db0233f8756d87b44a7e8cbbd9ca5bff674ab11ef18d9797652",
       "videoPartId": 875
+    },
+    {
+      "aiRevisionId": "501c683d1bec3cdb859878a2fe8545b368e2becb6066a83ca391c5894c0d4c82",
+      "aiTemplateVersion": "ai-draft-v2",
+      "contentSha256": "e30949b07e1f2bc3af7705ea81bccf5d3ebc797ebf155c13a1338115518c3bad",
+      "editionId": "ffca4e25101d434bbe765ff66b9d8f2c",
+      "inputVersion": 2,
+      "kind": "ai-generated-v2",
+      "sourceMetadataSha256": "baba93ac5ed6b22bda135edfc9d6f1569498024b3ad27fecd9a33c956c1109db",
+      "videoPartId": 866
     },
     {
       "aiRevisionId": "a2d37c2cdba5594b97ad7c9a2fd4b8c0a4bc593a1e9450d1d9fdb207b1651ddf",
