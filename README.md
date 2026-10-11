@@ -37,7 +37,7 @@ pnpm dev
 ```
 
 默认地址为 `http://127.0.0.1:5173`。开发服务器启动及生产构建均校验两份公开快照。
-当前生产快照为 0 篇已发布、1,228 篇未发布；查看未发布稿件不会产生审核或正式发布事实。
+当前生产快照为 0 篇已发布、1,492 篇未发布；查看未发布稿件不会产生审核或正式发布事实。最新一批从已验证的本地生产备份导入，新增 264 篇预览，原有 1,228 篇保持完整版本与文件字节不变；来源、快照身份及验证依据见 [2026-10-11 备份产物导入](docs/production-backup-import-20261011.md)。
 
 ## 唯一内容契约与导入
 
@@ -85,7 +85,7 @@ reader 数值范围采用 JavaScript 安全整数子集。原始 JSON 数字必�
 
 manifest v2 只有 schemaVersion、manuscriptType、contractProfile、snapshotId、files；类型分别为 publication-export / publication-draft-export。files 按路径排序，准确登记 catalog、origins、正文和参照，不登记自身。snapshotId 是包含版本、类型、profile 和 files 的 canonical JSON 的 SHA-256，不再使用旧 v1 的仅 files 算法。所有原始文件哈希、有效 UTF-8、重复 JSON key、文件集合、路径、符号链接和残留目录在开发/构建前验证；内部 review.json、数据库、actors、audit、模型响应、凭据及未知目录不能进入快照。
 
-origins 每篇唯一绑定准确 edition、revision、内容和 sourceMetadata 哈希，并区分原生 ai-generated-v2、保留旧正文 preserved-legacy-body 与迁移后编辑 edited-after-preservation。PR #77 导入的 1,228 篇均未发布、待审核，其中 1,103 篇保留旧正文，125 篇为原生 v2；生产内容清单、实际快照身份与保留证据见 [生产迁移记录](docs/production-preserved-import-20261010.md)。迁移不等于重新生成、审核或发布，历史 AI 参照保持真实 ai-draft-v1。
+origins 每篇唯一绑定准确 edition、revision、内容和 sourceMetadata 哈希，并区分原生 ai-generated-v2、保留旧正文 preserved-legacy-body 与迁移后编辑 edited-after-preservation。当前 1,492 篇均未发布、待审核，其中 1,103 篇保留旧正文，389 篇为原生 v2；最初 PR #77 导入 1,228 篇的保留证据见 [生产迁移记录](docs/production-preserved-import-20261010.md)，本次新增 264 篇的快照身份与验证依据见 [备份产物导入](docs/production-backup-import-20261011.md)。迁移不等于重新生成、审核或发布，历史 AI 参照保持真实 ai-draft-v1。
 
 公开只包含有效当前 release，草稿只包含当前且从未发布的 edition。公开 A 与同 part 的新草稿 B 可以并存；相同 edition 不得跨两目录。批准 B 不改变 A；明确发布 B 后更新公开目录，撤回版不通过草稿重新公开。参照是对应 AI revision 的原始基线，不能当作后来人工 edition 的批准凭据。
 

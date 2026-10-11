@@ -1,0 +1,27 @@
+{
+  "producerCommit": "e16335d6a3ee6f19c9a0bff9157172741132c93e",
+  "sourceSnapshotAt": 1791685066.703516,
+  "sourceDatabaseSha256": "6a0b4a44d1c104d17b09d4692461af13d1ea913001a52bf1e0bfc7e08dd5a244",
+  "artifactPackageSha256": "f0b4034a0579e52bcc00c5a263553271bf0d26d584722aa72f05d53c176543a6",
+  "publicationCount": 0,
+  "draftCount": 1492,
+  "addedDraftCount": 264,
+  "retainedDraftCount": 1228,
+  "originCounts": {
+    "preserved-legacy-body": 1103,
+    "ai-generated-v2": 389
+  },
+  "draftSnapshotId": "3b2658fde01bdeef8a3c823b397563d2063724dfb6774043d9789110fd7d1c71",
+  "publicSnapshotId": "239cef0cd903de3bb1d7d0007b20426abb0dd1fbd9a260b27ea4dad5bc981cf7",
+  "profile": "universal-origin-v1",
+  "allPendingReview": true,
+  "existingCatalogEntriesAndMarkdownUnchanged": true,
+  "retainedNativeContentAndReviewMatchBackup": true,
+  "backupDatabaseUnchanged": true,
+  "newEditionsCreatedOnlyInExportCopy": true,
+  "markdownFiles": 2984,
+  "videos": 1257,
+  "readerFiles": 2987,
+  "readerBytes": 176682543,
+  "exportedAt": 1791688294
+}
