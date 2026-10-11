@@ -531,7 +531,14 @@ with sync_playwright() as pw:
                     page.screenshot(path=str(output / 'verification-feedback-docked.png'))
                 page.keyboard.press('Escape')
                 expect(page.locator('.tool-drawer')).to_have_count(0)
-                page.wait_for_timeout(80)
+                page.wait_for_function('''before => {
+                    const a=[...document.querySelectorAll('.reader-article')].find(e=>e.getBoundingClientRect().bottom>90);
+                    const p=a?.querySelector('.reader-prose');
+                    const blocks=[...p?.querySelectorAll('[data-block-id]')||[]].filter(e=>e.checkVisibility());
+                    const b=p?.getBoundingClientRect().top<=90 ? blocks.find(e=>e.getBoundingClientRect().bottom>90)||blocks.at(-1) : null;
+                    const r=b?.getBoundingClientRect(), offset=r?(90-r.top)/Math.max(1,r.height):0;
+                    return a?.dataset.editionId===before.edition && (b?.dataset.blockId||'')===before.anchor && Math.abs(offset-before.offset)<.04;
+                }''', arg=before)
                 closed = page.evaluate(position_script)
                 assert_position(before, closed, f'Docked close loses canonical position at {mode}/{edition}/{width}')
                 measurements.append({'mode': mode, 'width': width, 'prose_width': round(prose['width'], 2), 'gap': round(drawer['x'] - prose['x'] - prose['width'], 2), 'anchor': closed['anchor']})
