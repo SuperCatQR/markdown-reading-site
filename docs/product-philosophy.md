@@ -167,6 +167,10 @@ GitHub 反馈存在登录门槛。可以在站内先整理反馈文本，再提�
 
 2026-10-10 的多平台契约收口采用 universal-origin-v1（catalog v3/content v2/metadata v1/origins v1/manifest v2），拒绝旧消费格式；来源与稿件编辑字段分开，平台身份保留大小写，未知来源时间不由导入时间补齐。旧正文可由上游验证并保留迁移，必须展示真实 origin，不能冒充原生 AI v2；对应当前边界与验收见 [通用契约修复交付](universal-reader-delivery.md)。
 
+2026-10-12 补充 universal-origin-v2（catalog v3/content v2/metadata v1/origins v2/manifest v3）
+消费能力，继续严格接受既有 v1。来源简介按冻结证据安全展示、保留换行并与编辑摘要
+区分，服务读者的来源核验；版本、证据和上游补充范围见 [来源简介契约交付](source-description-contract.md)。
+
 ## 9. 与其他文档的关系
 
 2026-10-10 的阅读层级修复服务连续学习者、概念复习者与核验贡献者：固定显示稿件视图与阅读方式，将视频查找和来源移入独立工具面板，以实际可见分 P 更新分享地址，并为最近阅读提供独立视图。它落实“理解所在位置”和“按需核验”的既有原则，未改变内容生产及正式发布边界；逐项任务验证见 [阅读层级与切换修复](desktop-reading-hierarchy-fixes.md)。
