@@ -27,6 +27,22 @@ flowchart LR
   browser -->|修改建议关联精确 release| issue[GitHub Issue]
 ```
 
+## 新前端边界
+
+当前开发入口已经切换到独立的资料库应用。它围绕“资料库 → 搜索 → 阅读/核验 → 最近阅读”组织页面，使用新的 hash 路由：
+
+```text
+#/library
+#/search?q=概念&view=all&mode=general
+#/recent
+#/read/<32 位 editionId>?flow=continuous&block=<正文锚点>
+#/verify/<32 位 editionId>?block=<参照锚点>
+```
+
+新入口位于 `src/main-refactor.js`，页面服务位于 `src/refactor/`，构建和浏览器共用的纯内容逻辑位于 `packages/content-core/`。构建插件只读取并验证快照，再生成目录摘要、正文搜索索引和来源投影；正文、核验参照和本地阅读状态分别按需加载。旧查询参数、旧页面选择器和旧存储键不属于新契约，不提供兼容映射。
+
+重构的产品依据仍是 [项目哲学与产品原则](docs/product-philosophy.md)：首屏优先内容查找，阅读器优先连续阅读和精确恢复，来源与版本事实集中在按需工具中。量化验收、模块依赖和删除旧实现的门槛见 [全量重构计划](docs/full-refactor-plan.md)。
+
 ## 本地运行
 
 需要 Node.js 20 或更新版本及 pnpm：

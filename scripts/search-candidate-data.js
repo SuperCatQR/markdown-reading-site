@@ -1,7 +1,4 @@
-import { workKey } from "../src/source-identity.js";
-import { normalizeSearch } from "../src/search.js";
-import { candidatePartitionCount, candidatePartition } from "../src/search-candidates.js";
-import { entryKey } from "../src/manuscripts.js";
+import { workKey, entryKey, normalizeSearch, candidatePartitionCount, candidatePartition } from "../packages/content-core/index.js";
 import { sha256 } from "./catalog.js";
 
 export function buildCandidateData(entries, index) {
