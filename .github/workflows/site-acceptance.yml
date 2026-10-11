@@ -42,9 +42,12 @@ jobs:
             sleep 1
           done
           python scripts/accept-site-browser.py --base http://127.0.0.1:5180/markdown-reading-site/ --out artifacts/site-acceptance
+          python scripts/accept-discovery-browser.py --base http://127.0.0.1:5180/markdown-reading-site/ --out artifacts/discovery
+          python scripts/accept-feedback-browser.py --base http://127.0.0.1:5180/markdown-reading-site/ --out artifacts/feedback-acceptance
+          python scripts/accept-document-actions-browser.py --base http://127.0.0.1:5180/markdown-reading-site/ --out artifacts/document-acceptance
       - name: Save acceptance evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: site-acceptance
-          path: artifacts/site-acceptance
+          path: artifacts/

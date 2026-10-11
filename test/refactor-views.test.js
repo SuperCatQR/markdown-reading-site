@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { highlight, libraryPage, recentPage, sourcePanel } from "../src/refactor/views.js";
+import { highlight, libraryPage, recentPage, sourcePanel, readerPage, readerToolPanel } from "../src/refactor/views.js";
 import { feedbackText, feedbackIssueHref, validateFeedbackDraft } from "../src/refactor/features/feedback.js";
 
 const catalog = JSON.parse(await readFile(new URL("./fixtures/universal-origin-v1/draft-content/catalog.json", import.meta.url), "utf8"));
@@ -65,4 +65,68 @@ test("search previews choose the most relevant P while expansion keeps source or
   groups[0].parts[1].score = 98;
   const tied = libraryPage({ route: { name: "search", query: "命中", view: "all", mode: "general" }, repository: localRepository, groups, history: [], theme: "light" });
   assert.deepEqual(partEditions(tied), [parts[1].editionId, parts[2].editionId, parts[0].editionId, parts[3].editionId]);
+});
+
+test("library distinguishes browsing from matching and exposes accessible loading feedback", () => {
+  const another = { ...entry, editionId: "f".repeat(32), partIndex: 1 };
+  const groups = [{ title: entry.title, parts: [{ entry, hits: [] }, { entry: another, hits: [] }] }];
+  const html = libraryPage({ route: { name: "library", view: "all", mode: "general" }, repository, groups, theme: "light" });
+  assert.ok(html.includes('展开其余 1 个分 P'));
+  assert.ok(!html.includes('命中分 P'));
+  assert.ok(html.includes('data-action="skip-content"'));
+  assert.ok(!html.includes('href="#main-content"'));
+  const loading = libraryPage({ route: { name: "search", query: "自由", view: "drafts", mode: "general" }, repository, groups: [], theme: "light", loading: true });
+  assert.ok(loading.includes('aria-busy="true"'));
+  assert.ok(loading.includes('class="loading-state" role="status"'));
+  assert.ok(loading.includes('正在读取搜索索引'));
+});
+
+test("search reset preserves its scope, query mode, tag and sorting with visible controls", () => {
+  const html = libraryPage({ route: { name: "search", query: "自由", view: "drafts", mode: "keywords", tag: "哲学", sort: "title" }, repository, groups: [], theme: "light" });
+  assert.ok(html.includes('class="search-options" open'));
+  assert.ok(html.includes('data-filter="sort"'));
+  assert.ok(html.includes('所有关键词须在同一篇正文中出现'));
+  const href = html.match(/class="clear-search" href="([^"]+)"/)[1];
+  const parameters = new URLSearchParams(href.split('?')[1]);
+  assert.equal(parameters.get('q'), null);
+  assert.equal(parameters.get('view'), 'drafts'); assert.equal(parameters.get('mode'), 'keywords');
+  assert.equal(parameters.get('tag'), '哲学'); assert.equal(parameters.get('sort'), 'title');
+});
+
+test("reader return context is explicit and export controls provide accessible manual-copy fallback", () => {
+  const page = readerPage({ route: { name: 'read', editionId: entry.editionId }, entry, repository, prepared: { body: '', title: '' }, theme: 'light', returnHref: '#/search?q=%E8%87%AA%E7%94%B1&view=drafts' });
+  assert.ok(page.includes('aria-label="返回“自由”的搜索结果"'));
+  const more = readerToolPanel({ tool: 'more', entry });
+  for (const action of ['copy-paragraph-link', 'copy-markdown', 'download-markdown']) assert.ok(more.includes(`data-action="${action}"`));
+  assert.ok(more.includes('data-document-action-status role="status"'));
+  assert.ok(more.includes('data-document-action-output readonly hidden'));
+  const settings = readerToolPanel({ tool: 'settings', entry, preferences: { size: 19, width: 760, lineHeight: 1.95, font: 'serif' } });
+  assert.ok(settings.includes('value="19" selected'));
+  assert.ok(settings.includes('data-action="reset-preferences"'));
+});
+
+test("reader search exposes pending, failure and bounded previous/next navigation", () => {
+  const hits = [{ id: 'passage-1', text: '自由', entry }, { id: 'passage-2', text: '再次自由', entry }];
+  const first = readerToolPanel({ tool: 'find', entry, searchQuery: '自由', searchResults: hits, searchIndex: 0 });
+  assert.ok(first.includes('data-action="previous-hit" disabled'));
+  assert.ok(first.includes('data-action="next-hit">'));
+  const last = readerToolPanel({ tool: 'find', entry, searchQuery: '自由', searchResults: hits, searchIndex: 1 });
+  assert.ok(last.includes('data-action="next-hit" disabled'));
+  const pending = readerToolPanel({ tool: 'find', entry, searchLoading: true, searchError: '<error>' });
+  assert.ok(pending.includes('data-reader-search aria-busy="true"'));
+  assert.ok(pending.includes('正在查找…'));
+  assert.ok(pending.includes('role="alert">&lt;error&gt;'));
+  const articleScope = readerToolPanel({ tool: 'find', entry, searchScope: 'article' });
+  assert.ok(articleScope.includes('value="article" selected'));
+  assert.ok(articleScope.includes('只查找当前 P 的正文。'));
+  assert.ok(!readerToolPanel({ tool: 'find', entry, review: true }).includes('name="scope"'));
+});
+
+test("recent dates retain machine-readable actual time and distinguish recent visits", () => {
+  const timestamp = Date.now() - 120000;
+  const html = recentPage({ route: { name: 'recent' }, repository, theme: 'light', state: { status: {} },
+    records: [{ record: { editionId: entry.editionId, readAt: timestamp }, entry, status: 'valid' }] });
+  assert.ok(html.includes(`datetime="${new Date(timestamp).toISOString()}"`));
+  assert.ok(html.includes('2 分钟前'));
+  assert.ok(html.includes('<time datetime='));
 });

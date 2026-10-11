@@ -5,8 +5,28 @@ const FIELD_LIMIT = 4000;
 const escape = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
 const fact = (value) => value === null || value === undefined || value === "" ? "未提供" : String(value);
 
+function pageLink(value) {
+  if (!value) return "";
+  try {
+    const url = new URL(value, "https://reader.invalid/");
+    return ["https:", "http:"].includes(url.protocol) && !url.username && !url.password ? String(value) : "";
+  } catch { return ""; }
+}
+
+function paragraphLabel(pageUrl) {
+  try {
+    const hash = new URL(pageUrl, "https://reader.invalid/").hash;
+    const block = new URLSearchParams(hash.slice(hash.indexOf("?") + 1)).get("block");
+    return block ? `当前段落 · ${block}` : "当前篇目";
+  } catch { return "当前篇目"; }
+}
+
 export function normalizeFeedbackDraft(draft = {}) {
   return Object.fromEntries(["quote", "context", "suggestion", "reason"].map((field) => [field, String(draft[field] ?? "")]));
+}
+
+export function feedbackFieldCounts(draft = {}) {
+  return Object.fromEntries(Object.entries(normalizeFeedbackDraft(draft)).map(([field, value]) => [field, value.length]));
 }
 
 export function validateFeedbackDraft(draft = {}) {
@@ -41,14 +61,32 @@ export function feedbackIssueHref(options) {
   const text = feedbackText(options);
   const title = `[${options.mode === "review" ? "校验参照" : "正文"}修改建议] ${options.entry.title}`;
   const url = new URL(options.issueUrl || DEFAULT_ISSUE_URL);
+  if (!["http:", "https:"].includes(url.protocol) || url.username || url.password) throw new Error("建议入口必须是有效的 HTTP 或 HTTPS 链接。");
   url.search = new URLSearchParams({ template: "review.md", title, body: text }).toString();
   // A complete suggestion stays available for copying even when a prefilled URL
   // would exceed a practical browser/GitHub request length.
   return url.href.length <= 8000 ? url.href : "";
 }
 
-export function feedbackPanel({ entry, review = false, draft = {}, status = "", issueHref = "", text = "", errors = {} } = {}) {
-  const value = normalizeFeedbackDraft(draft);
-  const fields = [["quote", "原句", true, 3], ["context", "上下文", false, 3], ["suggestion", "建议内容", true, 3], ["reason", "修改理由", true, 3]];
-  return `<p class="tool-help">建议关联当前${review ? "校验参照" : "正文"}的准确版本。可在这里整理并复制；打开 GitHub 后由你确认提交。</p><details class="feedback-version"><summary>当前版本信息</summary><dl class="source-facts"><dt>编辑版本</dt><dd><code>${escape(entry.editionId)}</code></dd><dt>AI 修订</dt><dd><code>${escape(entry.aiRevisionId)}</code></dd><dt>当前状态</dt><dd>${escape(statusLabel(entry))}</dd><dt>完整内容 SHA-256</dt><dd><code>${escape(entry.contentSha256)}</code></dd><dt>正文文件 SHA-256</dt><dd><code>${escape(entry.artifactSha256)}</code></dd><dt>参照文件 SHA-256</dt><dd><code>${escape(entry.reviewArtifactSha256)}</code></dd>${entry.manuscriptType === "publication" ? `<dt>发布 ID</dt><dd><code>${escape(fact(entry.releaseId))}</code></dd>` : ""}</dl></details><form class="feedback-form" data-feedback-form data-edition-id="${escape(entry.editionId)}" data-feedback-mode="${review ? "review" : "body"}">${fields.map(([name, label, required, rows]) => `<label for="feedback-${name}">${label}${required ? "（必填）" : "（可选）"}</label><textarea id="feedback-${name}" name="${name}" rows="${rows}" maxlength="4000"${required ? " required" : ""}${errors[name] ? ` aria-invalid="true" aria-describedby="feedback-${name}-error"` : ""}>${escape(value[name])}</textarea>${errors[name] ? `<p class="field-error" id="feedback-${name}-error">${escape(errors[name])}</p>` : ""}`).join("")}<button class="button-link" type="submit">整理建议</button></form><p class="feedback-status" data-feedback-status role="status" aria-live="polite">${escape(status)}</p><div class="feedback-actions"><button class="quiet-button" type="button" data-action="copy-feedback">复制完整建议</button>${issueHref ? `<a class="button-link" data-feedback-issue href="${escape(issueHref)}" target="_blank" rel="noopener noreferrer">在 GitHub 打开预填建议</a>` : text ? `<p>建议较长时，请复制完整文本并粘贴到 GitHub Issue。</p><a class="text-link" data-feedback-issue href="${DEFAULT_ISSUE_URL}" target="_blank" rel="noopener noreferrer">打开 GitHub Issue</a>` : ""}</div><label class="feedback-output-label" for="feedback-output">完整建议（可手动复制）</label><textarea id="feedback-output" class="feedback-output" data-feedback-output readonly rows="8">${escape(text)}</textarea>`;
+export function feedbackPanel({ entry, review = false, draft = {}, status = "", issueHref = "", text = "", errors = {}, pageUrl = "", selectionAvailable = false, draftStatus = "" } = {}) {
+  const validation = validateFeedbackDraft(draft);
+  const value = validation.value;
+  const counts = feedbackFieldCounts(value);
+  const location = pageLink(pageUrl);
+  const issueLink = pageLink(issueHref);
+  const fields = [
+    { name: "quote", label: "原句", required: true, hint: "粘贴需要修改的准确原句，便于定位和对照。" },
+    { name: "context", label: "上下文", required: false, hint: "补充前后句、所在论证或视频时间，避免断章取义。" },
+    { name: "suggestion", label: "建议内容", required: true, hint: "写出替换后的完整句子，或说明希望怎样修改。" },
+    { name: "reason", label: "修改理由", required: true, hint: "说明为什么需要修改；专名、引文或事实问题请附核验依据。" },
+  ];
+  const validationMessage = validation.valid ? "内容已完整，可整理预览后复制或打开 GitHub。" : "请填写原句、建议内容和修改理由，每项最多 4000 字符。";
+  const draftMessage = draftStatus || "草稿仅在当前浏览器会话暂存，并按正文或校验参照的准确版本区分。";
+  const version = `<p class="tool-help"><strong>反馈对象：${escape(partName(entry))} · ${review ? "校验参照" : "正文"}</strong><br>${escape(entry.title)}<br>准确编辑版本：<code>${escape(fact(entry.editionId))}</code><br>${location ? `<a data-feedback-location href="${escape(location)}">${escape(paragraphLabel(location))}</a>` : "段落位置未提供；请在原句和上下文中补充位置。"}</p>`;
+  const fieldMarkup = fields.map(({ name, label, required, hint }) => {
+    const fieldError = errors[name] || (value[name].length > FIELD_LIMIT ? validation.errors[name] : "");
+    const describedBy = [`feedback-${name}-hint`, `feedback-${name}-count`, ...(fieldError ? [`feedback-${name}-error`] : [])].join(" ");
+    return `<label for="feedback-${name}">${label}${required ? "（必填）" : "（可选）"}</label><p class="tool-help" id="feedback-${name}-hint">${hint}</p><textarea id="feedback-${name}" name="${name}" rows="3" maxlength="4000"${required ? " required" : ""} aria-describedby="${describedBy}"${fieldError ? ' aria-invalid="true"' : ""}>${escape(value[name])}</textarea><span class="tool-help" id="feedback-${name}-count" data-feedback-count="${name}">${counts[name]} / ${FIELD_LIMIT} 字符</span>${fieldError ? `<p class="field-error" id="feedback-${name}-error">${escape(fieldError)}</p>` : ""}`;
+  }).join("");
+  return `<p class="tool-help">在这里整理修改建议，再复制文本或打开 GitHub 确认提交。复制或暂存草稿不会提交建议。</p>${version}<details class="feedback-version"><summary>查看完整版本证据</summary><dl class="source-facts"><dt>AI 修订</dt><dd><code>${escape(fact(entry.aiRevisionId))}</code></dd><dt>当前状态</dt><dd>${escape(statusLabel(entry))}</dd><dt>完整内容 SHA-256</dt><dd><code>${escape(fact(entry.contentSha256))}</code></dd><dt>正文文件 SHA-256</dt><dd><code>${escape(fact(entry.artifactSha256))}</code></dd><dt>参照文件 SHA-256</dt><dd><code>${escape(fact(entry.reviewArtifactSha256))}</code></dd>${entry.manuscriptType === "publication" ? `<dt>发布 ID</dt><dd><code>${escape(fact(entry.releaseId))}</code></dd>` : ""}</dl></details>${selectionAvailable ? '<button class="quiet-button" type="button" data-action="feedback-selection">带入刚才选中的原句</button>' : ""}<p class="tool-help" data-feedback-draft-status>${escape(draftMessage)}</p><form class="feedback-form" data-feedback-form data-edition-id="${escape(entry.editionId)}" data-feedback-mode="${review ? "review" : "body"}">${fieldMarkup}<button class="button-link" type="submit">整理建议</button></form><p class="tool-help" data-feedback-validation role="status">${escape(validationMessage)}</p><p class="feedback-status" data-feedback-status role="status" aria-live="polite">${escape(status)}</p><div class="feedback-actions"><button class="quiet-button" type="button" data-action="copy-feedback"${validation.valid ? "" : ' disabled aria-disabled="true"'}>复制完整建议</button>${validation.valid && issueLink ? `<a class="button-link" data-feedback-issue href="${escape(issueLink)}" target="_blank" rel="noopener noreferrer">在 GitHub 打开预填建议</a>` : validation.valid && text ? `<p>建议完整保留。预填链接较长时，请复制下方完整文本并粘贴到 GitHub Issue。</p><a class="text-link" data-feedback-issue href="${DEFAULT_ISSUE_URL}" target="_blank" rel="noopener noreferrer">打开 GitHub Issue</a>` : ""}</div><label class="feedback-output-label" for="feedback-output">完整建议（复制失败时可在下方手动选取）</label><textarea id="feedback-output" class="feedback-output" data-feedback-output readonly rows="8">${escape(text)}</textarea>`;
 }

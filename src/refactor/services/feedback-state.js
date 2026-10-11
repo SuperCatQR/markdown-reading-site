@@ -23,7 +23,8 @@ function cleanDraft(draft) {
   const value = emptyDraft();
   for (const field of fields) {
     if (draft[field] !== undefined && typeof draft[field] !== "string") return null;
-    value[field] = (draft[field] || "").slice(0, 4000);
+    if ((draft[field] || "").length > 4000) return null;
+    value[field] = draft[field] || "";
   }
   return value;
 }

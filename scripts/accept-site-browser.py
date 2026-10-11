@@ -22,6 +22,18 @@ single = '0e6bb3b8a12d493d90fbb6f707161526'
 multi = '0724ad88f2f34abea2924007462b7f7b'
 history_key = 'reader-refactor-history-v1'
 checks = []
+position_script = '''() => {
+  const a=[...document.querySelectorAll('.reader-article')].find(e=>e.getBoundingClientRect().bottom>90);
+  const p=a?.querySelector('.reader-prose');
+  const visible=[...p?.querySelectorAll('[data-block-id]')||[]].filter(e=>e.checkVisibility());
+  const b=p?.getBoundingClientRect().top<=90 ? visible.find(e=>e.getBoundingClientRect().bottom>90)||visible.at(-1) : null;
+  const r=b?.getBoundingClientRect();
+  return { y:scrollY, edition:a?.dataset.editionId, anchor:b?.dataset.blockId||'', offset:r?(90-r.top)/Math.max(1,r.height):0 };
+}'''
+
+def assert_position(before, after, message):
+    assert before['edition'] == after['edition'] and before['anchor'] == after['anchor'], f'{message}: {before} -> {after}'
+    assert abs(before['offset'] - after['offset']) < .04, f'{message} offset: {before} -> {after}'
 
 with sync_playwright() as pw:
     browser = pw.chromium.launch()
@@ -39,6 +51,7 @@ with sync_playwright() as pw:
         if reader:
             expect(page.locator('.reader-prose')).to_be_visible()
             expect(page.locator('.reader-article').first).to_have_attribute('data-edition-id', route.split('?')[0].split('/')[-1])
+            page.evaluate('() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))')
         if listing:
             expect(page.locator('.results-section')).to_be_visible()
             expect(page.locator('.loading-state')).to_have_count(0, timeout=30000)
@@ -361,15 +374,17 @@ with sync_playwright() as pw:
         visit('/read/' + single, reader=True)
         page.evaluate('window.scrollTo({top:1450,behavior:"instant"})')
         page.wait_for_timeout(350)
-        before = page.evaluate('scrollY')
+        before = page.evaluate(position_script)
         visit('/recent')
         page.locator('.recent-actions a').first.click()
         expect(page.locator('.reader-prose')).to_be_visible()
-        assert abs(page.evaluate('scrollY') - before) < 5, 'Recent loses paragraph offset'
+        after_recent = page.evaluate(position_script)
+        assert_position(before, after_recent, 'Recent loses canonical paragraph')
         page.reload()
         expect(page.locator('.reader-prose')).to_be_visible()
-        assert abs(page.evaluate('scrollY') - before) < 5, 'Reload loses paragraph offset'
-        return {'restored_scroll': before}
+        after_reload = page.evaluate(position_script)
+        assert_position(before, after_reload, 'Reload loses canonical paragraph')
+        return {'before': before, 'recent': after_recent, 'reload': after_reload}
     run('Recent and reload restore exact body paragraph offset', 'P1', body_resume)
 
     def verify_return():
@@ -500,10 +515,11 @@ with sync_playwright() as pw:
                 page.set_viewport_size({'width': width, 'height': 900})
                 visit('/' + mode + '/' + edition, reader=True, fresh=True)
                 page.evaluate('window.scrollTo({top:1400,behavior:"instant"})')
-                before = page.evaluate('scrollY')
+                before = page.evaluate(position_script)
                 page.locator('[data-tool="more"]').click()
                 page.locator('[data-tool="feedback"]').click()
                 expect(page.locator('[data-feedback-form]')).to_be_visible()
+                expect(page.locator('.tool-drawer')).to_have_attribute('aria-busy', 'false')
                 expect(page.locator('.tool-drawer')).to_have_attribute('aria-modal', 'false')
                 prose = page.locator('.reader-prose').bounding_box()
                 drawer = page.locator('.tool-drawer').bounding_box()
@@ -515,10 +531,10 @@ with sync_playwright() as pw:
                     page.screenshot(path=str(output / 'verification-feedback-docked.png'))
                 page.keyboard.press('Escape')
                 expect(page.locator('.tool-drawer')).to_have_count(0)
-                page.wait_for_function('before=>Math.abs(scrollY-before)<5', arg=before)
-                closed = page.evaluate('scrollY')
-                assert abs(closed - before) < 5, f'Docked close loses original position at {mode}/{edition}/{width}: {before} -> {closed}'
-                measurements.append({'mode': mode, 'width': width, 'prose_width': round(prose['width'], 2), 'gap': round(drawer['x'] - prose['x'] - prose['width'], 2)})
+                page.wait_for_timeout(80)
+                closed = page.evaluate(position_script)
+                assert_position(before, closed, f'Docked close loses canonical position at {mode}/{edition}/{width}')
+                measurements.append({'mode': mode, 'width': width, 'prose_width': round(prose['width'], 2), 'gap': round(drawer['x'] - prose['x'] - prose['width'], 2), 'anchor': closed['anchor']})
         return measurements
     run('Docked feedback reserves space beside single multi and verification manuscripts', 'P1', docked_tools)
 
@@ -550,6 +566,7 @@ with sync_playwright() as pw:
         page.locator('[data-tool="more"]').click()
         page.locator('[data-tool="feedback"]').click()
         expect(page.locator('[data-feedback-form]')).to_have_attribute('data-edition-id', multi)
+        expect(page.locator('.tool-drawer')).to_have_attribute('aria-busy', 'false')
         page.locator('[name="quote"]').fill('P1 feedback stays P1')
         page.evaluate('document.querySelectorAll(".reader-article")[1].scrollIntoView()')
         expect(page).to_have_url(__import__('re').compile('/read/' + second))

@@ -4,14 +4,14 @@ import { createResourceCache } from "../src/refactor/services/resource-cache.js"
 
 test("resource cache evicts least recently used entries within entry and memory budgets", async () => {
   const requests = [];
-  const load = createResourceCache(async (url) => { requests.push(url); return { ok: true, text: async () => "x".repeat(20) }; }, { maxBytes: 336, maxEntries: 2 });
+  const load = createResourceCache(async (url) => { requests.push(url); return new Response("x".repeat(20)); }, { maxBytes: 336, maxEntries: 2 });
   for (const url of ["a", "b", "a", "c", "a", "b"]) await load(url, { text: true });
   assert.deepEqual(requests, ["a", "b", "c", "b"]);
 });
 
 test("oversized values are served without displacing or exceeding the cache budget", async () => {
   const requests = [];
-  const load = createResourceCache(async (url) => { requests.push(url); return { ok: true, text: async () => url === "large" ? "x".repeat(100) : "small" }; }, { maxBytes: 200 });
+  const load = createResourceCache(async (url) => { requests.push(url); return new Response(url === "large" ? "x".repeat(100) : "small"); }, { maxBytes: 200 });
   for (const url of ["small", "large", "large", "small"]) await load(url, { text: true });
   assert.deepEqual(requests, ["small", "large", "large"]);
 });
@@ -49,4 +49,27 @@ test("cache hits still validate caller expectations and respect an already abort
   const controller = new AbortController(); controller.abort();
   await assert.rejects(load("same", { signal: controller.signal }), { name: "AbortError" });
   assert.equal(requests, 1);
+});
+
+test("original UTF-8 text retains BOM and CRLF bytes through loading and cached reuse", async () => {
+  const bytes = new TextEncoder().encode("\uFEFF# 原文\r\n\r\n完整的 Markdown & <文本>\r\n");
+  let requests = 0;
+  const load = createResourceCache(async () => { requests++; return new Response(bytes); });
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const source = await load("/original.md", { text: true });
+    assert.equal(source.codePointAt(0), 0xfeff);
+    assert.deepEqual(new TextEncoder().encode(source), bytes);
+  }
+  assert.equal(requests, 1);
+});
+
+test("malformed UTF-8 text is rejected without caching and a valid retry retains exact bytes", async () => {
+  const valid = new TextEncoder().encode("\uFEFF# 可重试\r\n");
+  let requests = 0;
+  const load = createResourceCache(async () => new Response(++requests === 1 ? new Uint8Array([0xc3, 0x28]) : valid));
+  await assert.rejects(load("/original.md", { text: true }), TypeError);
+  assert.deepEqual(new TextEncoder().encode(await load("/original.md", { text: true })), valid);
+  assert.equal(requests, 2);
+  assert.deepEqual(new TextEncoder().encode(await load("/original.md", { text: true })), valid);
+  assert.equal(requests, 2);
 });
