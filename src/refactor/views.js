@@ -25,17 +25,32 @@ function partResult(entry, hits, repository, { query = "", maxHits = 1 } = {}) {
   return `<li class="result-part"><a href="${href}" class="result-part-link"><span class="part-badge">${escapeHtml(partLabel(entry))}</span><span class="part-name">${escapeHtml(partName(entry))}</span><span class="result-action">阅读${firstHit ? "命中段落" : "正文"} ${icon("arrow")}</span></a><div class="result-part-meta">${statusChip(entry)}${minutes ? `<span>${minutes} 分钟</span>` : ""}</div>${firstHit ? `<p class="hit-excerpt">${highlight(firstHit.text, query)}</p>` : entry.summary ? `<p class="hit-excerpt">${escapeHtml(entry.summary)}</p>` : ""}${hits?.length > maxHits ? `<details class="more-hits"><summary>其余 ${hits.length - maxHits} 个命中段落</summary><ul>${hits.slice(maxHits).map((hit) => `<li><a href="${routeHref("read", { editionId: entry.editionId, block: hit.id })}">${highlight(hit.text, query)}</a></li>`).join("")}</ul></details>` : ""}</li>`;
 }
 
-function highlight(text, query) {
+export function highlight(text, query) {
+  const value = String(text ?? "");
   const terms = String(query || "").trim().split(/\s+/u).filter(Boolean).sort((a, b) => b.length - a.length);
-  if (!terms.length) return escapeHtml(text);
-  const pattern = new RegExp(`(${terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "giu");
-  return escapeHtml(text).replace(pattern, "<mark>$1</mark>");
+  if (!terms.length) return escapeHtml(value);
+  const pattern = new RegExp(terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "giu");
+  let cursor = 0;
+  let html = "";
+  for (const match of value.matchAll(pattern)) {
+    html += `${escapeHtml(value.slice(cursor, match.index))}<mark>${escapeHtml(match[0])}</mark>`;
+    cursor = match.index + match[0].length;
+  }
+  return html + escapeHtml(value.slice(cursor));
 }
 
 function resultGroup(group, repository, query) {
-  const parts = query ? group.parts.slice(0, 2) : group.parts.slice(0, group.parts.length > 1 ? 1 : 2);
-  const remaining = Math.max(0, group.parts.length - parts.length);
-  return `<article class="result-group"><header class="result-group-header"><span class="result-index">${escapeHtml(String(group.index).padStart(2, "0"))}</span><div><h2><a href="${routeHref("read", { editionId: parts[0]?.entry.editionId || group.parts[0].editionId, block: parts[0]?.hits?.[0]?.id })}">${escapeHtml(group.title)}</a></h2><p>${escapeHtml(sourceLabel(group.parts[0].entry))} · ${query ? `命中 ${group.parts.length} 个分 P` : `${group.parts.length} 个分 P`}</p></div></header><ol class="result-parts">${parts.map(({ entry, hits }) => partResult(entry, hits, repository, { query })).join("")}</ol>${remaining ? `<details class="more-parts"><summary>展开其余 ${remaining} 个命中分 P</summary><ol class="result-parts">${group.parts.slice(parts.length).map(({ entry, hits }) => partResult(entry, hits, repository, { query })).join("")}</ol></details>` : ""}</article>`;
+  const ordered = [...group.parts].sort((a, b) => (a.entry.partIndex - b.entry.partIndex) || Number(isDraft(a.entry)) - Number(isDraft(b.entry)));
+  // Search previews use relevance for the first two P, while expansion remains
+  // in the source's P order. A stable P-index tie break keeps the result
+  // deterministic when multiple passages receive the same score.
+  const preview = query
+    ? [...ordered].sort((a, b) => (Number(b.score || 0) - Number(a.score || 0))
+      || (a.entry.partIndex - b.entry.partIndex) || Number(isDraft(a.entry)) - Number(isDraft(b.entry))).slice(0, 2)
+    : ordered.slice(0, ordered.length > 1 ? 1 : 2);
+  const selected = new Set(preview.map(({ entry }) => entry.editionId));
+  const remainingParts = ordered.filter(({ entry }) => !selected.has(entry.editionId));
+  return `<article class="result-group"><header class="result-group-header"><span class="result-index">${escapeHtml(String(group.index).padStart(2, "0"))}</span><div><h2><a href="${routeHref("read", { editionId: preview[0]?.entry.editionId || ordered[0].entry.editionId, block: preview[0]?.hits?.[0]?.id })}">${escapeHtml(group.title)}</a></h2><p>${escapeHtml(sourceLabel(ordered[0].entry))} · ${query ? `命中 ${group.parts.length} 个分 P` : `${group.parts.length} 个分 P`}</p></div></header><ol class="result-parts">${preview.map(({ entry, hits }) => partResult(entry, hits, repository, { query })).join("")}</ol>${remainingParts.length ? `<details class="more-parts"><summary>展开其余 ${remainingParts.length} 个命中分 P</summary><ol class="result-parts">${remainingParts.map(({ entry, hits }) => partResult(entry, hits, repository, { query })).join("")}</ol></details>` : ""}</article>`;
 }
 
 function filters(route, entries) {
@@ -43,41 +58,115 @@ function filters(route, entries) {
   return `<div class="library-filters"><label class="compact-control"><span>范围</span><select data-filter="view"><option value="all"${route.view === "all" ? " selected" : ""}>全部内容</option><option value="drafts"${route.view === "drafts" ? " selected" : ""}>未发布</option><option value="published"${route.view === "published" ? " selected" : ""}>已发布</option></select></label>${tags.length ? `<label class="compact-control"><span>主题</span><select data-filter="tag"><option value=""${!route.tag ? " selected" : ""}>全部主题</option>${tags.map((tag) => `<option value="${escapeHtml(tag)}"${route.tag === tag ? " selected" : ""}>${escapeHtml(tag)}</option>`).join("")}</select></label>` : ""}<details class="search-options"><summary>查找方式</summary><div class="search-mode-options"><label><input type="radio" name="search-mode" value="general"${route.mode === "general" ? " checked" : ""}>综合</label><label><input type="radio" name="search-mode" value="phrase"${route.mode === "phrase" ? " checked" : ""}>原句</label><label><input type="radio" name="search-mode" value="keywords"${route.mode === "keywords" ? " checked" : ""}>关键词</label></div></details></div>`;
 }
 
-export function libraryPage({ route, repository, groups, theme, history, loading = false, error = "", limit = 32 }) {
+export function libraryPage({ route, repository, groups, theme, state, history = [], loading = false, error = "", limit = 20 }) {
   const entries = repository.list(route.view || "all");
   const query = route.query || "";
-  const primary = history[0] && repository.findEdition(history[0].editionId);
+  const resumeRecord = history.find((record) => state?.reconcile?.(record, repository.all)?.status === "valid");
+  const primary = resumeRecord && repository.findEdition(resumeRecord.editionId);
   const visibleGroups = groups.slice(0, limit);
   const intro = route.name === "search"
     ? `<section class="search-page-heading"><p class="eyebrow">全站搜索</p><h1>搜索文字资料</h1><p>按标题、概念或正文查找，结果保留真实分 P 和命中段落。</p></section>`
     : "";
-  const resume = route.name === "search" ? "" : primary ? `<aside class="resume-strip"><div><span class="eyebrow">继续阅读</span><strong>${escapeHtml(primary.title)}</strong><span>${escapeHtml(partLabel(primary))} · ${escapeHtml(statusLabel(primary))}</span></div><a class="text-link" href="${routeHref("read", { editionId: primary.editionId, block: history[0].anchor })}">继续上次阅读 ${icon("arrow")}</a></aside>` : "";
-  return `${appHeader({ route, theme })}<main class="page ${route.name === "search" ? "search-page" : "library-page"}" id="main-content">${intro}<form class="primary-search" data-search-form><label for="global-search">查找文字资料</label><div class="search-field"><span>${icon("search")}</span><input id="global-search" name="q" type="search" value="${escapeHtml(query)}" placeholder="搜索标题、概念或正文" autocomplete="off"><button type="submit">搜索</button></div></form>${filters(route, entries)}${resume}<section class="results-section" aria-live="polite"><div class="results-heading"><div><p class="eyebrow">${query ? "搜索结果" : "全部内容"}</p><h2>${query ? `与“${escapeHtml(query)}”相关` : "按视频浏览"}</h2></div><span class="result-total">${loading ? "正在查找…" : error ? "查找失败" : `${groups.length} 个视频`}</span></div>${error ? `<div class="inline-error" role="alert"><p>${escapeHtml(error)}</p><button type="button" data-action="retry-search">重新查找</button></div>` : loading ? `<div class="loading-state"><span></span><span></span><span></span></div>` : groups.length ? visibleGroups.map((group, index) => resultGroup({ ...group, index: index + 1 }, repository, query)).join("") + (groups.length > limit ? `<button class="load-more button-link" type="button" data-action="load-more">再显示 ${Math.min(32, groups.length - limit)} 个视频</button>` : "") : `<div class="empty-state"><h3>${query ? "没有找到匹配内容" : "暂无可阅读内容"}</h3><p>${query ? "尝试换一个概念，或改用综合查找。" : "公开快照准备好后，内容会出现在这里。"}</p></div>`}</section></main>`;
+  const resume = route.name === "search" ? "" : primary ? `<aside class="resume-strip"><div><span class="eyebrow">继续阅读</span><strong>${escapeHtml(primary.title)}</strong><span>${escapeHtml(partLabel(primary))} · ${escapeHtml(statusLabel(primary))}</span></div><a class="text-link" href="${routeHref("read", { editionId: primary.editionId })}">继续上次阅读 ${icon("arrow")}</a></aside>` : "";
+  return `${appHeader({ route, theme })}<main class="page ${route.name === "search" ? "search-page" : "library-page"}" id="main-content">${intro}<form class="primary-search" data-search-form><label for="global-search">查找文字资料</label><div class="search-field"><span>${icon("search")}</span><input id="global-search" name="q" type="search" value="${escapeHtml(query)}" placeholder="搜索标题、概念或正文" autocomplete="off"><button type="submit">搜索</button></div></form>${filters(route, entries)}${resume}<section class="results-section" aria-live="polite"><div class="results-heading"><div><p class="eyebrow">${query ? "搜索结果" : "全部内容"}</p><h2>${query ? `与“${escapeHtml(query)}”相关` : "按视频浏览"}</h2></div><span class="result-total">${loading ? "正在查找…" : error ? "查找失败" : `${groups.length} 个视频`}</span></div>${error ? `<div class="inline-error" role="alert"><p>${escapeHtml(error)}</p><button type="button" data-action="retry-search">重新查找</button></div>` : loading ? `<div class="loading-state"><span></span><span></span><span></span></div>` : groups.length ? visibleGroups.map((group, index) => resultGroup({ ...group, index: index + 1 }, repository, query)).join("") + (groups.length > limit ? `<button class="load-more button-link" type="button" data-action="load-more">再显示 ${Math.min(32, groups.length - limit)} 个视频</button>` : "") : `<div class="empty-state"><h3>${query ? "没有找到匹配内容" : route.view === "published" ? "暂无正式发布内容" : "暂无可阅读内容"}</h3><p>${query ? "尝试换一个概念，或改用综合查找。" : route.view === "published" ? "当前没有正式发布稿。公开预览保留真实审核状态，可先阅读未发布内容。" : "公开快照准备好后，内容会出现在这里。"}</p>${route.view === "published" && !query ? `<a class="button-link" href="${routeHref("library", { view: "drafts" })}">阅读公开预览 ${icon("arrow")}</a>` : ""}</div>`}</section></main>`;
 }
 
-export function recentPage({ route, repository, state, theme }) {
-  const records = state.history.map((record) => ({ record, entry: repository.findEdition(record.editionId) })).filter(({ entry }) => entry);
-  return `${appHeader({ route, theme })}<main class="page recent-page" id="main-content"><section class="section-heading"><p class="eyebrow">个人状态</p><h1>最近阅读</h1><p>阅读位置只保存在当前浏览器。内容更新或撤回后，旧位置会明确标记为不可恢复。</p></section>${records.length ? `<ol class="recent-list">${records.map(({ record, entry }) => `<li><div><span class="eyebrow">${escapeHtml(partName(entry))} · ${escapeHtml(statusLabel(entry))}</span><strong>${escapeHtml(entry.title)}</strong><time>${new Date(record.readAt).toLocaleDateString("zh-CN")}</time></div><div class="recent-actions"><a href="${routeHref("read", { editionId: entry.editionId, block: record.anchor })}">继续阅读 ${icon("arrow")}</a><button type="button" data-remove-history="${escapeHtml(entry.editionId)}">删除</button></div></li>`).join("")}</ol><button class="quiet-button" type="button" data-action="clear-history">清空阅读记录</button>` : `<div class="empty-state"><h2>还没有阅读记录</h2><p>打开一篇正文，下一次回来时会从这里继续。</p><a class="button-link" href="#/library">浏览资料库 ${icon("arrow")}</a></div>`}</main>`;
+export function recentPage({ route, repository, state, theme, records: suppliedRecords }) {
+  const records = suppliedRecords || state.history.map((record) => state.reconcile(record, repository.all));
+  const storageMessages = { 'storage-unavailable': '当前浏览器无法使用本地存储，阅读记录仅在本次打开时保留。', 'storage-write-failed': '阅读记录保存失败；当前页面仍可使用，关闭后可能无法恢复。', 'storage-corrupted': '部分本地记录无法读取，已忽略损坏的数据。' };
+  const storageNotice = state.status?.reason ? `<p class="storage-notice" role="status">${escapeHtml(storageMessages[state.status.reason] || '阅读记录暂时无法保存。')}</p>` : '';
+  return `${appHeader({ route, theme })}<main class="page recent-page" id="main-content"><section class="section-heading"><p class="eyebrow">个人状态</p><h1>最近阅读</h1><p>阅读位置只保存在当前浏览器。内容更新或撤回后，旧位置会明确标记为不可恢复。</p></section>${storageNotice}${records.length ? `<ol class="recent-list">${records.map((item) => {
+    const record = item.record || item;
+    const entry = item.entry || repository.findEdition(record.editionId);
+    const available = entry && item.status === 'valid';
+    const removalId = record.id || record.recordId || record.editionId;
+    const recordedAt = new Date(record.readAt || record.updatedAt || record.lastReadAt);
+    const title = entry?.title || record.title || '旧稿件';
+    const status = available ? statusLabel(entry) : entry ? '版本已变更 · 旧位置不可恢复' : '内容已撤回或不在当前快照中';
+    return `<li${available ? '' : ' class="recent-unavailable"'}><div><span class="eyebrow">${escapeHtml(entry ? partName(entry) : record.partName || `P${(record.partIndex ?? record.part ?? 0) + 1}`)} · ${escapeHtml(status)}</span><strong>${escapeHtml(title)}</strong>${Number.isNaN(recordedAt.valueOf()) ? '' : `<time datetime="${recordedAt.toISOString()}">${recordedAt.toLocaleDateString('zh-CN')}</time>`}${available ? '' : `<p class="record-status">${escapeHtml(item.status === 'stale' ? '稿件版本与记录不同，旧位置不用于当前正文。' : '旧版本已不可读取，记录保留供你确认或删除。')}</p>`}</div><div class="recent-actions">${available ? `<a href="${routeHref('read', { editionId: entry.editionId })}">继续阅读 ${icon('arrow')}</a>` : entry ? `<a href="${routeHref('read', { editionId: entry.editionId })}">从当前版本开始 ${icon('arrow')}</a>` : ''}<button type="button" data-remove-history="${escapeHtml(removalId)}">删除</button></div></li>`;
+  }).join('')}</ol><button class="quiet-button" type="button" data-action="clear-history">清空阅读记录</button>` : `<div class="empty-state"><h2>还没有阅读记录</h2><p>打开一篇正文，下一次回来时会从这里继续。</p><a class="button-link" href="#/library">浏览资料库 ${icon('arrow')}</a></div>`}</main>`;
 }
 
-export function readerPage({ route, repository, entry, parts, prepared, theme, tool = "", review = false, searchResults = [] }) {
-  const isContinuous = route.flow && parts.length > 1;
+function readerHref(name, params, locationHref) {
+  if (typeof locationHref === 'function') return locationHref(name, params);
+  if (typeof locationHref === 'string' && locationHref) return locationHref;
+  return routeHref(name, params);
+}
+
+function modeLinks({ route, entry, parts, review, locationHref }) {
+  const continuous = Boolean(route.flow && parts.length > 1);
+  const opposite = readerHref(review ? 'read' : 'verify', { editionId: entry.editionId, flow: review ? Boolean(route.flow) : false, block: review ? route.bodyBlock || '' : '' }, locationHref);
+  return `<nav class="reader-view-links" aria-label="稿件视图与阅读方式"><span>${review ? '校验参照' : continuous ? '连续阅读' : '单篇正文'}</span><a class="reader-mode" href="${escapeHtml(opposite)}">${review ? '返回正文' : '核验参照'}</a>${!review && parts.length > 1 ? `<a class="reader-mode" href="${routeHref('read', { editionId: entry.editionId, flow: !continuous, block: route.editionId === entry.editionId ? route.block : '' })}">${continuous ? '切换为单篇' : '开启连续阅读'}</a>` : ''}</nav>`;
+}
+
+function partNavigation({ entry, parts, route, review = false, className = 'reader-parts' }) {
+  return `<aside class="${className}" aria-label="同视频目录"><p class="eyebrow">同视频目录 · ${parts.length} 个 P</p><ol>${parts.map((part) => `<li><a class="${part.editionId === entry.editionId ? 'current' : ''}"${part.editionId === entry.editionId ? ' aria-current="page"' : ''} href="${routeHref(review ? 'verify' : 'read', { editionId: part.editionId, flow: !review && route.flow })}"><span>${escapeHtml(partLabel(part))}</span><span>${escapeHtml(part.sourceMetadata?.partTitle || '分段标题未提供')}</span></a></li>`).join('')}</ol></aside>`;
+}
+
+export function readerArticle({ route, repository, entry, parts = [entry], prepared, review = false, returnHref = '#/library', locationHref }) {
+  const continuous = Boolean(route.flow && parts.length > 1 && !review);
+  const index = parts.findIndex((part) => part.editionId === entry.editionId);
+  const previous = parts[index - 1];
+  const next = parts[index + 1];
   const titleMarkup = prepared.title || `<h1>${escapeHtml(entry.title)}</h1>`;
-  const readingMinutes = repository.summaries?.[entryKey(entry)]?.minutes || "";
-  const nav = `<header class="reader-header"><a class="reader-back" href="#/library">${icon("arrow")} <span>资料库</span></a><div class="reader-identity"><span>${escapeHtml(entry.title)}</span><strong>${escapeHtml(partName(entry))}</strong></div><nav class="reader-actions" aria-label="阅读操作"><a class="reader-mode${review ? " active" : ""}" href="${routeHref(review ? "verify" : "read", { editionId: entry.editionId, flow: isContinuous })}">${review ? "核验参照" : "正文"}</a>${parts.length > 1 ? `<a class="reader-mode${isContinuous ? " active" : ""}" href="${routeHref("read", { editionId: entry.editionId, flow: !isContinuous })}">${isContinuous ? "单篇阅读" : "连续阅读"}</a>` : ""}<button type="button" data-tool="parts"${parts.length < 2 ? " hidden" : ""}>目录</button><button type="button" data-tool="find">查找</button><button type="button" data-tool="more">更多</button></nav><button class="icon-button theme-button" type="button" data-action="theme" aria-label="切换深浅主题">${icon(theme === "dark" ? "sun" : "moon")}</button></header>`;
-  const partNav = parts.length > 1 ? `<aside class="reader-parts"><p class="eyebrow">同视频目录 · ${parts.length} 个 P</p><ol>${parts.map((part) => `<li><a class="${part.editionId === entry.editionId ? "current" : ""}" href="${routeHref("read", { editionId: part.editionId, flow: isContinuous })}"><span>${escapeHtml(partLabel(part))}</span><span>${escapeHtml(partTitleOrFallback(part))}</span></a></li>`).join("")}</ol></aside>` : "";
-  const details = tool === "parts" ? `<section class="tool-sheet"><h2>同视频目录</h2>${partNav || "<p>当前视频只有一个 P。</p>"}</section>` : tool === "find" ? `<section class="tool-sheet"><h2>查找当前正文</h2><form data-reader-search><input name="q" type="search" placeholder="输入词语"><button>查找</button></form><ol class="reader-search-results">${searchResults.map((hit) => `<li><a href="#${escapeHtml(hit.id)}" data-reader-block="${escapeHtml(hit.id)}">${escapeHtml(hit.text.slice(0, 90))}</a></li>`).join("")}</ol></section>` : tool === "more" ? `<section class="tool-sheet"><h2>阅读工具</h2><button type="button" data-tool="source">来源与版本</button><button type="button" data-tool="outline">本文导览</button><button type="button" data-tool="settings">排版</button><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">打开原视频</a></section>` : tool === "source" ? `<section class="tool-sheet"><h2>来源与版本</h2>${sourcePanel(entry)}</section>` : tool === "outline" ? `<section class="tool-sheet"><h2>本文导览</h2>${outlinePanel(prepared)}</section>` : tool === "settings" ? `<section class="tool-sheet settings-sheet"><h2>排版</h2><label>字号<select data-preference="size"><option value="17">17 px</option><option value="19">19 px</option><option value="21">21 px</option></select></label><label>行宽<select data-preference="width"><option value="620">窄</option><option value="760">标准</option><option value="920">宽</option></select></label></section>` : "";
-  return `${nav}<div class="reader-layout">${partNav}<main class="page reader-page" id="main-content"><article class="reader-article"><header class="reader-title"><div class="reader-status">${statusChip(entry)}${review ? "<span>固定校验参照</span>" : isDraft(entry) ? "<span>公开预览 · 未经正式发布</span>" : ""}</div>${titleMarkup}<p>${escapeHtml(partName(entry))}${readingMinutes ? ` · ${readingMinutes} 分钟阅读` : ""}</p></header>${review ? `<p class="review-note">当前为固定校验参照。它保留原文、整理稿、疑点和回看链接，当前稿件审核状态另行显示。</p>` : ""}<div class="reader-prose">${prepared.body}</div><footer class="reader-end"><span>本部分读完了。</span>${parts.length > 1 ? `<a href="${routeHref("read", { editionId: entry.editionId, flow: true })}">进入连续阅读 ${icon("arrow")}</a>` : ""}<a href="#/library">返回资料库</a></footer></article></main></div>${details ? `<aside class="tool-drawer" data-tool-drawer>${details}<button type="button" class="drawer-close" data-action="close-tool">关闭</button></aside>` : ""}`;
+  const readingMinutes = repository.summaries?.[entryKey(entry)]?.minutes || '';
+  const nextControl = continuous && next
+    ? `<button class="button-link" type="button" data-action="load-next" data-edition-id="${escapeHtml(entry.editionId)}" data-next-edition-id="${escapeHtml(next.editionId)}">继续读 ${escapeHtml(partLabel(next))} ${icon('arrow')}</button>`
+    : !continuous && next ? `<a href="${routeHref(review ? 'verify' : 'read', { editionId: next.editionId })}">下一部分 · ${escapeHtml(partLabel(next))} ${icon('arrow')}</a>` : '';
+  return `<article class="reader-article" data-edition-id="${escapeHtml(entry.editionId)}" data-reader-mode="${review ? 'review' : 'body'}"><header class="reader-title"><div class="reader-status">${statusChip(entry)}${review ? '<span>固定 AI 基线参照</span>' : isDraft(entry) ? '<span>公开预览 · 未正式发布</span>' : ''}</div>${titleMarkup}<p>${escapeHtml(partName(entry))}${readingMinutes ? ` · ${readingMinutes} 分钟阅读` : ''}</p>${modeLinks({ route, entry, parts, review, locationHref })}</header>${review ? `<p class="review-note">校验参照关联当前 AI 修订，保留原文、整理稿、疑点和回看链接。它是 AI 初稿基线，不能作为当前人工稿件已获批准或正式发布的凭据。</p>` : ''}<div class="reader-prose">${prepared.body}</div><footer class="reader-end"><span>${continuous && !next ? '同视频已收录部分读完了。' : '本部分读完了。'}</span>${!continuous && previous ? `<a href="${routeHref(review ? 'verify' : 'read', { editionId: previous.editionId })}">上一部分 · ${escapeHtml(partLabel(previous))}</a>` : ''}${nextControl}<a href="${escapeHtml(returnHref)}">返回资料库</a></footer></article>`;
 }
 
-function partTitleOrFallback(entry) { return entry.sourceMetadata?.partTitle || "分段标题未提供"; }
-
-function sourcePanel(entry) {
-  return `<dl class="source-facts"><dt>稿件状态</dt><dd>${escapeHtml(statusLabel(entry))}</dd><dt>原视频</dt><dd><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(sourceLabel(entry))}</a></dd><dt>来源标题</dt><dd>${escapeHtml(entry.sourceMetadata.title)}</dd><dt>来源作者</dt><dd>${escapeHtml(entry.sourceMetadata.creatorName || "未知")}</dd><dt>整理方式</dt><dd>${escapeHtml(entry.attribution)}</dd><dt>Edition</dt><dd><code>${escapeHtml(entry.editionId)}</code></dd><dt>正文 SHA-256</dt><dd><code>${escapeHtml(entry.contentSha256)}</code></dd></dl>`;
+export function readerPage({ route, repository, entry, parts = [entry], prepared, theme, review = false, returnHref = '#/library', locationHref }) {
+  const nav = `<header class="reader-header"><a class="reader-back" href="${escapeHtml(returnHref)}" aria-label="返回资料库">${icon('arrow')} <span>返回</span></a><div class="reader-identity" title="${escapeHtml(`${entry.title} · ${partName(entry)}`)}"><span>${escapeHtml(entry.title)}</span><strong>${escapeHtml(partName(entry))}</strong></div><nav class="reader-actions" aria-label="阅读操作">${parts.length > 1 ? '<button type="button" data-tool="parts">目录</button>' : ''}<button type="button" data-tool="find">查找</button><button type="button" data-tool="more">更多</button></nav><button class="icon-button theme-button" type="button" data-action="theme" aria-label="切换深浅主题">${icon(theme === 'dark' ? 'sun' : 'moon')}</button></header>`;
+  const sidebar = parts.length > 1 ? partNavigation({ entry, parts, route, review }) : '';
+  return `${nav}<div class="reader-layout">${sidebar}<main class="page reader-page" id="main-content">${readerArticle({ route, repository, entry, parts, prepared, review, returnHref, locationHref })}</main></div><div id="reader-tools"></div>`;
 }
 
-function outlinePanel(prepared) {
+export function readerToolPanel({ tool, route = {}, entry, parts = [entry], prepared = {}, searchResults = [], searchQuery = '', preferences = {}, review = false, feedbackMarkup = '', loading = false, error = '', locationHref }) {
+  const labels = { parts: '同视频目录', find: review ? '查找当前参照' : '查找当前视频', more: '阅读工具', source: '来源与版本', outline: '本文导览', settings: '阅读排版', feedback: '修改建议' };
+  if (!Object.hasOwn(labels, tool)) return '';
+  let content = '';
+  if (loading) content = '<p class="tool-help" role="status">正在准备工具…</p>';
+  else if (error) content = `<div class="inline-error" role="alert"><p>${escapeHtml(error)}</p><button type="button" data-action="retry-tool">重试</button></div>`;
+  else if (tool === 'parts') content = parts.length > 1 ? partNavigation({ entry, parts, route, review, className: 'reader-tool-parts' }) : '<p>当前视频只有一个 P。</p>';
+  else if (tool === 'find') content = `<form data-reader-search><label class="visually-hidden" for="reader-search-input">${review ? '查找当前参照' : '查找当前视频'}</label><input id="reader-search-input" name="q" type="search" value="${escapeHtml(searchQuery)}" placeholder="输入概念或原句"><button type="submit">查找</button></form><p class="tool-help">${review ? '只查找当前准确版本的校验参照，不混入正文命中。' : '只查找当前视频中同稿件类别的正文。'}</p><p role="status">${searchQuery ? `找到 ${searchResults.length} 处命中` : '输入词语开始查找。'}</p><ol class="reader-search-results">${searchResults.map((hit) => { const part = hit.entry || entry; return `<li><a href="${routeHref(review ? 'verify' : 'read', { editionId: part.editionId, flow: !review && route.flow, block: hit.id })}" data-edition-id="${escapeHtml(part.editionId)}" data-reader-block="${escapeHtml(hit.id)}"><span>${escapeHtml(partLabel(part))}</span>${highlight(String(hit.text || '').slice(0, 160), searchQuery)}</a></li>`; }).join('')}</ol>`;
+  else if (tool === 'more') content = `<button type="button" data-tool="source">来源与版本</button><button type="button" data-tool="outline">本文导览</button><button type="button" data-tool="settings">阅读排版</button><button type="button" data-tool="feedback">纠错 / 反馈</button><a href="${escapeHtml(readerHref(review ? 'read' : 'verify', { editionId: entry.editionId, flow: review && route.flow }, locationHref))}">${review ? '返回正文' : '打开核验参照'}</a>${!review && parts.length > 1 ? `<a href="${routeHref('read', { editionId: entry.editionId, flow: !route.flow, block: route.block })}">${route.flow ? '切换为单篇阅读' : '开启连续阅读'}</a>` : ''}<a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">打开原视频</a>`;
+  else if (tool === 'source') content = sourcePanel(entry);
+  else if (tool === 'outline') content = outlinePanel(prepared, entry, route, review);
+  else if (tool === 'settings') content = settingsPanel(preferences);
+  else if (tool === 'feedback') content = feedbackMarkup || '<p class="tool-help" role="status">正在准备建议表单…</p>';
+  return `<aside class="tool-drawer" data-tool-drawer data-reader-tool="${escapeHtml(tool)}" role="dialog" aria-modal="true" aria-labelledby="reader-tool-title" tabindex="-1"><section class="tool-sheet${tool === 'settings' ? ' settings-sheet' : ''}"><h2 id="reader-tool-title">${labels[tool]}</h2>${content}</section><button type="button" class="drawer-close" data-action="close-tool" aria-label="关闭">关闭</button></aside>`;
+}
+
+const missingFact = (value) => value === null || value === undefined || value === '' ? '未提供' : String(value);
+const sourceTime = (value) => {
+  if (value === null || value === undefined) return '未知';
+  const date = new Date(typeof value === 'number' ? value * 1000 : value);
+  return Number.isNaN(date.valueOf()) ? '未知' : date.toLocaleString('zh-CN', { timeZone: 'Asia/Hong_Kong', hour12: false });
+};
+const factMarkup = (label, value, code = false) => `<dt>${escapeHtml(label)}</dt><dd>${code ? `<code>${escapeHtml(missingFact(value))}</code>` : escapeHtml(missingFact(value))}</dd>`;
+
+export function sourcePanel(entry) {
+  const metadata = entry.sourceMetadata || {};
+  const origin = entry.origin;
+  const sourcePublished = metadata.sourcePublishedAt || metadata.pubdateUnix || null;
+  const metadataEvidence = origin?.metadataEvidence ? `<details class="source-version-details"><summary>冻结元数据观测证据</summary><pre>${escapeHtml(JSON.stringify(origin.metadataEvidence, null, 2))}</pre></details>` : '';
+  const originNames = { 'ai-generated-v2': '原生 AI v2 整理稿', 'preserved-legacy-body': '迁移保留的历史 AI 正文', 'edited-after-preservation': '迁移保留后经编辑的正文' };
+  const provenance = origin ? `${factMarkup('来源归属', originNames[origin.kind] || origin.kind)}${factMarkup('AI 输入版本', origin.inputVersion)}${factMarkup('AI 模板版本', origin.aiTemplateVersion)}${factMarkup('冻结来源元数据 SHA-256', origin.sourceMetadataSha256, true)}${origin.kind === 'ai-generated-v2' ? '' : `${factMarkup('迁移策略', origin.policyVersion)}${factMarkup('迁移 ID', origin.importId, true)}${factMarkup('历史 AI 修订', origin.legacyAiRevisionId, true)}${factMarkup('历史编辑版本', origin.legacyEditionId, true)}${factMarkup('历史发布 ID', origin.legacyReleaseId, true)}${factMarkup('迁移基线正文 SHA-256', origin.baselineBodySha256, true)}${factMarkup('当前正文 SHA-256', origin.currentBodySha256, true)}${factMarkup('迁移时间', sourceTime(origin.importedAt))}${factMarkup('正文保留声明', origin.bodyPreserved === true ? '保留原正文' : origin.bodyPreserved === false ? '已编辑正文' : '未提供')}`}` : factMarkup('来源归属', '未提供来源声明');
+  return `<p class="tool-help">审核状态说明稿件处理进度；正式发布是另一项事实。未知来源时间保留为未知，不以导入或编辑时间替代。</p><dl class="source-facts">${factMarkup('稿件状态', statusLabel(entry))}<dt>原视频</dt><dd><a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(sourceLabel(entry))}</a></dd>${factMarkup('来源标题', metadata.title)}${factMarkup('分段标题', metadata.partTitle)}${factMarkup('来源作者', metadata.creatorName)}${factMarkup('来源作者 ID', metadata.creatorId)}${factMarkup('源视频发布时间', sourceTime(sourcePublished))}${factMarkup('元数据观测时间', sourceTime(metadata.metadataObservedAt))}${factMarkup('源主题标签', metadata.tags?.length ? metadata.tags.join(' · ') : '未提供')}${factMarkup('整理方式', entry.attribution)}${factMarkup('编辑说明', entry.editorNote)}</dl><details class="source-version-details" open><summary>准确版本与文件证据</summary><dl class="source-facts">${factMarkup('稿件类别', entry.manuscriptType)}${factMarkup('内容版本', entry.contentVersion)}${factMarkup('平台', entry.platform)}${factMarkup('来源视频 ID', entry.externalVideoId, true)}${factMarkup('分 P 索引（从 0 起）', entry.partIndex)}${factMarkup('本地分 P ID', entry.videoPartId)}${factMarkup('编辑版本', entry.editionId, true)}${factMarkup('AI 修订', entry.aiRevisionId, true)}${factMarkup('完整内容 SHA-256', entry.contentSha256, true)}${factMarkup('正文文件 SHA-256', entry.artifactSha256, true)}${factMarkup('校验参照文件 SHA-256', entry.reviewArtifactSha256, true)}${entry.manuscriptType === 'publication' ? `${factMarkup('发布 ID', entry.releaseId, true)}${factMarkup('发布模板', entry.templateVersion)}${factMarkup('正式发布时间', sourceTime(entry.publishedAt))}` : factMarkup('编辑版本创建时间', sourceTime(entry.createdAt))}${provenance}</dl></details>${metadataEvidence}${origin?.metadataSupplement ? `<details class="source-version-details"><summary>分 P 标题补充证据</summary><pre>${escapeHtml(JSON.stringify(origin.metadataSupplement, null, 2))}</pre></details>` : ''}`;
+}
+
+function outlinePanel(prepared, entry, route, review) {
+  const headings = prepared.headings || [];
   const blocks = prepared.blocks || [];
-  if (!blocks.length) return "<p>当前正文没有可用的段落导览。</p>";
-  return `<ol class="outline-list">${blocks.filter((_, index) => index < 30).map((block, index) => `<li><a href="#${escapeHtml(block.id)}" data-reader-block="${escapeHtml(block.id)}"><span>${index + 1}</span>${escapeHtml((block.text || "").slice(0, 64))}</a></li>`).join("")}</ol>`;
+  const candidates = headings.length > 1 ? headings.filter((heading) => heading.level > 1) : [];
+  const items = candidates.length ? candidates : blocks;
+  if (!items.length) return '<p>当前正文没有可用的段落导览。</p>';
+  const step = candidates.length ? 1 : Math.max(1, Math.ceil(items.length / 30));
+  return `<p class="tool-help">${candidates.length ? '沿原文标题定位。' : '正文没有编辑章节；以下按原文段落顺序摘录，未生成新标题。'}</p><ol class="outline-list">${items.filter((_, index) => index % step === 0).map((block, index) => `<li><a href="${routeHref(review ? 'verify' : 'read', { editionId: entry.editionId, flow: !review && route.flow, block: block.id })}" data-edition-id="${escapeHtml(entry.editionId)}" data-reader-block="${escapeHtml(block.id)}"><span>${index * step + 1}</span>${escapeHtml(String(block.text || '').slice(0, 64))}</a></li>`).join('')}</ol>`;
+}
+
+function settingsPanel(preferences) {
+  const setting = (name, label, options) => `<label for="reader-preference-${name}">${label}<select id="reader-preference-${name}" data-preference="${name}">${options.map(([value, text]) => `<option value="${value}"${String(preferences[name]) === String(value) ? ' selected' : ''}>${text}</option>`).join('')}</select></label>`;
+  return setting('size', '字号', [[17, '17 px'], [19, '19 px'], [21, '21 px']]) + setting('lineHeight', '行距', [[1.65, '紧凑'], [1.8, '适中'], [1.95, '标准'], [2.1, '宽松']]) + setting('width', '行宽', [[620, '窄'], [760, '标准'], [920, '宽']]) + setting('font', '字体', [['serif', '宋体 / 衬线'], ['sans', '黑体 / 无衬线']]) + '<p class="tool-help">排版偏好只保存在当前浏览器。</p>';
 }
