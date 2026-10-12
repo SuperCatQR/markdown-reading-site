@@ -51,6 +51,18 @@ export function readingLocation(root) {
   return { editionId: article.dataset.editionId, anchor: block?.dataset.blockId || '', offset: block ? Math.max(0, Math.min(1, (90 - block.getBoundingClientRect().top) / Math.max(1, block.getBoundingClientRect().height))) : 0 };
 }
 
+export function readerPositionForRoute(route, { saved, local, reload = false } = {}) {
+  const progress = local?.status === 'valid' && local.record.editionId === route.editionId ? local.record : null;
+  if (route.block) {
+    // Scrolling writes a canonical paragraph URL. Reloading that same URL
+    // resumes its validated fraction; newly opened links still start at the
+    // requested paragraph rather than inheriting a previous visit's offset.
+    if (reload && route.name === 'read' && progress?.anchor === route.block) return progress;
+    return { editionId: route.editionId, anchor: route.block };
+  }
+  return saved || progress;
+}
+
 export function restoreReadingLocation(root, location) {
   if (!location) return;
   const article = root.querySelector(`.reader-article[data-edition-id="${CSS.escape(location.editionId)}"]`);

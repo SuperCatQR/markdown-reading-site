@@ -5,6 +5,7 @@ Each failed requirement is recorded; the process exits 1 if acceptance fails.
 """
 import argparse
 import json
+import re
 import time
 from pathlib import Path
 from urllib.parse import quote
@@ -202,27 +203,25 @@ with sync_playwright() as pw:
         return {'escaped_query': page.locator('.results-heading h2').inner_text()}
     run('Search query HTML is displayed as text', 'P1', query_markup)
 
-    def continuous():
-        visit('/read/' + multi + '?flow=continuous', reader=True)
+    def part_navigation():
+        visit('/read/' + multi, reader=True)
         first_text = page.locator('.reader-prose').inner_text()
-        button = page.locator('[data-action="load-next"]')
-        button.scroll_into_view_if_needed()
-        before = page.evaluate('scrollY')
-        button.click()
-        expect(page.locator('.reader-article')).to_have_count(2)
-        assert page.locator('.reader-prose').first.inner_text() == first_text, 'Appending replaced the first body'
-        assert page.evaluate('scrollY') > before, 'Continue did not enter the appended part'
-        ids = page.locator('[id]').evaluate_all('nodes=>nodes.map(n=>n.id)')
-        assert len(ids) == len(set(ids)), 'Continuous flow duplicates DOM IDs'
-        second = page.locator('.reader-article').nth(1)
-        expect(page).to_have_url(__import__('re').compile('/read/' + second.get_attribute('data-edition-id')))
+        link = page.locator('.reader-end').get_by_role('link', name=re.compile('下一部分'))
+        second = link.get_attribute('href').split('/read/')[1].split('?')[0]
+        link.click()
+        expect(page.locator('.reader-article')).to_have_count(1)
+        expect(page.locator('.reader-article')).to_have_attribute('data-edition-id', second)
+        expect(page).to_have_url(re.compile('/read/' + second))
         expect(page.locator('.reader-identity strong')).to_contain_text('P2')
-        second.scroll_into_view_if_needed()
-        expect(page).to_have_url(__import__('re').compile('/read/' + second.get_attribute('data-edition-id')))
-        page.locator('.reader-article').first.scroll_into_view_if_needed()
-        expect(page).to_have_url(__import__('re').compile('/read/' + multi))
-        return {'articles': 2, 'first_body_retained': True, 'unique_ids': True, 'flow_url_tracks_visible_part': True}
-    run('Continuous reading appends real next part and tracks position', 'P1', continuous)
+        assert page.locator('[data-action="load-next"]').count() == 0, 'Independent P navigation exposes old append controls'
+        ids = page.locator('[id]').evaluate_all('nodes=>nodes.map(n=>n.id)')
+        assert len(ids) == len(set(ids)), 'Single P duplicates DOM IDs'
+        page.locator('.reader-end').get_by_role('link', name=re.compile('上一部分')).click()
+        expect(page.locator('.reader-article')).to_have_attribute('data-edition-id', multi)
+        expect(page.locator('.reader-prose')).to_have_text(first_text)
+        expect(page).to_have_url(re.compile('/read/' + multi))
+        return {'first': multi, 'next': second, 'articles_per_route': 1, 'first_body_unchanged_on_return': True, 'unique_ids': True}
+    run('Next and previous P use independent routes with unchanged source bodies', 'P1', part_navigation)
 
     def view_switch():
         visit('/read/' + single, reader=True)
@@ -384,6 +383,16 @@ with sync_playwright() as pw:
         expect(page.locator('.reader-prose')).to_be_visible()
         after_reload = page.evaluate(position_script)
         assert_position(before, after_reload, 'Reload loses canonical paragraph')
+        # Opening the same shareable URL in a fresh document is an explicit
+        # paragraph jump, even when this browser has local progress there.
+        linked = context.new_page()
+        try:
+            linked.goto(page.url)
+            expect(linked.locator('.reader-prose')).to_be_visible()
+            explicit = linked.evaluate(position_script)
+            assert explicit['anchor'] == before['anchor'] and abs(explicit['offset']) < .04, f'Explicit paragraph link inherited prior offset: {explicit}'
+        finally:
+            linked.close()
         return {'before': before, 'recent': after_recent, 'reload': after_reload}
     run('Recent and reload restore exact body paragraph offset', 'P1', body_resume)
 
@@ -402,22 +411,29 @@ with sync_playwright() as pw:
     run('Verification returns to body without changing body position', 'P1', verify_return)
 
     def next_failure():
-        visit('/read/' + multi + '?flow=continuous', reader=True)
+        visit('/read/' + multi, reader=True)
         first = page.locator('.reader-prose').inner_text()
         def unavailable(route):
             route.fulfill(status=503, body='temporary')
         page.route('**/body-*.md', unavailable)
-        button = page.locator('[data-action="load-next"]')
-        button.scroll_into_view_if_needed()
-        before = page.evaluate('scrollY')
-        button.click()
-        expect(page.locator('.reader-end [role="alert"]')).to_be_visible()
-        assert page.locator('.reader-prose').inner_text() == first
-        assert abs(page.evaluate('scrollY') - before) < 5
-        page.unroute('**/body-*.md', unavailable)
-        button.click()
-        expect(page.locator('.reader-article')).to_have_count(2)
-    run('Next-part failure preserves body and supports retry', 'P1', next_failure)
+        try:
+            link = page.locator('.reader-end').get_by_role('link', name=re.compile('下一部分'))
+            second = link.get_attribute('href').split('/read/')[1].split('?')[0]
+            link.click()
+            expect(page.locator('.empty-state [role="alert"]')).to_be_visible()
+            expect(page).to_have_url(re.compile('/read/' + second))
+            page.unroute('**/body-*.md', unavailable)
+            page.get_by_role('button', name='重新加载', exact=True).click()
+            expect(page.locator('.reader-article')).to_have_attribute('data-edition-id', second)
+            expect(page.locator('.reader-prose')).to_be_visible()
+            expect(page.locator('.reader-article')).to_have_count(1)
+            page.locator('.reader-end').get_by_role('link', name=re.compile('上一部分')).click()
+            expect(page.locator('.reader-article')).to_have_attribute('data-edition-id', multi)
+            expect(page.locator('.reader-prose')).to_have_text(first)
+            return {'failed_route': second, 'retried_same_edition': True, 'original_body_unchanged_on_return': True}
+        finally:
+            page.unroute('**/body-*.md', unavailable)
+    run('Next-P transport failure retries the exact route and leaves source body unchanged', 'P1', next_failure)
 
     def navigation_refresh():
         visit('/library', listing=True)
@@ -564,19 +580,15 @@ with sync_playwright() as pw:
     run('Open tools adapt between usable dock and isolated full-width small-screen view', 'P1', responsive_tools)
 
     def docked_feedback_identity():
-        visit('/read/' + multi + '?flow=continuous', reader=True)
-        page.locator('[data-action="load-next"]').click()
-        expect(page.locator('.reader-article')).to_have_count(2)
-        second = page.locator('.reader-article').nth(1).get_attribute('data-edition-id')
-        page.locator('.reader-article').first.scroll_into_view_if_needed()
-        expect(page).to_have_url(__import__('re').compile('/read/' + multi))
+        visit('/read/' + multi, reader=True)
+        next_link = page.locator('.reader-end').get_by_role('link', name=re.compile('下一部分'))
+        second = next_link.get_attribute('href').split('/read/')[1].split('?')[0]
         page.locator('[data-tool="more"]').click()
         page.locator('[data-tool="feedback"]').click()
         expect(page.locator('[data-feedback-form]')).to_have_attribute('data-edition-id', multi)
         expect(page.locator('.tool-drawer')).to_have_attribute('aria-busy', 'false')
         page.locator('[name="quote"]').fill('P1 feedback stays P1')
-        page.evaluate('document.querySelectorAll(".reader-article")[1].scrollIntoView()')
-        expect(page).to_have_url(__import__('re').compile('/read/' + second))
+        page.evaluate('window.scrollTo({top:1200,behavior:"instant"})')
         page.locator('[name="suggestion"]').fill('P1 suggestion')
         page.locator('[name="reason"]').fill('P1 reason')
         page.get_by_role('button', name='整理建议', exact=True).click()
@@ -584,7 +596,23 @@ with sync_playwright() as pw:
         text = page.locator('[data-feedback-output]').input_value()
         assert multi in text and second not in text, 'Scrolling docked background changes feedback identity'
         expect(page.locator('[data-feedback-form]')).to_have_attribute('data-edition-id', multi)
-    run('Docked feedback remains bound to its original version while continuous body scrolls', 'P1', docked_feedback_identity)
+        # Navigate with the dock still open. The destination starts its own
+        # accurate feedback context; the P1 draft stays available on return.
+        page.locator('.reader-end').get_by_role('link', name=re.compile('下一部分')).click()
+        expect(page.locator('.reader-article')).to_have_attribute('data-edition-id', second)
+        expect(page.locator('.tool-drawer')).to_have_count(0)
+        page.locator('[data-tool="more"]').click()
+        page.locator('[data-tool="feedback"]').click()
+        expect(page.locator('[data-feedback-form]')).to_have_attribute('data-edition-id', second)
+        expect(page.locator('[name="quote"]')).to_have_value('')
+        page.locator('.reader-end').get_by_role('link', name=re.compile('上一部分')).click()
+        expect(page.locator('.reader-article')).to_have_attribute('data-edition-id', multi)
+        page.locator('[data-tool="more"]').click()
+        page.locator('[data-tool="feedback"]').click()
+        expect(page.locator('[name="quote"]')).to_have_value('P1 feedback stays P1')
+        expect(page.locator('[data-feedback-form]')).to_have_attribute('data-edition-id', multi)
+        return {'first': multi, 'next': second, 'scroll_keeps_feedback_version': True, 'navigation_closes_old_context': True, 'drafts_separate_by_edition': True}
+    run('Docked feedback stays version-bound while scrolling and separate across P routes', 'P1', docked_feedback_identity)
 
     report = {'base': base, 'browser': browser.version, 'checks': checks, 'summary': {
         'pass': sum(row['status'] == 'pass' for row in checks), 'fail': sum(row['status'] == 'fail' for row in checks)}}

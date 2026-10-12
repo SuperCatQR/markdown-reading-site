@@ -1,0 +1,24 @@
+{
+  "contractProfile": "universal-origin-v2",
+  "files": [
+    {
+      "path": "catalog.json",
+      "sha256": "55cc668c864482066885b6f078f11e49bb81a14d185a2c46c5497b1a1f04c979"
+    },
+    {
+      "path": "drafts/edition-9a4199dd3cec4212a8f7192f75a7b871/preview.md",
+      "sha256": "865ab4c74f7266d0fbd77e4314e8bb60a517309038b91842a2dda503c08a62dd"
+    },
+    {
+      "path": "drafts/edition-9a4199dd3cec4212a8f7192f75a7b871/review.md",
+      "sha256": "de1f509463124edd79a69e3d8432bc7f54a2d0f055f39ca64e0db54defef9355"
+    },
+    {
+      "path": "origins.json",
+      "sha256": "6baa732f0e04009c946bf847cdae244b6ecb925b08aaa7ac7f32ab5e8796b8d4"
+    }
+  ],
+  "manuscriptType": "publication-draft-export",
+  "schemaVersion": 3,
+  "snapshotId": "babb62a9fcc674e4d960a50b533c75939cff89b6bfc722daad98737ddeaeaa50"
+}

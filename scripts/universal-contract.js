@@ -2,6 +2,11 @@ import { createHash } from "node:crypto";
 import { validSourceIdentity } from "../src/source-identity.js";
 
 export const ORIGIN_PROFILE = "universal-origin-v1";
+export const ORIGIN_PROFILES = Object.freeze({
+  "universal-origin-v1": Object.freeze({ originsVersion: 1, manifestVersion: 2 }),
+  "universal-origin-v2": Object.freeze({ originsVersion: 2, manifestVersion: 3 }),
+});
+export const originProfile = (name) => Object.hasOwn(ORIGIN_PROFILES, name) ? ORIGIN_PROFILES[name] : null;
 const object = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
 const exact = (value, fields) => object(value) && Object.keys(value).length === fields.length && fields.every((key) => Object.hasOwn(value, key));
 const hash = (value, size = 64) => typeof value === "string" && new RegExp(`^[0-9a-f]{${size}}$`).test(value);
@@ -14,17 +19,22 @@ const imported = ["importId", "policyVersion", "legacyAiRevisionId", "legacyEdit
 const knownFacts = new Set(["version", "platform", "externalVideoId", "partIndex", "title"]);
 const supplementPolicy = "legacy-part-title-supplement-v1";
 const supplementKind = "archive-part-projection";
+const descriptionPolicy = "legacy-description-supplement-v1";
+const descriptionKind = "archive-video-details-projection";
 
-function validateSupplement(value, article) {
+function validateSupplement(value, article, field) {
   if (!exact(value, ["supplementId", "evidence"])) return false;
   const evidence = value.evidence;
   if (!exact(evidence, ["version", "platform", "externalVideoId", "partIndex", "videoPartId", "cid", "field", "value", "sourceKind", "observedAt"])) return false;
-  return evidence.version === 1 && evidence.platform === "bilibili" && evidence.sourceKind === supplementKind
-    && evidence.field === "partTitle" && evidence.observedAt === null
+  const description = field === "description";
+  return evidence.version === (description ? 2 : 1) && evidence.platform === "bilibili"
+    && evidence.sourceKind === (description ? descriptionKind : supplementKind)
+    && evidence.field === field && (evidence.observedAt === null || (description && integer(evidence.observedAt)))
     && integer(evidence.partIndex) && integer(evidence.videoPartId, 1) && integer(evidence.cid, 1)
     && ["platform", "externalVideoId", "partIndex"].every((key) => evidence[key] === article.sourceMetadata[key])
-    && evidence.videoPartId === article.videoPartId && text(evidence.value, 512) && Boolean(evidence.value.trim())
-    && evidence.value === article.sourceMetadata.partTitle && value.supplementId === canonicalDigest(evidence);
+    && evidence.videoPartId === article.videoPartId && text(evidence.value, description ? 65536 : 512, description)
+    && (description || Boolean(evidence.value.trim()))
+    && evidence.value === article.sourceMetadata[field] && value.supplementId === canonicalDigest(evidence);
 }
 
 export function canonicalJson(value) {
@@ -79,17 +89,20 @@ export function validateUniversalSource(entry) {
   return errors;
 }
 
-export function validateOrigins(value, catalog, kind) {
+export function validateOrigins(value, catalog, kind, profile = ORIGIN_PROFILE) {
   const errors = [];
   if (!exact(value, ["schemaVersion", "manuscriptType", "contractProfile", "entries"])
-      || value.schemaVersion !== 1 || value.manuscriptType !== kind || value.contractProfile !== ORIGIN_PROFILE
+      || !originProfile(profile) || value.schemaVersion !== originProfile(profile).originsVersion
+      || value.manuscriptType !== kind || value.contractProfile !== profile
       || !Array.isArray(value.entries)) return ["origins.json 来源 envelope 无效"];
   if (!Array.isArray(catalog?.articles) || catalog.articles.some((entry) => !object(entry))) return ["来源需要有效的稿件目录"];
   const articles = new Map((catalog?.articles || []).map((entry) => [entry.editionId, entry]));
   const seen = [];
   for (const origin of value.entries) {
     const native = origin?.kind === "ai-generated-v2";
-    const supplemented = !native && origin?.policyVersion === supplementPolicy;
+    const suppliedField = origin?.policyVersion === supplementPolicy ? "partTitle"
+      : profile === "universal-origin-v2" && origin?.policyVersion === descriptionPolicy ? "description" : null;
+    const supplemented = !native && suppliedField !== null;
     if (!exact(origin, native ? common : [...common, ...imported, ...(supplemented ? ["metadataSupplement"] : [])])
         || !["ai-generated-v2", "preserved-legacy-body", "edited-after-preservation"].includes(origin.kind)) {
       errors.push("未知来源类型或来源字段"); continue;
@@ -110,8 +123,9 @@ export function validateOrigins(value, catalog, kind) {
       if (origin[key] !== null && !hash(origin[key], size)) errors.push(`历史身份无效: ${key}`);
     }
     if (origin.legacyAiRevisionId !== article.aiRevisionId || origin.reviewArtifactSha256 !== article.reviewArtifactSha256
-        || !["legacy-frozen-facts-v1", supplementPolicy].includes(origin.policyVersion) || !integer(origin.importedAt)) errors.push("导入基线或策略绑定无效");
-    if (supplemented && !validateSupplement(origin.metadataSupplement, article)) errors.push("分 P 标题补充证据或身份绑定无效");
+        || !["legacy-frozen-facts-v1", supplementPolicy, ...(profile === "universal-origin-v2" ? [descriptionPolicy] : [])].includes(origin.policyVersion)
+        || !integer(origin.importedAt)) errors.push("导入基线或策略绑定无效");
+    if (supplemented && !validateSupplement(origin.metadataSupplement, article, suppliedField)) errors.push("来源元数据补充证据或身份绑定无效");
     const preserved = origin.kind === "preserved-legacy-body";
     if (origin.bodyPreserved !== preserved || (origin.baselineBodySha256 === origin.currentBodySha256) !== preserved) errors.push("正文保留声明与哈希关系不一致");
     const evidence = origin.metadataEvidence;
@@ -121,8 +135,10 @@ export function validateOrigins(value, catalog, kind) {
       if (!exact(fact, ["field", "kind", "observedAt", "valueSha256"]) || !METADATA_FIELDS.includes(fact.field)) { errors.push("元数据证据字段无效"); continue; }
       fields.push(fact.field);
       const known = knownFacts.has(fact.field);
-      const supplied = supplemented && fact.field === "partTitle";
-      if (fact.kind !== (supplied ? supplementKind : known ? "legacy-input" : "unobserved") || fact.observedAt !== null
+      const supplied = supplemented && fact.field === suppliedField;
+      const expectedKind = supplied ? suppliedField === "description" ? descriptionKind : supplementKind : known ? "legacy-input" : "unobserved";
+      const observed = supplied && suppliedField === "description" ? origin.metadataSupplement?.evidence?.observedAt : null;
+      if (fact.kind !== expectedKind || fact.observedAt !== observed
           || fact.valueSha256 !== canonicalDigest(article.sourceMetadata?.[fact.field])) errors.push("元数据证据违反冻结旧事实策略");
       if (!known && !supplied && canonicalJson(article.sourceMetadata?.[fact.field]) !== canonicalJson(fact.field === "tags" ? [] : null)) errors.push("未观测元数据必须保留未知值");
     }

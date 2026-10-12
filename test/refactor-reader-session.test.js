@@ -1,8 +1,21 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createReaderSession, prepareReaderDocument } from "../src/refactor/features/reader-session.js";
+import { createReaderSession, prepareReaderDocument, readerPositionForRoute } from "../src/refactor/features/reader-session.js";
 
 const entries = [0, 1, 3].map((partIndex) => ({ editionId: String(partIndex + 1).padStart(32, "0"), manuscriptType: "publication-draft", platform: "bilibili", externalVideoId: "BVcase", partIndex }));
+test("canonical reload restores a validated paragraph fraction while explicit links and stale versions do not", () => {
+  const route = { name: "read", editionId: entries[0].editionId, block: "passage-8" };
+  const record = { editionId: route.editionId, anchor: route.block, offset: .619 };
+  const local = { status: "valid", record };
+  assert.equal(readerPositionForRoute(route, { local, reload: true }), record);
+  const explicit = { editionId: route.editionId, anchor: route.block };
+  assert.deepEqual(readerPositionForRoute(route, { local }), explicit);
+  assert.deepEqual(readerPositionForRoute(route, { local: { ...local, status: "stale" }, reload: true }), explicit);
+  assert.deepEqual(readerPositionForRoute(route, { local: { status: "valid", record: { ...record, editionId: entries[1].editionId } }, reload: true }), explicit);
+  assert.deepEqual(readerPositionForRoute(route, { local: { status: "valid", record: { ...record, anchor: "passage-9" } }, reload: true }), explicit);
+  assert.deepEqual(readerPositionForRoute({ ...route, name: "verify" }, { local, reload: true }), explicit);
+  assert.equal(readerPositionForRoute({ ...route, block: "" }, { local }), record);
+});
 function deferred() { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; }
 function repository(loadBody) {
   return { findEdition: (id) => entries.find((entry) => entry.editionId === id), list: () => [...entries].reverse(), loadBody, loadReview: loadBody };

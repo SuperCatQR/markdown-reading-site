@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { validateSeries } from "./series-contract.js";
-import { ORIGIN_PROFILE, canonicalDigest, validateUniversalSource, validateOrigins } from "./universal-contract.js";
+import { originProfile, canonicalDigest, validateUniversalSource, validateOrigins } from "./universal-contract.js";
 
 export const ARTICLE_FIELDS = [
   "manuscriptType", "slug", "title", "summary", "tags", "attribution", "editorNote",
@@ -191,15 +191,16 @@ export function validateSnapshot(files, kind = "publication") {
   const available = [...files.keys()].filter((name) => !["catalog.json", "series.json", MANIFEST, "origins.json"].includes(name));
   errors.push(...validateCatalog(catalog, available, kind));
   if (files.has("series.json")) errors.push(...validateSeries(series, catalog, kind));
+  const profile = originProfile(manifest?.contractProfile);
   if (!exactFields(manifest, ["schemaVersion", "manuscriptType", "snapshotId", "files", "contractProfile"])
-      || manifest.schemaVersion !== 2 || catalog?.schemaVersion !== 3
-      || manifest.contractProfile !== ORIGIN_PROFILE || manifest.manuscriptType !== contract.manifestKind
+      || !profile || manifest.schemaVersion !== profile.manifestVersion || catalog?.schemaVersion !== 3
+      || manifest.manuscriptType !== contract.manifestKind
       || !SHA256.test(manifest.snapshotId) || !Array.isArray(manifest.files) || !manifest.files.length) {
-    errors.push(`${MANIFEST} 必须使用准确的 ${contract.manifestKind} v2 universal-origin-v1 契约`);
+    errors.push(`${MANIFEST} 必须使用准确的 ${contract.manifestKind} universal-origin-v1 / universal-origin-v2 契约版本组合`);
     return { errors, catalog };
   }
   const managed = new Map();
-  errors.push(...validateOrigins(origins, catalog, kind));
+  errors.push(...validateOrigins(origins, catalog, kind, manifest.contractProfile));
   for (const entry of manifest.files) {
     if (!exactFields(entry, ["path", "sha256"]) || typeof entry.path !== "string"
         || (!["catalog.json", "series.json", "origins.json"].includes(entry.path) && !contract.file.test(entry.path) && !contract.reviewFile.test(entry.path)) || !SHA256.test(entry.sha256)) {
@@ -220,7 +221,8 @@ export function validateSnapshot(files, kind = "publication") {
   if (JSON.stringify(paths) !== JSON.stringify([...paths].sort())) {
     errors.push("manifest 受管文件必须按路径排序");
   }
-  const snapshotId = canonicalDigest({ schemaVersion: 2, manuscriptType: manifest.manuscriptType, contractProfile: ORIGIN_PROFILE, files: canonicalFiles });
+  const snapshotId = canonicalDigest({ schemaVersion: manifest.schemaVersion, manuscriptType: manifest.manuscriptType,
+    contractProfile: manifest.contractProfile, files: canonicalFiles });
   if (snapshotId !== manifest.snapshotId) {
     errors.push("manifest snapshotId 与受管文件身份不一致");
   }

@@ -212,6 +212,7 @@ mark { color: #202322; background: #f3d693; }
 .search-options[open] summary::after, .more-parts[open] > summary::after, .more-hits[open] > summary::after, .source-version-details[open] > summary::after, .feedback-version[open] > summary::after { content: '−'; }
 .source-facts { display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px 16px; margin: 0; font-size: 13px; line-height: 1.6; }
 .source-facts dt { color: var(--muted); }.source-facts dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }.source-facts code { font-size: 12px; }
+.source-facts .source-description { white-space: pre-wrap; }
 .source-version-details, .feedback-version { margin-top: 20px; }.source-version-details summary, .feedback-version summary { min-height: 44px; display: flex; align-items: center; color: var(--accent); cursor: pointer; font-size: 13px; }.source-version-details pre { overflow: auto; font-size: 12px; }
 .tool-help { margin: 0 0 16px; color: var(--muted); font-size: 13px; line-height: 1.75; }
 .reader-tool-parts ol { margin: 0; padding: 0; list-style: none; }.reader-tool-parts a { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 8px; min-height: 44px; align-items: center; padding: 8px; color: var(--muted); font-size: 13px; line-height: 1.6; text-decoration: none; }.reader-tool-parts .current { color: var(--accent); background: var(--accent-soft); }

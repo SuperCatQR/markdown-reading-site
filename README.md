@@ -59,7 +59,7 @@ pnpm dev
 
 ## 唯一内容契约与导入
 
-本站只接受生产者显式导出的 `universal-origin-v1`：**catalog v3、content v2、source metadata v1、origins v1、manifest v2**。这些是独立版本。拒绝旧 catalog v1/v2、legacy article、混合新旧条目、publish-v1 和旧 manifest v1；不推断字段、不转换旧快照、不修改冻结 Markdown 或哈希。
+本站接受生产者显式导出的两组契约：`universal-origin-v1` 使用 **catalog v3、content v2、source metadata v1、origins v1、manifest v2**；`universal-origin-v2` 使用 **catalog v3、content v2、source metadata v1、origins v2、manifest v3**。这些是独立版本，每份快照必须使用完整且一致的版本组合；不接受 v1 profile 携带简介补充证据。拒绝旧 catalog v1/v2、legacy article、混合新旧条目、publish-v1 和旧 manifest v1；不推断字段、不转换旧快照、不修改冻结 Markdown 或哈希。详见 [来源简介契约交付](docs/source-description-contract.md)。
 
 上游契约固定于 [producer b584f6a](https://github.com/SuperCatQR/bilibili-asr-archive/blob/b584f6ac29b9e6acf598496c255ee73753063074/docs/preserved-body-import.md)。这是 PR #304 实现、PR #75/#77 已接入的来源交付策略，替代早期 issues #64/#68 提议的 manifest v1。导入步骤及来源说明见 [保留旧正文的迁移导入](docs/preserved-body-import.md)。
 
@@ -93,7 +93,7 @@ draft-content/
   drafts/edition-<editionId>/review.md
 ```
 
-两份 catalog 只有 `schemaVersion: 3`、`manuscriptType` 和 `articles`。类型分别为 `publication` / `publication-draft`；空目录仍有 v3 catalog、空 origins 和 v2 manifest。每篇都包含完整 contentVersion=2 来源与编辑字段；允许 null 的字段也必须存在，未知字段拒绝。
+两份 catalog 只有 `schemaVersion: 3`、`manuscriptType` 和 `articles`。类型分别为 `publication` / `publication-draft`；空目录仍有 v3 catalog、空 origins 和对应 profile 的 manifest。每篇都包含完整 contentVersion=2 来源与编辑字段；允许 null 的字段也必须存在，未知字段拒绝。简介补充稿须使用 `--contract-profile universal-origin-v2` 导出，两份部署目录可分别使用各自有效的 profile。
 
 稿件编辑字段 `title/summary/tags/attribution/editorNote` 与冻结的 `sourceMetadata` 分开。来源有 `platform/externalVideoId/partIndex`，视频身份为平台和大小写敏感外部 ID 的元组，分段按零基 partIndex 排序。Bilibili 来源 URL 必须准确绑定视频与 P；YouTube 使用规范 watch URL，当前 partIndex=0。来源 metadata 的 17 个字段、文本/标签边界、规范 URL、UTC 发布时间派生及身份相等均校验。未知源视频发布时间保持 null，不用创建、导入或观察时间补充；封面只允许安全 HTTPS hdslb.com 子域，其他未知封面为 null。
 
@@ -101,7 +101,7 @@ reader 数值范围采用 JavaScript 安全整数子集。原始 JSON 数字必�
 
 公开记录使用准确 release/edition/AI revision、content/artifact/review 哈希、publish-v2 与 Unix 秒正式发布时间。草稿有 edition 创建时间与五种审核状态，禁止 release、发布模板及发布时间。edition 是 32 位小写十六进制，其余 SHA-256 身份是 64 位；videoPartId 为正安全整数。`contentSha256` 对应完整冻结内容对象，不能从 catalog 投影重算；artifact/review 哈希对应原始文件字节。
 
-manifest v2 只有 schemaVersion、manuscriptType、contractProfile、snapshotId、files；类型分别为 publication-export / publication-draft-export。files 按路径排序，准确登记 catalog、origins、正文和参照，不登记自身。snapshotId 是包含版本、类型、profile 和 files 的 canonical JSON 的 SHA-256，不再使用旧 v1 的仅 files 算法。所有原始文件哈希、有效 UTF-8、重复 JSON key、文件集合、路径、符号链接和残留目录在开发/构建前验证；内部 review.json、数据库、actors、audit、模型响应、凭据及未知目录不能进入快照。
+manifest v2/v3 只有 schemaVersion、manuscriptType、contractProfile、snapshotId、files；类型分别为 publication-export / publication-draft-export。files 按路径排序，准确登记 catalog、origins、正文和参照，不登记自身。snapshotId 是包含实际版本、类型、profile 和 files 的 canonical JSON 的 SHA-256，不再使用旧 v1 的仅 files 算法。所有原始文件哈希、有效 UTF-8、重复 JSON key、文件集合、路径、符号链接和残留目录在开发/构建前验证；内部 review.json、数据库、actors、audit、模型响应、凭据及未知目录不能进入快照。
 
 origins 每篇唯一绑定准确 edition、revision、内容和 sourceMetadata 哈希，并区分原生 ai-generated-v2、保留旧正文 preserved-legacy-body 与迁移后编辑 edited-after-preservation。当前 1,492 篇均未发布、待审核，其中 1,103 篇保留旧正文，389 篇为原生 v2；最初 PR #77 导入 1,228 篇的保留证据见 [生产迁移记录](docs/production-preserved-import-20261010.md)，本次新增 264 篇的快照身份与验证依据见 [备份产物导入](docs/production-backup-import-20261011.md)。迁移不等于重新生成、审核或发布，历史 AI 参照保持真实 ai-draft-v1。
 
@@ -127,11 +127,11 @@ origins 每篇唯一绑定准确 edition、revision、内容和 sourceMetadata �
 
 来源、完整版本、目录、查找、设置及修改建议按需打开，工具局部更新，关闭后恢复焦点并保留阅读位置。宽度至少 1100px 时工具停靠在独立右列，正文预留空间并可阅读、选择文字；1100–1599px 暂时收起左侧常驻目录，目录仍由工具入口访问。较窄视口使用全宽工具视图，背景正文临时隐藏并禁用，具有模态对话框语义与 Tab 焦点约束；两种模式均支持 Escape 关闭并保留段落位置，开着工具调整窗口也同步切换。手机保留主题和分 P 直接跳转。主题切换和排版设置保持正文段落与段内位置。排版支持 17/19/21px、四档行距、620/760/920px 桌面行宽及宋体/黑体系统字体，手机宽度受屏幕限制。
 
-正文历史保存在当前浏览器的 `reader-refactor-history-v1`（记录 schemaVersion=2），最多 20 篇，180 天到期，绑定类别、来源元组、videoPartId、contentVersion、edition、AI revision、完整内容及正文文件哈希，正式稿另绑定 release。位置采用规范段落锚点和段内相对偏移。显式链接锚点优先，其次会话位置，再其次准确版本的本地进度。参照视图不写正文历史；版本失配或撤回保留可管理的失效记录，不套用旧位置。损坏存储和写入失败不阻止阅读，写失败明确提示；不提供跨设备同步。
+正文历史保存在当前浏览器的 `reader-refactor-history-v1`（记录 schemaVersion=2），最多 20 篇，180 天到期，绑定类别、来源元组、videoPartId、contentVersion、edition、AI revision、完整内容及正文文件哈希，正式稿另绑定 release。位置采用规范段落锚点和段内相对偏移。新打开的显式链接锚点优先，其次会话位置，再其次准确版本的本地进度；刷新由滚动更新的规范段落 URL 时，只有版本有效且同一段落的本地进度可恢复段内偏移，不把旧偏移套给新打开的分享链接。参照视图不写正文历史；版本失配或撤回保留可管理的失效记录，不套用旧位置。损坏存储和写入失败不阻止阅读，写失败明确提示；不提供跨设备同步。
 
 最近阅读同时提供实际访问时间与近期相对时间。键盘入口可以跳到正文或列表，保留当前路由。长工具面板滚动时标题和关闭按钮固定可用。恢复默认排版保留主题，恢复字号、行宽、行距与字体，并维持当前段落。
 
-初始目录只加载轻量身份、标题、分 P 和摘要。完整冻结详情与 origin、正文及参照按需加载，并核对目录版本身份。生成资源使用输入指纹和部署子路径。成功资源缓存最多 256 项、估算 32 MiB，超预算资源不缓存，失败和取消不污染重试。构建仍严格验证 universal-origin-v1；当前原文、来源和审核/发布事实不被界面加工改写。
+初始目录只加载轻量身份、标题、分 P 和摘要。完整冻结详情与 origin、正文及参照按需加载，并核对目录版本身份。生成资源使用输入指纹和部署子路径。成功资源缓存最多 256 项、估算 32 MiB，超预算资源不缓存，失败和取消不污染重试。构建严格验证 universal-origin-v1/v2 的对应版本组合；来源工具显示保留换行的纯文本简介，与编辑摘要分别标注，并按字段展示补充证据。当前原文、来源和审核/发布事实不被界面加工改写。
 
 正文与核验均可在站内填写原句、上下文、建议和理由。完整反馈带打开建议时的段落链接、来源、准确 edition、AI revision、内容及正文/参照文件哈希，正式稿另带 release；工具打开后滚动连续正文到另一 P 不改变这份建议的版本关联。正文和参照草稿按完整版本分别存于 sessionStorage，最多 10 份，每字段最多 4000 字符。复制文本与预填 GitHub Issue 使用相同段落链接；过长预填链接改为完整文本手动粘贴，复制或存储失败明确提示。打开预填页由读者确认提交，站点不自动创建 Issue，也不改变审核或发布事实。
 
