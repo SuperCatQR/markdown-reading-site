@@ -141,28 +141,33 @@ with sync_playwright() as pw:
         return {'manual_bytes': len(raw), 'success_hides_manual_output': True}
     run('Refused clipboard exposes full manual text and later success clears it', clipboard_recovery)
 
-    def continuous_actions(page, sources):
-        visit(page, '/read/' + multi + '?flow=continuous')
-        page.locator('[data-action="load-next"]').last.click()
-        expect(page.locator('.reader-article')).to_have_count(2)
-        second = page.locator('.reader-article').nth(1).get_attribute('data-edition-id')
-        assert second != multi, f'Appended document duplicates starting edition: {second}'
-        page.locator('.reader-article').nth(1).locator('.reader-prose').scroll_into_view_if_needed()
+    def next_part_actions(page, sources):
+        visit(page, '/read/' + multi)
+        link = page.locator('.reader-end').get_by_role('link', name=re.compile('下一部分'))
+        second = link.get_attribute('href').split('/read/')[1].split('?')[0]
+        link.click()
+        expect(page.locator('.reader-article')).to_have_count(1)
+        expect(page.locator('.reader-article')).to_have_attribute('data-edition-id', second)
+        assert second != multi, f'Next P duplicates starting edition: {second}'
+        # This P is short. Bring its first real paragraph into view without
+        # assuming the viewport can scroll far enough to establish an anchor.
+        page.locator('.reader-prose [data-block-id]').filter(visible=True).first.scroll_into_view_if_needed()
         page.wait_for_timeout(350)
         more(page)
         position = page.evaluate(position_script)
         assert position['edition'] == second, f'Visible position does not identify second-part prose: {position}'
         page.locator('[data-action="copy-paragraph-link"]').click()
         url = copied(page, 0)
-        path, query = urlparse(url).fragment.split('?', 1)
+        fragment = urlparse(url).fragment
+        path, query = fragment.split('?', 1) if '?' in fragment else (fragment, '')
         values = parse_qs(query)
-        assert path == '/read/' + second and values['flow'] == ['continuous'], url
+        assert path == '/read/' + second and 'flow' not in values, url
         if position['anchor']:
             assert values.get('block') == [position['anchor']], url
         page.locator('[data-action="copy-markdown"]').click()
         assert copied(page, 1).encode('utf-8') == source_bytes(sources, second, 'read')
         return {'second_edition': second, 'block': position['anchor'], 'copied_url': url}
-    run('Continuous second part shares and copies the actual visible edition', continuous_actions)
+    run('Independent next P shares and copies its accurate current edition', next_part_actions)
 
     def reset_preferences(page, sources):
         visit(page, '/read/' + single)
@@ -179,6 +184,17 @@ with sync_playwright() as pw:
         page.locator('[data-action="reset-preferences"]').click()
         expect(page.locator('[data-preference="size"]')).to_have_value('17')
         expect(page.locator('.tool-drawer')).to_have_attribute('aria-busy', 'false')
+        # Reset changes font and layout; the owned restoration settles after
+        # rendered frames. Keep the exact semantic assertion and wait for that
+        # observable result rather than sampling the intermediate geometry.
+        page.wait_for_function('''before => {
+          const a=document.querySelector('.reader-article');
+          const p=a?.querySelector('.reader-prose');
+          const b=p?.getBoundingClientRect().top<=90 ? [...p.querySelectorAll('[data-block-id]')].find(e=>e.checkVisibility() && e.getBoundingClientRect().bottom>90) : null;
+          const r=b?.getBoundingClientRect();
+          return a?.dataset.editionId===before.edition && b?.dataset.blockId===before.anchor
+            && r && Math.abs((90-r.top)/Math.max(1,r.height)-before.offset)<.04;
+        }''', arg=before)
         after = page.evaluate(position_script)
         assert before['edition'] == after['edition'] and before['anchor'] == after['anchor'], f'Reset changes block: {before}->{after}'
         assert abs(before['offset'] - after['offset']) < .04, f'Reset changes paragraph fraction: {before}->{after}'

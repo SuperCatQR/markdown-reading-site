@@ -6,7 +6,7 @@ import { createFeedbackState } from './services/feedback-state.js';
 import { navigate, parseRoute, routeHref } from './core/router.js';
 import { isDraft, workKey } from './core/content.js';
 import { searchEntries, entryKey } from '../../packages/content-core/index.js';
-import { createReaderSession, readingLocation, restoreReadingLocation } from './features/reader-session.js';
+import { createReaderSession, readingLocation, readerPositionForRoute, restoreReadingLocation } from './features/reader-session.js';
 import { createToolController } from './features/tool-controller.js';
 import { createDocumentActionsController, currentDocumentSource } from './features/document-actions.js';
 import { libraryPage, recentPage, readerPage, readerToolPanel, escapeHtml } from './views.js';
@@ -16,6 +16,8 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
   const repository = createContentRepository(), search = createSearchService(repository), state = createLocalState();
   const navigation = createNavigationSession(), tools = createToolController(root), feedback = createFeedbackState();
   let route = parseRoute(), currentHash = location.hash || '#/library', controller = new AbortController(), task = 0;
+  let initialRender = true;
+  const documentReload = performance.getEntriesByType('navigation')[0]?.type === 'reload';
   let reader, resultLimit = 32, readerQuery = '', readerResults = [], timer, toolTask = 0;
   let feedbackDraft = {}, feedbackStatus = '', feedbackContext = null, currentTool = '';
   let feedbackModule, selectedPassage, searchLoading = false, searchError = '', hitIndex = -1, searchScope = 'video', searchTask = 0, pendingReaderSearch;
@@ -78,6 +80,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
       locationHref: routeHref(opposite, { editionId: entry?.editionId }) };
   }
   async function render(next = parseRoute()) {
+    const reload = initialRender && documentReload; initialRender = false;
     const token = ++task;
     const pending = pendingReaderSearch; pendingReaderSearch = null;
     controller.abort(); controller = new AbortController(); const signal = controller.signal;
@@ -102,7 +105,7 @@ export function mountRefactorApp(root = document.querySelector('#app')) {
       const item = await session.load(entry, signal); if (token !== task || signal.aborted) return;
       root.innerHTML = readerPage(viewArgs(item.entry, item.prepared));
       const local = route.name === 'read' ? state.progress(entry) : null;
-      const position = route.block ? { editionId: entry.editionId, anchor: route.block } : navigation.reader(route.name, entry.editionId) || (local?.status === 'valid' ? local.record : null);
+      const position = readerPositionForRoute(route, { saved: navigation.reader(route.name, entry.editionId), local, reload });
       if (position) restoreReadingLocation(root, position); else window.scrollTo({ top: 0, behavior: 'instant' });
       if (route.name === 'read') savePosition();
       if (pending && pending.editionId === entry.editionId && pending.manuscriptType === entry.manuscriptType && pending.work === workKey(entry) && pending.mode === route.name) { readerQuery = pending.query; readerResults = pending.results; hitIndex = pending.index; searchScope = pending.scope; if (pending.open) await showTool('find'); }
